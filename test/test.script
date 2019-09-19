@@ -1,0 +1,17 @@
+local deftest = require "deftest.deftest"
+
+local tests = {
+	require("test.tests.smart_value")
+}
+
+local function run_tests()
+	for i = 1, #tests do
+		deftest.add(tests[i])
+	end
+	deftest.run()
+end
+
+function init(self)
+	print('[DefTest]: Init of DefTest')
+	run_tests()
+end

@@ -26,7 +26,7 @@ function M.set(self, value, reason)
 
 	if delta ~= 0 then
 		print("Change", self.params.name, "from", old_value, "to", value)
-		broadcast.send(const.MSG.SMART_VALUE_UPDATE {value = value, delta = delta, name = self.params.name, reason = reason})
+		broadcast.send(const.MSG.SMART_VALUE_UPDATE, {value = value, delta = delta, name = self.params.name, reason = reason})
 		if self._on_change_callbacks then
 			for i = 1, #self._on_change_callbacks do
 				self._on_change_callbacks[i](delta, reason)
@@ -70,8 +70,8 @@ function M.get_seconds_to_restore(self)
 	return math.max(0, self.restore.timer - skipped)
 end
 
-local function update_timer(self, cur_time)
-	cur_time = cur_time or M.get_time()
+local function update_timer(self)
+	local cur_time = M.get_time()
 	self.restore.last_time = math.min(self.restore.last_time, cur_time)
 
 	local elapsed = cur_time - self.restore.last_time
@@ -104,6 +104,7 @@ function M.save(self)
 	return save_field
 end
 
+
 function M.load(self, data)
 	if not data then
 		return
@@ -128,17 +129,21 @@ function M.is_max(self)
 	return false
 end
 
+
 function M.any(self)
 	return self:get() > 0
 end
+
 
 function M.empty(self)
 	return self:get() == 0
 end
 
+
 function M.check(self, value)
 	return self:get() >= value
 end
+
 
 function M.pay(self, value, reason)
 	value = value or 1
@@ -152,17 +157,20 @@ function M.pay(self, value, reason)
 	return false
 end
 
+
 function M.set_max(self)
 	if self.params.max then
 		self:set(self.params.max)
 	end
 end
 
+
 function M.on_change(self, callback)
 	self._on_change_callbacks = self._on_change_callbacks or {}
 	table.insert(self._on_change_callbacks, callback)
 end
 -- end utils
+
 
 function M.init(self, params)
 	self.params = params or {}
@@ -200,9 +208,9 @@ end
 
 
 -- cur_time in seconds
-function M.update(self, cur_time)
+function M.update(self)
 	if self.restore and self.restore.timer then
-		update_timer(self, cur_time)
+		update_timer(self)
 	end
 	if self.inf_timer and self.inf_timer < M.get_time() then
 		self.inf_timer = nil
