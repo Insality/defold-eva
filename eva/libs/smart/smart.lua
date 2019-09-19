@@ -3,12 +3,14 @@ local value = require("eva.libs.smart.value")
 local M = {}
 
 --- Params is rules for value
+-- default - default value, 0 by default
+-- name - name of value
 -- min
 -- max
--- restore - table for specifire restoring values
+-- restore - table for specify restoring value params
 -- restore.timer in seconds
--- restore.r_value, default 1
--- restore.r_max - how much restore by one time. default inf
+-- restore.restore_value, default 1
+-- restore.restore_max - how much restore by one time. default inf
 -- restore.last_time -- need to pass if restore data, point last generation time
 function M.new(params)
 	local v = setmetatable({}, {__index = value})

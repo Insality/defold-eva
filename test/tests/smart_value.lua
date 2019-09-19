@@ -1,14 +1,17 @@
 local smart = require("eva.libs.smart.smart")
+local value = require("eva.libs.smart.value")
 
 return function()
 	describe("Smart value test", function()
 		it("Should have set and get", function()
-			local value = smart.new()
-			value:set(3)
-			assert(value:get(), 3)
-			value:set(5)
-			assert(value:get(), 5)
+			local v = smart.new()
+			v:set(3)
+			assert(v:get(), 3)
+
+			v:set(5)
+			assert(v:get(), 5)
 		end)
+
 
 		it("Can have min and max range", function()
 			local v1 = smart.new({min = 2})
@@ -33,6 +36,7 @@ return function()
 			assert(v3:get() == 15)
 		end)
 
+
 		it("Should have add method", function()
 			local v = smart.new()
 			v:add(4)
@@ -41,12 +45,14 @@ return function()
 			assert(v:get() == 2)
 		end)
 
+
 		it("Should have default value", function()
 			local v = smart.new()
 			assert(v:get() == 0)
 			v = smart.new({default = 3})
 			assert(v:get() == 3)
 		end)
+
 
 		it("Can have restore timer", function()
 			local v = smart.new({
@@ -55,25 +61,38 @@ return function()
 				}
 			})
 
+			local old_func = value.get_time
+			local cur_time = 0
+			value.get_time = function()
+				return cur_time
+			end
+			local function set_time(seconds)
+				cur_time = seconds
+				v:update()
+			end
+
 			assert(v:get() == 0)
-			v:update(5)
+			set_time(5)
 			assert(v:get() == 1)
-			v:update(50)
+			set_time(50)
 			assert(v:get() == 10)
-			v:update(0)
+			set_time(0)
 			assert(v:get() == 10)
-			assert(v:get_seconds_to_restore() == 0)
-			v:update(4)
-			assert(v:get_seconds_to_restore() == 1)
-			v:update(3)
-			assert(v:get_seconds_to_restore() == 2)
-			v:update(0)
 			assert(v:get_seconds_to_restore() == 5)
-			v:update(4)
+			set_time(4)
+			assert(v:get_seconds_to_restore() == 1)
+			set_time(3)
+			assert(v:get_seconds_to_restore() == 2)
+			set_time(0)
+			assert(v:get_seconds_to_restore() == 5)
+			set_time(4)
 			assert(v:get() == 10)
-			v:update(5)
+			set_time(5)
 			assert(v:get() == 11)
+
+			value.get_time = old_func
 		end)
+
 
 		it("Can have advanced restore params", function()
 			local v = smart.new({
@@ -81,36 +100,50 @@ return function()
 					timer = 5,
 					max = 5,
 					value = 2,
-					last_time = 0
+					last_restore_time = 0
 				},
 				max = 15
 			})
+
+			local old_func = value.get_time
+			local cur_time = 0
+			value.get_time = function()
+				return cur_time
+			end
+			local function set_time(seconds)
+				cur_time = seconds
+				v:update()
+			end
+
 			-- cur time = 0
 			assert(v:get() == 0)
-			v:update(5)
+			set_time(5)
 			assert(v:get() == 2)
-			v:update(19)
+			set_time(19)
 			-- elapsed 14 secs, need to add 2 * 2
 			assert(v:get() == 6)
-			v:update(20)
+			set_time(20)
 			assert(v:get() == 8)
-			v:update(100)
+			set_time(100)
 			assert(v:get() == 13)
 			-- elapsed 100 secs. want to add 16 * 2, but max restore 5, max value 15
-			v:update(200)
+			set_time(200)
 			assert(v:get() == 15)
 
 			-- time return back (hackers?)
-			v:update(0)
+			set_time(0)
 			assert(v:get() == 15)
 			assert(v:get_seconds_to_restore() == 5)
 			v:add(-5)
-			v:update(5)
+			set_time(5)
 			assert(v:get() == 12)
 			v:set(0)
-			v:update(55) -- elapsed 50 secods, want to add 10 * 2, but max restore 5
+			set_time(55) -- elapsed 50 secods, want to add 10 * 2, but max restore 5
 			assert(v:get() == 5)
+
+			value.get_time = old_func
 		end)
+
 
 		it("Should be useful for gui. Visual and real values", function()
 			local coins = smart.new({default = 100})
@@ -125,7 +158,36 @@ return function()
 			assert(coins:get_visual() == 125)
 			coins:sync_visual()
 			assert(coins:get_visual() == coins:get())
+		end)
 
+
+		it("Should save and load correctly", function()
+			local v = smart.new()
+			v:set(15)
+
+			local save_data = v:save()
+
+			local v2 = smart.new()
+			v2:load(save_data)
+
+			assert(v:get() == v2:get())
+		end)
+
+
+		it("Should have correct infinity timer", function()
+			local v = smart.new()
+			v:set(10)
+
+			v:add_infinity_time(10)
+
+			v:pay(5)
+			v:pay(10)
+			v:pay(15)
+
+			assert(v:get() == 10)
+
+			assert(v:is_infinity())
+			assert(v:get_infinity_seconds() == 10)
 		end)
 	end)
 end

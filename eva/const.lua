@@ -5,7 +5,8 @@ M.UNKNOWN_REGION = "UN"
 
 M.MSG = {
 	EVENT = hash("eva.event"),
-	SMART_VALUE_UPDATE = hash("eva.smartvalue.update")
+	SMART_UPDATE = hash("eva.smartvalue.update"),
+	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual")
 }
 
 
