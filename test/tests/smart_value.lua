@@ -180,9 +180,9 @@ return function()
 
 			v:add_infinity_time(10)
 
-			v:pay(5)
-			v:pay(10)
-			v:pay(15)
+			assert(v:pay(5))
+			assert(v:pay(10))
+			assert(v:pay(15))
 
 			assert(v:get() == 10)
 

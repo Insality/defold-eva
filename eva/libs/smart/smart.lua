@@ -9,9 +9,9 @@ local M = {}
 -- max
 -- restore - table for specify restoring value params
 -- restore.timer in seconds
--- restore.restore_value, default 1
--- restore.restore_max - how much restore by one time. default inf
--- restore.last_time -- need to pass if restore data, point last generation time
+-- restore.value, default 1
+-- restore.max - how much restore by one time. default inf
+-- restore.last_restore_time -- need to pass if restore data, point last generation time
 function M.new(params)
 	local v = setmetatable({}, {__index = value})
 	v:init(params)
