@@ -11,7 +11,7 @@ local send_traceback = function(message, traceback)
 	local is_sended = luax.table.contains(errors_sended, message)
 
 	if not is_sended then
-		local sinfo = sys.get_sys_info()
+		local info = sys.get_sys_info()
 
 		traceback = string.gsub(traceback, "\n", " ")
 		traceback = string.gsub(traceback, "\t", " ")
@@ -20,17 +20,17 @@ local send_traceback = function(message, traceback)
 			traceback = traceback,
 			version = sys.get_config("project.version"),
 			id = M.eva.device.get_id(),
-			sys_name = sinfo.system_name,
-			sys_version = sinfo.system_version,
-			model = sinfo.device_model,
-			manufacturer = sinfo.manufacturer
+			sys_name = info.system_name,
+			sys_version = info.system_version,
+			model = info.device_model,
+			manufacturer = info.manufacturer
 		}):fatal("Error in lua module")
 		table.insert(errors_sended, message)
 	end
 end
 
 
-function M.apply_error_handler()
+function M.on_game_start()
 	if sys.get_engine_info().is_debug then
 		return
 	end

@@ -1,29 +1,34 @@
 local M = {}
 
-
-M.ads = require("eva.modules.ads")
-M.devices = require("eva.modules.devices")
-M.errors = require("eva.modules.errors")
-M.events = require("eva.modules.events")
-M.game = require("eva.modules.game")
-M.iaps = require("eva.modules.iaps")
-M.input = require("eva.modules.input")
-M.lang = require("eva.modules.lang")
-M.notifications = require("eva.modules.notifications")
-M.saver = require("eva.modules.saver")
-M.server = require("eva.modules.server")
-M.sound = require("eva.modules.sound")
-M.stats = require("eva.modules.stats")
-M.tokens = require("eva.modules.tokens")
-M.utils = require("eva.modules.utils")
-M.window = require("eva.modules.window")
+local modules = {
+	ads = require("eva.modules.ads"),
+	devices = require("eva.modules.devices"),
+	errors = require("eva.modules.errors"),
+	events = require("eva.modules.events"),
+	game = require("eva.modules.game"),
+	iaps = require("eva.modules.iaps"),
+	input = require("eva.modules.input"),
+	lang = require("eva.modules.lang"),
+	notifications = require("eva.modules.notifications"),
+	saver = require("eva.modules.saver"),
+	server = require("eva.modules.server"),
+	sound = require("eva.modules.sound"),
+	stats = require("eva.modules.stats"),
+	tokens = require("eva.modules.tokens"),
+	utils = require("eva.modules.utils"),
+	window = require("eva.modules.window"),
+}
 
 
 function M.on_game_start()
-	-- Setup some stuff?
-	M.game.on_game_start()
-	M.stats.on_game_start()
-	M.errors.apply_error_handler()
+	for name, component do
+		M[name] = component
+		component._eva = M
+
+		if M.on_game_start then
+			M.on_game_start()
+		end
+	end
 end
 
 

@@ -2,11 +2,11 @@ local M = {}
 
 M.UNKNOWN_REGION = "UN"
 
-
 M.MSG = {
 	EVENT = hash("eva.event"),
 	SMART_UPDATE = hash("eva.smartvalue.update"),
-	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual")
+	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual"),
+	LANG_UPDATE = hash("eva.lang.update"),
 }
 
 

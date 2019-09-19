@@ -18,4 +18,9 @@ function M.reset()
 end
 
 
+function M.add_save_part(name, table_ref)
+
+end
+
+
 return M
