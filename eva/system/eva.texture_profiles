@@ -1,0 +1,204 @@
+path_settings {
+  path: "/game/atlases/16bit/**"
+  profile: "RGBA_16bit"
+}
+path_settings {
+  path: "/game/atlases/16bit_no_alpha/**"
+  profile: "RGB_16bit"
+}
+path_settings {
+  path: "/game/atlases/32bit/**"
+  profile: "RGBA_32bit"
+}
+path_settings {
+  path: "/game/atlases/32bit_no_alpha/**"
+  profile: "RGB_32bit"
+}
+profiles {
+  name: "RGBA_16bit"
+  platforms {
+    os: OS_ID_WINDOWS
+    formats {
+      format: TEXTURE_FORMAT_RGBA_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_IOS
+    formats {
+      format: TEXTURE_FORMAT_RGBA_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_ANDROID
+    formats {
+      format: TEXTURE_FORMAT_RGBA_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_WEB
+    formats {
+      format: TEXTURE_FORMAT_RGBA_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+}
+profiles {
+  name: "RGBA_32bit"
+  platforms {
+    os: OS_ID_WINDOWS
+    formats {
+      format: TEXTURE_FORMAT_RGBA
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_IOS
+    formats {
+      format: TEXTURE_FORMAT_RGBA
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_ANDROID
+    formats {
+      format: TEXTURE_FORMAT_RGBA
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_WEB
+    formats {
+      format: TEXTURE_FORMAT_RGBA
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+}
+profiles {
+  name: "RGB_16bit"
+  platforms {
+    os: OS_ID_WINDOWS
+    formats {
+      format: TEXTURE_FORMAT_RGB_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_IOS
+    formats {
+      format: TEXTURE_FORMAT_RGB_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_ANDROID
+    formats {
+      format: TEXTURE_FORMAT_RGB_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_WEB
+    formats {
+      format: TEXTURE_FORMAT_RGB_16BPP
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+}
+profiles {
+  name: "RGB_32bit"
+  platforms {
+    os: OS_ID_WINDOWS
+    formats {
+      format: TEXTURE_FORMAT_RGB
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_IOS
+    formats {
+      format: TEXTURE_FORMAT_RGB
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_ANDROID
+    formats {
+      format: TEXTURE_FORMAT_RGB
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+  platforms {
+    os: OS_ID_WEB
+    formats {
+      format: TEXTURE_FORMAT_RGB
+      compression_level: BEST
+      compression_type: COMPRESSION_TYPE_DEFAULT
+    }
+    mipmaps: false
+    max_texture_size: 0
+    premultiply_alpha: true
+  }
+}
