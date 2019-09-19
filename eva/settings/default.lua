@@ -1,6 +1,4 @@
-local M = {}
-
-M.settings = {
+local M = {
 	server = {
 		game_id = "xxx"
 	},
@@ -17,11 +15,17 @@ M.settings = {
 	lang = {
 		default = "en",
 		langs_path = "/locales/"
-	}
+	},
+	window = {
+		window_path = "",
+	},
+	funcs = {}
 }
 
-function M.get_time()
+
+function M.funcs.get_time()
 	return socket.gettime()
 end
+
 
 return M

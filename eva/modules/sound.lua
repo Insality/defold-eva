@@ -1,4 +1,4 @@
-local settings = require("eva.settings.default").settings
+local settings = require("eva.settings.default")
 
 local M = {}
 
