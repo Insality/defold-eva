@@ -2,7 +2,7 @@ local M = {}
 
 
 local function resume(co)
-	local ok, err = coroutine.resume(co)
+	local _, err = coroutine.resume(co)
 	if err then print(err) end
 end
 
@@ -82,11 +82,11 @@ function M.http_request(url, method, headers, post_data, options)
 end
 
 function M.http_get(url, headers, options)
-	return http_request(url, "GET", headers, nil, options)
+	return M.http_request(url, "GET", headers, nil, options)
 end
 
 function M.http_post(url, headers, post_data, options)
-	return http_request(url, "POST", headers, post_data, options)
+	return M.http_request(url, "POST", headers, post_data, options)
 end
 
 
