@@ -13,9 +13,10 @@ local sound_prefs = {
 function M.play(sound_id, gain)
 	gain = gain or 1
 
-	-- if not save.data.settings.sound then
-	-- 	return
-	-- end
+	if sound_prefs.sound_gain == 0 then
+		return
+	end
+
 	local threshold = settings.sound.repeat_threshold
 	if sound_times[sound_id] and (socket.gettime() - sound_times[sound_id]) < threshold then
 		return
@@ -29,12 +30,22 @@ end
 
 
 function M.play_music(music_id)
+	if sound_prefs.music_gain == 0 then
+		return
+	end
 
+	M.stop_music()
+	sound.set_group_gain("music", 1)
+	M.current_music = settings.sound.sound_path .. music_id
+	sound.play(M.current_music)
 end
 
 
 function M.stop_music()
-
+	if M.current_music then
+		sound.stop(M.current_music)
+		M.current_music = nil
+	end
 end
 
 

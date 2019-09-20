@@ -34,4 +34,17 @@ M.OS.PC_PLATFORMS = {
 }
 
 
+M.EVENT = {
+	GAME_START = "game_start",
+	IAP_START = "iap_start",
+	IAP_CANCEL = "iap_cancel",
+	IAP_PURCHASE = "iap_purchase",
+	IAP_VALID = "iap_valid",
+	IAP_INVALID = "iap_invalid",
+	ADS_LOADED = "ads_loaded",
+	ADS_SHOW_REWARDED = "ads_show_rewarded",
+	ADS_ShOW_PAGE = "ads_show_page",
+	SERVER_LOGIN = "server_login"
+}
+
 return M

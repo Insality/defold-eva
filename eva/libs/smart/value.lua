@@ -32,10 +32,9 @@ function M.set(self, value, reason)
 	self._value = value
 
 	if delta ~= 0 then
-		broadcast.send(const.MSG.SMART_UPDATE, {value = value, delta = delta, name = self.params.name, reason = reason})
 		if self._on_change_callbacks then
 			for i = 1, #self._on_change_callbacks do
-				self._on_change_callbacks[i](delta, reason)
+				self._on_change_callbacks[i](delta, reason, self.params.name, value)
 			end
 		end
 	end

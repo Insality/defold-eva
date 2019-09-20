@@ -18,4 +18,9 @@ function M.screen()
 end
 
 
+function M.add_event_system(event_system)
+
+end
+
+
 return M
