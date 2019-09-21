@@ -8,9 +8,9 @@ local M = {}
 
 
 function M.before_game_start()
-	local proto_sources = settings.proto.proto_sources
+	local proto_paths = settings.proto.proto_paths
 
-	for path, name_array in pairs(proto_sources) do
+	for path, name_array in pairs(proto_paths) do
 		for index, name in ipairs(name_array) do
 			print("Load file", path .. name)
 			protoc:loadfile(path .. name .. ".proto")

@@ -1,0 +1,15 @@
+{
+  "title": "Pics Puzzle",
+  "find_hint": "ЖМИ НА: %i",
+  "level_win": "КАРТИНА ЗАВЕРШЕНА",
+  "hint_text": "подсказка",
+  "time_format_d": "%iд %02iч",
+  "time_format_h": "%iч %02iм",
+  "time_format_m": "%i:%02i",
+  "no_internet": "Нет интернет соединения",
+  "completed": "Завершено: %s",
+  "window_fail_header": "ПРОМАХ",
+  "restart": "Заново",
+  "continue": "Продолжить",
+  "again": "Заново"
+}

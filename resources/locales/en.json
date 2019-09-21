@@ -1,0 +1,15 @@
+{
+  "title": "Pics Puzzle",
+  "find_hint": "TAP ON: %i",
+  "level_win": "IMAGE COMPLETED",
+  "hint_text": "hint",
+  "time_format_d": "%id %02ih",
+  "time_format_h": "%ih %02im",
+  "time_format_m": "%i:%02i",
+  "no_internet": "No internet connection",
+  "completed": "Completed: %s",
+  "window_fail_header": "NUMBER MISS",
+  "restart": "Restart",
+  "continue": "Continue",
+  "again": "Replay"
+}

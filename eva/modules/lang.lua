@@ -6,7 +6,7 @@ local M = {}
 local dict = {}
 
 local function load_lang(lang)
-	local filename = settings.lang.langs_path .. lang .. ".json"
+	local filename = settings.lang.lang_paths[lang]
 	dict = cjson.decode(sys.load_resource(filename))
 end
 
@@ -36,10 +36,22 @@ end
 
 
 function M.on_game_start()
+	local default_lang = settings.lang.default
+	local device_lang = string.sub(sys.get_sys_info().device_language, 1, 2)
+
+	if settings.lang.lang_paths[device_lang] then
+		default_lang = device_lang
+	end
+
 	M._lang_prefs = M._eva.proto.get("eva.Lang")
-	M._lang_prefs.lang = settings.lang.default
+	M._lang_prefs.lang = default_lang
 
 	M._eva.saver.add_save_part("eva.Lang", M._lang_prefs)
+end
+
+
+function M.after_game_start()
+	M.set_lang(M._lang_prefs.lang)
 end
 
 

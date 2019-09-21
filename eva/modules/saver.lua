@@ -33,7 +33,6 @@ function M.add_save_part(name, table_ref)
 	local prev_ref = save_table[name]
 	save_table[name] = table_ref
 
-	pprint("Before", table_ref)
 	luax.table.override(prev_ref, table_ref)
 end
 
@@ -47,9 +46,6 @@ function M.after_game_start()
 	if settings.saver.autosave > 0 then
 		timer.delay(settings.saver.autosave, true, M.save)
 	end
-
-	pprint("Current save profile")
-	pprint(save_table)
 end
 
 

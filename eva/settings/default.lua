@@ -14,7 +14,10 @@ local M = {
 	},
 	lang = {
 		default = "en",
-		langs_path = "/locales/"
+		lang_paths = {
+			ru = "/resources/locales/ru.json",
+			en = "/resources/locales/en.json",
+		}
 	},
 	window = {
 		window_path = "",
@@ -23,7 +26,7 @@ local M = {
 		url_source = "game",
 	},
 	proto = {
-		proto_sources = {
+		proto_paths = {
 			["/eva/proto/"] = {
 				"eva"
 			}
