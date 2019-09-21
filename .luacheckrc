@@ -61,4 +61,5 @@ globals = {
   "it",
   "context",
   "firebase",
+  "defreview",
 }

@@ -19,6 +19,9 @@ local M = {
 	window = {
 		window_path = "",
 	},
+	rate = {
+		url_source = "game",
+	},
 	funcs = {}
 }
 
