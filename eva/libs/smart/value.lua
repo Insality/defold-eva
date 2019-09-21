@@ -1,11 +1,7 @@
-local log = require("eva.log")
 local const = require("eva.const")
 local broadcast = require("eva.libs.broadcast")
 
-local logger = log.get_logger()
-
 local M = {}
-M.__is_smart_value__ = true
 
 
 function M.get_time()
@@ -22,14 +18,14 @@ function M.set(self, value, reason)
 		value = math.min(value, self.params.max)
 	end
 
-	local old_value = self._value
+	local old_value = self.data_table.amount
 	local delta = value - old_value
 
 	if delta < 0 and self:is_max() and self.restore then
-		self.restore.last_restore_time = M.get_time()
+		self.data_table.last_restore_time = M.get_time()
 	end
 
-	self._value = value
+	self.data_table.amount = value
 
 	if delta ~= 0 then
 		if self._on_change_callbacks then
@@ -44,7 +40,7 @@ end
 
 
 function M.get(self)
-	return self._value
+	return self.data_table.amount
 end
 
 
@@ -68,13 +64,13 @@ function M.add_visual(self, value)
 end
 
 
-function M.get_visual(self, value)
+function M.get_visual(self)
 	return self:get() - self.visual_credit
 end
 
 
 function M.get_seconds_to_restore(self)
-	local last = self.restore.last_restore_time
+	local last = self.data_table.last_restore_time
 	local skipped = M.get_time() - last
 
 	return math.max(0, self.restore.timer - skipped)
@@ -83,9 +79,9 @@ end
 
 local function update_timer(self)
 	local cur_time = M.get_time()
-	self.restore.last_restore_time = math.min(self.restore.last_restore_time, cur_time)
+	self.data_table.last_restore_time = math.min(self.data_table.last_restore_time, cur_time)
 
-	local elapsed = cur_time - self.restore.last_restore_time
+	local elapsed = cur_time - self.data_table.last_restore_time
 	if elapsed >= self.restore.timer then
 		local restore_value = self.restore.value or 1
 		local amount = math.floor(elapsed / self.restore.timer)
@@ -97,43 +93,8 @@ local function update_timer(self)
 		self:add(need_to_add)
 
 		local cur_elapse_time = elapsed - (amount * self.restore.timer)
-		self.restore.last_restore_time = cur_time - cur_elapse_time
+		self.data_table.last_restore_time = cur_time - cur_elapse_time
 	end
-end
-
-
-function M.save(self)
-	local save_field = {
-		value = self:get()
-	}
-
-	if self.restore then
-		save_field.last_restore_time = self.restore.last_restore_time
-	end
-
-	if self.infinity_time_end then
-		save_field.infinity_time_end = self.infinity_time_end
-	end
-
-	return save_field
-end
-
-
-function M.load(self, data)
-	if not data then
-		return
-	end
-
-	data.value = data.value or self.params.default
-	self:set(data.value)
-
-	if data.last_restore_time and self.restore then
-		self.restore.last_restore_time = data.last_restore_time
-	end
-
-	self.infinity_time_end = data.infinity_time_end
-	self:sync_visual()
-	self:update()
 end
 
 
@@ -163,7 +124,7 @@ end
 function M.pay(self, value, reason)
 	value = value or 1
 
-	if self.infinity_time_end then
+	if self.data_table.infinity_time_end > 0 then
 		return true
 	end
 
@@ -189,38 +150,40 @@ function M.on_change(self, callback)
 end
 
 
-function M.init(self, params)
+function M.init(self, params, data_table)
+	self.data_table = data_table
 	self.params = params or {}
 
 	if self.params.restore and self.params.restore.timer then
 		self.restore = self.params.restore
-		self.restore.last_restore_time = self.restore.last_restore_time or 0
 		self.params.restore = nil
 	end
 
-	self._value = self.params.default or 0
-	self.infinity_time_end = nil
-	self:set(self._value)
+	if self.params.default then
+		self.data_table.amount = self.params.default
+	end
+	self:set(self.data_table.amount)
+
 	self:sync_visual()
 end
 
 
 function M.add_infinity_time(self, seconds)
-	if not self.infinity_time_end then
-		self.infinity_time_end = M.get_time() + seconds
+	if self.data_table.infinity_time_end == 0 then
+		self.data_table.infinity_time_end = M.get_time() + seconds
 	else
-		self.infinity_time_end = self.infinity_time_end + seconds
+		self.data_table.infinity_time_end = self.data_table.infinity_time_end + seconds
 	end
 end
 
 
 function M.is_infinity(self)
-	return self.infinity_time_end
+	return self.data_table.infinity_time_end > 0
 end
 
 
 function M.get_infinity_seconds(self)
-	local infinity_time = math.max(0, self.infinity_time_end - M.get_time())
+	local infinity_time = math.max(0, self.data_table.infinity_time_end - M.get_time())
 	return math.ceil(infinity_time)
 end
 
@@ -230,8 +193,8 @@ function M.update(self)
 		update_timer(self)
 	end
 
-	if self.infinity_time_end and self.infinity_time_end < M.get_time() then
-		self.infinity_time_end = nil
+	if self.data_table.infinity_time_end < M.get_time() then
+		self.data_table.infinity_time_end = 0
 	end
 end
 

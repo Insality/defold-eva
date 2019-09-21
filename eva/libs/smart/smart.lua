@@ -12,20 +12,21 @@ local M = {}
 -- restore.value, default 1
 -- restore.max - how much restore by one time. default inf
 -- restore.last_restore_time -- need to pass if restore data, point last generation time
-function M.new(params)
+function M.new(params, data_table)
+	data_table = data_table or {
+		amount = 0,
+		last_restore_time = 0,
+		infinity_time_end = 0,
+	}
 	local v = setmetatable({}, {__index = value})
-	v:init(params)
+	v:init(params, data_table)
 	return v
 end
 
-function M.timer(time, name)
-	return M.new({min = 0, max = 1, default = 0, name = name, restore = {
-		timer = time
-	}})
-end
 
 function M.set_time_function(cb)
 	value.get_time = cb
 end
+
 
 return M

@@ -26,6 +26,10 @@ function M.is_debug()
 end
 
 
+function M.get_time()
+	return socket.gettime()
+end
+
 function M.on_game_start()
 	math.randomseed(os.time())
 	math.random()
