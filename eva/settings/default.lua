@@ -22,6 +22,13 @@ local M = {
 	rate = {
 		url_source = "game",
 	},
+	proto = {
+		proto_sources = {
+			["/resources/proto/"] = {
+				"ExampleType"
+			}
+		}
+	},
 	funcs = {}
 }
 

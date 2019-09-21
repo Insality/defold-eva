@@ -5,10 +5,12 @@ local M = {}
 local props = { gain = 1 }
 local sound_times = {}
 
+local is_debug = sys.get_engine_info().is_debug
 local sound_prefs = {
-	sound_gain = 0,
-	music_gain = 0
+	sound_gain = is_debug and 0 or 1,
+	music_gain = is_debug and 0 or 1
 }
+
 
 function M.play(sound_id, gain)
 	gain = gain or 1

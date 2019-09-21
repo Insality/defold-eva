@@ -10,6 +10,7 @@ local modules = {
 	input = require("eva.modules.input"),
 	lang = require("eva.modules.lang"),
 	notifications = require("eva.modules.notifications"),
+	proto = require("eva.modules.proto"),
 	rate = require("eva.modules.rate"),
 	render = require("eva.modules.render"),
 	saver = require("eva.modules.saver"),

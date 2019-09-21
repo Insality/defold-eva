@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message Test {
+  uint32 first = 1;
+  uint32 seconds = 2;
+}
+
+message ExampleType {
+  double sound_gain = 1;
+  double music_gain = 2;
+  string some_type = 3;
+  map<string, Test> keys = 4;
+}

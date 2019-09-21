@@ -20,6 +20,10 @@ function M.exit(code)
 end
 
 
+function M.is_debug()
+	return sys.get_engine_info().is_debug
+end
+
 function M.on_game_start()
 	math.randomseed(os.time())
 	math.random()

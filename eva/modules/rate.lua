@@ -2,8 +2,8 @@ local settings = require("eva.settings.default")
 
 local M = {}
 
-local android_id = sys.get_config("android.package")
-local ios_id = sys.get_config("ios.id")
+local android_id = sys.get_config("android.package") or ""
+local ios_id = sys.get_config("ios.id") or ""
 local url_source = settings.rate.url_source
 
 
