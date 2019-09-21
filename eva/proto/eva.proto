@@ -15,6 +15,7 @@ message Stats {
 	uint32 game_start_count = 2;
 	uint32 ads_watched = 3;
 	float prefer_playing_time = 4;
+	repeated string game_start_dates = 5;
 }
 
 message Token {

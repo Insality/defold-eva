@@ -161,19 +161,6 @@ return function()
 		end)
 
 
-		it("Should save and load correctly", function()
-			local v = smart.new()
-			v:set(15)
-
-			local save_data = v:save()
-
-			local v2 = smart.new()
-			v2:load(save_data)
-
-			assert(v:get() == v2:get())
-		end)
-
-
 		it("Should have correct infinity timer", function()
 			local v = smart.new()
 			v:set(10)

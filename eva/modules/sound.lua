@@ -46,7 +46,12 @@ end
 
 
 function M.fade_music(from, to)
+	-- TODO: Implement me
+end
 
+
+function M.stop_all()
+	-- TODO: Implement me
 end
 
 

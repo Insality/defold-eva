@@ -32,4 +32,9 @@ function M.parse(str)
 end
 
 
+function M.get_time(seconds)
+	return os.date("%Y-%m-%dT%TZ", seconds)
+end
+
+
 return M
