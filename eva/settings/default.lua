@@ -24,8 +24,8 @@ local M = {
 	},
 	proto = {
 		proto_sources = {
-			["/resources/proto/"] = {
-				"ExampleType"
+			["/eva/proto/"] = {
+				"eva"
 			}
 		}
 	},

@@ -7,7 +7,7 @@ local logger = log.get_logger()
 local M = {}
 
 
-function M.on_game_start()
+function M.before_game_start()
 	local proto_sources = settings.proto.proto_sources
 
 	for path, name_array in pairs(proto_sources) do

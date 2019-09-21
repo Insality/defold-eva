@@ -27,9 +27,23 @@ function M.on_game_start()
 	for name, component in pairs(modules) do
 		M[name] = component
 		component._eva = M
+	end
 
+	for name, component in pairs(modules) do
+		if component.before_game_start then
+			component.before_game_start()
+		end
+	end
+
+	for name, component in pairs(modules) do
 		if component.on_game_start then
 			component.on_game_start()
+		end
+	end
+
+	for name, component in pairs(modules) do
+		if component.after_game_start then
+			component.after_game_start()
 		end
 	end
 end

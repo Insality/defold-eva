@@ -5,17 +5,11 @@ local M = {}
 local props = { gain = 1 }
 local sound_times = {}
 
-local is_debug = sys.get_engine_info().is_debug
-local sound_prefs = {
-	sound_gain = is_debug and 0 or 1,
-	music_gain = is_debug and 0 or 1
-}
-
 
 function M.play(sound_id, gain)
 	gain = gain or 1
 
-	if sound_prefs.sound_gain == 0 then
+	if M._sound_prefs.sound_gain == 0 then
 		return
 	end
 
@@ -32,7 +26,7 @@ end
 
 
 function M.play_music(music_id)
-	if sound_prefs.music_gain == 0 then
+	if M._sound_prefs.music_gain == 0 then
 		return
 	end
 
@@ -57,7 +51,13 @@ end
 
 
 function M.on_game_start()
-	M._eva.saver.add_save_part("eva.sound", sound_prefs)
+	local is_debug = not M._eva.game.is_debug()
+	M._sound_prefs = M._eva.proto.get("eva.Sound")
+	M._sound_prefs.sound_gain = is_debug and 0 or 1
+	M._sound_prefs.music_gain = is_debug and 0 or 1
+
+	M._eva.saver.add_save_part("eva.Sound", M._sound_prefs)
 end
+
 
 return M

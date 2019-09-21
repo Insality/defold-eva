@@ -1,0 +1,28 @@
+syntax = "proto3";
+package eva;
+
+message Sound {
+	float sound_gain = 1;
+	float music_gain = 2;
+}
+
+message Lang {
+	string lang = 1;
+}
+
+message Stats {
+	uint32 game_time = 1;
+	uint32 game_start_count = 2;
+	uint32 iaps_count = 3;
+	uint32 ads_watched = 4;
+	float prefer_playing_time = 5
+}
+
+message Token {
+	string id = 1;
+	int32 count = 2;
+}
+
+message Tokens {
+	map<string, Token> tokens = 1;
+}

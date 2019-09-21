@@ -3,12 +3,7 @@ local broadcast = require("eva.libs.broadcast")
 local settings = require("eva.settings.default")
 
 local M = {}
-
 local dict = {}
-local lang_prefs = {
-	lang = settings.lang.default
-}
-
 
 local function load_lang(lang)
 	local filename = settings.lang.langs_path .. lang .. ".json"
@@ -18,13 +13,13 @@ end
 
 function M.set_lang(lang)
 	load_lang(lang)
-	lang_prefs.lang = lang
+	M._lang_prefs.lang = lang
 	broadcast.send(const.MSG.LANG_UPDATE)
 end
 
 
 function M.get_lang()
-	return lang_prefs.lang
+	return M._lang_prefs.lang
 end
 
 
@@ -41,7 +36,10 @@ end
 
 
 function M.on_game_start()
-	M._eva.saver.add_save_part("eva.lang", lang_prefs)
+	M._lang_prefs = M._eva.proto.get("eva.Lang")
+	M._lang_prefs.lang = settings.lang.default
+
+	M._eva.saver.add_save_part("eva.Lang", M._lang_prefs)
 end
 
 

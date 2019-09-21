@@ -231,6 +231,32 @@ function M.table.shuffle(t, seed)
 end
 
 
+function M.table.deepcopy(orig)
+	local copy
+	if type(orig) == "table" then
+		copy = {}
+		for orig_key, orig_value in next, orig, nil do
+			copy[table.deepcopy(orig_key)] = table.deepcopy(orig_value)
+		end
+		setmetatable(copy, table.deepcopy(getmetatable(orig)))
+	else
+		copy = orig
+	end
+	return copy
+end
+
+
+function M.table.override(source, target)
+	for key, value in pairs(source) do
+		if type(value) == "table" then
+			M.table.override(value, target[key])
+		else
+			target[key] = value
+		end
+	end
+end
+
+
 function M.string.split(inputstr, sep)
 	sep = sep or "%s"
 	local t = {}
@@ -335,21 +361,6 @@ function M.debug.timelog(name)
 	end
 	print("[Timelog]:", name, "time:", socket.gettime() - debug._timelog_time)
 	debug._timelog_time = socket.gettime()
-end
-
-
-function M.table.deepcopy(orig)
-	local copy
-	if type(orig) == 'table' then
-		copy = {}
-		for orig_key, orig_value in next, orig, nil do
-			copy[table.deepcopy(orig_key)] = table.deepcopy(orig_value)
-		end
-		setmetatable(copy, table.deepcopy(getmetatable(orig)))
-	else
-		copy = orig
-	end
-	return copy
 end
 
 
