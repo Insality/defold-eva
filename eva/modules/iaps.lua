@@ -87,4 +87,11 @@ function M.init()
 end
 
 
+function M.on_game_start()
+	M._iaps_prefs = M._eva.proto.get("eva.Iaps")
+
+	M._eva.saver.add_save_part("eva.Iaps", M._iaps_prefs)
+end
+
+
 return M

@@ -13,9 +13,8 @@ message Lang {
 message Stats {
 	uint32 game_time = 1;
 	uint32 game_start_count = 2;
-	uint32 iaps_count = 3;
-	uint32 ads_watched = 4;
-	float prefer_playing_time = 5
+	uint32 ads_watched = 3;
+	float prefer_playing_time = 4;
 }
 
 message Token {
@@ -26,4 +25,16 @@ message Token {
 
 message Tokens {
 	map<string, Token> tokens = 1;
+}
+
+message IapInfo {
+	string transaction_id = 1;
+	string iap_id = 2;
+	string state = 3;
+	string date = 4;
+}
+
+message Iaps {
+	repeated IapInfo purchased_iaps = 1;
+	repeated IapInfo invalid_iaps = 2;
 }

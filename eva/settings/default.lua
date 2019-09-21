@@ -38,7 +38,8 @@ local M = {
 	proto = {
 		proto_paths = {
 			["/eva/proto/"] = {
-				"eva"
+				"eva",
+				"evadata"
 			}
 		}
 	},
