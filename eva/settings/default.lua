@@ -19,6 +19,9 @@ local M = {
 			en = "/resources/locales/en.json",
 		}
 	},
+	log = {
+		format = "[%levelname]<%function:%lineno>: %message %context"
+	},
 	window = {
 		window_path = "",
 	},

@@ -8,7 +8,7 @@ local M = {}
 
 
 function M.event(event, params)
-	logger:with_context({event = event, params = params}):debug("Game event")
+	logger:debug("Game event", {event = event, params = params})
 	broadcast.send(const.MSG.EVENT, {event = event, params = params})
 end
 

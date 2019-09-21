@@ -1,8 +1,8 @@
-local settings = require("eva.settings.default")
-local protoc = require("pb.protoc")
-
 local log = require("eva.log")
-local logger = log.get_logger()
+local protoc = require("pb.protoc")
+local settings = require("eva.settings.default")
+
+local logger = log.get_logger("eva.proto")
 
 local M = {}
 
@@ -12,7 +12,7 @@ function M.before_game_start()
 
 	for path, name_array in pairs(proto_paths) do
 		for index, name in ipairs(name_array) do
-			print("Load file", path .. name)
+			logger:debug("Load protofile", {path = path .. name})
 			protoc:loadfile(path .. name .. ".proto")
 		end
 	end

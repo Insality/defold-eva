@@ -1,7 +1,7 @@
 local luax = require("eva.luax")
 local log = require("eva.log")
 
-local logger = log.get_logger()
+local logger = log.get_logger("eva.errors")
 
 local M = {}
 
@@ -15,7 +15,7 @@ local send_traceback = function(message, traceback)
 
 		traceback = string.gsub(traceback, "\n", " ")
 		traceback = string.gsub(traceback, "\t", " ")
-		logger:with_context({
+		logger:fatal("Error in lua module", {
 			error_message = message,
 			traceback = traceback,
 			version = sys.get_config("project.version"),
@@ -24,7 +24,7 @@ local send_traceback = function(message, traceback)
 			sys_version = info.system_version,
 			model = info.device_model,
 			manufacturer = info.manufacturer
-		}):fatal("Error in lua module")
+		})
 		table.insert(errors_sended, message)
 	end
 end

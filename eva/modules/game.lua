@@ -7,6 +7,7 @@ local M = {}
 
 function M.reboot(delay)
 	delay = delay or 0
+
 	-- sound_provider.stop_all()
 	timer.delay(delay, false, function()
 		msg.post("@system:", "reboot")
