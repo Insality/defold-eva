@@ -28,6 +28,10 @@ local M = {
 	window = {
 		window_path = "",
 	},
+	iaps = {
+		product_list = {
+		},
+	},
 	rate = {
 		url_source = "game",
 	},

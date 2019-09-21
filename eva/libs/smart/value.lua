@@ -162,7 +162,7 @@ function M.init(self, params, data_table)
 	if self.params.default then
 		self.data_table.amount = self.params.default
 	end
-	self:set(self.data_table.amount)
+	self:set(self.data_table.amount or 0)
 
 	self:sync_visual()
 end

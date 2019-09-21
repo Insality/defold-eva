@@ -50,7 +50,11 @@ end
 
 
 function M.on_game_update(dt)
-	M.stats.on_game_update(dt)
+	for name, component in pairs(modules) do
+		if component.on_game_update then
+			component.on_game_update(dt)
+		end
+	end
 end
 
 return M

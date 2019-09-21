@@ -4,7 +4,6 @@ M.UNKNOWN_REGION = "UN"
 
 M.MSG = {
 	EVENT = hash("eva.event"),
-	SMART_UPDATE = hash("eva.smartvalue.update"),
 	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual"),
 	LANG_UPDATE = hash("eva.lang.update"),
 }
@@ -36,6 +35,7 @@ M.OS.PC_PLATFORMS = {
 
 M.EVENT = {
 	GAME_START = "game_start",
+	IAP_UPDATE = "iap_update",
 	IAP_START = "iap_start",
 	IAP_CANCEL = "iap_cancel",
 	IAP_PURCHASE = "iap_purchase",

@@ -1,0 +1,25 @@
+syntax = "proto3";
+package evadata;
+
+message TokenRestoreConfig {
+	uint32 timer = 1;
+	int32 value = 2;
+	int32 max = 3;
+}
+
+message TokenConfig {
+	int32 default = 1;
+	string name = 2;
+	int32 min = 3;
+	int32 max = 4;
+	TokenRestoreConfig restore = 5;
+}
+
+message IapConfig {
+	bool available = 1;
+	string iap_id = 2;
+	float real_cost = 3;
+	string price_string = 4;
+	string currenct = 5;
+	string image = 6;
+}
