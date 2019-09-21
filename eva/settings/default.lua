@@ -4,7 +4,7 @@ local M = {
 	},
 	sound = {
 		repeat_threshold = 0.08, -- don't play sounds too fast. In second
-		sound_path = "loader:/sound#"
+		sound_path = "main:/sounds#"
 	},
 	stats = {
 		game_stated_time_count = 5, -- how many records keep last game runs

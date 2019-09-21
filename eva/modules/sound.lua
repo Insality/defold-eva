@@ -51,7 +51,8 @@ end
 
 
 function M.stop_all()
-	-- TODO: Implement me
+	M.stop_music()
+	-- TODO: Implement sounds
 end
 
 

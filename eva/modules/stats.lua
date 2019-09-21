@@ -2,6 +2,7 @@ local settings = require("eva.settings.default")
 
 local M = {}
 
+
 function M.on_game_start()
 	M._stat_prefs = M._eva.proto.get("eva.Stats")
 

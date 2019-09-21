@@ -1,6 +1,11 @@
 local M = {}
 
 
+function M.show_scene(scene_id, data)
+
+end
+
+
 function M.show(window_id, data)
 
 end

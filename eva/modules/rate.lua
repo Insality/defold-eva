@@ -21,7 +21,7 @@ function M.promt_rate()
 	local is_ios = M._eva.device.is_ios()
 	local is_android = M._eva.device.is_android()
 
-	if not is_ios or not is_android then
+	if not (is_ios or is_android) then
 		return
 	end
 
