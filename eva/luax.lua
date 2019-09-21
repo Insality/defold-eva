@@ -248,7 +248,7 @@ end
 
 function M.table.override(source, target)
 	for key, value in pairs(source) do
-		if type(value) == "table" then
+		if type(value) == "table" and target[key] then
 			M.table.override(value, target[key])
 		else
 			target[key] = value

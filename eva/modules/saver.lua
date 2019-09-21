@@ -31,8 +31,10 @@ function M.add_save_part(name, table_ref)
 	end
 
 	local prev_ref = save_table[name]
-	save_table[name] = table_ref
+	-- Clear the variables via protobuf
+	prev_ref = pb.decode(name, pb.encode(name, prev_ref))
 
+	save_table[name] = table_ref
 	luax.table.override(prev_ref, table_ref)
 end
 
@@ -46,6 +48,8 @@ function M.after_game_start()
 	if settings.saver.autosave > 0 then
 		timer.delay(settings.saver.autosave, true, M.save)
 	end
+
+	pprint(save_table)
 end
 
 

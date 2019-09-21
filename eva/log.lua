@@ -34,7 +34,7 @@ local function format(self, level, message, context)
 	local record_context = ""
 	if context and luax.table.length(context) ~= 0 then
 		for k, v in pairs(context) do
-			record_context = string.format("%s %s = %s", record_context, k, v)
+			record_context = string.format("%s %s=%s", record_context, k, v)
 		end
 		record_context = string.format("{%s }", record_context)
 	end
@@ -46,6 +46,7 @@ local function format(self, level, message, context)
 	log_message = string.gsub(log_message, "%%source", caller_info.source)
 	log_message = string.gsub(log_message, "%%lineno", caller_info.currentline)
 	log_message = string.gsub(log_message, "%%function", caller_info.short_src)
+	log_message = string.gsub(log_message, "%%fname", caller_info.name)
 	log_message = string.gsub(log_message, "%%message", message)
 	log_message = string.gsub(log_message, "%%context", record_context)
 

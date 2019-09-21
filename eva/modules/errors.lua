@@ -1,5 +1,5 @@
-local luax = require("eva.luax")
 local log = require("eva.log")
+local luax = require("eva.luax")
 
 local logger = log.get_logger("eva.errors")
 

@@ -19,6 +19,9 @@ local M = {
 			en = "/resources/locales/en.json",
 		}
 	},
+	tokens = {
+		token_config = nil,
+	},
 	log = {
 		format = "[%levelname]<%function:%lineno>: %message %context"
 	},
