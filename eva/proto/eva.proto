@@ -10,6 +10,10 @@ message Lang {
 	string lang = 1;
 }
 
+message Saver {
+	uint32 version = 1;
+}
+
 message Stats {
 	uint32 game_time = 1;
 	uint32 game_start_count = 2;

@@ -1,13 +1,14 @@
 {
 	"server": {
-		"game_id": "xxx"
+		"is_enabled": true,
+		"game_id": "F02BF"
 	},
 	"sound": {
 		"repeat_threshold": 0.08,
 		"sound_path": "main:/sounds#"
 	},
 	"stats": {
-		"game_stated_time_count": 5
+		"game_started_max_count": 5
 	},
 	"saver": {
 		"autosave": 4

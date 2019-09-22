@@ -11,4 +11,9 @@ function M.show_page()
 end
 
 
+function M.init()
+
+end
+
+
 return M

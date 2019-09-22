@@ -13,6 +13,8 @@ end
 
 
 function M.save()
+	M._saver_prefs.version = M._saver_prefs.version + 1
+
 	sys.save(save_path, save_table)
 end
 
@@ -23,6 +25,8 @@ end
 
 
 function M.add_save_part(name, table_ref)
+	assert(M.can_load_save, "Add save part should be called after eva init")
+
 	if not save_table[name] then
 		-- Add save template as new
 		save_table[name] = table_ref
@@ -40,6 +44,14 @@ end
 
 function M.before_game_start()
 	save_table = M.load()
+
+	M.can_load_save = true
+end
+
+
+function M.on_game_start(settings)
+	M._saver_prefs = M._eva.proto.get("eva.Saver")
+	M._eva.saver.add_save_part("eva.Saver", M._saver_prefs)
 end
 
 

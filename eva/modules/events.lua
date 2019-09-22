@@ -10,6 +10,10 @@ local M = {}
 function M.event(event, params)
 	logger:debug("Game event", {event = event, params = params})
 	broadcast.send(const.MSG.EVENT, {event = event, params = params})
+
+	for i = 1, #M.event_systems do
+		M.event_systems[i].event(event, params)
+	end
 end
 
 
@@ -19,7 +23,13 @@ end
 
 
 function M.add_event_system(event_system)
+	assert(event_system.event, "The event system should have `event` method")
+	table.insert(M.event_systems, event_system)
+end
 
+
+function M.before_game_start(settings)
+	M.event_systems = {}
 end
 
 
