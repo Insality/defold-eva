@@ -1,5 +1,4 @@
 local luax = require("eva.luax")
-local settings = require("eva.settings.default")
 
 local M = {}
 local _loggers = {}
@@ -21,6 +20,8 @@ local LEVEL_NAME = {
 	[LEVEL.DEBUG] = "DEBUG",
 }
 
+local UNKNOWN = "unknown"
+
 
 local function format_time(time)
 	local seconds, milliseconds = math.modf(time)
@@ -30,7 +31,7 @@ end
 
 
 local function format(self, level, message, context)
-	local log_message = settings.log.format
+	local log_message = M.settings.format
 	local record_context = ""
 	if context and luax.table.length(context) ~= 0 then
 		for k, v in pairs(context) do
@@ -46,7 +47,7 @@ local function format(self, level, message, context)
 	log_message = string.gsub(log_message, "%%source", caller_info.source)
 	log_message = string.gsub(log_message, "%%lineno", caller_info.currentline)
 	log_message = string.gsub(log_message, "%%function", caller_info.short_src)
-	log_message = string.gsub(log_message, "%%fname", caller_info.name)
+	log_message = string.gsub(log_message, "%%fname", caller_info.name or UNKNOWN)
 	log_message = string.gsub(log_message, "%%message", message)
 	log_message = string.gsub(log_message, "%%context", record_context)
 
@@ -91,6 +92,11 @@ function M.get_logger(name)
 	_loggers[name] = _loggers[name] or setmetatable({}, { __index = _log })
 	_loggers[name].name = name
 	return _loggers[name]
+end
+
+
+function M.init(settings)
+	M.settings = settings
 end
 
 

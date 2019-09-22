@@ -1,0 +1,48 @@
+{
+	"server": {
+		"game_id": "xxx"
+	},
+	"sound": {
+		"repeat_threshold": 0.08,
+		"sound_path": "main:/sounds#"
+	},
+	"stats": {
+		"game_stated_time_count": 5
+	},
+	"saver": {
+		"autosave": 4
+	},
+	"errors": {
+		"error_server_url": "https://8.8.8.8"
+	},
+	"lang": {
+		"default": "en",
+		"lang_paths": {
+			"ru": "/resources/locales/ru.json",
+			"en": "/resources/locales/en.json"
+		}
+	},
+	"tokens": {
+		"token_config": ""
+	},
+	"log": {
+		"format": "[%levelname]<%function:%lineno>: %message %context"
+	},
+	"window": {
+		"window_path": ""
+	},
+	"iaps": {
+		"product_list": {}
+	},
+	"rate": {
+		"url_source": "game"
+	},
+	"proto": {
+		"proto_paths": {
+			"/eva/proto/": [
+				"eva",
+				"evadata"
+			]
+		}
+	}
+}

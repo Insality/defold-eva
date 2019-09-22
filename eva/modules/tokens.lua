@@ -1,5 +1,4 @@
 local log = require("eva.log")
-local settings = require("eva.settings.default")
 local smart = require("eva.libs.smart.smart")
 
 local logger = log.get_logger("eva.tokens")
@@ -96,10 +95,10 @@ function M.get_seconds_to_restore(token_id)
 end
 
 
-function M.before_game_start()
-	if settings.tokens.token_config then
-		local filename = settings.tokens.token_config
-		token_config = cjson.decode(sys.load_resource(filename))
+function M.before_game_start(settings)
+	if settings.token_config and settings.token_config ~= "" then
+		local filename = settings.token_config
+		token_config = M._eva.utils.load_json(filename)
 
 		logger:debug("Load token config", {path = filename})
 	end

@@ -68,3 +68,6 @@ scale = 0.01
 [library]
 include_dirs = eva
 
+[eva]
+settings = /resources/eva_settings.json
+

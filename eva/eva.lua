@@ -1,3 +1,6 @@
+local log = require("eva.log")
+
+local logger = log.get_logger("eva")
 local M = {}
 
 local modules = {
@@ -23,29 +26,29 @@ local modules = {
 }
 
 
-function M.on_game_start()
+local function call_each_module(func_name, settings)
+	for name, component in pairs(modules) do
+		if component[func_name] then
+			component[func_name](settings[name])
+		end
+	end
+end
+
+
+function M.on_game_start(settings_path)
 	for name, component in pairs(modules) do
 		M[name] = component
 		component._eva = M
 	end
 
-	for name, component in pairs(modules) do
-		if component.before_game_start then
-			component.before_game_start()
-		end
-	end
+	local settings = M.utils.load_json(settings_path)
+	log.init(settings.log)
 
-	for name, component in pairs(modules) do
-		if component.on_game_start then
-			component.on_game_start()
-		end
-	end
+	call_each_module("before_game_start", settings)
+	call_each_module("on_game_start", settings)
+	call_each_module("after_game_start", settings)
 
-	for name, component in pairs(modules) do
-		if component.after_game_start then
-			component.after_game_start()
-		end
-	end
+	logger:debug("Eva init completed", {settings = settings_path})
 end
 
 

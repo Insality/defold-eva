@@ -1,14 +1,13 @@
 local log = require("eva.log")
 local protoc = require("pb.protoc")
-local settings = require("eva.settings.default")
 
 local logger = log.get_logger("eva.proto")
 
 local M = {}
 
 
-function M.before_game_start()
-	local proto_paths = settings.proto.proto_paths
+function M.before_game_start(settings)
+	local proto_paths = settings.proto_paths
 
 	for path, name_array in pairs(proto_paths) do
 		for index, name in ipairs(name_array) do

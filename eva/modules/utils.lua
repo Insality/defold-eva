@@ -37,4 +37,9 @@ function M.after(count, callback)
 end
 
 
+function M.load_json(filename)
+	return cjson.decode(sys.load_resource(filename))
+end
+
+
 return M

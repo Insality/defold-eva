@@ -1,6 +1,5 @@
 local luax = require("eva.luax")
 local const = require("eva.const")
-local settings = require("eva.settings.default")
 local log = require("eva.log")
 
 local logger = log.get_logger("eva.iaps")
@@ -83,7 +82,12 @@ function M.init()
 	end
 
 	iap.set_listener(iap_listener)
-	iap.list(settings.iaps.product_list, list_callback)
+	iap.list(M.settings.product_list, list_callback)
+end
+
+
+function M.before_game_start(settings)
+	M.settings = settings
 end
 
 

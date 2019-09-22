@@ -1,13 +1,13 @@
 local const = require("eva.const")
 local broadcast = require("eva.libs.broadcast")
-local settings = require("eva.settings.default")
 
 local M = {}
 local dict = {}
 
+
 local function load_lang(lang)
-	local filename = settings.lang.lang_paths[lang]
-	dict = cjson.decode(sys.load_resource(filename))
+	local filename = M.settings.lang_paths[lang]
+	dict = M._eva.utils.load_json(filename)
 end
 
 
@@ -35,11 +35,16 @@ function M.txp(lang_id, ...)
 end
 
 
+function M.before_game_start(settings)
+	M.settings = settings
+end
+
+
 function M.on_game_start()
-	local default_lang = settings.lang.default
+	local default_lang = M.settings.default
 	local device_lang = string.sub(sys.get_sys_info().device_language, 1, 2)
 
-	if settings.lang.lang_paths[device_lang] then
+	if M.settings.lang_paths[device_lang] then
 		default_lang = device_lang
 	end
 

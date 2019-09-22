@@ -1,5 +1,4 @@
 local luax = require("eva.luax")
-local settings = require("eva.settings.default")
 
 local M = {}
 local save_table = {}
@@ -44,12 +43,12 @@ function M.before_game_start()
 end
 
 
-function M.after_game_start()
-	if settings.saver.autosave > 0 then
-		timer.delay(settings.saver.autosave, true, M.save)
+function M.after_game_start(settings)
+	if settings.autosave > 0 then
+		timer.delay(settings.autosave, true, M.save)
 	end
 
-	pprint(save_table)
+	-- pprint(save_table)
 end
 
 
