@@ -1,7 +1,7 @@
 [project]
 title = defold-eva
 version = 1.0.0
-dependencies = https://github.com/britzl/monarch/archive/3.0.2.zip,https://github.com/rgrams/rendercam/archive/v1.0.1.zip,https://github.com/insalitygames/defold-protobuf/archive/master.zip,https://github.com/insalitygames/defold-cjson/archive/master.zip,https://github.com/AGulev/set_screen_position/archive/1.0.1.zip,https://github.com/britzl/deftest/archive/2.7.1.zip,https://github.com/AGulev/defreview/archive/0.1.0.zip
+dependencies = https://github.com/britzl/monarch/archive/3.0.2.zip,https://github.com/rgrams/rendercam/archive/v1.0.1.zip,https://github.com/insalitygames/defold-protobuf/archive/master.zip,https://github.com/insalitygames/defold-cjson/archive/master.zip,https://github.com/AGulev/set_screen_position/archive/1.0.1.zip,https://github.com/britzl/deftest/archive/2.7.1.zip,https://github.com/AGulev/defreview/archive/0.1.0.zip,https://github.com/AGulev/DefVideoAds/archive/master.zip
 custom_resources = /eva/proto,/resources
 
 [bootstrap]

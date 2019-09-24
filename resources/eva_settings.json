@@ -44,6 +44,10 @@
 		"paths": {
 		}
 	},
+	"ads": {
+		"ads_id_ios": "3173554",
+		"ads_id_android": "3173555"
+	},
 	"rate": {
 		"url_source": "game",
 		"max_promt_count": 5

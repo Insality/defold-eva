@@ -25,12 +25,17 @@ message Rate {
 	bool is_accepted = 3;
 }
 
+message Ads {
+	uint32 ads_loaded = 1;
+	uint32 page_watched = 2;
+	uint32 rewarded_watched = 3;
+}
+
 message Stats {
 	uint32 game_time = 1;
 	uint32 game_start_count = 2;
-	uint32 ads_watched = 3;
-	float prefer_playing_time = 4;
-	repeated string game_start_dates = 5;
+	float prefer_playing_time = 3;
+	repeated string game_start_dates = 4;
 }
 
 message Token {

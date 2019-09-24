@@ -11,6 +11,8 @@ M.MSG = {
 	EVENT = hash("eva.event"), -- General game event message
 	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual"),
 	LANG_UPDATE = hash("eva.lang.update"), -- Message, when language of the game is changed
+	ADS_READY = hash("eva.ads.ready"),
+	ADS_SUCCESS_REWARDED = hash("eva.ads.rewarded_success"),
 }
 
 
@@ -37,6 +39,11 @@ M.OS.PC_PLATFORMS = {
 	M.OS.BROWSER,
 }
 
+M.AD = {
+	REWARDED = "rewardedVideo",
+	PAGE = "video",
+}
+
 
 M.EVENT = {
 	GAME_START = "game_start",
@@ -46,15 +53,18 @@ M.EVENT = {
 	IAP_PURCHASE = "iap_purchase",
 	IAP_VALID = "iap_valid",
 	IAP_INVALID = "iap_invalid",
-	ADS_LOADED = "ads_loaded",
+	ADS_READY = "ads_ready",
 	ADS_SHOW_REWARDED = "ads_show_rewarded",
 	ADS_SHOW_PAGE = "ads_show_page",
+	ADS_SUCCESS_REWARDED = "ads_success_rewarded",
+	ADS_SUCCESS_PAGE = "ads_success_page",
 	SERVER_LOGIN = "server_login"
 }
 
 
 M.EVA = {
 	-- Modules
+	ADS = "eva.Ads",
 	SOUND = "eva.Sound",
 	LANG = "eva.Lang",
 	DEVICE = "eva.Device",

@@ -18,6 +18,8 @@ function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
 		eva.sound.play("click")
 		-- eva.rate.promt_rate()
-		eva.iaps.buy("small_pack")
+		-- eva.iaps.buy("small_pack")
+		print(eva.ads.is_page_ready())
+		eva.ads.show_page()
 	end
 end
