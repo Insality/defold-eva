@@ -1,3 +1,7 @@
+--- Defold-Eva IAPs module
+-- Can process all in-apps in your application
+-- @submodule eva
+
 local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
@@ -126,6 +130,9 @@ local function iap_listener(self, transaction, error)
 end
 
 
+--- Buy the inapp
+-- @function eva.iaps.buy
+-- @tparam string iap_id In-game inapp ID from iaps settings
 function M.buy(iap_id)
 	local item = M.iap_products[iap_id]
 

@@ -1,0 +1,821 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Defold Eva documentation</title>
+    <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Defold-Eva</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/const.html">const</a></li>
+  <li><a href="../modules/eva.html">eva</a></li>
+  <li><a href="../modules/log.html">log</a></li>
+  <li><strong>luax</strong></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/README.md.html">README</a></li>
+  <li><a href="../topics/lang.md.html">lang</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>luax</code></h1>
+<p>Defold Lua extended module</p>
+<p></p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.step">luax.math.step()</a></td>
+	<td class="summary">math.step</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.sign">luax.math.sign()</a></td>
+	<td class="summary">math.sign</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.lerp">luax.math.lerp()</a></td>
+	<td class="summary">math.lerp</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.clamp">luax.math.clamp()</a></td>
+	<td class="summary">math.clamp</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.round">luax.math.round()</a></td>
+	<td class="summary">math.round</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.is">luax.math.is()</a></td>
+	<td class="summary">math.is</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.chance">luax.math.chance()</a></td>
+	<td class="summary">math.chance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.distance">luax.math.distance()</a></td>
+	<td class="summary">math.distance</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.manhattan">luax.math.manhattan()</a></td>
+	<td class="summary">math.manhattan</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.math.vec2rad">luax.math.vec2rad()</a></td>
+	<td class="summary">math.vec2rad</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.get_item_from_array">luax.table.get_item_from_array()</a></td>
+	<td class="summary">table.get<em>item</em>from_array</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.contains">luax.table.contains()</a></td>
+	<td class="summary">table.contains</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.length">luax.table.length()</a></td>
+	<td class="summary">table.length</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.remove_item">luax.table.remove_item()</a></td>
+	<td class="summary">table.remove_item</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.remove_by_dict">luax.table.remove_by_dict()</a></td>
+	<td class="summary">table.remove<em>by</em>dict</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.is_empty">luax.table.is_empty()</a></td>
+	<td class="summary">table.is_empty</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.extend">luax.table.extend()</a></td>
+	<td class="summary">table.extend</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.random">luax.table.random()</a></td>
+	<td class="summary">table.random</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.weight_random">luax.table.weight_random()</a></td>
+	<td class="summary">table.weight_random</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.shuffle">luax.table.shuffle()</a></td>
+	<td class="summary">table.shuffle</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.deepcopy">luax.table.deepcopy()</a></td>
+	<td class="summary">table.deepcopy</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.override">luax.table.override()</a></td>
+	<td class="summary">table.override</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.list">luax.table.list()</a></td>
+	<td class="summary">table.list</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.tostring">luax.table.tostring()</a></td>
+	<td class="summary">table.tostring</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.string.split">luax.string.split()</a></td>
+	<td class="summary">string.split</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.string.add_prefix_zeros">luax.string.add_prefix_zeros()</a></td>
+	<td class="summary">string.add<em>prefix</em>zeros</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.string.split_by_rank">luax.string.split_by_rank()</a></td>
+	<td class="summary">string.split<em>by</em>rank</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.string.starts">luax.string.starts()</a></td>
+	<td class="summary">string.starts</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.string.ends">luax.string.ends()</a></td>
+	<td class="summary">string.ends</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.string.random">luax.string.random()</a></td>
+	<td class="summary">string.random</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.gui.get_full_position">luax.gui.get_full_position()</a></td>
+	<td class="summary">gui.get<em>full</em>position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.gui.set_alpha">luax.gui.set_alpha()</a></td>
+	<td class="summary">gui.set_alpha</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.gui.get_alpha">luax.gui.get_alpha()</a></td>
+	<td class="summary">gui.get_alpha</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.go.get_full_position">luax.go.get_full_position()</a></td>
+	<td class="summary">go.get<em>full</em>position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.debug.timelog">luax.debug.timelog()</a></td>
+	<td class="summary">debug.timelog</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.gui.is_chain_enabled">luax.gui.is_chain_enabled()</a></td>
+	<td class="summary">gui.is<em>chain</em>enabled</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.vmath.rad2vec">luax.vmath.rad2vec()</a></td>
+	<td class="summary">vmath.rad2vec</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.vmath.vec2rad">luax.vmath.vec2rad()</a></td>
+	<td class="summary">vmath.vec2rad</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.vmath.rad2quat">luax.vmath.rad2quat()</a></td>
+	<td class="summary">vmath.rad2quat</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.vmath.vec2quat">luax.vmath.vec2quat()</a></td>
+	<td class="summary">vmath.vec2quat</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.vmath.distance">luax.vmath.distance()</a></td>
+	<td class="summary">vmath.distance</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "luax.math.step"></a>
+    <strong>luax.math.step()</strong>
+    </dt>
+    <dd>
+    math.step
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.sign"></a>
+    <strong>luax.math.sign()</strong>
+    </dt>
+    <dd>
+    math.sign
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.lerp"></a>
+    <strong>luax.math.lerp()</strong>
+    </dt>
+    <dd>
+    math.lerp
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.clamp"></a>
+    <strong>luax.math.clamp()</strong>
+    </dt>
+    <dd>
+    math.clamp
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.round"></a>
+    <strong>luax.math.round()</strong>
+    </dt>
+    <dd>
+    math.round
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.is"></a>
+    <strong>luax.math.is()</strong>
+    </dt>
+    <dd>
+    math.is
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.chance"></a>
+    <strong>luax.math.chance()</strong>
+    </dt>
+    <dd>
+    math.chance
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.distance"></a>
+    <strong>luax.math.distance()</strong>
+    </dt>
+    <dd>
+    math.distance
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.manhattan"></a>
+    <strong>luax.math.manhattan()</strong>
+    </dt>
+    <dd>
+    math.manhattan
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.math.vec2rad"></a>
+    <strong>luax.math.vec2rad()</strong>
+    </dt>
+    <dd>
+    math.vec2rad
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.get_item_from_array"></a>
+    <strong>luax.table.get_item_from_array()</strong>
+    </dt>
+    <dd>
+    table.get<em>item</em>from_array
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.contains"></a>
+    <strong>luax.table.contains()</strong>
+    </dt>
+    <dd>
+    table.contains
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.length"></a>
+    <strong>luax.table.length()</strong>
+    </dt>
+    <dd>
+    table.length
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.remove_item"></a>
+    <strong>luax.table.remove_item()</strong>
+    </dt>
+    <dd>
+    table.remove_item
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.remove_by_dict"></a>
+    <strong>luax.table.remove_by_dict()</strong>
+    </dt>
+    <dd>
+    table.remove<em>by</em>dict
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.is_empty"></a>
+    <strong>luax.table.is_empty()</strong>
+    </dt>
+    <dd>
+    table.is_empty
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.extend"></a>
+    <strong>luax.table.extend()</strong>
+    </dt>
+    <dd>
+    table.extend
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.random"></a>
+    <strong>luax.table.random()</strong>
+    </dt>
+    <dd>
+    table.random
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.weight_random"></a>
+    <strong>luax.table.weight_random()</strong>
+    </dt>
+    <dd>
+    table.weight_random
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.shuffle"></a>
+    <strong>luax.table.shuffle()</strong>
+    </dt>
+    <dd>
+    table.shuffle
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.deepcopy"></a>
+    <strong>luax.table.deepcopy()</strong>
+    </dt>
+    <dd>
+    table.deepcopy
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.override"></a>
+    <strong>luax.table.override()</strong>
+    </dt>
+    <dd>
+    table.override
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.list"></a>
+    <strong>luax.table.list()</strong>
+    </dt>
+    <dd>
+    table.list
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.tostring"></a>
+    <strong>luax.table.tostring()</strong>
+    </dt>
+    <dd>
+    table.tostring
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.string.split"></a>
+    <strong>luax.string.split()</strong>
+    </dt>
+    <dd>
+    string.split
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.string.add_prefix_zeros"></a>
+    <strong>luax.string.add_prefix_zeros()</strong>
+    </dt>
+    <dd>
+    string.add<em>prefix</em>zeros
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.string.split_by_rank"></a>
+    <strong>luax.string.split_by_rank()</strong>
+    </dt>
+    <dd>
+    string.split<em>by</em>rank
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.string.starts"></a>
+    <strong>luax.string.starts()</strong>
+    </dt>
+    <dd>
+    string.starts
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.string.ends"></a>
+    <strong>luax.string.ends()</strong>
+    </dt>
+    <dd>
+    string.ends
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.string.random"></a>
+    <strong>luax.string.random()</strong>
+    </dt>
+    <dd>
+    string.random
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.gui.get_full_position"></a>
+    <strong>luax.gui.get_full_position()</strong>
+    </dt>
+    <dd>
+    gui.get<em>full</em>position
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.gui.set_alpha"></a>
+    <strong>luax.gui.set_alpha()</strong>
+    </dt>
+    <dd>
+    gui.set_alpha
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.gui.get_alpha"></a>
+    <strong>luax.gui.get_alpha()</strong>
+    </dt>
+    <dd>
+    gui.get_alpha
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.go.get_full_position"></a>
+    <strong>luax.go.get_full_position()</strong>
+    </dt>
+    <dd>
+    go.get<em>full</em>position
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.debug.timelog"></a>
+    <strong>luax.debug.timelog()</strong>
+    </dt>
+    <dd>
+    debug.timelog
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.gui.is_chain_enabled"></a>
+    <strong>luax.gui.is_chain_enabled()</strong>
+    </dt>
+    <dd>
+    gui.is<em>chain</em>enabled
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.vmath.rad2vec"></a>
+    <strong>luax.vmath.rad2vec()</strong>
+    </dt>
+    <dd>
+    vmath.rad2vec
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.vmath.vec2rad"></a>
+    <strong>luax.vmath.vec2rad()</strong>
+    </dt>
+    <dd>
+    vmath.vec2rad
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.vmath.rad2quat"></a>
+    <strong>luax.vmath.rad2quat()</strong>
+    </dt>
+    <dd>
+    vmath.rad2quat
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.vmath.vec2quat"></a>
+    <strong>luax.vmath.vec2quat()</strong>
+    </dt>
+    <dd>
+    vmath.vec2quat
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.vmath.distance"></a>
+    <strong>luax.vmath.distance()</strong>
+    </dt>
+    <dd>
+    vmath.distance
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-09-25 02:16:34 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

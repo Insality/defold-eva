@@ -1,3 +1,6 @@
+--- Defold-Eva sound module
+-- @submodule eva
+
 local const = require("eva.const")
 
 local M = {}
@@ -6,6 +9,8 @@ local props = { gain = 1 }
 local sound_times = {}
 
 
+--- Play the sound in the game
+-- @function eva.sound.play
 function M.play(sound_id, gain)
 	gain = gain or 1
 
@@ -25,6 +30,8 @@ function M.play(sound_id, gain)
 end
 
 
+--- Start playing music
+-- @function eva.sound.play_music
 function M.play_music(music_id)
 	if M._sound_prefs.music_gain == 0 then
 		return
@@ -37,6 +44,8 @@ function M.play_music(music_id)
 end
 
 
+--- Stop any music in the game
+-- @function eva.sound.stop_music
 function M.stop_music()
 	if M.current_music then
 		sound.stop(M.current_music)
@@ -45,29 +54,37 @@ function M.stop_music()
 end
 
 
+--- Slowly fade music to another one or empty
+-- @function eva.sound.fade_music
 function M.fade_music(from, to)
 	-- TODO: Implement me
 end
 
 
+--- Stop all sounds in the game
+-- @function eva.sound.stop_all
 function M.stop_all()
 	M.stop_music()
 	-- TODO: Implement sounds
 end
 
 
-function M.before_game_start(settings)
-	M.settings = settings
-end
-
-
+--- Set music gain
+-- @function eva.sound.set_music_gain
 function M.set_music_gain(value)
 	M._sound_prefs.music_gain = value or 0
 end
 
 
+--- Set sound gain
+-- @function eva.sound.set_sound_gain
 function M.set_sound_gain(value)
 	M._sound_prefs.sound_gain = value or 0
+end
+
+
+function M.before_game_start(settings)
+	M.settings = settings
 end
 
 

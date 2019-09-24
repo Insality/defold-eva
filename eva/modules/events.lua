@@ -1,7 +1,7 @@
 --- Defold-Eva events module
 -- Send all game events and can include different event systems
 -- like systems for analytics and game-logic
--- @submodule eva eva.events
+-- @submodule eva
 
 local log = require("eva.log")
 local broadcast = require("eva.libs.broadcast")

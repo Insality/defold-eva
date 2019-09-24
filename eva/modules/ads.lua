@@ -1,6 +1,6 @@
 --- Defold-Eva ads module
 -- This module provide API to unityads
--- @sumodule eva
+-- @submodule eva
 
 local log = require("eva.log")
 local const = require("eva.const")
@@ -19,6 +19,8 @@ end
 
 local function ads_callback(self, message_id, message)
 	if message_id == unityads.TYPE_IS_READY then
+		logger:debug("Ads ready", message)
+
 		M._ads_prefs.ads_loaded = M._ads_prefs.ads_loaded + 1
 
 		broadcast.send(const.MSG.ADS_READY, { placement = message.placementId })
@@ -27,6 +29,8 @@ local function ads_callback(self, message_id, message)
 
 	if message_id == unityads.TYPE_DID_FINISH then
 		if message.state == unityads.FINISH_STATE_COMPLETED then
+			logger:debug("Ads finished", message)
+
 			if message.placementId == const.AD.REWARDED then
 				M._ads_prefs.rewarded_watched = M._ads_prefs.rewarded_watched + 1
 				on_rewarded_success()
@@ -49,22 +53,32 @@ local function is_ready(ads_type)
 end
 
 
+--- Check is page ads ready.
+-- @function eva.ads.is_page_ready
+-- @treturn bool is page ads ready
 function M.is_page_ready()
 	return is_ready(const.AD.PAGE)
 end
 
 
+--- Check is rewarded ads ready.
+-- @function eva.ads.is_rewarded_ready
+-- @treturn bool is rewarded ads ready
 function M.is_rewarded_ready()
 	return is_ready(const.AD.REWARDED)
 end
 
 
+--- Start show rewarded ads
+-- On success it will throw const.MSG.ADS_SUCCESS_REWARDED event
+-- @function eva.ads.show_rewarded
 function M.show_rewarded()
 	if not M.is_rewarded_ready() then
 		return
 	end
 
 	M._eva.events.event(const.EVENT.ADS_SHOW_REWARDED)
+	logger:debug("Ads rewarded show")
 
 	if not unityads then
 		on_rewarded_success()
@@ -75,12 +89,15 @@ function M.show_rewarded()
 end
 
 
+--- Start show page ads
+-- @function eva.ads.show_page
 function M.show_page()
 	if not M.is_page_ready() then
 		return
 	end
 
 	M._eva.events.event(const.EVENT.ADS_SHOW_PAGE)
+	logger:debug("Ads page show")
 
 	if not unityads then
 		return

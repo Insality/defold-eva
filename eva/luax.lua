@@ -1,3 +1,6 @@
+--- Defold Lua extended module
+
+
 local M = {
 	go = {},
 	gui = {},
@@ -20,6 +23,8 @@ M.gui.PROP_SCALE_X = "scale.x"
 M.gui.PROP_SCALE_Y = "scale.y"
 
 
+--- math.step
+-- @function luax.math.step
 function M.math.step(current, target, step)
 	if current < target then
 		return math.min(current + step, target)
@@ -29,6 +34,8 @@ function M.math.step(current, target, step)
 end
 
 
+--- math.sign
+-- @function luax.math.sign
 function M.math.sign(value)
 	if value > 0 then
 		return 1
@@ -40,11 +47,15 @@ function M.math.sign(value)
 end
 
 
+--- math.lerp
+-- @function luax.math.lerp
 function M.math.lerp(a, b, t)
 	return a + (b - a) * t
 end
 
 
+--- math.clamp
+-- @function luax.math.clamp
 function M.math.clamp(a, min, max)
 	if min > max then
 		min, max = max, min
@@ -60,12 +71,16 @@ function M.math.clamp(a, min, max)
 end
 
 
+--- math.round
+-- @function luax.math.round
 function M.math.round(num, numDecimalPlaces)
 	local mult = 10 ^ (numDecimalPlaces or 0)
 	return math.floor(num * mult + 0.5) / mult
 end
 
 
+--- math.is
+-- @function luax.math.is
 function M.math.is(value, ...)
 	for i = 1, select("#", ...) do
 		if value == select(i, ...) then
@@ -76,26 +91,36 @@ function M.math.is(value, ...)
 end
 
 
+--- math.chance
+-- @function luax.math.chance
 function M.math.chance(percent)
 	return math.random(1, 100) <= (percent * 100)
 end
 
 
+--- math.distance
+-- @function luax.math.distance
 function M.math.distance(x1, y1, x2, y2)
 	return math.sqrt((x2 - x1)^2 + (y2 - y1)^2)
 end
 
 
+--- math.manhattan
+-- @function luax.math.manhattan
 function M.math.manhattan(x1, y1, x2, y2)
 	return math.abs(x2 - x1) + math.abs(y2 - y1)
 end
 
 
+--- math.vec2rad
+-- @function luax.math.vec2rad
 function M.math.vec2rad(x, y)
 	return math.atan2(y, x)
 end
 
 
+--- table.get_item_from_array
+-- @function luax.table.get_item_from_array
 function M.table.get_item_from_array(array, key, value)
 	for i = 1, #array do
 		if array[i][key] == value then
@@ -107,6 +132,8 @@ function M.table.get_item_from_array(array, key, value)
 end
 
 
+--- table.contains
+-- @function luax.table.contains
 function M.table.contains(t, value)
 	for i = 1, #t do
 		if t[i] == value then
@@ -117,6 +144,8 @@ function M.table.contains(t, value)
 end
 
 
+--- table.length
+-- @function luax.table.length
 function M.table.length(array)
 	local length = 0
 	for _ in pairs(array) do
@@ -126,6 +155,8 @@ function M.table.length(array)
 end
 
 
+--- table.remove_item
+-- @function luax.table.remove_item
 function M.table.remove_item(t, value)
 	local index = table.contains(t, value)
 	if index then
@@ -134,6 +165,8 @@ function M.table.remove_item(t, value)
 end
 
 
+--- table.remove_by_dict
+-- @function luax.table.remove_by_dict
 function M.table.remove_by_dict(t, example)
 	local index = -1
 
@@ -159,6 +192,8 @@ function M.table.remove_by_dict(t, example)
 end
 
 
+--- table.is_empty
+-- @function luax.table.is_empty
 function M.table.is_empty(t)
 	if not t then
 		return true
@@ -167,6 +202,8 @@ function M.table.is_empty(t)
 end
 
 
+--- table.extend
+-- @function luax.table.extend
 function M.table.extend(t1, t2)
 	for k, v in pairs(t2) do
 		t1[k] = v
@@ -175,6 +212,8 @@ end
 
 
 -- for array
+--- table.add
+-- @function luax.table.add
 function M.table.add(t1, t2)
 	for i = 1, #t2 do
 		table.insert(t1, t2[i])
@@ -182,11 +221,15 @@ function M.table.add(t1, t2)
 end
 
 
+--- table.random
+-- @function luax.table.random
 function M.table.random(t)
 	return t[math.random(#t)]
 end
 
 
+--- table.weight_random
+-- @function luax.table.weight_random
 function M.table.weight_random(chances, values)
 	if values then
 		assert(#values == #chances, "arrays should be with equals length")
@@ -217,6 +260,8 @@ function M.table.weight_random(chances, values)
 end
 
 
+--- table.shuffle
+-- @function luax.table.shuffle
 function M.table.shuffle(t, seed)
 	if seed then
 		math.randomseed(seed)
@@ -231,6 +276,8 @@ function M.table.shuffle(t, seed)
 end
 
 
+--- table.deepcopy
+-- @function luax.table.deepcopy
 function M.table.deepcopy(orig)
 	local copy
 	if type(orig) == "table" then
@@ -246,6 +293,8 @@ function M.table.deepcopy(orig)
 end
 
 
+--- table.override
+-- @function luax.table.override
 function M.table.override(source, target)
 	for key, value in pairs(source) do
 		if type(value) == "table" and target[key] then
@@ -257,6 +306,8 @@ function M.table.override(source, target)
 end
 
 
+--- table.list
+-- @function luax.table.list
 function M.table.list(t, field)
 	local result = {}
 
@@ -272,6 +323,8 @@ function M.table.list(t, field)
 end
 
 
+--- table.tostring
+-- @function luax.table.tostring
 function M.table.tostring(t)
 	local result = ""
 
@@ -289,6 +342,8 @@ function M.table.tostring(t)
 end
 
 
+--- string.split
+-- @function luax.string.split
 function M.string.split(inputstr, sep)
 	sep = sep or "%s"
 	local t = {}
@@ -301,6 +356,8 @@ function M.string.split(inputstr, sep)
 end
 
 
+--- string.add_prefix_zeros
+-- @function luax.string.add_prefix_zeros
 function M.string.add_prefix_zeros(str, count)
 	for _ = string.len(str), count - 1 do
 		str = "0" .. str
@@ -309,6 +366,8 @@ function M.string.add_prefix_zeros(str, count)
 end
 
 
+--- string.split_by_rank
+-- @function luax.string.split_by_rank
 function M.string.split_by_rank(str)
 	local new_s = ""
 
@@ -325,16 +384,22 @@ function M.string.split_by_rank(str)
 end
 
 
+--- string.starts
+-- @function luax.string.starts
 function M.string.starts(String,Start)
 	return string.sub(String,1,string.len(Start))==Start
 end
 
 
+--- string.ends
+-- @function luax.string.ends
 function M.string.ends(String,End)
 	return End=='' or string.sub(String,-string.len(End))==End
 end
 
 
+--- string.random
+-- @function luax.string.random
 function M.string.random(length)
 	local result = ""
 
@@ -346,6 +411,8 @@ function M.string.random(length)
 end
 
 
+--- gui.get_full_position
+-- @function luax.gui.get_full_position
 function M.gui.get_full_position(node)
 	local p = gui.get_position(node)
 	local par = gui.get_parent(node)
@@ -363,6 +430,8 @@ function M.gui.get_full_position(node)
 end
 
 
+--- gui.set_alpha
+-- @function luax.gui.set_alpha
 function M.gui.set_alpha(node, alpha)
 	local color = gui.get_color(node)
 	color.w = alpha
@@ -370,11 +439,15 @@ function M.gui.set_alpha(node, alpha)
 end
 
 
+--- gui.get_alpha
+-- @function luax.gui.get_alpha
 function M.gui.get_alpha(node, alpha)
 	return gui.get_color(node).w
 end
 
 
+--- go.get_full_position
+-- @function luax.go.get_full_position
 function M.go.get_full_position(node)
 	local p = go.get_position(node)
 	local par = go.get_parent(node)
@@ -386,6 +459,8 @@ function M.go.get_full_position(node)
 end
 
 
+--- debug.timelog
+-- @function luax.debug.timelog
 function M.debug.timelog(name)
 	if not debug._timelog_time then
 		debug._timelog_time = socket.gettime()
@@ -396,6 +471,8 @@ function M.debug.timelog(name)
 end
 
 
+--- gui.is_chain_enabled
+-- @function luax.gui.is_chain_enabled
 function M.gui.is_chain_enabled(node)
 	local current = node
 	while current do
@@ -409,6 +486,8 @@ function M.gui.is_chain_enabled(node)
 end
 
 
+--- vmath.rad2vec
+-- @function luax.vmath.rad2vec
 function M.vmath.rad2vec(radians)
 	local dir_vector = vmath.vector3()
 	dir_vector.x = math.cos(radians)
@@ -417,16 +496,22 @@ function M.vmath.rad2vec(radians)
 end
 
 
+--- vmath.vec2rad
+-- @function luax.vmath.vec2rad
 function M.vmath.vec2rad(vector)
 	return math.atan2(vector.y, vector.x)
 end
 
 
+--- vmath.rad2quat
+-- @function luax.vmath.rad2quat
 function M.vmath.rad2quat(radians)
 	return vmath.quat_rotation_z(radians)
 end
 
 
+--- vmath.vec2quat
+-- @function luax.vmath.vec2quat
 function M.vmath.vec2quat(vector)
 	local dir = vmath.normalize(vector)
 	dir.z = 0
@@ -434,6 +519,8 @@ function M.vmath.vec2quat(vector)
 end
 
 
+--- vmath.distance
+-- @function luax.vmath.distance
 function M.vmath.distance(v1, v2)
 	return math.sqrt((v2.x - v1.x)^2 + (v2.y - v1.y)^2)
 end

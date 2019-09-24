@@ -1,3 +1,6 @@
+--- Defold-Eva utils module
+-- @submodule eva
+
 local luax = require("eva.luax")
 
 local M = {}
@@ -15,6 +18,8 @@ local function get_time_data(seconds)
 end
 
 
+--- Return localized time format from seconds
+-- @function eva.utils.time_format
 function M.time_format(seconds)
 	local lang = M._eva.lang
 	local days, hours, minutes, secs = get_time_data(seconds)
@@ -28,6 +33,8 @@ function M.time_format(seconds)
 end
 
 
+--- Make after closure
+-- @function eva.utils.after
 function M.after(count, callback)
 	local closure = function()
 		count = count - 1
@@ -39,6 +46,8 @@ function M.after(count, callback)
 end
 
 
+--- Load json from bundled resource
+-- @function eva.utils.load_json
 function M.load_json(filename)
 	return cjson.decode(sys.load_resource(filename))
 end

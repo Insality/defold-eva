@@ -32,6 +32,7 @@ function M.get_device_id()
 	return M._device_prefs.device_id
 end
 
+
 --- Return device region.
 -- If region is unknown, it will return "UN".
 -- @function eva.device.get_region
@@ -45,6 +46,7 @@ function M.get_region()
 
 	return region:upper()
 end
+
 
 --- Return device_info
 -- @function eva.device.get_device_info
@@ -69,12 +71,14 @@ function M.get_device_info()
 	return device_info
 end
 
+
 --- Check if device on android
 -- @function eva.device.is_android
 function M.is_android()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.ANDROID
 end
+
 
 --- Check if device on iOS
 -- @function eva.device.is_ios
@@ -83,6 +87,7 @@ function M.is_ios()
 	return system_name == const.OS.IOS
 end
 
+
 --- Check if device is mobile (Android or iOS)
 -- @function eva.device.is_mobile
 function M.is_mobile()
@@ -90,10 +95,12 @@ function M.is_mobile()
 	return system_name == const.OS.IOS or system_name == const.OS.ANDROID
 end
 
+
 function M.before_game_start(settings)
 	M._device_prefs = M._eva.proto.get(const.EVA.DEVICE)
 	M._eva.saver.add_save_part(const.EVA.DEVICE, M._device_prefs)
 end
+
 
 function M.on_game_start(settings)
 	local device_id = M.get_device_id()

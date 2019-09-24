@@ -32,10 +32,21 @@
 
 <h2>Contents</h2>
 <ul>
+<li><a href="#modules_ads_Functions">modules.ads Functions</a></li>
 <li><a href="#modules_device_Functions">modules.device Functions</a></li>
 <li><a href="#modules_events_Functions">modules.events Functions</a></li>
+<li><a href="#modules_game_Functions">modules.game Functions</a></li>
+<li><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></li>
+<li><a href="#modules_iaps_Functions">modules.iaps Functions</a></li>
 <li><a href="#modules_lang_Functions">modules.lang Functions</a></li>
+<li><a href="#modules_notifications_Functions">modules.notifications Functions</a></li>
 <li><a href="#modules_proto_Functions">modules.proto Functions</a></li>
+<li><a href="#modules_rate_Functions">modules.rate Functions</a></li>
+<li><a href="#modules_saver_Functions">modules.saver Functions</a></li>
+<li><a href="#modules_sound_Functions">modules.sound Functions</a></li>
+<li><a href="#modules_tokens_Functions">modules.tokens Functions</a></li>
+<li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
+<li><a href="#modules_window_Functions">modules.window Functions</a></li>
 </ul>
 
 
@@ -43,6 +54,8 @@
 <ul class="nowrap">
   <li><a href="../modules/const.html">const</a></li>
   <li><strong>eva</strong></li>
+  <li><a href="../modules/log.html">log</a></li>
+  <li><a href="../modules/luax.html">luax</a></li>
 </ul>
 <h2>Topics</h2>
 <ul class="">
@@ -59,6 +72,25 @@
 <p></p>
 
 
+<h2><a href="#modules_ads_Functions">modules.ads Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.is_page_ready">eva.ads.is_page_ready()</a></td>
+	<td class="summary">Check is page ads ready.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.is_rewarded_ready">eva.ads.is_rewarded_ready()</a></td>
+	<td class="summary">Check is rewarded ads ready.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.show_rewarded">eva.ads.show_rewarded()</a></td>
+	<td class="summary">Start show rewarded ads On success it will throw const.MSG.ADS<em>SUCCESS</em>REWARDED event</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.show_page">eva.ads.show_page()</a></td>
+	<td class="summary">Start show page ads</td>
+	</tr>
+</table>
 <h2><a href="#modules_device_Functions">modules.device Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -101,6 +133,59 @@
 	<td class="summary">Add event system</td>
 	</tr>
 </table>
+<h2><a href="#modules_game_Functions">modules.game Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.open_store_page">eva.game.open_store_page()</a></td>
+	<td class="summary">Open store page in store application</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.reboot">eva.game.reboot(delay)</a></td>
+	<td class="summary">Reboot the game</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.exit">eva.game.exit(code)</a></td>
+	<td class="summary">Exit from the game</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.is_debug">eva.game.is_debug()</a></td>
+	<td class="summary">Check game on debug mode</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_time">eva.game.get_time()</a></td>
+	<td class="summary">Get game time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_current_time_string">eva.game.get_current_time_string()</a></td>
+	<td class="summary">Get current time in string format</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_uuid">eva.game.get_uuid()</a></td>
+	<td class="summary">Generate uuid</td>
+	</tr>
+</table>
+<h2><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.gdpr.apply_gdpr">eva.gdpr.apply_gdpr()</a></td>
+	<td class="summary">Apply the GDPR to the game profile</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.gdpr.is_accepted">eva.gdpr.is_accepted()</a></td>
+	<td class="summary">Return if GDPR is accepted</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.gdpr.open_policy_url">eva.gdpr.open_policy_url()</a></td>
+	<td class="summary">Open the policy URL</td>
+	</tr>
+</table>
+<h2><a href="#modules_iaps_Functions">modules.iaps Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.buy">eva.iaps.buy(iap_id)</a></td>
+	<td class="summary">Buy the inapp</td>
+	</tr>
+</table>
 <h2><a href="#modules_lang_Functions">modules.lang Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -120,6 +205,17 @@
 	<td class="summary">Get translation for locale id with params</td>
 	</tr>
 </table>
+<h2><a href="#modules_notifications_Functions">modules.notifications Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.notifications.unschedule_all">eva.notifications.unschedule_all()</a></td>
+	<td class="summary">Unschedule all planned local notifications</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.notifications.schedule">eva.notifications.schedule()</a></td>
+	<td class="summary">Schedule notification</td>
+	</tr>
+</table>
 <h2><a href="#modules_proto_Functions">modules.proto Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -127,11 +223,253 @@
 	<td class="summary">Get empty template from proto type</td>
 	</tr>
 </table>
+<h2><a href="#modules_rate_Functions">modules.rate Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.rate.set_never_show">eva.rate.set_never_show()</a></td>
+	<td class="summary">Set never promt rate again</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.rate.set_accepted">eva.rate.set_accepted()</a></td>
+	<td class="summary">Set rate as accepted.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.rate.promt_rate">eva.rate.promt_rate()</a></td>
+	<td class="summary">Try to promt rate game to the player</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.rate.open_rate">eva.rate.open_rate()</a></td>
+	<td class="summary">Open store or native rating on iOS</td>
+	</tr>
+</table>
+<h2><a href="#modules_saver_Functions">modules.saver Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.load">eva.saver.load()</a></td>
+	<td class="summary">Load the game save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.save">eva.saver.save()</a></td>
+	<td class="summary">Save the game save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.reset">eva.saver.reset()</a></td>
+	<td class="summary">Reset the game profile</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.add_save_part">eva.saver.add_save_part()</a></td>
+	<td class="summary">Add save part to the save table</td>
+	</tr>
+</table>
+<h2><a href="#modules_sound_Functions">modules.sound Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.play">eva.sound.play()</a></td>
+	<td class="summary">Play the sound in the game</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.play_music">eva.sound.play_music()</a></td>
+	<td class="summary">Start playing music</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.stop_music">eva.sound.stop_music()</a></td>
+	<td class="summary">Stop any music in the game</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.fade_music">eva.sound.fade_music()</a></td>
+	<td class="summary">Slowly fade music to another one or empty</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.stop_all">eva.sound.stop_all()</a></td>
+	<td class="summary">Stop all sounds in the game</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.set_music_gain">eva.sound.set_music_gain()</a></td>
+	<td class="summary">Set music gain</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.set_sound_gain">eva.sound.set_sound_gain()</a></td>
+	<td class="summary">Set sound gain</td>
+	</tr>
+</table>
+<h2><a href="#modules_tokens_Functions">modules.tokens Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.add">eva.tokens.add()</a></td>
+	<td class="summary">Add tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.set">eva.tokens.set()</a></td>
+	<td class="summary">Set tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.get">eva.tokens.get()</a></td>
+	<td class="summary">Get current token amount</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.pay">eva.tokens.pay()</a></td>
+	<td class="summary">Try to pay tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.is_enough">eva.tokens.is_enough()</a></td>
+	<td class="summary">Check is enough to pay token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.is_max">eva.tokens.is_max()</a></td>
+	<td class="summary">Return is token is maximum</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.is_empty">eva.tokens.is_empty()</a></td>
+	<td class="summary">Return is tokens equals to 0</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.add_infinity_time">eva.tokens.add_infinity_time()</a></td>
+	<td class="summary">Add to tokens infinity time usage</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.is_infinity">eva.tokens.is_infinity()</a></td>
+	<td class="summary">Return is token is infinity now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.get_infinity_seconds">eva.tokens.get_infinity_seconds()</a></td>
+	<td class="summary">Get amount of seconds till end of infinity time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.sync_visual">eva.tokens.sync_visual()</a></td>
+	<td class="summary">Reset visual debt of tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.add_visual">eva.tokens.add_visual()</a></td>
+	<td class="summary">Add visual debt to token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.get_visual">eva.tokens.get_visual()</a></td>
+	<td class="summary">Get current visual debt of token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.get_seconds_to_restore">eva.tokens.get_seconds_to_restore()</a></td>
+	<td class="summary">Get current time to next restore point</td>
+	</tr>
+</table>
+<h2><a href="#modules_utils_Functions">modules.utils Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.time_format">eva.utils.time_format()</a></td>
+	<td class="summary">Return localized time format from seconds</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.after">eva.utils.after()</a></td>
+	<td class="summary">Make after closure</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.load_json">eva.utils.load_json()</a></td>
+	<td class="summary">Load json from bundled resource</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#compare_versions">compare_versions(version_a, version_b)</a></td>
+	<td class="summary">Compare two project version.</td>
+	</tr>
+</table>
+<h2><a href="#modules_window_Functions">modules.window Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.show_scene">eva.window.show_scene()</a></td>
+	<td class="summary">Load the game scene</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.show">eva.window.show()</a></td>
+	<td class="summary">Show the game window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.is_opened">eva.window.is_opened()</a></td>
+	<td class="summary">Check is window is opened now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.close">eva.window.close()</a></td>
+	<td class="summary">Close window by id or last window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.close_all">eva.window.close_all()</a></td>
+	<td class="summary">Close all windows</td>
+	</tr>
+</table>
 
 <br/>
 <br/>
 
 
+    <h2 class="section-header "><a name="modules_ads_Functions"></a>modules.ads Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.ads.is_page_ready"></a>
+    <strong>eva.ads.is_page_ready()</strong>
+    </dt>
+    <dd>
+    Check is page ads ready.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        is page ads ready
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.is_rewarded_ready"></a>
+    <strong>eva.ads.is_rewarded_ready()</strong>
+    </dt>
+    <dd>
+    Check is rewarded ads ready.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        is rewarded ads ready
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.show_rewarded"></a>
+    <strong>eva.ads.show_rewarded()</strong>
+    </dt>
+    <dd>
+    Start show rewarded ads On success it will throw const.MSG.ADS<em>SUCCESS</em>REWARDED event
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.show_page"></a>
+    <strong>eva.ads.show_page()</strong>
+    </dt>
+    <dd>
+    Start show page ads
+
+
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_device_Functions"></a>modules.device Functions</h2>
 
     <dl class="function">
@@ -304,6 +642,211 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_game_Functions"></a>modules.game Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.game.open_store_page"></a>
+    <strong>eva.game.open_store_page()</strong>
+    </dt>
+    <dd>
+    Open store page in store application
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.reboot"></a>
+    <strong>eva.game.reboot(delay)</strong>
+    </dt>
+    <dd>
+    Reboot the game
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+        Delay before reboot, in seconds
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.exit"></a>
+    <strong>eva.game.exit(code)</strong>
+    </dt>
+    <dd>
+    Exit from the game
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><span class="type">int</span></span>
+        The exit code
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.is_debug"></a>
+    <strong>eva.game.is_debug()</strong>
+    </dt>
+    <dd>
+    Check game on debug mode
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.get_time"></a>
+    <strong>eva.game.get_time()</strong>
+    </dt>
+    <dd>
+    Get game time
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        return game time in seconds
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.get_current_time_string"></a>
+    <strong>eva.game.get_current_time_string()</strong>
+    </dt>
+    <dd>
+    Get current time in string format
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        Time format in iso e.g. “2019–09–25T01:48:19Z”
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.get_uuid"></a>
+    <strong>eva.game.get_uuid()</strong>
+    </dt>
+    <dd>
+    Generate uuid
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        the uuid
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_gdpr_Functions"></a>modules.gdpr Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.gdpr.apply_gdpr"></a>
+    <strong>eva.gdpr.apply_gdpr()</strong>
+    </dt>
+    <dd>
+    Apply the GDPR to the game profile
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.gdpr.is_accepted"></a>
+    <strong>eva.gdpr.is_accepted()</strong>
+    </dt>
+    <dd>
+    Return if GDPR is accepted
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.gdpr.open_policy_url"></a>
+    <strong>eva.gdpr.open_policy_url()</strong>
+    </dt>
+    <dd>
+    Open the policy URL
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_iaps_Functions"></a>modules.iaps Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.iaps.buy"></a>
+    <strong>eva.iaps.buy(iap_id)</strong>
+    </dt>
+    <dd>
+    Buy the inapp
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">iap_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        In-game inapp ID from iaps settings
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_lang_Functions"></a>modules.lang Functions</h2>
 
     <dl class="function">
@@ -407,6 +950,38 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_notifications_Functions"></a>modules.notifications Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.notifications.unschedule_all"></a>
+    <strong>eva.notifications.unschedule_all()</strong>
+    </dt>
+    <dd>
+    Unschedule all planned local notifications
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.notifications.schedule"></a>
+    <strong>eva.notifications.schedule()</strong>
+    </dt>
+    <dd>
+    Schedule notification
+
+
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_proto_Functions"></a>modules.proto Functions</h2>
 
     <dl class="function">
@@ -438,13 +1013,586 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_rate_Functions"></a>modules.rate Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.rate.set_never_show"></a>
+    <strong>eva.rate.set_never_show()</strong>
+    </dt>
+    <dd>
+    Set never promt rate again
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.rate.set_accepted"></a>
+    <strong>eva.rate.set_accepted()</strong>
+    </dt>
+    <dd>
+    Set rate as accepted. It will no show more
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.rate.promt_rate"></a>
+    <strong>eva.rate.promt_rate()</strong>
+    </dt>
+    <dd>
+    Try to promt rate game to the player
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.rate.open_rate"></a>
+    <strong>eva.rate.open_rate()</strong>
+    </dt>
+    <dd>
+    Open store or native rating on iOS
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_saver_Functions"></a>modules.saver Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.saver.load"></a>
+    <strong>eva.saver.load()</strong>
+    </dt>
+    <dd>
+    Load the game save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.save"></a>
+    <strong>eva.saver.save()</strong>
+    </dt>
+    <dd>
+    Save the game save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.reset"></a>
+    <strong>eva.saver.reset()</strong>
+    </dt>
+    <dd>
+    Reset the game profile
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.add_save_part"></a>
+    <strong>eva.saver.add_save_part()</strong>
+    </dt>
+    <dd>
+    Add save part to the save table
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_sound_Functions"></a>modules.sound Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.sound.play"></a>
+    <strong>eva.sound.play()</strong>
+    </dt>
+    <dd>
+    Play the sound in the game
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.play_music"></a>
+    <strong>eva.sound.play_music()</strong>
+    </dt>
+    <dd>
+    Start playing music
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.stop_music"></a>
+    <strong>eva.sound.stop_music()</strong>
+    </dt>
+    <dd>
+    Stop any music in the game
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.fade_music"></a>
+    <strong>eva.sound.fade_music()</strong>
+    </dt>
+    <dd>
+    Slowly fade music to another one or empty
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.stop_all"></a>
+    <strong>eva.sound.stop_all()</strong>
+    </dt>
+    <dd>
+    Stop all sounds in the game
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.set_music_gain"></a>
+    <strong>eva.sound.set_music_gain()</strong>
+    </dt>
+    <dd>
+    Set music gain
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.set_sound_gain"></a>
+    <strong>eva.sound.set_sound_gain()</strong>
+    </dt>
+    <dd>
+    Set sound gain
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_tokens_Functions"></a>modules.tokens Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.tokens.add"></a>
+    <strong>eva.tokens.add()</strong>
+    </dt>
+    <dd>
+    Add tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.set"></a>
+    <strong>eva.tokens.set()</strong>
+    </dt>
+    <dd>
+    Set tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.get"></a>
+    <strong>eva.tokens.get()</strong>
+    </dt>
+    <dd>
+    Get current token amount
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.pay"></a>
+    <strong>eva.tokens.pay()</strong>
+    </dt>
+    <dd>
+    Try to pay tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.is_enough"></a>
+    <strong>eva.tokens.is_enough()</strong>
+    </dt>
+    <dd>
+    Check is enough to pay token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.is_max"></a>
+    <strong>eva.tokens.is_max()</strong>
+    </dt>
+    <dd>
+    Return is token is maximum
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.is_empty"></a>
+    <strong>eva.tokens.is_empty()</strong>
+    </dt>
+    <dd>
+    Return is tokens equals to 0
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.add_infinity_time"></a>
+    <strong>eva.tokens.add_infinity_time()</strong>
+    </dt>
+    <dd>
+    Add to tokens infinity time usage
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.is_infinity"></a>
+    <strong>eva.tokens.is_infinity()</strong>
+    </dt>
+    <dd>
+    Return is token is infinity now
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.get_infinity_seconds"></a>
+    <strong>eva.tokens.get_infinity_seconds()</strong>
+    </dt>
+    <dd>
+    Get amount of seconds till end of infinity time
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.sync_visual"></a>
+    <strong>eva.tokens.sync_visual()</strong>
+    </dt>
+    <dd>
+    Reset visual debt of tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.add_visual"></a>
+    <strong>eva.tokens.add_visual()</strong>
+    </dt>
+    <dd>
+    Add visual debt to token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.get_visual"></a>
+    <strong>eva.tokens.get_visual()</strong>
+    </dt>
+    <dd>
+    Get current visual debt of token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.get_seconds_to_restore"></a>
+    <strong>eva.tokens.get_seconds_to_restore()</strong>
+    </dt>
+    <dd>
+    Get current time to next restore point
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_utils_Functions"></a>modules.utils Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.utils.time_format"></a>
+    <strong>eva.utils.time_format()</strong>
+    </dt>
+    <dd>
+    Return localized time format from seconds
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.utils.after"></a>
+    <strong>eva.utils.after()</strong>
+    </dt>
+    <dd>
+    Make after closure
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.utils.load_json"></a>
+    <strong>eva.utils.load_json()</strong>
+    </dt>
+    <dd>
+    Load json from bundled resource
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "compare_versions"></a>
+    <strong>compare_versions(version_a, version_b)</strong>
+    </dt>
+    <dd>
+    Compare two project version. Version format should be in semver(“x.y.z”)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">version_a</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        project version
+        </li>
+        <li><span class="parameter">version_b</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        project version
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">int</span></span>
+        -1 if version<em>a higher, 1 if version</em>b higher, 0 if they are equal
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_window_Functions"></a>modules.window Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.window.show_scene"></a>
+    <strong>eva.window.show_scene()</strong>
+    </dt>
+    <dd>
+    Load the game scene
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.show"></a>
+    <strong>eva.window.show()</strong>
+    </dt>
+    <dd>
+    Show the game window
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.is_opened"></a>
+    <strong>eva.window.is_opened()</strong>
+    </dt>
+    <dd>
+    Check is window is opened now
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.close"></a>
+    <strong>eva.window.close()</strong>
+    </dt>
+    <dd>
+    Close window by id or last window
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.close_all"></a>
+    <strong>eva.window.close_all()</strong>
+    </dt>
+    <dd>
+    Close all windows
+
+
+
+
+
+
+
+</dd>
+</dl>
 
 
 </div> <!-- id="content" -->
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-09-25 00:46:33 </i>
+<i style="float:right;">Last updated 2019-09-25 02:16:34 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

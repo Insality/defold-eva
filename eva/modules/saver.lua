@@ -1,3 +1,6 @@
+--- Defold-Eva saver module
+-- @submodule eva
+
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
@@ -12,11 +15,15 @@ local project_name = sys.get_config("project.title")
 local save_path = sys.get_save_file(project_name, "eva")
 
 
+--- Load the game save
+-- @function eva.saver.load
 function M.load()
 	return sys.load(save_path)
 end
 
 
+--- Save the game save
+-- @function eva.saver.save
 function M.save()
 	M._saver_prefs.version = M._saver_prefs.version + 1
 
@@ -24,11 +31,15 @@ function M.save()
 end
 
 
+--- Reset the game profile
+-- @function eva.saver.reset
 function M.reset()
 	save_table = {}
 end
 
 
+--- Add save part to the save table
+-- @function eva.saver.add_save_part
 function M.add_save_part(name, table_ref)
 	assert(M.can_load_save, "Add save part should be called after eva init")
 

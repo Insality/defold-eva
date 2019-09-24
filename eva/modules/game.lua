@@ -1,3 +1,7 @@
+--- Defold-Eva game module
+-- Contains basic game functions
+-- @submodule eva
+
 local const = require("eva.const")
 local uuid = require("eva.libs.uuid")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
@@ -18,6 +22,8 @@ local function select_url(url_ios, url_android)
 end
 
 
+--- Open store page in store application
+-- @function eva.game.open_store_page
 function M.open_store_page()
 	local market_url = select_url(const.STORE_URL.IOS_MARKET, const.STORE_URL.ANDROID_MARKET)
 	local success = sys.open_url(market_url)
@@ -28,6 +34,9 @@ function M.open_store_page()
 end
 
 
+--- Reboot the game
+-- @function eva.game.reboot
+-- @tparam number delay Delay before reboot, in seconds
 function M.reboot(delay)
 	delay = delay or 0
 
@@ -38,27 +47,41 @@ function M.reboot(delay)
 end
 
 
+--- Exit from the game
+-- @function eva.game.exit
+-- @tparam int code The exit code
 function M.exit(code)
 	code = code or 0
 	msg.post("@system:", "exit", {code = code})
 end
 
 
+--- Check game on debug mode
+-- @function eva.game.is_debug
 function M.is_debug()
 	return sys.get_engine_info().is_debug
 end
 
 
+--- Get game time
+-- @function eva.game.get_time
+-- @treturn number return game time in seconds
 function M.get_time()
 	return socket.gettime()
 end
 
 
+--- Get current time in string format
+-- @function eva.game.get_current_time_string
+-- @treturn string Time format in iso e.g. "2019-09-25T01:48:19Z"
 function M.get_current_time_string()
 	return iso_parser.get_time(M.get_time())
 end
 
 
+--- Generate uuid
+-- @function eva.game.get_uuid
+-- @treturn string the uuid
 function M.get_uuid()
 	return uuid()
 end

@@ -1,18 +1,27 @@
+--- Defold-Eva rate module
+-- @submodule eva
+
 local const = require("eva.const")
 
 local M = {}
 
 
+--- Set never promt rate again
+-- @function eva.rate.set_never_show
 function M.set_never_show(state)
 	M._rate_prefs.is_never_show = state
 end
 
 
+--- Set rate as accepted. It will no show more
+-- @function eva.rate.set_accepted
 function M.set_accepted(state)
 	M._rate_prefs.is_accepted = state
 end
 
 
+--- Try to promt rate game to the player
+-- @function eva.rate.promt_rate
 function M.promt_rate(on_can_promt)
 	if not M._eva.device.is_mobile() then
 		return
@@ -33,6 +42,8 @@ function M.promt_rate(on_can_promt)
 end
 
 
+--- Open store or native rating on iOS
+-- @function eva.rate.open_rate
 function M.open_rate()
 	if defreview and defreview.isSupported() then
 		defreview.requestReview()
