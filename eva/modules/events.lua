@@ -13,6 +13,8 @@ local M = {}
 M.event_system = {}
 
 --- Throws the game event
+-- @tparam string event name of event
+-- @tparam[opt={}] table params params
 function M.event(event, params)
 	logger:debug("Game event", {event = event, params = params})
 	broadcast.send(const.MSG.EVENT, {event = event, params = params})
@@ -23,11 +25,15 @@ function M.event(event, params)
 end
 
 
-function M.screen()
+--- Setup current game screen
+-- @tparam string screen_id screen id
+function M.screen(screen_id)
 
 end
 
 
+--- Add event system
+-- @tparam table event_system custom event handler
 function M.add_event_system(event_system)
 	assert(event_system.event, "The event system should have `event` method")
 	table.insert(M.event_systems, event_system)
