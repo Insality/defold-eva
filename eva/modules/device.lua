@@ -1,3 +1,8 @@
+--- Defold-Eva device module
+-- Contains stuff to work with device info
+-- @class module
+-- @name eva.device
+
 local log = require("eva.log")
 local const = require("eva.const")
 
@@ -6,6 +11,10 @@ local logger = log.get_logger("eva.device")
 local M = {}
 
 
+--- Return device id.
+-- If device_id is empty, it will generate device_id with
+-- uuid library. And store it on file
+-- @treturn string device_id
 function M.get_device_id()
 	if M._device_prefs.device_id == "" then
 		if M.is_mobile() then
@@ -23,7 +32,9 @@ function M.get_device_id()
 	return M._device_prefs.device_id
 end
 
-
+--- Return device region.
+-- If region is unknown, it will return "UN".
+-- @treturn string region
 function M.get_region()
 	local sys_info = sys.get_sys_info()
 	local region = sys_info.territory
@@ -34,7 +45,7 @@ function M.get_region()
 	return region:upper()
 end
 
-
+--- Return device_info
 function M.get_device_info()
 	local info = sys.get_sys_info()
 	local engine_info = sys.get_engine_info()

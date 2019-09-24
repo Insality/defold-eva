@@ -1,7 +1,12 @@
+--- Defold-Eva const module.
+-- Specify all eva constant.
+
 local M = {}
 
+--- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
 
+--- Constant for messages inside eva module
 M.MSG = {
 	EVENT = hash("eva.event"),
 	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual"),
