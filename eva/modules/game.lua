@@ -1,8 +1,31 @@
+local const = require("eva.const")
 local uuid = require("eva.libs.uuid")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local iso_parser = require("eva.libs.iso_parser")
 
 local M = {}
+
+
+local function select_url(url_ios, url_android)
+	local android_id = sys.get_config("android.package") or ""
+	local ios_id = sys.get_config("ios.id") or ""
+
+	local is_ios = M._eva.device.is_ios()
+	local url_source = M.settings.url_source
+	local market_url = is_ios and url_ios or url_android
+
+	return string.format(market_url, is_ios and ios_id or android_id, url_source)
+end
+
+
+function M.open_store_page()
+	local market_url = select_url(const.STORE_URL.IOS_MARKET, const.STORE_URL.ANDROID_MARKET)
+	local success = sys.open_url(market_url)
+		if not success then
+		local direct_url = select_url(const.STORE_URL.IOS_MARKET, const.STORE_URL.ANDROID_URL)
+		sys.open_url(direct_url)
+	end
+end
 
 
 function M.reboot(delay)

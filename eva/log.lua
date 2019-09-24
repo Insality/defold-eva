@@ -35,7 +35,7 @@ local function format(self, level, message, context)
 	local record_context = ""
 	if context and luax.table.length(context) ~= 0 then
 		for k, v in pairs(context) do
-			record_context = string.format("%s %s=%s", record_context, k, v)
+			record_context = string.format("%s %s = %s", record_context, k, v)
 		end
 		record_context = string.format("{%s }", record_context)
 	end

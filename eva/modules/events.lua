@@ -5,6 +5,7 @@ local const = require("eva.const")
 local logger = log.get_logger("eva.events")
 
 local M = {}
+M.event_system = {}
 
 
 function M.event(event, params)

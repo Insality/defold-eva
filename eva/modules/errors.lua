@@ -31,7 +31,7 @@ end
 
 
 function M.on_game_start()
-	if sys.get_engine_info().is_debug then
+	if M._eva.game.is_debug() then
 		return
 	end
 

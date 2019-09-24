@@ -4,6 +4,7 @@ local const = require("eva.const")
 local M = {}
 local save_table = {}
 
+
 local project_name = sys.get_config("project.title")
 local save_path = sys.get_save_file(project_name, "eva")
 
@@ -62,7 +63,10 @@ function M.after_game_start(settings)
 	end
 
 	M._saver_prefs.last_game_version = sys.get_config("project.version")
-	pprint(save_table)
+
+	if settings.print_save_at_start then
+		pprint(save_table)
+	end
 end
 
 

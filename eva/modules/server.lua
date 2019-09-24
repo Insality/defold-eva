@@ -6,9 +6,8 @@ local logger = log.get_logger("eva.server")
 local M = {}
 
 
-local function on_save_collision(response)
-
-end
+-- local function on_save_collision(response)
+-- end
 
 
 function M.login(callback)

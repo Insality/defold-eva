@@ -11,8 +11,9 @@ function M.before_game_start(settings)
 
 	for path, name_array in pairs(proto_paths) do
 		for index, name in ipairs(name_array) do
-			logger:debug("Load protofile", {path = path .. name})
-			protoc:loadfile(path .. name .. ".proto")
+			local filepath = path .. name .. ".proto"
+			logger:debug("Load protofile", { path = filepath })
+			protoc:loadfile(filepath)
 		end
 	end
 end

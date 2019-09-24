@@ -11,7 +11,11 @@
 		"game_started_max_count": 5
 	},
 	"saver": {
-		"autosave": 4
+		"autosave": 4,
+		"print_save_at_start": true
+	},
+	"gdpr": {
+		"policy_url": "https://d.insality.com/privacypolicy.htm"
 	},
 	"errors": {
 		"error_server_url": "https://8.8.8.8"
@@ -46,7 +50,8 @@
 		}
 	},
 	"rate": {
-		"url_source": "game"
+		"url_source": "game",
+		"max_promt_count": 5
 	},
 	"proto": {
 		"proto_paths": {

@@ -16,7 +16,12 @@ end
 
 
 function M.open_policy_url()
-	-- TODO: implement
+	sys.open_url(M.settings.policy_url)
+end
+
+
+function M.before_game_start(settings)
+	M.settings = settings
 end
 
 

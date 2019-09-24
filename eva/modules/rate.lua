@@ -1,48 +1,52 @@
+local const = require("eva.const")
+
 local M = {}
 
-local android_id = sys.get_config("android.package") or ""
-local ios_id = sys.get_config("ios.id") or ""
 
-
-local android_market =
-	"market://details?id=%s&referrer=utm_source%%3D%s"
-
-local android_url =
-	"https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s"
-
-local ios_market =
-	"https://itunes.apple.com/app/apple-store/id%s?pt=119008561&ct=%s&mt=8"
-
-
-local function select_url(url_ios, url_android)
-	local is_ios = M._eva.device.is_ios()
-	local url_source = M.settings.url_source
-	local market_url = is_ios and url_ios or url_android
-
-	return string.format(market_url, is_ios and ios_id or android_id, url_source)
+function M.set_never_show(state)
+	M._rate_prefs.is_never_show = state
 end
 
 
-function M.promt_rate()
-	if not (M._eva.device.is_mobile()) then
+function M.set_accepted(state)
+	M._rate_prefs.is_accepted = state
+end
+
+
+function M.promt_rate(on_can_promt)
+	if not M._eva.device.is_mobile() then
 		return
 	end
 
-	if defreview and defreview.isSupported() then
-		defreview.requestReview()
-	else
-		local market_url = select_url(ios_market, android_market)
-		local success = sys.open_url(market_url)
-			if not success then
-			local direct_url = select_url(ios_market, android_url)
-			sys.open_url(direct_url)
-		end
+	if M._rate_prefs.is_never_show or M._rate_prefs.is_accepted then
+		return
+	end
+
+	if M._rate_prefs.promt_count > M.settings.max_promt_count then
+		return
+	end
+
+	M._rate_prefs.promt_count = M._rate_prefs.promt_count + 1
+	if on_can_promt then
+		on_can_promt()
 	end
 end
 
 
-function M.before_game_start(settings)
+function M.open_rate()
+	if defreview and defreview.isSupported() then
+		defreview.requestReview()
+	else
+		M._eva.game.open_store_page()
+	end
+end
+
+
+function M.on_game_start(settings)
 	M.settings = settings
+
+	M._rate_prefs = M._eva.proto.get(const.EVA.RATE)
+	M._eva.saver.add_save_part(const.EVA.RATE, M._rate_prefs)
 end
 
 

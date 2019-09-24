@@ -1,10 +1,26 @@
+local log = require("eva.log")
 local const = require("eva.const")
+
+local logger = log.get_logger("eva.device")
 
 local M = {}
 
 
 function M.get_device_id()
-	return "TODO"
+	if M._device_prefs.device_id == "" then
+		if M.is_mobile() then
+			local sys_info = sys.get_sys_info()
+			M._device_prefs.device_id = sys_info.device_ident
+			logger:debug("Get new device_id", { device_id = M._device_prefs.device_id })
+		end
+
+		if #M._device_prefs.device_id < 8 then
+			M._device_prefs.device_id = M._eva.game.get_uuid()
+			logger:debug("Generate device_id from uuid", { device_id = M._device_prefs.device_id })
+		end
+	end
+
+	return M._device_prefs.device_id
 end
 
 
@@ -57,5 +73,18 @@ function M.is_mobile()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.IOS or system_name == const.OS.ANDROID
 end
+
+
+function M.before_game_start(settings)
+	M._device_prefs = M._eva.proto.get(const.EVA.DEVICE)
+	M._eva.saver.add_save_part(const.EVA.DEVICE, M._device_prefs)
+end
+
+
+function M.after_game_start(settings)
+	local device_id = M.get_device_id()
+	logger:info("Device ID", { device_id = device_id })
+end
+
 
 return M

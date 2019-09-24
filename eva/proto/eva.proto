@@ -15,6 +15,16 @@ message Saver {
 	string last_game_version = 2;
 }
 
+message Device {
+	string device_id = 1;
+}
+
+message Rate {
+	uint32 promt_count = 1;
+	bool is_never_show = 2;
+	bool is_accepted = 3;
+}
+
 message Stats {
 	uint32 game_time = 1;
 	uint32 game_start_count = 2;

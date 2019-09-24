@@ -52,6 +52,8 @@ M.EVA = {
 	-- Modules
 	SOUND = "eva.Sound",
 	LANG = "eva.Lang",
+	DEVICE = "eva.Device",
+	RATE = "eva.Rate",
 	SAVER = "eva.Saver",
 	STATS = "eva.Stats",
 	TOKENS = "eva.Tokens",
@@ -60,6 +62,13 @@ M.EVA = {
 
 	-- Part of data
 	TOKEN = "eva.Token",
+}
+
+
+M.STORE_URL = {
+	ANDROID_MARKET =	"market://details?id=%s&referrer=utm_source%%3D%s",
+	ANDROID_URL =	"https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s",
+	IOS_MARKET =	"https://itunes.apple.com/app/apple-store/id%s?pt=119008561&ct=%s&mt=8",
 }
 
 return M
