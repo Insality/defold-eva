@@ -43,7 +43,7 @@ launch_image_1125x2436 = /assets/launch_images/ios_launch_1125x2436.png
 launch_image_2436x1125 = /assets/launch_images/ios_launch_2436x1125.png
 launch_image_1668x2224 = /assets/launch_images/ios_launch_1668x2224.png
 launch_image_2224x1668 = /assets/launch_images/ios_launch_2224x1668.png
-bundle_identifier = com.example.todo
+bundle_identifier = free.insality.puzzle
 
 [osx]
 bundle_identifier = com.example.todo
@@ -56,7 +56,7 @@ app_icon_96x96 = /assets/app_icons/icon_96.png
 app_icon_144x144 = /assets/app_icons/icon_144.png
 app_icon_192x192 = /assets/app_icons/icon_192.png
 input_method = HiddenInputField
-package = free.insality.eva
+package = free.insality.puzzle
 
 [script]
 shared_state = 1
@@ -70,4 +70,7 @@ include_dirs = eva
 
 [eva]
 settings = /resources/eva_settings.json
+
+[iap]
+auto_finish_transactions = 0
 

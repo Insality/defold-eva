@@ -1,3 +1,5 @@
+local const = require("eva.const")
+
 local M = {}
 
 local props = { gain = 1 }
@@ -59,13 +61,23 @@ function M.before_game_start(settings)
 end
 
 
+function M.set_music_gain(value)
+	M._sound_prefs.music_gain = value or 0
+end
+
+
+function M.set_sound_gain(value)
+	M._sound_prefs.sound_gain = value or 0
+end
+
+
 function M.on_game_start()
 	local is_debug = not M._eva.game.is_debug()
-	M._sound_prefs = M._eva.proto.get("eva.Sound")
+	M._sound_prefs = M._eva.proto.get(const.EVA.SOUND)
 	M._sound_prefs.sound_gain = is_debug and 0 or 1
 	M._sound_prefs.music_gain = is_debug and 0 or 1
 
-	M._eva.saver.add_save_part("eva.Sound", M._sound_prefs)
+	M._eva.saver.add_save_part(const.EVA.SOUND, M._sound_prefs)
 end
 
 

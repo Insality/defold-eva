@@ -1,6 +1,7 @@
 local const = require("eva.const")
 local broadcast = require("eva.libs.broadcast")
 
+
 local M = {}
 local dict = {}
 
@@ -48,10 +49,10 @@ function M.on_game_start()
 		default_lang = device_lang
 	end
 
-	M._lang_prefs = M._eva.proto.get("eva.Lang")
+	M._lang_prefs = M._eva.proto.get(const.EVA.LANG)
 	M._lang_prefs.lang = default_lang
 
-	M._eva.saver.add_save_part("eva.Lang", M._lang_prefs)
+	M._eva.saver.add_save_part(const.EVA.LANG, M._lang_prefs)
 end
 
 

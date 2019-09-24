@@ -33,7 +33,17 @@
 		"window_path": ""
 	},
 	"iaps": {
-		"product_list": {}
+		"product_list": [
+			"insality.puzzle.hints10",
+			"insality.puzzle.hints5",
+			"insality.puzzle.hints3",
+			"insality.puzzle.hints4",
+			"insality.puzzle.noads"
+		]
+	},
+	"db": {
+		"paths": {
+		}
 	},
 	"rate": {
 		"url_source": "game"

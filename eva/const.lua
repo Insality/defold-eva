@@ -47,4 +47,19 @@ M.EVENT = {
 	SERVER_LOGIN = "server_login"
 }
 
+
+M.EVA = {
+	-- Modules
+	SOUND = "eva.Sound",
+	LANG = "eva.Lang",
+	SAVER = "eva.Saver",
+	STATS = "eva.Stats",
+	TOKENS = "eva.Tokens",
+	GDPR = "eva.Gdpr",
+	IAPS = "eva.Iaps",
+
+	-- Part of data
+	TOKEN = "eva.Token",
+}
+
 return M

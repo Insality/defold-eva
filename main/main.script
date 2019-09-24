@@ -5,8 +5,7 @@ function init(self)
 	msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
 
 	eva.on_game_start(sys.get_config("eva.settings"))
-
-	eva.sound.play_music("music")
+	-- eva.sound.play_music("music")
 end
 
 
@@ -14,10 +13,11 @@ function update(self, dt)
 	eva.on_game_update(dt)
 end
 
+
 function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.pressed then
 		eva.sound.play("click")
-		eva.rate.promt_rate()
+		-- eva.rate.promt_rate()
 		print("Touch!")
 	end
 end

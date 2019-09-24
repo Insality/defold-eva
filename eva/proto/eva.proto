@@ -12,6 +12,7 @@ message Lang {
 
 message Saver {
 	uint32 version = 1;
+	string last_game_version = 2;
 }
 
 message Stats {
@@ -30,6 +31,20 @@ message Token {
 
 message Tokens {
 	map<string, Token> tokens = 1;
+}
+
+message Gdpr {
+	bool is_accepted = 1;
+	string accept_date = 2;
+}
+
+message IapDetails {
+	float price = 1;
+	string currency_code = 2;
+	string title = 3;
+	string description = 4;
+	string price_string = 5;
+	string ident = 6;
 }
 
 message IapInfo {

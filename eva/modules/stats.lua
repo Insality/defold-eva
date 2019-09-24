@@ -1,10 +1,12 @@
+local const = require("eva.const")
+
 local M = {}
 
 
 function M.on_game_start()
-	M._stat_prefs = M._eva.proto.get("eva.Stats")
+	M._stat_prefs = M._eva.proto.get(const.EVA.STATS)
 
-	M._eva.saver.add_save_part("eva.Stats", M._stat_prefs)
+	M._eva.saver.add_save_part(const.EVA.STATS, M._stat_prefs)
 end
 
 

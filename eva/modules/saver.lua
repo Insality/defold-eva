@@ -1,4 +1,5 @@
 local luax = require("eva.luax")
+local const = require("eva.const")
 
 local M = {}
 local save_table = {}
@@ -50,8 +51,8 @@ end
 
 
 function M.on_game_start(settings)
-	M._saver_prefs = M._eva.proto.get("eva.Saver")
-	M._eva.saver.add_save_part("eva.Saver", M._saver_prefs)
+	M._saver_prefs = M._eva.proto.get(const.EVA.SAVER)
+	M._eva.saver.add_save_part(const.EVA.SAVER, M._saver_prefs)
 end
 
 
@@ -60,7 +61,8 @@ function M.after_game_start(settings)
 		timer.delay(settings.autosave, true, M.save)
 	end
 
-	-- pprint(save_table)
+	M._saver_prefs.last_game_version = sys.get_config("project.version")
+	pprint(save_table)
 end
 
 

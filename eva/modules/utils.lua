@@ -1,3 +1,5 @@
+local luax = require("eva.luax")
+
 local M = {}
 
 
@@ -39,6 +41,15 @@ end
 
 function M.load_json(filename)
 	return cjson.decode(sys.load_resource(filename))
+end
+
+
+function M.compare_versions(version_a, version_b)
+	local split_a = luax.string.split(version_a, ".")
+	local split_b = luax.string.split(version_b, ".")
+
+	-- TODO: implement
+	return 1
 end
 
 

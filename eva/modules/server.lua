@@ -11,7 +11,6 @@ local function on_save_collision(response)
 end
 
 
-
 function M.login(callback)
 	if not M.settings.is_enabled then
 		logger:debug("The server is disabled")

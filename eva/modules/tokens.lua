@@ -1,4 +1,5 @@
 local log = require("eva.log")
+local const = require("eva.const")
 local smart = require("eva.libs.smart.smart")
 
 local logger = log.get_logger("eva.tokens")
@@ -9,7 +10,7 @@ local tokens = {}
 
 
 local function create_token(token_id)
-	local empty_token = M._eva.proto.get("eva.Token")
+	local empty_token = M._eva.proto.get(const.EVA.TOKEN)
 
 	local smart_token = smart.new(token_config[token_id], empty_token)
 	return smart_token
@@ -106,8 +107,8 @@ end
 
 
 function M.on_game_start()
-	M._tokens_prefs = M._eva.proto.get("eva.Tokens")
-	M._eva.saver.add_save_part("eva.Tokens", M._tokens_prefs)
+	M._tokens_prefs = M._eva.proto.get(const.EVA.TOKENS)
+	M._eva.saver.add_save_part(const.EVA.TOKENS, M._tokens_prefs)
 
 	smart.set_time_function(M._eva.game.get_time)
 end
