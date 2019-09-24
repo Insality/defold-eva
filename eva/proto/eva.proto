@@ -55,6 +55,7 @@ message IapDetails {
 	string description = 4;
 	string price_string = 5;
 	string ident = 6;
+	bool is_available = 7;
 }
 
 message IapInfo {
@@ -62,6 +63,7 @@ message IapInfo {
 	string iap_id = 2;
 	string state = 3;
 	string date = 4;
+	string ident = 5;
 }
 
 message Iaps {

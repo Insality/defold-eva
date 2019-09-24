@@ -1,0 +1,16 @@
+{
+	"iaps": {
+		"no_ads": {
+			"ident": "insality.puzzle.noads",
+			"price": 1.99
+		},
+		"small_pack": {
+			"ident": "insality.puzzle.hints5",
+			"price": 0.99
+		},
+		"medium_pack": {
+			"ident": "insality.puzzle.hints10",
+			"price": 0.99
+		}
+	}
+}

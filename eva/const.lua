@@ -62,6 +62,7 @@ M.EVA = {
 
 	-- Part of data
 	TOKEN = "eva.Token",
+	IAP_INFO = "eva.IapInfo"
 }
 
 

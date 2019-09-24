@@ -257,6 +257,38 @@ function M.table.override(source, target)
 end
 
 
+function M.table.list(t, field)
+	local result = {}
+
+	for key, value in pairs(t) do
+		if field then
+			table.insert(result, value[field])
+		else
+			table.insert(result, key)
+		end
+	end
+
+	return result
+end
+
+
+function M.table.tostring(t)
+	local result = ""
+
+	if t and M.table.length(t) ~= 0 then
+		for k, v in pairs(t) do
+			if type(v) == "table" then
+				v = M.table.tostring(v)
+			end
+			result = string.format("%s %s = %s", result, k, v)
+		end
+		result = string.format("{%s }", result)
+	end
+
+	return result
+end
+
+
 function M.string.split(inputstr, sep)
 	sep = sep or "%s"
 	local t = {}

@@ -1,4 +1,5 @@
 local luax = require("eva.luax")
+local const = require("eva.const")
 
 local M = {}
 local _loggers = {}
@@ -22,6 +23,11 @@ local LEVEL_NAME = {
 
 local UNKNOWN = "unknown"
 
+local function is_mobile()
+	local system_name = sys.get_sys_info().system_name
+	return system_name == const.OS.IOS or system_name == const.OS.ANDROID
+end
+
 
 local function format_time(time)
 	local seconds, milliseconds = math.modf(time)
@@ -32,13 +38,7 @@ end
 
 local function format(self, level, message, context)
 	local log_message = M.settings.format
-	local record_context = ""
-	if context and luax.table.length(context) ~= 0 then
-		for k, v in pairs(context) do
-			record_context = string.format("%s %s = %s", record_context, k, v)
-		end
-		record_context = string.format("{%s }", record_context)
-	end
+	local record_context = luax.table.tostring(context)
 
 	local caller_info = debug.getinfo(4)
 	log_message = string.gsub(log_message, "%%date", format_time(socket.gettime()))
@@ -57,8 +57,13 @@ end
 
 local function log_msg(self, level, message, context)
 	message = format(self, level, message, context)
-	io.stdout:write(message .. "\n")
-	io.stdout:flush()
+
+	if is_mobile() then
+		print(message)
+	else
+		io.stdout:write(message .. "\n")
+		io.stdout:flush()
+	end
 end
 
 

@@ -18,6 +18,7 @@ message TokenConfig {
 message IapConfig {
 	string ident = 1;
 	float price = 2;
+	bool forever = 3;
 }
 
 message IapsConfig {

@@ -37,13 +37,8 @@
 		"window_path": ""
 	},
 	"iaps": {
-		"product_list": [
-			"insality.puzzle.hints10",
-			"insality.puzzle.hints5",
-			"insality.puzzle.hints3",
-			"insality.puzzle.hints4",
-			"insality.puzzle.noads"
-		]
+		"config_android": "/resources/iaps.json",
+		"config_ios": "/resources/iaps.json"
 	},
 	"db": {
 		"paths": {

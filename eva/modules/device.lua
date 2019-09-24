@@ -81,7 +81,7 @@ function M.before_game_start(settings)
 end
 
 
-function M.after_game_start(settings)
+function M.on_game_start(settings)
 	local device_id = M.get_device_id()
 	logger:info("Device ID", { device_id = device_id })
 end
