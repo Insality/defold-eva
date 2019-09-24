@@ -1,9 +1,22 @@
+--- Defold-Eva proto module
+-- Load proto file and give API to work with them
+-- @submodule eva
+
 local log = require("eva.log")
 local protoc = require("pb.protoc")
 
 local logger = log.get_logger("eva.proto")
 
 local M = {}
+
+
+--- Get empty template from proto type
+-- @function eva.proto.get
+-- @tparam string proto_type name of proto message e.g. 'eva.Token'
+-- @treturn table empty table with default values from proto
+function M.get(proto_type)
+	return pb.decode(proto_type)
+end
 
 
 function M.before_game_start(settings)
@@ -16,11 +29,6 @@ function M.before_game_start(settings)
 			protoc:loadfile(filepath)
 		end
 	end
-end
-
-
-function M.get(proto_type)
-	return pb.decode(proto_type)
 end
 
 

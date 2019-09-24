@@ -13,6 +13,7 @@ local M = {}
 M.event_system = {}
 
 --- Throws the game event
+-- @function eva.events.event
 -- @tparam string event name of event
 -- @tparam[opt={}] table params params
 function M.event(event, params)
@@ -26,6 +27,7 @@ end
 
 
 --- Setup current game screen
+-- @function eva.events.screen
 -- @tparam string screen_id screen id
 function M.screen(screen_id)
 
@@ -33,6 +35,7 @@ end
 
 
 --- Add event system
+-- @function eva.events.add_event_system
 -- @tparam table event_system custom event handler
 function M.add_event_system(event_system)
 	assert(event_system.event, "The event system should have `event` method")

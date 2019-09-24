@@ -1,3 +1,7 @@
+--- Defold-Eva lang module
+-- API to work with game localization
+-- @submodule eva
+
 local const = require("eva.const")
 local broadcast = require("eva.libs.broadcast")
 
@@ -11,25 +15,36 @@ local function load_lang(lang)
 	dict = M._eva.utils.load_json(filename)
 end
 
-
+--- Set current language
+-- @function eva.lang.set_lang
+-- @tparam string lang current language code from eva-settings
 function M.set_lang(lang)
 	load_lang(lang)
 	M._lang_prefs.lang = lang
 	broadcast.send(const.MSG.LANG_UPDATE)
 end
 
-
+--- Get current language
+-- @function eva.lang.get_lang
+-- @treturn string return current language code
 function M.get_lang()
 	return M._lang_prefs.lang
 end
 
-
+--- Get translation for locale id
+-- @function eva.lang.txt
+-- @tparam string lang_id locale id from your localization
+-- @treturn string translated locale
 function M.txt(lang_id)
 	assert(lang_id, "You must provide the lang id")
 	return dict[lang_id] or lang_id
 end
 
-
+--- Get translation for locale id with params
+-- @function eva.lang.txp
+-- @tparam string lang_id locale id from your localization
+-- @tparam string ... params for string.format for lang_id
+-- @treturn string translated locale
 function M.txp(lang_id, ...)
 	assert(lang_id, "You must provide the lang id")
 	return string.format(M.txt(lang_id), ...)

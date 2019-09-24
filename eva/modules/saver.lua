@@ -1,5 +1,8 @@
+local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
+
+local logger = log.get_logger("eva.saver")
 
 local M = {}
 local save_table = {}
@@ -62,11 +65,24 @@ function M.after_game_start(settings)
 		timer.delay(settings.autosave, true, M.save)
 	end
 
+	local last_version = M._saver_prefs.last_game_version
+	local current_version = sys.get_config("project.version")
+
+	if last_version ~= "" then
+		local compare = M._eva.utils.compare_versions(last_version, current_version)
+		if compare == -1 then
+			-- For some reasons, current version is lower when last one
+			logger:fatal("Downgrading game version", { previous = last_version, current = current_version })
+		end
+	end
+
 	M._saver_prefs.last_game_version = sys.get_config("project.version")
 
 	if settings.print_save_at_start then
 		pprint(save_table)
 	end
+
+	logger:info("Save successful loaded", { version = M._saver_prefs.version })
 end
 
 

@@ -5,3 +5,4 @@ format='lunamark'
 file={"./eva", exclude={"./eva/libs"}}
 dir='./ldoc'
 style='!pale'
+readme={"./README.md", "./docs/modules/lang.md"}
