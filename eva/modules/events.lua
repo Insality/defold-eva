@@ -1,3 +1,8 @@
+--- Defold-Eva events module
+-- Send all game events and can include different event systems
+-- like systems for analytics and game-logic
+-- @submodule eva eva.events
+
 local log = require("eva.log")
 local broadcast = require("eva.libs.broadcast")
 local const = require("eva.const")
@@ -7,7 +12,7 @@ local logger = log.get_logger("eva.events")
 local M = {}
 M.event_system = {}
 
-
+--- Throws the game event
 function M.event(event, params)
 	logger:debug("Game event", {event = event, params = params})
 	broadcast.send(const.MSG.EVENT, {event = event, params = params})

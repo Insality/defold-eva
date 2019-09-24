@@ -1,6 +1,5 @@
 --- Basic defold-eva module.
--- @class module
--- @name eva
+-- @module eva
 
 local log = require("eva.log")
 

@@ -1,7 +1,6 @@
 --- Defold-Eva device module
 -- Contains stuff to work with device info
--- @class module
--- @name eva.device
+-- @submodule eva
 
 local log = require("eva.log")
 local const = require("eva.const")
@@ -14,6 +13,7 @@ local M = {}
 --- Return device id.
 -- If device_id is empty, it will generate device_id with
 -- uuid library. And store it on file
+-- @function eva.device.get_device_id
 -- @treturn string device_id
 function M.get_device_id()
 	if M._device_prefs.device_id == "" then
@@ -34,6 +34,7 @@ end
 
 --- Return device region.
 -- If region is unknown, it will return "UN".
+-- @function eva.device.get_region
 -- @treturn string region
 function M.get_region()
 	local sys_info = sys.get_sys_info()
@@ -46,6 +47,7 @@ function M.get_region()
 end
 
 --- Return device_info
+-- @function eva.device.get_device_info
 function M.get_device_info()
 	local info = sys.get_sys_info()
 	local engine_info = sys.get_engine_info()
@@ -67,30 +69,31 @@ function M.get_device_info()
 	return device_info
 end
 
-
+--- Check if device on android
+-- @function eva.device.is_android
 function M.is_android()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.ANDROID
 end
 
-
+--- Check if device on iOS
+-- @function eva.device.is_ios
 function M.is_ios()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.IOS
 end
 
-
+--- Check if device is mobile (Android or iOS)
+-- @function eva.device.is_mobile
 function M.is_mobile()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.IOS or system_name == const.OS.ANDROID
 end
 
-
 function M.before_game_start(settings)
 	M._device_prefs = M._eva.proto.get(const.EVA.DEVICE)
 	M._eva.saver.add_save_part(const.EVA.DEVICE, M._device_prefs)
 end
-
 
 function M.on_game_start(settings)
 	local device_id = M.get_device_id()

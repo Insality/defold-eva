@@ -8,9 +8,9 @@ M.UNKNOWN_REGION = "UN"
 
 --- Constant for messages inside eva module
 M.MSG = {
-	EVENT = hash("eva.event"),
+	EVENT = hash("eva.event"), -- General game event message
 	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual"),
-	LANG_UPDATE = hash("eva.lang.update"),
+	LANG_UPDATE = hash("eva.lang.update"), -- Message, when language of the game is changed
 }
 
 
@@ -48,7 +48,7 @@ M.EVENT = {
 	IAP_INVALID = "iap_invalid",
 	ADS_LOADED = "ads_loaded",
 	ADS_SHOW_REWARDED = "ads_show_rewarded",
-	ADS_ShOW_PAGE = "ads_show_page",
+	ADS_SHOW_PAGE = "ads_show_page",
 	SERVER_LOGIN = "server_login"
 }
 
