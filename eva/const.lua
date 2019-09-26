@@ -3,13 +3,14 @@
 
 local M = {}
 
+
 --- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
+
 
 --- Constant for messages inside eva module
 M.MSG = {
 	EVENT = hash("eva.event"), -- General game event message
-	SMART_VISUAL_UPDATE = hash("eva.smartvalue.update_visual"),
 	LANG_UPDATE = hash("eva.lang.update"), -- Message, when language of the game is changed
 	ADS_READY = hash("eva.ads.ready"),
 	ADS_SUCCESS_REWARDED = hash("eva.ads.rewarded_success"),
@@ -39,6 +40,7 @@ M.OS.PC_PLATFORMS = {
 	M.OS.BROWSER,
 }
 
+
 M.AD = {
 	REWARDED = "rewardedVideo",
 	PAGE = "video",
@@ -46,24 +48,25 @@ M.AD = {
 
 
 M.EVENT = {
-	GAME_START = "game_start",
-	IAP_UPDATE = "iap_update",
-	IAP_START = "iap_start",
-	IAP_CANCEL = "iap_cancel",
-	IAP_PURCHASE = "iap_purchase",
-	IAP_VALID = "iap_valid",
-	IAP_INVALID = "iap_invalid",
-	ADS_READY = "ads_ready",
-	ADS_SHOW_REWARDED = "ads_show_rewarded",
-	ADS_SHOW_PAGE = "ads_show_page",
-	ADS_SUCCESS_REWARDED = "ads_success_rewarded",
-	ADS_SUCCESS_PAGE = "ads_success_page",
-	SERVER_LOGIN = "server_login"
+	GAME_START = "eva.game.start",
+	IAP_UPDATE = "eva.iaps.update",
+	IAP_START = "eva.iaps.start",
+	IAP_CANCEL = "eva.iaps.cancel",
+	IAP_PURCHASE = "eva.iaps.purchase",
+	IAP_VALID = "eva.iaps.valid",
+	IAP_INVALID = "eva.iaps.invalid",
+	ADS_READY = "eva.ads.ready",
+	ADS_SHOW_REWARDED = "eva.ads.rewarded",
+	ADS_SHOW_PAGE = "eva.ads.page",
+	ADS_SUCCESS_REWARDED = "eva.ads.rewarded_success",
+	ADS_SUCCESS_PAGE = "eva.ads.page_success",
+	SERVER_LOGIN = "eva.server.login",
+	TIMER_TRIGGER = "eva.timers.trigger"
 }
 
 
 M.EVA = {
-	-- Modules
+	-- Modules, equals to proto name
 	ADS = "eva.Ads",
 	SOUND = "eva.Sound",
 	LANG = "eva.Lang",
@@ -74,9 +77,11 @@ M.EVA = {
 	TOKENS = "eva.Tokens",
 	GDPR = "eva.Gdpr",
 	IAPS = "eva.Iaps",
+	TIMERS = "eva.Timers",
 
 	-- Part of data
 	TOKEN = "eva.Token",
+	TIMER = "eva.Timer",
 	IAP_INFO = "eva.IapInfo"
 }
 

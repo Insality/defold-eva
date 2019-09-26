@@ -1,3 +1,7 @@
+--- Devold-Eva stats module.
+-- Collect basic game statistics about player.
+-- @submodule eva
+
 local const = require("eva.const")
 
 local M = {}

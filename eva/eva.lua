@@ -6,6 +6,7 @@ local log = require("eva.log")
 local logger = log.get_logger("eva")
 local M = {}
 
+
 local modules = {
 	ads = require("eva.modules.ads"),
 	device = require("eva.modules.device"),
@@ -25,6 +26,7 @@ local modules = {
 	server = require("eva.modules.server"),
 	sound = require("eva.modules.sound"),
 	stats = require("eva.modules.stats"),
+	timers = require("eva.modules.timers"),
 	tokens = require("eva.modules.tokens"),
 	utils = require("eva.modules.utils"),
 	window = require("eva.modules.window")
@@ -40,6 +42,9 @@ local function call_each_module(func_name, settings)
 end
 
 
+--- Call this to init Eva module
+-- @function eva.on_game_start
+-- @tparam string settings_path path to eva_settings.json
 function M.on_game_start(settings_path)
 	for name, component in pairs(modules) do
 		M[name] = component
@@ -57,6 +62,9 @@ function M.on_game_start(settings_path)
 end
 
 
+--- Call this on main update loop
+-- @function eva.on_game_update
+-- @tparam number dt delta time
 function M.on_game_update(dt)
 	for name, component in pairs(modules) do
 		if component.on_game_update then
@@ -64,5 +72,6 @@ function M.on_game_update(dt)
 		end
 	end
 end
+
 
 return M

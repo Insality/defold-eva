@@ -19,6 +19,18 @@ message Device {
 	string device_id = 1;
 }
 
+message Timer {
+	string timer_id = 1;
+	uint32 end_time = 2;
+	uint32 pause_time = 3;
+	bool is_pause = 4;
+	bool auto_trigger = 5;
+}
+
+message Timers {
+	map<string, Timer> timers = 1;
+}
+
 message Rate {
 	uint32 promt_count = 1;
 	bool is_never_show = 2;

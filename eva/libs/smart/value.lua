@@ -60,7 +60,6 @@ end
 
 function M.add_visual(self, value)
 	self.visual_credit = self.visual_credit - value
-	broadcast.send(const.MSG.SMART_VISUAL_UPDATE, {value = value, delta = value, name = self.params.name})
 end
 
 
