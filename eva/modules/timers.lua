@@ -2,6 +2,8 @@
 -- Use to make some action on future, in concrete time
 -- Can be used for crafts, long-time upgrades, special events.
 -- You need check timers mostly by youself.
+-- Auto_trigger events fire the TIMER_TRIGGER event, but in response
+-- you should clear the timer (in case, if you did'nt catch the event).
 -- @submodule eva
 
 local log = require("eva.log")
@@ -17,19 +19,23 @@ local M = {}
 -- @function eva.timers.set_pause
 -- @tparam string slot_id identificator of timer
 -- @tparam string timer_id string param of timer
--- @tparam number end_time. End time of timer, in seconds
+-- @tparam number time. time of timer, in seconds
 -- @tparam[opt] bool auto_trigger true, if event should fire event at end
-function M.add(slot_id, timer_id, end_time, auto_trigger)
+function M.add(slot_id, timer_id, time, auto_trigger)
 	if M.get(slot_id) then
 		logger:error("Timer with slot_id already exist", { slot_id = slot_id, timer_id = timer_id })
+		return false
 	end
 
 	local timer = M._eva.proto.get(const.EVA.TIMER)
 	timer.timer_id = timer_id
-	timer.end_time = end_time
+	timer.end_time = M._eva.game.get_time() + time
 	timer.auto_trigger = auto_trigger
 
 	M._timer_prefs.timers[slot_id] = timer
+	logger:debug("New timer created", timer)
+
+	return timer
 end
 
 
@@ -46,7 +52,13 @@ function M.get_time(slot_id)
 	local timer = M.get(slot_id)
 
 	if timer then
-		return math.max(0, timer.end_time - M._eva.game.get_time())
+		local till_end = timer.end_time - M._eva.game.get_time()
+
+		if timer.is_pause then
+			till_end = till_end + M._eva.game_time() - timer.pause_time
+		end
+
+		return math.max(0, till_end)
 	else
 		return -1
 	end
@@ -82,6 +94,7 @@ function M.set_pause(slot_id, is_pause)
 			timer.end_time = timer.end_time + time_delta
 			timer.pause_time = 0
 		end
+		logger:debug("Change timer pause status", timer)
 	end
 end
 
@@ -102,7 +115,8 @@ function M.on_game_update(dt)
 
 	local timers = M._timer_prefs.timers
 	for slot_id, timer in pairs(timers) do
-		if timer.auto_trigger and M.is_end(slot_id) then
+		local can_trigger = timer.auto_trigger and not timer.is_pause
+		if can_trigger and M.is_end(slot_id) then
 			M._eva.events.event(const.EVENT.TIMER_TRIGGER, {
 				slot_id = slot_id,
 				timer_id = timer.timer_id
