@@ -54,17 +54,18 @@ function M.get_device_info()
 	local info = sys.get_sys_info()
 	local engine_info = sys.get_engine_info()
 	local device_info = {
+		language = info.language,
+		territory = info.territory,
+		api_version = info.api_version,
+		system_name = info.system_name,
+		device_ident = info.device_ident,
 		device_model = info.device_model,
 		manufacturer = info.manufacturer,
-		system_name = info.system_name,
 		system_version = info.system_version,
-		api_version = info.api_version,
-		language = info.language,
 		device_language = info.device_language,
-		territory = info.territory,
-		device_ident = info.device_ident,
 		gmt_offset = tostring(info.gmt_offset),
 		ad_tracking_enabled = tostring(info.ad_tracking_enabled),
+
 		defold_version = engine_info.version,
 	}
 

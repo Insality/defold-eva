@@ -8,15 +8,6 @@ local M = {}
 M.UNKNOWN_REGION = "UN"
 
 
---- Constant for messages inside eva module
-M.MSG = {
-	EVENT = hash("eva.event"), -- General game event message
-	LANG_UPDATE = hash("eva.lang.update"), -- Message, when language of the game is changed
-	ADS_READY = hash("eva.ads.ready"),
-	ADS_SUCCESS_REWARDED = hash("eva.ads.rewarded_success"),
-}
-
-
 M.OS = {
 	ANDROID = "Android",
 	IOS = "iPhone OS",
@@ -27,20 +18,6 @@ M.OS = {
 }
 
 
-M.OS.MOBILE_PLATFORMS = {
-	M.OS.ANDROID,
-	M.OS.IOS,
-}
-
-
-M.OS.PC_PLATFORMS = {
-	M.OS.MAC,
-	M.OS.LINUX,
-	M.OS.WINDOWS,
-	M.OS.BROWSER,
-}
-
-
 M.AD = {
 	REWARDED = "rewardedVideo",
 	PAGE = "video",
@@ -48,6 +25,7 @@ M.AD = {
 
 
 M.EVENT = {
+	EVENT = "eva.events.event",
 	GAME_START = "eva.game.start",
 	IAP_UPDATE = "eva.iaps.update",
 	IAP_START = "eva.iaps.start",
@@ -61,7 +39,8 @@ M.EVENT = {
 	ADS_SUCCESS_REWARDED = "eva.ads.rewarded_success",
 	ADS_SUCCESS_PAGE = "eva.ads.page_success",
 	SERVER_LOGIN = "eva.server.login",
-	TIMER_TRIGGER = "eva.timers.trigger"
+	TIMER_TRIGGER = "eva.timers.trigger",
+	LANG_UPDATE = "eva.lang.update",
 }
 
 
@@ -91,5 +70,6 @@ M.STORE_URL = {
 	ANDROID_URL =	"https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s",
 	IOS_MARKET =	"https://itunes.apple.com/app/apple-store/id%s?pt=119008561&ct=%s&mt=8",
 }
+
 
 return M

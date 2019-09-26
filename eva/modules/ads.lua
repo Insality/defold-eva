@@ -4,7 +4,6 @@
 
 local log = require("eva.log")
 local const = require("eva.const")
-local broadcast = require("eva.libs.broadcast")
 
 local logger = log.get_logger("eva.ads")
 
@@ -12,7 +11,6 @@ local M = {}
 
 
 local function on_rewarded_success()
-	broadcast.send(const.MSG.ADS_SUCCESS_REWARDED)
 	M._eva.events.event(const.EVENT.ADS_SUCCESS_REWARDED)
 end
 
@@ -23,7 +21,6 @@ local function ads_callback(self, message_id, message)
 
 		M._ads_prefs.ads_loaded = M._ads_prefs.ads_loaded + 1
 
-		broadcast.send(const.MSG.ADS_READY, { placement = message.placementId })
 		M._eva.events.event(const.EVENT.ADS_READY, { placement = message.placementId })
 	end
 

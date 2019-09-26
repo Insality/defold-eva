@@ -1,7 +1,6 @@
 --- Defold-Eva window module
 -- @submodule eva
 
-
 local M = {}
 
 

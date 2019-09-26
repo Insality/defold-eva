@@ -12,13 +12,14 @@ local logger = log.get_logger("eva.events")
 local M = {}
 M.event_system = {}
 
+
 --- Throws the game event
 -- @function eva.events.event
 -- @tparam string event name of event
 -- @tparam[opt={}] table params params
 function M.event(event, params)
 	logger:debug("Game event", {event = event, params = params})
-	broadcast.send(const.MSG.EVENT, {event = event, params = params})
+	broadcast.send(const.EVENT.EVENT, {event = event, params = params})
 
 	for i = 1, #M.event_systems do
 		M.event_systems[i].event(event, params)

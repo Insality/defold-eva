@@ -18,6 +18,7 @@ function M.new(params, data_table)
 		last_restore_time = 0,
 		infinity_time_end = 0,
 	}
+
 	local v = setmetatable({}, {__index = value})
 	v:init(params, data_table)
 	return v

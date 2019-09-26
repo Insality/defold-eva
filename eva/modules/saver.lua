@@ -83,6 +83,7 @@ function M.after_game_start(settings)
 		local compare = M._eva.utils.compare_versions(last_version, current_version)
 		if compare == -1 then
 			-- For some reasons, current version is lower when last one
+			-- TODO: Check this out later
 			logger:fatal("Downgrading game version", { previous = last_version, current = current_version })
 		end
 	end

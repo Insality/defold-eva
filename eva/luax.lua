@@ -1,6 +1,5 @@
 --- Defold Lua extended module
 
-
 local M = {
 	go = {},
 	gui = {},

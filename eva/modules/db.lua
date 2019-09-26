@@ -7,6 +7,7 @@ local M = {}
 -- Place to store all JSON data
 M.data = {}
 
+
 function M.before_game_start(settings)
 	M.data = {}
 	local paths = settings.paths

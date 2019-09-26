@@ -3,7 +3,6 @@
 -- @submodule eva
 
 local const = require("eva.const")
-local broadcast = require("eva.libs.broadcast")
 
 
 local M = {}
@@ -15,14 +14,16 @@ local function load_lang(lang)
 	dict = M._eva.utils.load_json(filename)
 end
 
+
 --- Set current language
 -- @function eva.lang.set_lang
 -- @tparam string lang current language code from eva-settings
 function M.set_lang(lang)
 	load_lang(lang)
 	M._lang_prefs.lang = lang
-	broadcast.send(const.MSG.LANG_UPDATE)
+	M._eva.events.event(const.EVENT.LANG_UPDATE, { lang = lang })
 end
+
 
 --- Get current language
 -- @function eva.lang.get_lang
@@ -30,6 +31,7 @@ end
 function M.get_lang()
 	return M._lang_prefs.lang
 end
+
 
 --- Get translation for locale id
 -- @function eva.lang.txt
@@ -39,6 +41,7 @@ function M.txt(lang_id)
 	assert(lang_id, "You must provide the lang id")
 	return dict[lang_id] or lang_id
 end
+
 
 --- Get translation for locale id with params
 -- @function eva.lang.txp

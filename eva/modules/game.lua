@@ -5,7 +5,7 @@
 local const = require("eva.const")
 local uuid = require("eva.libs.uuid")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
-local iso_parser = require("eva.libs.iso_parser")
+local iso_format = require("eva.libs.iso_format")
 
 local M = {}
 
@@ -75,7 +75,7 @@ end
 -- @function eva.game.get_current_time_string
 -- @treturn string Time format in iso e.g. "2019-09-25T01:48:19Z"
 function M.get_current_time_string()
-	return iso_parser.get_time(M.get_time())
+	return iso_format.get_time(M.get_time())
 end
 
 
