@@ -1,6 +1,7 @@
 local M = {}
 
 local receivers = {}
+local EVA_EVENT = "eva.events.event"
 
 local function ensure_hash(string_or_hash)
 	return type(string_or_hash) == "string" and hash(string_or_hash) or string_or_hash
@@ -15,6 +16,11 @@ end
 -- @param message
 function M.send(message_id, message)
 	assert(message_id)
+
+	if message_id == EVA_EVENT then
+		message_id = message.event
+	end
+
 	local key = ensure_hash(message_id)
 	if receivers[key] then
 		message = message or {}
