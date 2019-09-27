@@ -11,8 +11,9 @@
 		"game_started_max_count": 5
 	},
 	"saver": {
+		"save_name": "eva_test",
 		"autosave": 4,
-		"print_save_at_start": true
+		"print_save_at_start": false
 	},
 	"gdpr": {
 		"policy_url": "https://d.insality.com/privacypolicy.htm"
@@ -54,7 +55,7 @@
 	},
 	"proto": {
 		"proto_paths": {
-			"/eva/proto/": [
+			"/eva/resources/": [
 				"eva",
 				"evadata"
 			]

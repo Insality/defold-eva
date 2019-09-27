@@ -1,0 +1,64 @@
+{
+	"server": {
+		"is_enabled": true,
+		"game_id": "F02BF"
+	},
+	"sound": {
+		"repeat_threshold": 0.08,
+		"sound_path": "main:/sounds#"
+	},
+	"stats": {
+		"game_started_max_count": 5
+	},
+	"saver": {
+		"save_name": "eva",
+		"autosave": 4,
+		"print_save_at_start": true
+	},
+	"gdpr": {
+		"policy_url": "https://d.insality.com/privacypolicy.htm"
+	},
+	"errors": {
+		"error_server_url": "https://8.8.8.8"
+	},
+	"lang": {
+		"default": "en",
+		"lang_paths": {
+			"ru": "/resources/locales/ru.json",
+			"en": "/resources/locales/en.json"
+		}
+	},
+	"tokens": {
+		"token_config": ""
+	},
+	"log": {
+		"format": "[%levelname]<%function:%lineno>: %message %context"
+	},
+	"window": {
+		"window_path": ""
+	},
+	"iaps": {
+		"config_android": "/resources/iaps.json",
+		"config_ios": "/resources/iaps.json"
+	},
+	"db": {
+		"paths": {
+		}
+	},
+	"ads": {
+		"ads_id_ios": "3173554",
+		"ads_id_android": "3173555"
+	},
+	"rate": {
+		"url_source": "game",
+		"max_promt_count": 5
+	},
+	"proto": {
+		"proto_paths": {
+			"/eva/resources/": [
+				"eva",
+				"evadata"
+			]
+		}
+	}
+}

@@ -11,14 +11,17 @@ local M = {}
 local save_table = {}
 
 
-local project_name = sys.get_config("project.title")
-local save_path = sys.get_save_file(project_name, "eva")
+local function get_save_path(save_name)
+	local project_name = sys.get_config("project.title")
+	return sys.get_save_file(project_name, save_name)
+end
 
 
 --- Load the game save
 -- @function eva.saver.load
 function M.load()
-	return sys.load(save_path)
+	local path = get_save_path(M.settings.save_name)
+	return sys.load(path)
 end
 
 
@@ -27,7 +30,8 @@ end
 function M.save()
 	M._saver_prefs.version = M._saver_prefs.version + 1
 
-	sys.save(save_path, save_table)
+	local path = get_save_path(M.settings.save_name)
+	sys.save(path, save_table)
 end
 
 
@@ -58,9 +62,9 @@ function M.add_save_part(name, table_ref)
 end
 
 
-function M.before_game_start()
+function M.before_game_start(settings)
+	M.settings = settings
 	save_table = M.load()
-
 	M.can_load_save = true
 end
 
