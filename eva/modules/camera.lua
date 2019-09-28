@@ -25,27 +25,31 @@ M.state = {
 	inertion = vmath.vector3(0),
 	border_soft = vmath.vector4(0),
 	border_hard = vmath.vector4(0),
-	-- zoom_border_soft = vmath.vector3(0.15, 0.65, 0),
-	-- zoom_border_hard = vmath.vector3(0.1, 0.7, 0),
 	zoom_border_soft = vmath.vector3(0.05, 2, 0),
-	zoom_border_hard = vmath.vector3(0, 2.5, 0),
+	zoom_border_hard = vmath.vector3(0.01, 2.5, 0),
+	camera_box = vmath.vector3(0), -- just a point by default
 
 	is_drag = false,
+	is_pinch = false,
 	drag_info = {
 		x = 0,
 		y = 0,
 	},
 	touch_id = 0,
-
-	is_pinch = false,
-	pinch_zoom_start = 1,
+	pinch_distance = 0,
+	pinch_center = vmath.vector3(0),
 }
 
 
-function M.set_camera(cam_id)
+function M.set_camera(cam_id, camera_box)
 	M.state.cam_id = cam_id
+
 	M.state.pos = go.get_position(cam_id)
 	M.state.target_pos = vmath.vector3(M.state.pos)
+
+	if camera_box then
+		M.state.camera_box = camera_box
+	end
 end
 
 

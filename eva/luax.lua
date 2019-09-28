@@ -20,7 +20,8 @@ M.gui.PROP_POS_Y = "position.y"
 M.gui.PROP_ALPHA = "color.w"
 M.gui.PROP_SCALE_X = "scale.x"
 M.gui.PROP_SCALE_Y = "scale.y"
-
+M.vmath.VECTOR_ZERO = vmath.vector3(0)
+M.vmath.VECTOR_ONE = vmath.vector3(1)
 
 --- math.step
 -- @function luax.math.step
@@ -55,20 +56,22 @@ end
 
 --- math.lerp_box
 -- @function luax.math.lerp_box
-function M.math.lerp_box(point, box, lerp, change_point)
-	local new_point = change_point and point or vmath.vector3(point)
+function M.math.lerp_box(pos, box, lerp, size, change_point)
+	size = size or M.vmath.VECTOR_ZERO
 
-	if new_point.x < box.x then
-		new_point.x = M.math.lerp(new_point.x, box.x, lerp)
+	local new_point = change_point and pos or vmath.vector3(pos)
+
+	if new_point.x < box.x + size.x/2 then
+		new_point.x = M.math.lerp(new_point.x, box.x + size.x/2, lerp)
 	end
-	if new_point.x > box.z then
-		new_point.x = M.math.lerp(new_point.x, box.z, lerp)
+	if new_point.x > box.z - size.x/2 then
+		new_point.x = M.math.lerp(new_point.x, box.z - size.x/2, lerp)
 	end
-	if new_point.y < box.y then
-		new_point.y = M.math.lerp(new_point.y, box.y, lerp)
+	if new_point.y < box.y + size.y/2 then
+		new_point.y = M.math.lerp(new_point.y, box.y + size.y/2, lerp)
 	end
-	if new_point.y > box.w then
-		new_point.y = M.math.lerp(new_point.y, box.w, lerp)
+	if new_point.y > box.w - size.y/2 then
+		new_point.y = M.math.lerp(new_point.y, box.w - size.y/2, lerp)
 	end
 
 	return new_point
@@ -93,12 +96,18 @@ end
 
 --- math.clamp_box
 -- @function luax.math.clamp_box
-function M.math.clamp_box(point, box, change_point)
-	local new_point = change_point and point or vmath.vector3(point)
-	new_point.x = M.math.clamp(new_point.x, box.x, box.z)
-	new_point.y = M.math.clamp(new_point.y, box.y, box.w)
+-- @tparam vector3 pos
+-- @tparam vector4 box
+-- @tparam[opt] vector3 size
+-- @tparam[opt] bool change_point
+function M.math.clamp_box(pos, box, size, change_point)
+	size = size or M.vmath.VECTOR_ZERO
 
-	return point
+	local new_point = change_point and pos or vmath.vector3(pos)
+	new_point.x = M.math.clamp(new_point.x, box.x + size.x/2, box.z - size.x/2)
+	new_point.y = M.math.clamp(new_point.y, box.y + size.y/2, box.w - size.y/2)
+
+	return new_point
 end
 
 

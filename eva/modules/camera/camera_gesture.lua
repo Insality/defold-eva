@@ -4,9 +4,13 @@ local rendercam = require("rendercam.rendercam")
 
 local M = {}
 M.GESTURE = nil
+M.SCREEN = vmath.vector3(
+	sys.get_config("display.width")/2,
+	sys.get_config("display.height")/2,
+	0)
 
 M.ZOOM_SPEED = 0.85
-M.CENTER = vmath.vector3(sys.get_config("display.width")/2, sys.get_config("display.height")/2, 0)
+
 
 local function get_distance(action)
 	if not action.touch then
@@ -19,12 +23,13 @@ local function get_distance(action)
 	return luax.math.distance(t1.screen_x, t1.screen_y, t2.screen_x, t2.screen_y)
 end
 
+
 local function handle_pinch(data, state, action)
 	-- Zooming start
 	if not state.is_pinch then
 		state.is_pinch = true
 		state.pinch_distance = data.dist
-		state.center = data.center
+		state.pinch_center = data.center
 	end
 
 	-- Pinch delta
@@ -37,14 +42,14 @@ local function handle_pinch(data, state, action)
 	state.pinch_distance = data.dist
 
 	-- Move to zoom position
-	local move_vector = vmath.vector3(data.center.x - M.CENTER.x, data.center.y - M.CENTER.y, 0)
+	local move_vector = vmath.vector3(data.center.x - M.SCREEN.x, data.center.y - M.SCREEN.y, 0)
 	state.target_pos.x = state.target_pos.x + move_vector.x * delta
 	state.target_pos.y = state.target_pos.y + move_vector.y * delta
 
 	-- Move by center
-	state.target_pos.x = state.target_pos.x + (state.center.x - data.center.x) * state.zoom
-	state.target_pos.y = state.target_pos.y + (state.center.y - data.center.y) * state.zoom
-	state.center = data.center
+	state.target_pos.x = state.target_pos.x + (state.pinch_center.x - data.center.x) * state.zoom
+	state.target_pos.y = state.target_pos.y + (state.pinch_center.y - data.center.y) * state.zoom
+	state.pinch_center = data.center
 end
 
 

@@ -32,7 +32,7 @@ instances {
     }
     properties {
       id: "viewArea"
-      value: "900.0, 1600.0, 0.0"
+      value: "600.0, 1138.0, 0.0"
       type: PROPERTY_TYPE_VECTOR3
     }
     properties {

@@ -131,7 +131,7 @@ function M.update_camera_pos(state, dt, params)
 
 	-- Soft border
 	if not state.is_drag then
-		luax.math.lerp_box(target, border_soft, border_lerp, true)
+		luax.math.lerp_box(target, border_soft, border_lerp, state.camera_box * state.zoom, true)
 	end
 
 	-- Inertion friction
@@ -146,7 +146,7 @@ function M.update_camera_pos(state, dt, params)
 	end
 
 	-- Hard border
-	luax.math.clamp_box(target, state.border_hard, true)
+	luax.math.clamp_box(target, state.border_hard, state.camera_box * state.zoom, true)
 
 	-- Lerp position
 	pos.x = luax.math.lerp(pos.x, target.x, params.move_lerp_speed * const.FPS * dt)
