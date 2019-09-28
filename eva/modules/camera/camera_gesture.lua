@@ -6,8 +6,7 @@ local M = {}
 M.GESTURE = nil
 
 M.ZOOM_SPEED = 0.85
-M.CENTER = vmath.vector3(450, 800, 0)
-
+M.CENTER = vmath.vector3(sys.get_config("display.width")/2, sys.get_config("display.height")/2, 0)
 
 local function get_distance(action)
 	if not action.touch then
@@ -21,22 +20,31 @@ local function get_distance(action)
 end
 
 local function handle_pinch(data, state, action)
+	-- Zooming start
 	if not state.is_pinch then
-		print("Start pinch")
 		state.is_pinch = true
 		state.pinch_distance = data.dist
+		state.center = data.center
 	end
 
+	-- Pinch delta
 	local delta = (data.dist - state.pinch_distance) / (1000 * M.ZOOM_SPEED)
 	local delta_koef = math.sqrt(state.target_zoom)
+	delta = delta * delta_koef
 
-	state.target_zoom = state.target_zoom - delta * delta_koef
+	-- Adjust zoom
+	state.target_zoom = state.target_zoom - delta
 	state.pinch_distance = data.dist
 
-	-- local mv = vmath.vector3(data.center.x - M.CENTER.x, data.center.y - M.CENTER.y, 0)
-	-- local dz = state.zoom - old_zoom
-	-- local v = mv * dz
-	-- rendercam.pan(-v.x, -v.y)
+	-- Move to zoom position
+	local move_vector = vmath.vector3(data.center.x - M.CENTER.x, data.center.y - M.CENTER.y, 0)
+	state.target_pos.x = state.target_pos.x + move_vector.x * delta
+	state.target_pos.y = state.target_pos.y + move_vector.y * delta
+
+	-- Move by center
+	state.target_pos.x = state.target_pos.x + (state.center.x - data.center.x) * state.zoom
+	state.target_pos.y = state.target_pos.y + (state.center.y - data.center.y) * state.zoom
+	state.center = data.center
 end
 
 
@@ -63,7 +71,6 @@ function M.handle_gesture(action_id, action, state)
 		end
 
 		if no_touch or all_released then
-			print("End pinch")
 			state.is_pinch = false
 		end
 	end
