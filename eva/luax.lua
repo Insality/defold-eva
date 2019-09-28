@@ -53,6 +53,28 @@ function M.math.lerp(a, b, t)
 end
 
 
+--- math.lerp_box
+-- @function luax.math.lerp_box
+function M.math.lerp_box(point, box, lerp, change_point)
+	local new_point = change_point and point or vmath.vector3(point)
+
+	if new_point.x < box.x then
+		new_point.x = M.math.lerp(new_point.x, box.x, lerp)
+	end
+	if new_point.x > box.z then
+		new_point.x = M.math.lerp(new_point.x, box.z, lerp)
+	end
+	if new_point.y < box.y then
+		new_point.y = M.math.lerp(new_point.y, box.y, lerp)
+	end
+	if new_point.y > box.w then
+		new_point.y = M.math.lerp(new_point.y, box.w, lerp)
+	end
+
+	return new_point
+end
+
+
 --- math.clamp
 -- @function luax.math.clamp
 function M.math.clamp(a, min, max)
@@ -67,6 +89,16 @@ function M.math.clamp(a, min, max)
 	else
 		return max
 	end
+end
+
+--- math.clamp_box
+-- @function luax.math.clamp_box
+function M.math.clamp_box(point, box, change_point)
+	local new_point = change_point and point or vmath.vector3(point)
+	new_point.x = M.math.clamp(new_point.x, box.x, box.z)
+	new_point.y = M.math.clamp(new_point.y, box.y, box.w)
+
+	return point
 end
 
 

@@ -7,10 +7,10 @@ function init(self)
 	msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
 
 	eva.on_game_start(sys.get_config("eva.settings"))
+
 	eva.camera.set_camera("main:/camera")
 	-- left top right bot
 	eva.camera.set_borders(vmath.vector4(-600, -600, 600, 600), vmath.vector4(-800, -800, 800, 800))
-	-- eva.sound.play_music("music")
 
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
