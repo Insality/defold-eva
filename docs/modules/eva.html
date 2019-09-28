@@ -34,6 +34,7 @@
 <ul>
 <li><a href="#Functions">Functions</a></li>
 <li><a href="#modules_ads_Functions">modules.ads Functions</a></li>
+<li><a href="#modules_camera_Functions">modules.camera Functions</a></li>
 <li><a href="#modules_device_Functions">modules.device Functions</a></li>
 <li><a href="#modules_events_Functions">modules.events Functions</a></li>
 <li><a href="#modules_game_Functions">modules.game Functions</a></li>
@@ -102,6 +103,21 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.show_page">eva.ads.show_page()</a></td>
 	<td class="summary">Start show page ads</td>
+	</tr>
+</table>
+<h2><a href="#modules_camera_Functions">modules.camera Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_camera">eva.camera.set_camera(cam_id, camera_box)</a></td>
+	<td class="summary">Set the camera game object and size of the camera</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_borders">eva.camera.set_borders(border_soft., border_hard.)</a></td>
+	<td class="summary">Set the borders of the camera zone</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_zoom_borders">eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</a></td>
+	<td class="summary">Set the camera game object and size of the camera</td>
 	</tr>
 </table>
 <h2><a href="#modules_device_Functions">modules.device Functions</a></h2>
@@ -308,27 +324,27 @@
 <h2><a href="#modules_timers_Functions">modules.timers Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#add">add(slot_id, timer_id, end_time.[, auto_trigger])</a></td>
+	<td class="name" nowrap><a href="#eva.timers.add">eva.timers.add(slot_id, timer_id, time.[, auto_trigger])</a></td>
 	<td class="summary">Add new timer Timer with slot_id should no exist</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get">get(slot_id)</a></td>
+	<td class="name" nowrap><a href="#eva.timers.get">eva.timers.get()</a></td>
 	<td class="summary">Get timer</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_time">get_time(slot_id)</a></td>
+	<td class="name" nowrap><a href="#eva.timers.get_time">eva.timers.get_time()</a></td>
 	<td class="summary">Get time until end, in seconds</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#is_end">is_end(slot_id)</a></td>
+	<td class="name" nowrap><a href="#eva.timers.is_end">eva.timers.is_end()</a></td>
 	<td class="summary">Check is timer has ended</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#clear">clear(slot_id)</a></td>
+	<td class="name" nowrap><a href="#eva.timers.clear">eva.timers.clear()</a></td>
 	<td class="summary">Clear the timer slot</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#set_pause">set_pause(slot_id, is_pause)</a></td>
+	<td class="name" nowrap><a href="#eva.timers.set_pause">eva.timers.set_pause()</a></td>
 	<td class="summary">Set timer pause state</td>
 	</tr>
 </table>
@@ -549,6 +565,85 @@
     Start show page ads
 
 
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_camera_Functions"></a>modules.camera Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.camera.set_camera"></a>
+    <strong>eva.camera.set_camera(cam_id, camera_box)</strong>
+    </dt>
+    <dd>
+    Set the camera game object and size of the camera
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">cam_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        url of camera game object
+        </li>
+        <li><span class="parameter">camera_box</span>
+            <span class="types"><span class="type">vector3</span></span>
+        size of the camera at zoom=1
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.set_borders"></a>
+    <strong>eva.camera.set_borders(border_soft., border_hard.)</strong>
+    </dt>
+    <dd>
+    Set the borders of the camera zone
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">border_soft.</span>
+            <span class="types"><span class="type">vector4</span></span>
+        Soft zones of camera. Order is: left-top-right-bot.
+        </li>
+        <li><span class="parameter">border_hard.</span>
+            <span class="types"><span class="type">vector4</span></span>
+        Hard zones of camera. Order is: left-top-right-bot.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.set_zoom_borders"></a>
+    <strong>eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</strong>
+    </dt>
+    <dd>
+    Set the camera game object and size of the camera
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">zoom_soft</span>
+            <span class="types"><span class="type">vector3</span></span>
+        Setup zoom soft values. vector3(min<em>value, max</em>value, 0)
+        </li>
+        <li><span class="parameter">zoom_hard</span>
+            <span class="types"><span class="type">vector3</span></span>
+        Setup zoom hard values. vector3(min<em>value, max</em>value, 0)
+        </li>
+    </ul>
 
 
 
@@ -1325,8 +1420,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "add"></a>
-    <strong>add(slot_id, timer_id, end_time.[, auto_trigger])</strong>
+    <a name = "eva.timers.add"></a>
+    <strong>eva.timers.add(slot_id, timer_id, time.[, auto_trigger])</strong>
     </dt>
     <dd>
     Add new timer Timer with slot_id should no exist
@@ -1342,9 +1437,9 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
         string param of timer
         </li>
-        <li><span class="parameter">end_time.</span>
+        <li><span class="parameter">time.</span>
             <span class="types"><span class="type">number</span></span>
-        End time of timer, in seconds
+        time of timer, in seconds
         </li>
         <li><span class="parameter">auto_trigger</span>
             <span class="types"><span class="type">bool</span></span>
@@ -1359,19 +1454,13 @@
 
 </dd>
     <dt>
-    <a name = "get"></a>
-    <strong>get(slot_id)</strong>
+    <a name = "eva.timers.get"></a>
+    <strong>eva.timers.get()</strong>
     </dt>
     <dd>
     Get timer
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">slot_id</span>
-
-        </li>
-    </ul>
 
 
 
@@ -1379,19 +1468,13 @@
 
 </dd>
     <dt>
-    <a name = "get_time"></a>
-    <strong>get_time(slot_id)</strong>
+    <a name = "eva.timers.get_time"></a>
+    <strong>eva.timers.get_time()</strong>
     </dt>
     <dd>
     Get time until end, in seconds
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">slot_id</span>
-
-        </li>
-    </ul>
 
 
 
@@ -1399,19 +1482,13 @@
 
 </dd>
     <dt>
-    <a name = "is_end"></a>
-    <strong>is_end(slot_id)</strong>
+    <a name = "eva.timers.is_end"></a>
+    <strong>eva.timers.is_end()</strong>
     </dt>
     <dd>
     Check is timer has ended
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">slot_id</span>
-
-        </li>
-    </ul>
 
 
 
@@ -1419,19 +1496,13 @@
 
 </dd>
     <dt>
-    <a name = "clear"></a>
-    <strong>clear(slot_id)</strong>
+    <a name = "eva.timers.clear"></a>
+    <strong>eva.timers.clear()</strong>
     </dt>
     <dd>
     Clear the timer slot
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">slot_id</span>
-
-        </li>
-    </ul>
 
 
 
@@ -1439,22 +1510,13 @@
 
 </dd>
     <dt>
-    <a name = "set_pause"></a>
-    <strong>set_pause(slot_id, is_pause)</strong>
+    <a name = "eva.timers.set_pause"></a>
+    <strong>eva.timers.set_pause()</strong>
     </dt>
     <dd>
     Set timer pause state
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">slot_id</span>
-
-        </li>
-        <li><span class="parameter">is_pause</span>
-
-        </li>
-    </ul>
 
 
 
@@ -1819,7 +1881,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-09-26 23:31:46 </i>
+<i style="float:right;">Last updated 2019-09-29 01:04:00 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
