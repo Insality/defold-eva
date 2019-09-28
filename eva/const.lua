@@ -7,6 +7,7 @@ local M = {}
 --- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
 
+M.FPS = 60
 
 M.OS = {
 	ANDROID = "Android",

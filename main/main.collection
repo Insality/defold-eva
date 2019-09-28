@@ -3,8 +3,8 @@ instances {
   id: "camera"
   prototype: "/rendercam/camera.go"
   position {
-    x: 450.0
-    y: 800.0
+    x: 0.0
+    y: 0.0
     z: 0.0
   }
   rotation {
@@ -107,8 +107,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 320.0
-    y: 568.0
+    x: 0.0
+    y: 0.0
     z: 0.0
   }
   rotation {
