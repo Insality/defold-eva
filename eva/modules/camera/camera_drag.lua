@@ -119,23 +119,29 @@ function M.update_camera_pos(state, dt, params)
 	local border_soft = state.border_soft
 	local border_lerp = params.border_lerp_speed * const.FPS * dt
 
+	-- Soft border
 	if not state.is_drag then
 		luax.math.lerp_box(target, border_soft, border_lerp, true)
 	end
 
+	-- Inertion friction
 	local friction_koef = state.is_drag and params.friction_hold or params.friction
 	state.inertion = state.inertion * friction_koef
 
+	-- Inertion apply
 	if not state.is_drag then
 		local inertion_koef = const.FPS * dt * params.inertion_koef
 		target.x = target.x + state.inertion.x * inertion_koef
 		target.y = target.y + state.inertion.y * inertion_koef
 	end
 
+	-- Hard border
 	luax.math.clamp_box(target, state.border_hard, true)
 
+	-- Lerp position
 	pos.x = luax.math.lerp(pos.x, target.x, params.move_lerp_speed * const.FPS * dt)
 	pos.y = luax.math.lerp(pos.y, target.y, params.move_lerp_speed * const.FPS * dt)
+
 	go.set_position(state.pos, state.cam_id)
 end
 
