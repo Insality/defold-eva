@@ -21,8 +21,12 @@ end
 
 
 function on_input(self, action_id, action)
+	eva.on_input(action_id, action)
+
 	if action_id == hash("touch") and action.pressed then
 		eva.sound.play("click")
+
+		--[[ Timers zone
 		local slot = "smelter.slot1"
 		if eva.timers.get(slot) then
 			local timer = eva.timers.get(slot)
@@ -30,11 +34,13 @@ function on_input(self, action_id, action)
 		else
 			eva.timers.add(slot, "test_action", 4, true)
 		end
-
+		--]]
 	end
 end
 
 
 function on_message(self, message_id, message, action)
+	eva.on_message(message_id, message, action)
+
 	broadcast.on_message(self, message_id, message, action)
 end

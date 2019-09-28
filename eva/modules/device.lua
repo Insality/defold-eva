@@ -97,13 +97,10 @@ function M.is_mobile()
 end
 
 
-function M.before_game_start(settings)
+function M.on_game_start(settings)
 	M._device_prefs = M._eva.proto.get(const.EVA.DEVICE)
 	M._eva.saver.add_save_part(const.EVA.DEVICE, M._device_prefs)
-end
 
-
-function M.on_game_start(settings)
 	local device_id = M.get_device_id()
 	logger:info("Device ID", { device_id = device_id })
 end

@@ -92,7 +92,9 @@ function M.on_game_start()
 	math.random()
 	uuid.randomseed(socket.gettime() * 10000)
 
-	window.set_dim_mode(window.DIMMING_OFF)
+	if M._eva.device.is_mobile() then
+		window.set_dim_mode(window.DIMMING_OFF)
+	end
 
 	gui_extra_functions.init()
 end

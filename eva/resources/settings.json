@@ -1,6 +1,6 @@
 {
 	"server": {
-		"is_enabled": true,
+		"is_disabled": true,
 		"game_id": "F02BF"
 	},
 	"sound": {
@@ -13,7 +13,7 @@
 	"saver": {
 		"save_name": "eva",
 		"autosave": 4,
-		"print_save_at_start": true
+		"print_save_at_start": false
 	},
 	"gdpr": {
 		"policy_url": "https://d.insality.com/privacypolicy.htm"
@@ -38,14 +38,19 @@
 		"window_path": ""
 	},
 	"iaps": {
+		"is_disabled": true,
 		"config_android": "/resources/iaps.json",
 		"config_ios": "/resources/iaps.json"
+	},
+	"camera": {
+		"multi_touch": true
 	},
 	"db": {
 		"paths": {
 		}
 	},
 	"ads": {
+		"is_disabled": true,
 		"ads_id_ios": "3173554",
 		"ads_id_android": "3173555"
 	},

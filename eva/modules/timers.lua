@@ -16,7 +16,7 @@ local M = {}
 
 --- Add new timer
 -- Timer with slot_id should no exist
--- @function eva.timers.set_pause
+-- @function eva.timers.add
 -- @tparam string slot_id identificator of timer
 -- @tparam string timer_id string param of timer
 -- @tparam number time. time of timer, in seconds
@@ -40,14 +40,14 @@ end
 
 
 --- Get timer
--- @function eva.timers.set_pause
+-- @function eva.timers.get
 function M.get(slot_id)
 	return M._timer_prefs.timers[slot_id]
 end
 
 
 --- Get time until end, in seconds
--- @function eva.timers.set_pause
+-- @function eva.timers.get_time
 function M.get_time(slot_id)
 	local timer = M.get(slot_id)
 
@@ -66,14 +66,14 @@ end
 
 
 --- Check is timer has ended
--- @function eva.timers.set_pause
+-- @function eva.timers.is_end
 function M.is_end(slot_id)
 	return M.get_time(slot_id) == 0
 end
 
 
 --- Clear the timer slot
--- @function eva.timers.set_pause
+-- @function eva.timers.clear
 function M.clear(slot_id)
 	logger:debug("Clear timer slot", { slot_id = slot_id })
 	M._timer_prefs.timers[slot_id] = nil
