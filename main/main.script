@@ -4,13 +4,14 @@ local broadcast = require("eva.libs.broadcast")
 
 function init(self)
 	msg.post(".", "acquire_input_focus")
-	msg.post("@render:", "use_fixed_fit_projection", { near = -1, far = 1 })
 
 	eva.on_game_start(sys.get_config("eva.settings"))
 
+	--[ Camera setup example
 	eva.camera.set_camera("main:/camera", go.get("main:/camera#script", "viewArea"))
-	-- left top right bot
 	eva.camera.set_borders(vmath.vector4(-300, -569, 300, 569) * 0.9, vmath.vector4(-300, -569, 300, 569))
+	eva.camera.set_zoom_borders(vmath.vector3(0.1, 1.1, 0), vmath.vector3(0.05, 1.25, 0))
+	--]]
 
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)

@@ -1,46 +1,44 @@
 --- Defold-eva camera module
+-- Can hanlde sweet dragging, zooming with gestures
+-- and correct camera soft and hard zones
+-- @submodule eva
+
 local gesture = require("in.gesture")
 local camera_drag = require("eva.modules.camera.camera_drag")
 local camera_gesture = require("eva.modules.camera.camera_gesture")
 
-local params = {
-	move_lerp_speed = 0.75,
-	border_lerp_speed = 0.09,
-	zoom_lerp_speed = 0.5,
-	zoom_border_lerp_speed = 0.06,
-	friction = 0.88,
-	friction_hold = 0.68,
-	inertion_koef = 0.33,
-}
-
 local M = {}
 
+-- for now global camera state. It is baaad...
 M.state = {
 	cam_id = nil,
+
 	pos = vmath.vector3(0),
 	target_pos = vmath.vector3(0),
 	zoom = 1,
 	target_zoom = 1,
 
 	inertion = vmath.vector3(0),
+	camera_box = vmath.vector3(0),
 	border_soft = vmath.vector4(0),
 	border_hard = vmath.vector4(0),
-	zoom_border_soft = vmath.vector3(0.05, 2, 0),
-	zoom_border_hard = vmath.vector3(0.01, 2.5, 0),
-	camera_box = vmath.vector3(0), -- just a point by default
+	zoom_border_soft = vmath.vector3(1),
+	zoom_border_hard = vmath.vector3(1),
 
 	is_drag = false,
 	is_pinch = false,
-	drag_info = {
-		x = 0,
-		y = 0,
-	},
+
 	touch_id = 0,
+	drag_pos = vmath.vector3(0),
 	pinch_distance = 0,
-	pinch_center = vmath.vector3(0),
+	pinch_pos = vmath.vector3(0),
 }
 
 
+--- Set the camera game object and size of the camera
+-- @function eva.camera.set_camera
+-- @tparam string cam_id url of camera game object
+-- @tparam vector3 camera_box size of the camera at zoom=1
 function M.set_camera(cam_id, camera_box)
 	M.state.cam_id = cam_id
 
@@ -53,12 +51,20 @@ function M.set_camera(cam_id, camera_box)
 end
 
 
+--- Set the borders of the camera zone
+-- @function eva.camera.set_borders
+-- @tparam vector4 border_soft. Soft zones of camera. Order is: left-top-right-bot.
+-- @tparam vector4 border_hard. Hard zones of camera. Order is: left-top-right-bot.
 function M.set_borders(border_soft, border_hard)
 	M.state.border_soft = border_soft
 	M.state.border_hard = border_hard
 end
 
 
+--- Set the camera game object and size of the camera
+-- @function eva.camera.set_zoom_borders
+-- @tparam vector3 zoom_soft Setup zoom soft values. vector3(min_value, max_value, 0)
+-- @tparam vector3 zoom_hard Setup zoom hard values. vector3(min_value, max_value, 0)
 function M.set_zoom_borders(zoom_soft, zoom_hard)
 	M.state.zoom_border_soft = zoom_soft
 	M.state.zoom_border_hard = zoom_hard
@@ -72,6 +78,7 @@ end
 
 
 function M.before_game_start(settings)
+	M.settings = settings
 	camera_gesture.GESTURE = gesture.create({
 		multi_touch = settings.multi_touch
 	})
@@ -80,8 +87,8 @@ end
 
 
 function M.on_game_update(dt)
-	camera_drag.update_camera_pos(M.state, dt, params)
-	camera_gesture.update_camera_zoom(M.state, dt, params)
+	camera_drag.update_camera_pos(M.state, dt, M.settings)
+	camera_gesture.update_camera_zoom(M.state, dt, M.settings)
 end
 
 

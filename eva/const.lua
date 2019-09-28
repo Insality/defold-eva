@@ -25,6 +25,13 @@ M.AD = {
 }
 
 
+M.INPUT = {
+	MULTITOUCH = hash("touch_multi"),
+	TOUCH = hash("touch"),
+	SCROLL_UP = hash("mouse_wheel_up"),
+	SCROLL_DOWN = hash("mouse_wheel_down"),
+}
+
 M.EVENT = {
 	EVENT = "eva.events.event",
 	GAME_START = "eva.game.start",

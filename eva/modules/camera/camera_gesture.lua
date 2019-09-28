@@ -29,7 +29,7 @@ local function handle_pinch(data, state, action)
 	if not state.is_pinch then
 		state.is_pinch = true
 		state.pinch_distance = data.dist
-		state.pinch_center = data.center
+		state.pinch_pos = data.center
 	end
 
 	-- Pinch delta
@@ -47,24 +47,29 @@ local function handle_pinch(data, state, action)
 	state.target_pos.y = state.target_pos.y + move_vector.y * delta
 
 	-- Move by center
-	state.target_pos.x = state.target_pos.x + (state.pinch_center.x - data.center.x) * state.zoom
-	state.target_pos.y = state.target_pos.y + (state.pinch_center.y - data.center.y) * state.zoom
-	state.pinch_center = data.center
+	state.target_pos.x = state.target_pos.x + (state.pinch_pos.x - data.center.x) * state.zoom
+	state.target_pos.y = state.target_pos.y + (state.pinch_pos.y - data.center.y) * state.zoom
+	state.pinch_pos = data.center
 end
 
 
 function M.handle_gesture(action_id, action, state)
 	local g = M.GESTURE.on_input(action_id, action)
 
-	if g then
-		if g.two_finger then
-			if g.two_finger.pinch then
-				g.two_finger.pinch.dist = get_distance(action)
-				handle_pinch(g.two_finger.pinch, state)
-			end
-		end
+	-- Handle pinch
+	if g and g.two_finger and g.two_finger.pinch then
+		g.two_finger.pinch.dist = get_distance(action)
+		handle_pinch(g.two_finger.pinch, state)
 	end
 
+	if action_id == const.INPUT.SCROLL_UP then
+		state.target_zoom = state.target_zoom - action.value/40
+	end
+	if action_id == const.INPUT.SCROLL_DOWN then
+		state.target_zoom = state.target_zoom + action.value/40
+	end
+
+	-- Detect end pinch state
 	if action.touch and state.is_pinch then
 		local no_touch = #action.touch ~= 2
 

@@ -43,7 +43,14 @@
 		"config_ios": "/resources/iaps.json"
 	},
 	"camera": {
-		"multi_touch": true
+		"multi_touch": true,
+		"move_lerp_speed": 0.75,
+		"move_border_lerp_speed": 0.09,
+		"zoom_lerp_speed": 0.5,
+		"zoom_border_lerp_speed": 0.06,
+		"friction": 0.88,
+		"friction_hold": 0.68,
+		"inertion_koef": 0.33
 	},
 	"db": {
 		"paths": {
@@ -59,11 +66,9 @@
 		"max_promt_count": 5
 	},
 	"proto": {
-		"proto_paths": {
-			"/eva/resources/": [
-				"eva",
-				"evadata"
-			]
-		}
+		"proto_paths": [
+			"/eva/resources/eva.proto",
+			"/eva/resources/evadata.proto"
+		]
 	}
 }

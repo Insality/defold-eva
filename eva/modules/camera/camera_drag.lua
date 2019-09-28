@@ -5,13 +5,10 @@ local rendercam = require("rendercam.rendercam")
 local M = {}
 M.IS_MOBILE = false
 
-local MULTITOUCH = hash("touch_multi")
-local TOUCH = hash("touch")
-
 local function start_drag(state, touch)
 	state.is_drag = true
-	state.drag_info.x = touch.screen_x
-	state.drag_info.y = touch.screen_y
+	state.drag_pos.x = touch.screen_x
+	state.drag_pos.y = touch.screen_y
 end
 
 
@@ -22,7 +19,7 @@ end
 
 
 local function find_touch(action_id, action, touch_id)
-	local act = M.IS_MOBILE and MULTITOUCH or TOUCH
+	local act = M.IS_MOBILE and const.INPUT.MULTITOUCH or const.INPUT.TOUCH
 
 	if action_id ~= act then
 		return
@@ -98,8 +95,8 @@ function M.handle_drag(action_id, action, state)
 	end
 
 	if state.is_drag and not state.is_pinch then
-		local dx = touch.screen_x - state.drag_info.x
-		local dy = touch.screen_y - state.drag_info.y
+		local dx = touch.screen_x - state.drag_pos.x
+		local dy = touch.screen_y - state.drag_pos.y
 
 		local x, y = rendercam.screen_to_world_2d(dx, dy, true, nil, true)
 		state.target_pos.x = state.target_pos.x - x
@@ -108,13 +105,13 @@ function M.handle_drag(action_id, action, state)
 		state.inertion.x = state.inertion.x - x
 		state.inertion.y = state.inertion.y - y
 
-		state.drag_info.x = touch.screen_x
-		state.drag_info.y = touch.screen_y
+		state.drag_pos.x = touch.screen_x
+		state.drag_pos.y = touch.screen_y
 	end
 
 	if state.is_pinch then
-		state.drag_info.x = touch.screen_x
-		state.drag_info.y = touch.screen_y
+		state.drag_pos.x = touch.screen_x
+		state.drag_pos.y = touch.screen_y
 	end
 end
 
@@ -127,7 +124,7 @@ function M.update_camera_pos(state, dt, params)
 	local pos = state.pos
 	local target = state.target_pos
 	local border_soft = state.border_soft
-	local border_lerp = params.border_lerp_speed * const.FPS * dt
+	local border_lerp = params.move_border_lerp_speed * const.FPS * dt
 
 	-- Soft border
 	if not state.is_drag then
