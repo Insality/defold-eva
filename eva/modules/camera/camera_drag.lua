@@ -86,13 +86,18 @@ function M.handle_drag(action_id, action, state)
 		if action.touch then
 			-- Mobile
 			touch = on_touch_release(action_id, action, state)
+
+			if not touch then
+				end_drag(state)
+				return
+			end
 		else
 			-- PC
 			end_drag(state)
 		end
 	end
 
-	if state.is_drag then
+	if state.is_drag and not state.is_pinch then
 		local dx = touch.screen_x - state.drag_info.x
 		local dy = touch.screen_y - state.drag_info.y
 
@@ -103,6 +108,11 @@ function M.handle_drag(action_id, action, state)
 		state.inertion.x = state.inertion.x - x
 		state.inertion.y = state.inertion.y - y
 
+		state.drag_info.x = touch.screen_x
+		state.drag_info.y = touch.screen_y
+	end
+
+	if state.is_pinch then
 		state.drag_info.x = touch.screen_x
 		state.drag_info.y = touch.screen_y
 	end

@@ -62,7 +62,7 @@ end
 
 
 function M.on_input(action_id, action)
-	-- camera_drag.handle_drag(action_id, action, M.state)
+	camera_drag.handle_drag(action_id, action, M.state)
 	camera_gesture.handle_gesture(action_id, action, M.state)
 end
 
