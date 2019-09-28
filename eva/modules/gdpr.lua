@@ -31,7 +31,7 @@ function M.open_policy_url()
 end
 
 
-function M.on_game_start(settings)
+function M.on_game_start()
 	M._eva.app[const.EVA.GDPR] = M._eva.proto.get(const.EVA.GDPR)
 	M._eva.saver.add_save_part(const.EVA.GDPR, M._eva.app[const.EVA.GDPR])
 end

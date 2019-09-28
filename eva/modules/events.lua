@@ -44,7 +44,7 @@ function M.add_event_system(event_system)
 end
 
 
-function M.before_game_start(settings)
+function M.before_game_start()
 	M._eva.app.event_systems = {}
 end
 

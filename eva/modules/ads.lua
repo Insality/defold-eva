@@ -106,13 +106,14 @@ function M.show_page()
 end
 
 
-function M.on_game_start(settings)
+function M.on_game_start()
 	M._eva.app[const.EVA.ADS] = M._eva.proto.get(const.EVA.ADS)
 	M._eva.saver.add_save_part(const.EVA.ADS, M._eva.app[const.EVA.ADS])
 end
 
 
-function M.after_game_start(settings)
+function M.after_game_start()
+	local settings = M._eva.app.settings.ads
 	local is_debug = M._eva.game.is_debug()
 	local ads_id = nil
 	if M._eva.device.is_ios() then

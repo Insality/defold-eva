@@ -5,7 +5,8 @@ local logger = log.get_logger("eva.db")
 local M = {}
 
 
-function M.before_game_start(settings)
+function M.before_game_start()
+	local settings = M._eva.app.settings.db
 	M._eva.app.db_data = {}
 	local paths = settings.paths
 

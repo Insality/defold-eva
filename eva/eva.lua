@@ -33,18 +33,6 @@ local modules = {
 }
 
 
-local function call_each_module_settings(func_name)
-	for name, component in pairs(modules) do
-		local csettings = M.app.settings[name]
-		if not csettings or csettings and not csettings.is_disabled then
-			if component[func_name] then
-				component[func_name](csettings)
-			end
-		end
-	end
-end
-
-
 local function call_each_module(func_name, ...)
 	for name, component in pairs(modules) do
 		local csettings = M.app.settings[name]
@@ -71,9 +59,9 @@ function M.init(settings_path)
 	M.app.settings = M.utils.load_json(settings_path)
 	log.init(M.app.settings.log)
 
-	call_each_module_settings("before_game_start")
-	call_each_module_settings("on_game_start")
-	call_each_module_settings("after_game_start")
+	call_each_module("before_game_start")
+	call_each_module("on_game_start")
+	call_each_module("after_game_start")
 
 	logger:debug("Eva init completed", { settings = settings_path })
 end

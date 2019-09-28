@@ -13,7 +13,8 @@ function M.on_game_start()
 end
 
 
-function M.after_game_start(settings)
+function M.after_game_start()
+	local settings = M._eva.app.settings.stats
 	local stats = M._eva.app[const.EVA.STATS]
 	stats.game_start_count = stats.game_start_count + 1
 
