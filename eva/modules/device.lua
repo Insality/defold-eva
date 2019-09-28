@@ -16,20 +16,21 @@ local M = {}
 -- @function eva.device.get_device_id
 -- @treturn string device_id
 function M.get_device_id()
-	if M._device_prefs.device_id == "" then
+	local data = M._eva.app[const.EVA.DEVICE]
+	if data.device_id == "" then
 		if M.is_mobile() then
 			local sys_info = sys.get_sys_info()
-			M._device_prefs.device_id = sys_info.device_ident
-			logger:debug("Get new device_id", { device_id = M._device_prefs.device_id })
+			data.device_id = sys_info.device_ident
+			logger:debug("Get new device_id", { device_id = data.device_id })
 		end
 
-		if #M._device_prefs.device_id < 8 then
-			M._device_prefs.device_id = M._eva.game.get_uuid()
-			logger:debug("Generate device_id from uuid", { device_id = M._device_prefs.device_id })
+		if #data.device_id < 8 then
+			data.device_id = M._eva.game.get_uuid()
+			logger:debug("Generate device_id from uuid", { device_id = data.device_id })
 		end
 	end
 
-	return M._device_prefs.device_id
+	return data.device_id
 end
 
 
@@ -97,9 +98,15 @@ function M.is_mobile()
 end
 
 
+function M.is_web()
+	local system_name = sys.get_sys_info().system_name
+	return system_name == const.OS.BROWSER
+end
+
+
 function M.on_game_start(settings)
-	M._device_prefs = M._eva.proto.get(const.EVA.DEVICE)
-	M._eva.saver.add_save_part(const.EVA.DEVICE, M._device_prefs)
+	M._eva.app[const.EVA.DEVICE] = M._eva.proto.get(const.EVA.DEVICE)
+	M._eva.saver.add_save_part(const.EVA.DEVICE, M._eva.app[const.EVA.DEVICE])
 
 	local device_id = M.get_device_id()
 	logger:info("Device ID", { device_id = device_id })

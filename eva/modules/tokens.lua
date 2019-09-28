@@ -8,19 +8,31 @@ local smart = require("eva.libs.smart.smart")
 local logger = log.get_logger("eva.tokens")
 
 local M = {}
-local token_config = {}
-local tokens = {}
 
 
-local function create_token(token_id)
-	local empty_token = M._eva.proto.get(const.EVA.TOKEN)
+local function on_change_token(delta, reason, token_id, amount)
+	M._eva.events.event(const.EVENT.TOKEN_CHANGE, { delta = delta, token_id = token_id, reason = reason, amount = amount })
+end
 
-	local smart_token = smart.new(token_config[token_id], empty_token)
+
+local function create_token(token_id, token_data)
+	if not token_data then
+		token_data = M._eva.proto.get(const.EVA.TOKEN)
+		M._eva.app[const.EVA.TOKENS].tokens[token_id] = token_data
+	end
+
+	local config = M._eva.app.token_config[token_id] or {}
+	config.name = token_id
+	local smart_token = smart.new(config, token_data)
+
+	smart_token:on_change(on_change_token)
 	return smart_token
 end
 
 
 local function get_token(token_id)
+	local tokens = M._eva.app.smart_tokens
+
 	if not tokens[token_id] then
 		tokens[token_id] = create_token(token_id)
 	end
@@ -127,10 +139,14 @@ function M.get_seconds_to_restore(token_id)
 end
 
 
-function M.before_game_start(settings)
+function M.before_game_start()
+	M._eva.app.smart_tokens = {}
+	M._eva.app.token_config = {}
+
+	local settings = M._eva.app.settings.tokens
 	if settings.token_config and settings.token_config ~= "" then
 		local filename = settings.token_config
-		token_config = M._eva.utils.load_json(filename)
+		M._eva.app.token_config = M._eva.utils.load_json(filename)
 
 		logger:debug("Load token config", {path = filename})
 	end
@@ -138,21 +154,23 @@ end
 
 
 function M.on_game_start()
-	M._tokens_prefs = M._eva.proto.get(const.EVA.TOKENS)
-	M._eva.saver.add_save_part(const.EVA.TOKENS, M._tokens_prefs)
+	M._eva.app[const.EVA.TOKENS] = M._eva.proto.get(const.EVA.TOKENS)
+	M._eva.saver.add_save_part(const.EVA.TOKENS, M._eva.app[const.EVA.TOKENS])
 
 	smart.set_time_function(M._eva.game.get_time)
 end
 
 
 function M.after_game_start()
-	for token_id, data in pairs(M._tokens_prefs.tokens) do
-		tokens[token_id] = smart.new(token_config[token_id], data)
+	for token_id, data in pairs(M._eva.app[const.EVA.TOKENS].tokens) do
+		-- Link behavior and data
+		M._eva.app.smart_tokens[token_id] = create_token(token_id, data)
 	end
 end
 
 
 function M.on_game_update(dt)
+	local tokens = M._eva.app.smart_tokens
 	for id, token in pairs(tokens) do
 		token:update()
 	end

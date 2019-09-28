@@ -5,26 +5,26 @@ local const = require("eva.const")
 
 local M = {}
 
-local props = { gain = 1 }
-local sound_times = {}
-
-
 --- Play the sound in the game
 -- @function eva.sound.play
 function M.play(sound_id, gain)
 	gain = gain or 1
+	local app = M._eva.app
 
-	if M._sound_prefs.sound_gain == 0 then
+	if app[const.EVA.SOUND].sound_gain == 0 then
 		return
 	end
 
-	local threshold = M.settings.repeat_threshold
+	local sound_times = app.sound_times
+	local settings = app.settings.sound
+	local threshold = settings.repeat_threshold
+
 	if sound_times[sound_id] and (socket.gettime() - sound_times[sound_id]) < threshold then
 		return
 	end
 
-	props.gain = gain
-	sound.play(M.settings.sound_path .. sound_id, props)
+	app.sound_props.gain = gain
+	sound.play(settings.sound_path .. sound_id, app.sound_props)
 
 	sound_times[sound_id] = socket.gettime()
 end
@@ -33,13 +33,14 @@ end
 --- Start playing music
 -- @function eva.sound.play_music
 function M.play_music(music_id)
-	if M._sound_prefs.music_gain == 0 then
+	if M._eva.app[const.EVA.SOUND].music_gain == 0 then
 		return
 	end
 
 	M.stop_music()
 	sound.set_group_gain("music", 1)
-	M.current_music = M.settings.sound_path .. music_id
+	local settings = M._eva.app.settings.sound
+	M.current_music = settings.sound_path .. music_id
 	sound.play(M.current_music)
 end
 
@@ -72,29 +73,27 @@ end
 --- Set music gain
 -- @function eva.sound.set_music_gain
 function M.set_music_gain(value)
-	M._sound_prefs.music_gain = value or 0
+	M._eva.app[const.EVA.SOUND].music_gain = value or 0
 end
 
 
 --- Set sound gain
 -- @function eva.sound.set_sound_gain
 function M.set_sound_gain(value)
-	M._sound_prefs.sound_gain = value or 0
-end
-
-
-function M.before_game_start(settings)
-	M.settings = settings
+	M._eva.app[const.EVA.SOUND].sound_gain = value or 0
 end
 
 
 function M.on_game_start()
 	local is_debug = not M._eva.game.is_debug()
-	M._sound_prefs = M._eva.proto.get(const.EVA.SOUND)
-	M._sound_prefs.sound_gain = is_debug and 0 or 1
-	M._sound_prefs.music_gain = is_debug and 0 or 1
 
-	M._eva.saver.add_save_part(const.EVA.SOUND, M._sound_prefs)
+	M._eva.app[const.EVA.SOUND] = M._eva.proto.get(const.EVA.SOUND)
+	M._eva.app[const.EVA.SOUND].sound_gain = is_debug and 0 or 1
+	M._eva.app[const.EVA.SOUND].music_gain = is_debug and 0 or 1
+	M._eva.saver.add_save_part(const.EVA.SOUND, M._eva.app[const.EVA.SOUND])
+
+	M._eva.app.sound_props = { gain = 1 }
+	M._eva.app.sound_times = {}
 end
 
 

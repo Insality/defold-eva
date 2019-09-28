@@ -9,14 +9,14 @@ local M = {}
 --- Set never promt rate again
 -- @function eva.rate.set_never_show
 function M.set_never_show(state)
-	M._rate_prefs.is_never_show = state
+	M._eva.app[const.EVA.RATE].is_never_show = state
 end
 
 
 --- Set rate as accepted. It will no show more
 -- @function eva.rate.set_accepted
 function M.set_accepted(state)
-	M._rate_prefs.is_accepted = state
+	M._eva.app[const.EVA.RATE].is_accepted = state
 end
 
 
@@ -27,15 +27,16 @@ function M.promt_rate(on_can_promt)
 		return
 	end
 
-	if M._rate_prefs.is_never_show or M._rate_prefs.is_accepted then
+	local settings = M._eva.app.settings.rate
+	if M._eva.app[const.EVA.RATE].is_never_show or M._eva.app[const.EVA.RATE].is_accepted then
 		return
 	end
 
-	if M._rate_prefs.promt_count > M.settings.max_promt_count then
+	if M._eva.app[const.EVA.RATE].promt_count > settings.max_promt_count then
 		return
 	end
 
-	M._rate_prefs.promt_count = M._rate_prefs.promt_count + 1
+	M._eva.app[const.EVA.RATE].promt_count = M._eva.app[const.EVA.RATE].promt_count + 1
 	if on_can_promt then
 		on_can_promt()
 	end
@@ -53,11 +54,9 @@ function M.open_rate()
 end
 
 
-function M.on_game_start(settings)
-	M.settings = settings
-
-	M._rate_prefs = M._eva.proto.get(const.EVA.RATE)
-	M._eva.saver.add_save_part(const.EVA.RATE, M._rate_prefs)
+function M.on_game_start()
+	M._eva.app[const.EVA.RATE] = M._eva.proto.get(const.EVA.RATE)
+	M._eva.saver.add_save_part(const.EVA.RATE, M._eva.app[const.EVA.RATE])
 end
 
 

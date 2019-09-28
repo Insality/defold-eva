@@ -15,7 +15,7 @@ local function select_url(url_ios, url_android)
 	local ios_id = sys.get_config("ios.id") or ""
 
 	local is_ios = M._eva.device.is_ios()
-	local url_source = M.settings.url_source
+	local url_source = "game"
 	local market_url = is_ios and url_ios or url_android
 
 	return string.format(market_url, is_ios and ios_id or android_id, url_source)

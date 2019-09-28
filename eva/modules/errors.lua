@@ -6,8 +6,8 @@ local logger = log.get_logger("eva.errors")
 local M = {}
 
 
-local errors_sended = {}
 local send_traceback = function(message, traceback)
+	local errors_sended = M._eva.app.errors_sended
 	local is_sended = luax.table.contains(errors_sended, message)
 
 	if not is_sended then
@@ -31,6 +31,8 @@ end
 
 
 function M.on_game_start()
+	M._eva.app.errors_sended = {}
+
 	if M._eva.game.is_debug() then
 		return
 	end

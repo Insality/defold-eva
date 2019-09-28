@@ -19,7 +19,8 @@ function M.get(proto_type)
 end
 
 
-function M.before_game_start(settings)
+function M.before_game_start()
+	local settings = M._eva.app.settings.proto
 	local proto_paths = settings.proto_paths
 
 	for _, path in ipairs(proto_paths) do

@@ -10,18 +10,16 @@ local logger = log.get_logger("eva.iaps")
 
 local M = {}
 
-M.iap_products = {}
-
 
 local function load_config(settings)
-	M.iap_products = {}
+	M._eva.app.iap_products = {}
 
 	local is_ios = M._eva.device.is_ios()
 	local config = is_ios and settings.config_ios or settings.config_android
 	local data = M._eva.utils.load_json(config)
 
 	for iap_id, info in pairs(data.iaps) do
-		M.iap_products[iap_id] = {
+		M._eva.app.iap_products[iap_id] = {
 			forever = info.foverer,
 			is_available = false,
 			price = info.price,
@@ -36,7 +34,7 @@ end
 
 
 local function get_id_by_ident(ident)
-	for iap_id, v in pairs(M.iap_products) do
+	for iap_id, v in pairs(M._eva.app.iap_products) do
 		if v.ident == ident then
 			return iap_id
 		end
@@ -53,7 +51,7 @@ local function list_callback(self, products, error)
 
 		for k, v in pairs(products) do
 			local iap_id = get_id_by_ident(k)
-			local iap_info = M.iap_products[iap_id]
+			local iap_info = M._eva.app.iap_products[iap_id]
 
 			iap_info.is_available = true
 			iap_info.currency_code = v.currency_code
@@ -82,7 +80,7 @@ end
 
 
 local function save_iap(iap_id, transaction)
-	local purchased = M._iaps_prefs.purchased_iaps
+	local purchased = M._eva.app[const.EVA.IAPS].purchased_iaps
 	local iap_data = M._eva.proto.get(const.EVA.IAP_INFO)
 
 	iap_data.transaction_id = transaction.trans_ident
@@ -96,7 +94,7 @@ end
 
 
 local function consume(iap_id, transaction)
-	local item = M.iap_products[iap_id]
+	local item = M._eva.app.iap_products[iap_id]
 
 	if not item then
 		logger:error("The iap_id is not exist", {iap_id = iap_id})
@@ -134,7 +132,8 @@ end
 -- @function eva.iaps.buy
 -- @tparam string iap_id In-game inapp ID from iaps settings
 function M.buy(iap_id)
-	local item = M.iap_products[iap_id]
+	local products = M._eva.app.iap_products
+	local item = products[iap_id]
 
 	if not item then
 		logger:error("The IAP is not exist", { iap_id = iap_id })
@@ -146,21 +145,22 @@ function M.buy(iap_id)
 		iap.buy(item.ident)
 	else
 		logger:info("No IAP module, fake free transaction", { iap_id = iap_id })
-		local ident = M.iap_products[iap_id].ident
+		local ident = products[iap_id].ident
 		consume(iap_id, fake_transaction(ident))
 	end
 end
 
 
-function M.before_game_start(settings)
-	M.settings = settings
+function M.before_game_start()
+	M._eva.app.iap_products = {}
+	local settings = M._eva.app.settings.iaps
 	load_config(settings)
 end
 
 
 function M.on_game_start()
-	M._iaps_prefs = M._eva.proto.get(const.EVA.IAPS)
-	M._eva.saver.add_save_part(const.EVA.IAPS, M._iaps_prefs)
+	M._eva.app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
+	M._eva.saver.add_save_part(const.EVA.IAPS, M._eva.app[const.EVA.IAPS])
 end
 
 
@@ -171,7 +171,7 @@ function M.after_game_start()
 	end
 
 	iap.set_listener(iap_listener)
-	iap.list(luax.table.list(M.iap_products, "ident"), list_callback)
+	iap.list(luax.table.list(M._eva.app.iap_products, "ident"), list_callback)
 end
 
 

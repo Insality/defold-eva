@@ -46,6 +46,7 @@ M.EVENT = {
 	ADS_SHOW_PAGE = "eva.ads.page",
 	ADS_SUCCESS_REWARDED = "eva.ads.rewarded_success",
 	ADS_SUCCESS_PAGE = "eva.ads.page_success",
+	TOKEN_CHANGE = "eva.tokens.change",
 	SERVER_LOGIN = "eva.server.login",
 	TIMER_TRIGGER = "eva.timers.trigger",
 	LANG_UPDATE = "eva.lang.update",
@@ -69,7 +70,7 @@ M.EVA = {
 	-- Part of data
 	TOKEN = "eva.Token",
 	TIMER = "eva.Timer",
-	IAP_INFO = "eva.IapInfo"
+	IAP_INFO = "eva.IapInfo",
 }
 
 

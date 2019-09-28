@@ -16,10 +16,12 @@ end
 
 
 local function ads_callback(self, message_id, message)
+	local data = M._eva.app[const.EVA.ADS]
+
 	if message_id == unityads.TYPE_IS_READY then
 		logger:debug("Ads ready", message)
 
-		M._ads_prefs.ads_loaded = M._ads_prefs.ads_loaded + 1
+		data.ads_loaded = data.ads_loaded + 1
 
 		M._eva.events.event(const.EVENT.ADS_READY, { placement = message.placementId })
 	end
@@ -29,12 +31,12 @@ local function ads_callback(self, message_id, message)
 			logger:debug("Ads finished", message)
 
 			if message.placementId == const.AD.REWARDED then
-				M._ads_prefs.rewarded_watched = M._ads_prefs.rewarded_watched + 1
+				data.rewarded_watched = data.rewarded_watched + 1
 				on_rewarded_success()
 			end
 
 			if message.placementId == const.AD.PAGE then
-				M._ads_prefs.page_watched = M._ads_prefs.page_watched + 1
+				data.page_watched = data.page_watched + 1
 			end
 		end
 	end
@@ -105,8 +107,8 @@ end
 
 
 function M.on_game_start(settings)
-	M._ads_prefs = M._eva.proto.get(const.EVA.ADS)
-	M._eva.saver.add_save_part(const.EVA.ADS, M._ads_prefs)
+	M._eva.app[const.EVA.ADS] = M._eva.proto.get(const.EVA.ADS)
+	M._eva.saver.add_save_part(const.EVA.ADS, M._eva.app[const.EVA.ADS])
 end
 
 

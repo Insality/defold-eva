@@ -13,7 +13,7 @@
 	"saver": {
 		"save_name": "eva",
 		"autosave": 4,
-		"print_save_at_start": false
+		"print_save_at_start": true
 	},
 	"gdpr": {
 		"policy_url": "https://d.insality.com/privacypolicy.htm"
@@ -62,7 +62,6 @@
 		"ads_id_android": "3173555"
 	},
 	"rate": {
-		"url_source": "game",
 		"max_promt_count": 5
 	},
 	"proto": {

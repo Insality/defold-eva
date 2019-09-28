@@ -8,8 +8,6 @@ local const = require("eva.const")
 local logger = log.get_logger("eva.saver")
 
 local M = {}
-local save_table = {}
-
 
 local function get_save_path(save_name)
 	local project_name = sys.get_config("project.title")
@@ -20,7 +18,8 @@ end
 --- Load the game save
 -- @function eva.saver.load
 function M.load()
-	local path = get_save_path(M.settings.save_name)
+	local settings = M._eva.app.settings.saver
+	local path = get_save_path(settings.save_name)
 	return sys.load(path)
 end
 
@@ -30,15 +29,16 @@ end
 function M.save()
 	M._saver_prefs.version = M._saver_prefs.version + 1
 
-	local path = get_save_path(M.settings.save_name)
-	sys.save(path, save_table)
+	local settings = M._eva.app.settings.saver
+	local path = get_save_path(settings.save_name)
+	sys.save(path, M._eva.app.save_table)
 end
 
 
 --- Reset the game profile
 -- @function eva.saver.reset
 function M.reset()
-	save_table = {}
+	M._eva.app.save_table = {}
 end
 
 
@@ -46,6 +46,7 @@ end
 -- @function eva.saver.add_save_part
 function M.add_save_part(name, table_ref)
 	assert(M.can_load_save, "Add save part should be called after eva init")
+	local save_table = M._eva.app.save_table
 
 	if not save_table[name] then
 		-- Add save template as new
@@ -54,28 +55,31 @@ function M.add_save_part(name, table_ref)
 	end
 
 	local prev_ref = save_table[name]
+
 	-- Clear the variables via protobuf
-	prev_ref = pb.decode(name, pb.encode(name, prev_ref))
+	if not M._eva.device.is_web() then
+		prev_ref = pb.decode(name, pb.encode(name, prev_ref))
+	end
 
 	save_table[name] = table_ref
 	luax.table.override(prev_ref, table_ref)
 end
 
 
-function M.before_game_start(settings)
-	M.settings = settings
-	save_table = M.load()
+function M.before_game_start()
+	M._eva.app.save_table = M.load()
 	M.can_load_save = true
 end
 
 
-function M.on_game_start(settings)
+function M.on_game_start()
 	M._saver_prefs = M._eva.proto.get(const.EVA.SAVER)
 	M._eva.saver.add_save_part(const.EVA.SAVER, M._saver_prefs)
 end
 
 
-function M.after_game_start(settings)
+function M.after_game_start()
+	local settings = M._eva.app.settings.saver
 	if settings.autosave > 0 then
 		timer.delay(settings.autosave, true, M.save)
 	end
@@ -95,7 +99,7 @@ function M.after_game_start(settings)
 	M._saver_prefs.last_game_version = sys.get_config("project.version")
 
 	if settings.print_save_at_start then
-		pprint(save_table)
+		pprint(M._eva.app.save_table)
 	end
 
 	logger:info("Save successful loaded", { version = M._saver_prefs.version })
