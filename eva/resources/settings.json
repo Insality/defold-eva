@@ -32,7 +32,7 @@
 		"token_config": ""
 	},
 	"log": {
-		"format": "[%levelname]<%function:%lineno>: %message %context"
+		"format": "%levelshort[%logger]<%function:%lineno>: %message %context"
 	},
 	"window": {
 		"window_path": ""

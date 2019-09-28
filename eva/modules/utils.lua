@@ -55,6 +55,7 @@ end
 
 --- Compare two project version.
 -- Version format should be in semver("x.y.z")
+-- @function eva.utils.compare_versions
 -- @tparam string version_a project version
 -- @tparam string version_b project version
 -- @treturn int -1 if version_a higher, 1 if version_b higher, 0 if they are equal

@@ -19,7 +19,7 @@ local M = {}
 -- @function eva.timers.add
 -- @tparam string slot_id identificator of timer
 -- @tparam string timer_id string param of timer
--- @tparam number time. time of timer, in seconds
+-- @tparam number time time of timer, in seconds
 -- @tparam[opt] bool auto_trigger true, if event should fire event at end
 function M.add(slot_id, timer_id, time, auto_trigger)
 	if M.get(slot_id) then
@@ -48,6 +48,7 @@ end
 
 --- Get time until end, in seconds
 -- @function eva.timers.get_time
+-- @tparam string slot_id identificator of timer
 function M.get_time(slot_id)
 	local timer = M.get(slot_id)
 
@@ -67,6 +68,7 @@ end
 
 --- Check is timer has ended
 -- @function eva.timers.is_end
+-- @tparam string slot_id identificator of timer
 function M.is_end(slot_id)
 	return M.get_time(slot_id) == 0
 end
@@ -74,6 +76,7 @@ end
 
 --- Clear the timer slot
 -- @function eva.timers.clear
+-- @tparam string slot_id identificator of timer
 function M.clear(slot_id)
 	logger:debug("Clear timer slot", { slot_id = slot_id })
 	M._eva.app[const.EVA.TIMERS].timers[slot_id] = nil
@@ -82,6 +85,8 @@ end
 
 --- Set timer pause state
 -- @function eva.timers.set_pause
+-- @tparam string slot_id identificator of timer
+-- @tparam boolean is_pause pause state
 function M.set_pause(slot_id, is_pause)
 	local timer = M.get(slot_id)
 	if timer and timer.is_pause ~= is_pause then

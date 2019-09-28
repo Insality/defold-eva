@@ -18,9 +18,17 @@ local LEVEL = {
 local LEVEL_NAME = {
 	[LEVEL.FATAL] = "FATAL",
 	[LEVEL.ERROR] = "ERROR",
-	[LEVEL.WARN]= "WARN",
-	[LEVEL.INFO]= "INFO",
+	[LEVEL.WARN] = "WARN",
+	[LEVEL.INFO] = "INFO",
 	[LEVEL.DEBUG] = "DEBUG",
+}
+
+local LEVEL_NAME_SHORT = {
+	[LEVEL.FATAL] = "F",
+	[LEVEL.ERROR] = "E",
+	[LEVEL.WARN] = "W",
+	[LEVEL.INFO] = "I",
+	[LEVEL.DEBUG] = "D",
 }
 
 local UNKNOWN = "unknown"
@@ -45,6 +53,7 @@ local function format(self, level, message, context)
 	local caller_info = debug.getinfo(4)
 	log_message = string.gsub(log_message, "%%date", format_time(socket.gettime()))
 	log_message = string.gsub(log_message, "%%levelname", string.format("%5s", LEVEL_NAME[level]))
+	log_message = string.gsub(log_message, "%%levelshort", LEVEL_NAME_SHORT[level])
 	log_message = string.gsub(log_message, "%%logger", self.name)
 	log_message = string.gsub(log_message, "%%source", caller_info.source)
 	log_message = string.gsub(log_message, "%%lineno", caller_info.currentline)
