@@ -66,9 +66,11 @@ M.EVA = {
 	GDPR = "eva.Gdpr",
 	IAPS = "eva.Iaps",
 	TIMERS = "eva.Timers",
+	STORAGE = "eva.Storage",
 
 	-- Part of data
 	TOKEN = "eva.Token",
+	STORAGE_VALUE = "eva.StorageValue",
 	TIMER = "eva.Timer",
 	IAP_INFO = "eva.IapInfo",
 }

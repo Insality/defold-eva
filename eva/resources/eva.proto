@@ -1,6 +1,18 @@
 syntax = "proto3";
 package eva;
 
+message StorageValue {
+	oneof value {
+		string s_value = 1;
+		int32 i_value = 2;
+		bool b_value = 3
+	}
+}
+
+message Storage {
+	map<string, StorageValue> storage = 1;
+}
+
 message Sound {
 	float sound_gain = 1;
 	float music_gain = 2;
