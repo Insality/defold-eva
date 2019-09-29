@@ -41,12 +41,16 @@
 <li><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></li>
 <li><a href="#modules_iaps_Functions">modules.iaps Functions</a></li>
 <li><a href="#modules_lang_Functions">modules.lang Functions</a></li>
+<li><a href="#modules_migrations_Functions">modules.migrations Functions</a></li>
 <li><a href="#modules_offers_Functions">modules.offers Functions</a></li>
 <li><a href="#modules_proto_Functions">modules.proto Functions</a></li>
 <li><a href="#modules_push_Functions">modules.push Functions</a></li>
 <li><a href="#modules_rate_Functions">modules.rate Functions</a></li>
+<li><a href="#modules_render_Functions">modules.render Functions</a></li>
 <li><a href="#modules_saver_Functions">modules.saver Functions</a></li>
+<li><a href="#modules_server_Functions">modules.server Functions</a></li>
 <li><a href="#modules_sound_Functions">modules.sound Functions</a></li>
+<li><a href="#modules_storage_Functions">modules.storage Functions</a></li>
 <li><a href="#modules_timers_Functions">modules.timers Functions</a></li>
 <li><a href="#modules_tokens_Functions">modules.tokens Functions</a></li>
 <li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
@@ -215,7 +219,7 @@
 	<td class="summary">Get reward from iap_id</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.iaps.get_reward">eva.iaps.get_reward(iap_id)</a></td>
+	<td class="name" nowrap><a href="#eva.iaps.get_price">eva.iaps.get_price(iap_id)</a></td>
 	<td class="summary">Get price from iap_id</td>
 	</tr>
 </table>
@@ -236,6 +240,13 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.lang.txp">eva.lang.txp(lang_id, ...)</a></td>
 	<td class="summary">Get translation for locale id with params</td>
+	</tr>
+</table>
+<h2><a href="#modules_migrations_Functions">modules.migrations Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.migrations.add">eva.migrations.add()</a></td>
+	<td class="summary">Add migration to the system Need to call this before save loaded</td>
 	</tr>
 </table>
 <h2><a href="#modules_offers_Functions">modules.offers Functions</a></h2>
@@ -302,6 +313,21 @@
 	<td class="summary">Open store or native rating on iOS</td>
 	</tr>
 </table>
+<h2><a href="#modules_render_Functions">modules.render Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.render.set_blur">eva.render.set_blur()</a></td>
+	<td class="summary">Change render</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.render.set_light">eva.render.set_light()</a></td>
+	<td class="summary">Change render</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.render.set_vignette">eva.render.set_vignette()</a></td>
+	<td class="summary">Change render</td>
+	</tr>
+</table>
 <h2><a href="#modules_saver_Functions">modules.saver Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -319,6 +345,17 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.add_save_part">eva.saver.add_save_part()</a></td>
 	<td class="summary">Add save part to the save table</td>
+	</tr>
+</table>
+<h2><a href="#modules_server_Functions">modules.server Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.server.login">eva.server.login(callback)</a></td>
+	<td class="summary">Login at playfab server</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.server.send_save">eva.server.send_save(json_data)</a></td>
+	<td class="summary">Send save to the server</td>
 	</tr>
 </table>
 <h2><a href="#modules_sound_Functions">modules.sound Functions</a></h2>
@@ -350,6 +387,17 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.sound.set_sound_gain">eva.sound.set_sound_gain()</a></td>
 	<td class="summary">Set sound gain</td>
+	</tr>
+</table>
+<h2><a href="#modules_storage_Functions">modules.storage Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.storage.get">eva.storage.get(id)</a></td>
+	<td class="summary">Get the value from the storage.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.storage.set">eva.storage.set(id, value)</a></td>
+	<td class="summary">Set the value to eva storage</td>
 	</tr>
 </table>
 <h2><a href="#modules_timers_Functions">modules.timers Functions</a></h2>
@@ -390,8 +438,8 @@
 	<td class="summary">Return lot reward by id.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_lot_reward">eva.tokens.get_lot_reward(lot_id)</a></td>
-	<td class="summary">Return lot reward by id.</td>
+	<td class="name" nowrap><a href="#eva.tokens.get_lot_price">eva.tokens.get_lot_price(lot_id)</a></td>
+	<td class="summary">Return lot price by id.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.add">eva.tokens.add()</a></td>
@@ -1104,8 +1152,8 @@
 
 </dd>
     <dt>
-    <a name = "eva.iaps.get_reward"></a>
-    <strong>eva.iaps.get_reward(iap_id)</strong>
+    <a name = "eva.iaps.get_price"></a>
+    <strong>eva.iaps.get_price(iap_id)</strong>
     </dt>
     <dd>
     Get price from iap_id
@@ -1222,6 +1270,24 @@
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
         translated locale
     </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_migrations_Functions"></a>modules.migrations Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.migrations.add"></a>
+    <strong>eva.migrations.add()</strong>
+    </dt>
+    <dd>
+    Add migration to the system Need to call this before save loaded
+
+
+
 
 
 
@@ -1517,6 +1583,52 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_render_Functions"></a>modules.render Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.render.set_blur"></a>
+    <strong>eva.render.set_blur()</strong>
+    </dt>
+    <dd>
+    Change render
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.render.set_light"></a>
+    <strong>eva.render.set_light()</strong>
+    </dt>
+    <dd>
+    Change render
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.render.set_vignette"></a>
+    <strong>eva.render.set_vignette()</strong>
+    </dt>
+    <dd>
+    Change render
+
+
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_saver_Functions"></a>modules.saver Functions</h2>
 
     <dl class="function">
@@ -1570,6 +1682,52 @@
     Add save part to the save table
 
 
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_server_Functions"></a>modules.server Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.server.login"></a>
+    <strong>eva.server.login(callback)</strong>
+    </dt>
+    <dd>
+    Login at playfab server
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+        Callback after login
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.server.send_save"></a>
+    <strong>eva.server.send_save(json_data)</strong>
+    </dt>
+    <dd>
+    Send save to the server
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">json_data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        JSON data
+        </li>
+    </ul>
 
 
 
@@ -1672,6 +1830,56 @@
     Set sound gain
 
 
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_storage_Functions"></a>modules.storage Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.storage.get"></a>
+    <strong>eva.storage.get(id)</strong>
+    </dt>
+    <dd>
+    Get the value from the storage.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        The record id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.storage.set"></a>
+    <strong>eva.storage.set(id, value)</strong>
+    </dt>
+    <dd>
+    Set the value to eva storage
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        The record id
+        </li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a>, <span class="type">number</span> or <span class="type">bool</span></span>
+        Value
+        </li>
+    </ul>
 
 
 
@@ -1877,11 +2085,11 @@
 
 </dd>
     <dt>
-    <a name = "eva.tokens.get_lot_reward"></a>
-    <strong>eva.tokens.get_lot_reward(lot_id)</strong>
+    <a name = "eva.tokens.get_lot_price"></a>
+    <strong>eva.tokens.get_lot_price(lot_id)</strong>
     </dt>
     <dd>
-    Return lot reward by id. It pickup data from DB
+    Return lot price by id. It pickup data from DB
 
 
     <h3>Parameters:</h3>
@@ -2332,7 +2540,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-09-29 21:41:25 </i>
+<i style="float:right;">Last updated 2019-09-29 22:34:57 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

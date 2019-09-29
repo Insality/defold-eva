@@ -169,10 +169,10 @@ end
 
 
 --- Get price from iap_id
--- @function eva.iaps.get_reward
+-- @function eva.iaps.get_price
 -- @tparam string iap_id the inapp id
 function M.get_price(iap_id)
-
+	return M._eva.app.iap_products[iap_id].price
 end
 
 

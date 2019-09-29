@@ -11,6 +11,9 @@ local logger = log.get_logger("eva.storage")
 local M = {}
 
 
+--- Get the value from the storage.
+-- @function eva.storage.get
+-- @tparam string id The record id
 function M.get(id)
 	local storage = M._eva.app[const.EVA.STORAGE].storage
 	local value = storage[id]
@@ -18,7 +21,10 @@ function M.get(id)
 	return value.s_value or value.i_value or value.b_value
 end
 
-
+--- Set the value to eva storage
+-- @function eva.storage.set
+-- @tparam string id The record id
+-- @tparam string|number|bool value Value
 function M.set(id, value)
 	local storage = M._eva.app[const.EVA.STORAGE].storage
 	local v = M._eva.proto.get(const.EVA.STORAGE_VALUE)

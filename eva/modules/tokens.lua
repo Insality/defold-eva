@@ -70,9 +70,9 @@ function M.get_lot_reward(lot_id)
 end
 
 
---- Return lot reward by id.
+--- Return lot price by id.
 -- It pickup data from DB
--- @function eva.tokens.get_lot_reward
+-- @function eva.tokens.get_lot_price
 -- @tparam string lot_id the token lot id
 -- @treturn evadata.Tokens the token list
 function M.get_lot_price(lot_id)
