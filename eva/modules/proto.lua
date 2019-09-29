@@ -19,6 +19,16 @@ function M.get(proto_type)
 end
 
 
+function M.encode(proto_type, data)
+	return pb.encode(proto_type)
+end
+
+
+function M.decode(proto_type, data)
+	return pb.decode(proto_type)
+end
+
+
 function M.before_game_start()
 	local settings = M._eva.app.settings.proto
 	local proto_paths = settings.proto_paths

@@ -2,7 +2,11 @@
 -- Using for simple key-value storage
 -- @submodule eva
 
+local luax = require("eva.luax")
 local const = require("eva.const")
+local log = require("eva.log")
+
+local logger = log.get_logger("eva.storage")
 
 local M = {}
 
@@ -27,6 +31,11 @@ function M.set(id, value)
 	end
 	if type(value) == "boolean" then
 		v.b_value = value
+	end
+
+	if luax.table.is_empty(v) then
+		logger:error("Wrong args type in eva.storage", { id = id, value = value })
+		return
 	end
 
 	storage[id] = v

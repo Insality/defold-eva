@@ -58,7 +58,8 @@ function M.add_save_part(name, table_ref)
 
 	-- Clear the variables via protobuf
 	if not M._eva.device.is_web() then
-		prev_ref = pb.decode(name, pb.encode(name, prev_ref))
+		local proto = M._eva.proto
+		prev_ref = proto.decode(name, proto.encode(name, prev_ref))
 	end
 
 	save_table[name] = table_ref
