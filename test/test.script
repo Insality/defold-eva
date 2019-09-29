@@ -5,6 +5,7 @@ local tests = {
 	-- require("test.tests.eva_events"),
 	require("test.tests.eva_offers"),
 	require("test.tests.eva_timers"),
+	require("test.tests.eva_daily"),
 }
 
 local function run_tests()

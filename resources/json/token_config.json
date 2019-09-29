@@ -1,5 +1,5 @@
 {
-  "tokens_config": {
+  "token_config": {
     "money": { "name": "money" },
     "level": { "default": 1, "min": 1, "max": 80, "name": "level" },
     "energy": { "restore": { "timer": 60, "value": 1, "max": 20 }, "name": "energy" },

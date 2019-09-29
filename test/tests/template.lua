@@ -3,7 +3,7 @@ local eva = require("eva.eva")
 return function()
 	describe("Section", function()
 		before(function()
-			eva.init("/resources/eva_settings_tests.json")
+			eva.init("/resources/tests/eva_tests.json")
 		end)
 
 		it("Test1", function()

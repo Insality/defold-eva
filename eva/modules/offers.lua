@@ -51,6 +51,8 @@ function M.add(offer_id)
 	end
 
 	-- Add offer data to save
+	logger:debug("Add new offer", { offer_id = offer_id })
+	M._eva.events.event(const.EVENT.OFFERS_START, { offer_id = offer_id })
 	offers[offer_id] = offer_save
 	M._eva.timers.add(offer_save.timer_id, offer_id, offer.time)
 
@@ -63,6 +65,8 @@ function M.remove(offer_id)
 
 	local offer = offers[offer_id]
 	if offer then
+		logger:debug("Clear offer", { offer_id = offer_id })
+		M._eva.events.event(const.EVENT.OFFERS_CLEAR, { offer_id = offer_id })
 		offers[offer_id] = nil
 		M._eva.timers.clear(offer.timer_id)
 	else

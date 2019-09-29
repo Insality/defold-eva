@@ -7,7 +7,7 @@ return function()
 		local offer_iap = "test_iap"
 
 		before(function()
-			eva.init("/resources/eva_settings_tests.json")
+			eva.init("/resources/tests/eva_tests.json")
 			mock_time.mock()
 			mock_time.set(0)
 		end)

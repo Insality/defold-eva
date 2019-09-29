@@ -1,6 +1,6 @@
 {
 	"rules": {
-		"tokens_config": {
+		"token_config": {
 			"lists": ["TokensConfig"],
 			"handlers": [
 				{

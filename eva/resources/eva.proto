@@ -92,9 +92,8 @@ message Offers {
 
 message Daily {
 	bool is_active = 1;
-	uint32 current_day = 2
-	uint32 last_pick_time = 3;
-	repeated bool reward_state = 4;
+	uint32 last_pick_time = 2;
+	repeated bool reward_state = 3;
 }
 
 message IapDetails {

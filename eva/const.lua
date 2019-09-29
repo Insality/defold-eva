@@ -52,6 +52,11 @@ M.EVENT = {
 	SERVER_LOGIN = "eva.server.login",
 	TIMER_TRIGGER = "eva.timers.trigger",
 	LANG_UPDATE = "eva.lang.update",
+	OFFERS_START = "eva.offers.start",
+	OFFERS_CLEAR = "eva.offers.clear",
+	DAILY_REWARD = "eva.daily.reward",
+	DAILY_RESET = "eva.daily.reset",
+	DAILY_NEW_CYCLE = "eva.daily.new_cycle",
 }
 
 

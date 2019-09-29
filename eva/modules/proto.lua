@@ -19,11 +19,15 @@ function M.get(proto_type)
 end
 
 
+--- Encode protobuf
+-- @function eva.proto.decode
 function M.encode(proto_type, data)
 	return pb.encode(proto_type, data)
 end
 
 
+--- Decode protobuf
+-- @function eva.proto.decode
 function M.decode(proto_type, data)
 	return pb.decode(proto_type, data)
 end

@@ -1,0 +1,15 @@
+{
+	"saver": {
+		"save_name": "eva_test",
+		"print_save_at_start": false
+	},
+	"daily": {
+		"interval": 10,
+		"wait_time": 20,
+		"reward": ["test_group_1", "test_group_1", "test_group_2"],
+		"type": "skip"
+	},
+	"log": {
+		"level": "WARN"
+	}
+}

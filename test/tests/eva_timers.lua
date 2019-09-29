@@ -6,7 +6,7 @@ return function()
 		local id = "test.id"
 		local data = "data string"
 		before(function()
-			eva.init("/resources/eva_settings_tests.json")
+			eva.init("/resources/tests/eva_tests.json")
 			mock_time.mock()
 			mock_time.set(0)
 		end)

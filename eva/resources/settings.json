@@ -31,11 +31,11 @@
 	"tokens": {
 		"config_lots": "TokenLots",
 		"config_token_groups": "TokenGroups",
-		"config_token_config": "TokensConfig"
+		"config_token_config": "TokenConfig"
 	},
 	"log": {
 		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
-		"level": "DEBUG"
+		"level": "WARN"
 	},
 	"window": {
 		"window_path": ""
@@ -58,7 +58,7 @@
 	"db": {
 		"paths": {
 			"TokenGroups": "/resources/json/token_groups.json",
-			"TokensConfig": "/resources/json/tokens_config.json",
+			"TokenConfig": "/resources/json/token_config.json",
 			"TokenLots": "/resources/json/token_lots.json",
 			"Offers": "/resources/json/offers.json",
 			"IapsAndroid": "/resources/json/iaps_android.json",
