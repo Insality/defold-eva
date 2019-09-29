@@ -57,8 +57,8 @@ end
 
 --- Set the borders of the camera zone
 -- @function eva.camera.set_borders
--- @tparam vector4 border_soft. Soft zones of camera. Order is: left-top-right-bot.
--- @tparam vector4 border_hard. Hard zones of camera. Order is: left-top-right-bot.
+-- @tparam vector4 border_soft Soft zones of camera. Order is: left-top-right-bot.
+-- @tparam vector4 border_hard Hard zones of camera. Order is: left-top-right-bot.
 function M.set_borders(border_soft, border_hard)
 	local state = M._eva.app.camera_state
 

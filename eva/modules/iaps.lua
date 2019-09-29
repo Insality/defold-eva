@@ -155,6 +155,9 @@ function M.buy(iap_id)
 end
 
 
+--- Get reward from iap_id
+-- @function eva.iaps.get_reward
+-- @tparam string iap_id the inapp id
 function M.get_reward(iap_id)
 	local iap_data = get_iaps_config()[iap_id]
 	if not iap_data then
@@ -165,6 +168,9 @@ function M.get_reward(iap_id)
 end
 
 
+--- Get price from iap_id
+-- @function eva.iaps.get_reward
+-- @tparam string iap_id the inapp id
 function M.get_price(iap_id)
 
 end

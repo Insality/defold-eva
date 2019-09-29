@@ -2,7 +2,7 @@ local mock_time = require("deftest.mock.time")
 local eva = require("eva.eva")
 
 return function()
-	describe("Offers", function()
+	describe("Eva Offers", function()
 		local offer_fast = "test_fast"
 		local offer_iap = "test_iap"
 
@@ -37,10 +37,6 @@ return function()
 			assert(eva.offers.is_active(offer_fast))
 
 			-- remove at 20 seconds
-			mock_time.elapse(1)
-			eva.offers.on_game_second()
-			assert(not eva.offers.is_active(offer_fast))
-
 			mock_time.elapse(1)
 			eva.offers.on_game_second()
 			assert(not eva.offers.is_active(offer_fast))

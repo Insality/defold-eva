@@ -81,6 +81,13 @@ M.EVA = {
 }
 
 
+M.DAILY = {
+	SKIP = "skip",
+	WAIT = "wait",
+	RESET = "reset",
+}
+
+
 M.STORE_URL = {
 	ANDROID_MARKET =	"market://details?id=%s&referrer=utm_source%%3D%s",
 	ANDROID_URL =	"https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s",

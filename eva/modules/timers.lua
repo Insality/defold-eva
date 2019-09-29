@@ -56,7 +56,7 @@ function M.get_time(slot_id)
 		local till_end = timer.end_time - M._eva.game.get_time()
 
 		if timer.is_pause then
-			till_end = till_end + M._eva.game_time() - timer.pause_time
+			till_end = till_end + M._eva.game.get_time() - timer.pause_time
 		end
 
 		return math.max(0, till_end)

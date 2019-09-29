@@ -41,6 +41,11 @@ local function get_token(token_id)
 end
 
 
+--- Return token group by id.
+-- It pickup data from DB
+-- @function eva.tokens.get_token_group
+-- @tparam string token_group_id the token group id
+-- @treturn evadata.Tokens the token list
 function M.get_token_group(token_group_id)
 	local group = M._eva.app.token_groups.token_groups[token_group_id]
 	if not group then
@@ -50,6 +55,11 @@ function M.get_token_group(token_group_id)
 end
 
 
+--- Return lot reward by id.
+-- It pickup data from DB
+-- @function eva.tokens.get_lot_reward
+-- @tparam string lot_id the token lot id
+-- @treturn evadata.Tokens the token list
 function M.get_lot_reward(lot_id)
 	local lot = M._eva.app.token_lots.token_lots[lot_id]
 	if not lot then
@@ -60,6 +70,11 @@ function M.get_lot_reward(lot_id)
 end
 
 
+--- Return lot reward by id.
+-- It pickup data from DB
+-- @function eva.tokens.get_lot_reward
+-- @tparam string lot_id the token lot id
+-- @treturn evadata.Tokens the token list
 function M.get_lot_price(lot_id)
 	local lot = M._eva.app.token_lots.token_lots[lot_id]
 	if not lot then
@@ -70,14 +85,14 @@ function M.get_lot_price(lot_id)
 end
 
 
---- Add tokens
+--- Add tokens to save
 -- @function eva.tokens.add
 function M.add(token_id, amount, reason)
 	return get_token(token_id):add(amount, reason)
 end
 
 
---- Add multiply tokens
+--- Add multiply tokens to save
 -- @function eva.tokens.add_group
 function M.add_group(token_group_id, reason)
 	local tokens = M.get_token_group(token_group_id)
@@ -87,29 +102,34 @@ function M.add_group(token_group_id, reason)
 end
 
 
---- Set tokens
+--- Set tokens to save
 -- @function eva.tokens.set
 function M.set(token_id, amount, reason)
 	return get_token(token_id):set(amount, reason)
 end
 
 
---- Get current token amount
+--- Get current token amount from save
 -- @function eva.tokens.get
 function M.get(token_id, amount)
 	return get_token(token_id):get()
 end
 
 
---- Try to pay tokens
+--- Try to pay tokens from save
 -- @function eva.tokens.pay
+-- @tparam string token_id Token id
+-- @tparam number amount Amount to pay
+-- @tparam string reason The reason to pay
 function M.pay(token_id, amount, reason)
 	return get_token(token_id):pay(amount, reason)
 end
 
 
---- Pay multiply tokens
+--- Pay multiply tokens to save
 -- @function eva.tokens.pay_group
+-- @tparam string token_group_id The token group id
+-- @tparam string reason The reason to pay
 function M.pay_group(token_group_id, reason)
 	local tokens = M.get_token_group(token_group_id)
 	for index, token in ipairs(tokens) do
@@ -127,7 +147,8 @@ end
 
 --- Check multiply tokens
 -- @function eva.tokens.is_enough_group
-function M.is_enough_group(token_group_id, reason)
+-- @tparam string token_group_id the token group id
+function M.is_enough_group(token_group_id)
 	local tokens = M.get_token_group(token_group_id)
 	local is_enough = true
 

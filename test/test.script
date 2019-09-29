@@ -4,6 +4,7 @@ local tests = {
 	require("test.tests.smart_value"),
 	-- require("test.tests.eva_events"),
 	require("test.tests.eva_offers"),
+	require("test.tests.eva_timers"),
 }
 
 local function run_tests()

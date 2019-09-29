@@ -1,5 +1,5 @@
 --- Defolf-eva offers module
--- Make logic about offer time, prica and reward
+-- Make logic about offer time, price and reward
 -- Can be iap or for tokens
 -- @submodule eva
 
@@ -22,6 +22,12 @@ local function get_offers()
 end
 
 
+--- Start new offer
+-- Every offer is unique. You got error, if offer_id
+-- is already started. Data pickups from Offers DB.
+-- @function eva.offers.add
+-- @tparam string offer_id offer id from db
+-- @treturn eva.Offer new offer
 function M.add(offer_id)
 	-- Check offer_id is valid
 	local offer = get_offer_data(offer_id)
@@ -65,6 +71,11 @@ function M.remove(offer_id)
 end
 
 
+--- Return time till offer end.
+-- If offer is no exist now, print the error
+-- @function eva.offers.get_time
+-- @tparam string offer_id offer id from db
+-- @treturn number time in seconds
 function M.get_time(offer_id)
 	local offer = get_offers()[offer_id]
 
@@ -77,11 +88,19 @@ function M.get_time(offer_id)
 end
 
 
+--- Check is offer active not
+-- @function eva.offers.is_active
+-- @tparam string offer_id offer id from db
+-- @treturn bool is offer active
 function M.is_active(offer_id)
 	return get_offers()[offer_id]
 end
 
 
+--- Get token group of offer reward.
+-- @function eva.offers.get_reward
+-- @tparam string offer_id offer id from db
+-- @treturn evadata.Tokens token list
 function M.get_reward(offer_id)
 	local offer = get_offer_data(offer_id)
 
@@ -95,6 +114,10 @@ function M.get_reward(offer_id)
 end
 
 
+--- Get token group of offer price.
+-- @function eva.offers.get_price
+-- @tparam string offer_id offer id from db
+-- @treturn evadata.Tokens token list
 function M.get_price(offer_id)
 	local offer = get_offer_data(offer_id)
 
@@ -108,6 +131,10 @@ function M.get_price(offer_id)
 end
 
 
+--- Check is offer for inapp
+-- @function eva.offers.is_iap
+-- @tparam string offer_id offer id from db
+-- @treturn bool is offer inapp
 function M.is_iap(offer_id)
 	local offer = get_offer_data(offer_id)
 	if offer.iap_id and offer.iap_id ~= "" then
