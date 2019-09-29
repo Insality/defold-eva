@@ -38,6 +38,17 @@ message Lots {
 	map<string, Lot> lots = 1;
 }
 
+message Offer {
+	string category = 1;
+	uint32 time = 2;
+	string iap_id = 3;
+	string lot_id = 4;
+}
+
+message Offers {
+	map<string, Offer> offers = 1;
+}
+
 message IapConfig {
 	string ident = 1;
 	float price = 2;

@@ -3,14 +3,8 @@ local eva = require("eva.eva")
 
 return function()
 	describe("Offers", function()
-		local category = "test"
-		local id = "offer"
-		local id2 = "offer2"
-		local iap_id = "small_pack"
-		local lot = {
-			reward = {},
-			price = {},
-		}
+		local id = "test_fast"
+		local id2 = "test_iap"
 
 		before(function()
 			eva.init("/resources/eva_settings_tests.json")
@@ -23,23 +17,25 @@ return function()
 		end)
 
 		it("Create offers", function()
-			eva.offers.add_lot(id, category, 20, lot)
+			eva.offers.add(id)
 
 			print(eva.offers.get_time(id))
 			assert(eva.offers.get_time(id) == 20)
+			print("T", eva.offers.is_iap(id))
 			assert(not eva.offers.is_iap(id))
 
-			eva.offers.add_iap(id2, category, 20, iap_id)
+			eva.offers.add(id2)
 			assert(eva.offers.is_iap(id2))
 		end)
 
 		it("Should have limited time", function()
-			local offer = eva.offers.add_lot(id, category, 20, lot)
+			local offer = eva.offers.add(id)
 
 			assert(eva.offers.is_active(id))
 
 			mock_time.elapse(19)
 			eva.offers.on_game_second()
+			print("t", eva.timers.get(offer.timer_id))
 			assert(eva.timers.get(offer.timer_id) ~= nil)
 			assert(eva.offers.is_active(id))
 
@@ -55,9 +51,9 @@ return function()
 			assert(eva.timers.get(offer.timer_id) == nil)
 		end)
 
-		it("Should return prica and value", function()
-			local offer = eva.offers.add_lot(id, category, 20, lot)
-			local offer2 = eva.offers.add_iap(id2, category, 20, iap_id)
+		it("Should return price and value", function()
+			local offer = eva.offers.add(id)
+			local offer2 = eva.offers.add(id2)
 		end)
 	end)
 end

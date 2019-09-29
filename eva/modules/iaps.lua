@@ -11,16 +11,20 @@ local logger = log.get_logger("eva.iaps")
 local M = {}
 
 
-local function load_config(settings)
-	M._eva.app.iap_products = {}
-
+local function get_iaps_config()
+	local settings = M._eva.app.settings.iaps
 	local is_ios = M._eva.device.is_ios()
 	local config_name = is_ios and settings.config_ios or settings.config_android
-	local data = M._eva.app.db[config_name]
+	return M._eva.app.db[config_name].iaps
+end
 
-	for iap_id, info in pairs(data.iaps) do
+
+local function load_config()
+	M._eva.app.iap_products = {}
+
+	local iaps = get_iaps_config()
+	for iap_id, info in pairs(iaps) do
 		M._eva.app.iap_products[iap_id] = {
-			forever = info.foverer,
 			is_available = false,
 			price = info.price,
 			ident = info.ident,
@@ -151,14 +155,28 @@ function M.buy(iap_id)
 end
 
 
+function M.get_reward(iap_id)
+	local iap_data = get_iaps_config()[iap_id]
+	if not iap_data then
+		logger:error("No iap with id", { iap_id = iap_id })
+	end
+
+	return M._eva.tokens.get_token_group(iap_data.token_group_id)
+end
+
+
+function M.get_price(iap_id)
+
+end
+
+
 function M.before_game_start()
 	M._eva.app.iap_products = {}
 end
 
 
 function M.on_game_start()
-	local settings = M._eva.app.settings.iaps
-	load_config(settings)
+	load_config()
 
 	M._eva.app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
 	M._eva.saver.add_save_part(const.EVA.IAPS, M._eva.app[const.EVA.IAPS])

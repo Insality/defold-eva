@@ -63,6 +63,10 @@
 			]
 		},
 
+		"token_lots": {
+			"lists": ["Lots"]
+		},
+
 		"iaps_android": {
 			"lists": ["Iaps"],
 			"handlers": [

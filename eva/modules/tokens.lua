@@ -15,7 +15,7 @@ local function on_change_token(delta, reason, token_id, amount)
 end
 
 
-local function create_token(token_id, token_data)
+local function create_token_in_save(token_id, token_data)
 	if not token_data then
 		token_data = M._eva.proto.get(const.EVA.TOKEN)
 		M._eva.app[const.EVA.TOKENS].tokens[token_id] = token_data
@@ -34,10 +34,39 @@ local function get_token(token_id)
 	local tokens = M._eva.app.smart_tokens
 
 	if not tokens[token_id] then
-		tokens[token_id] = create_token(token_id)
+		tokens[token_id] = create_token_in_save(token_id)
 	end
 
 	return tokens[token_id]
+end
+
+
+function M.get_token_group(token_group_id)
+	local group = M._eva.app.token_groups[token_group_id]
+	if not group then
+		logger:error("No token group with id", { group_id = token_group_id })
+	end
+	return group.tokens
+end
+
+
+function M.get_lot_reward(lot_id)
+	local lot = M._eva.app.token_lots[lot_id]
+	if not lot then
+		logger:error("No token lot with id", { lot_id = lot_id })
+	end
+
+	return M.get_token_group(lot.reward)
+end
+
+
+function M.get_lot_price(lot_id)
+	local lot = M._eva.app.token_lots[lot_id]
+	if not lot then
+		logger:error("No token lot with id", { lot_id = lot_id })
+	end
+
+	return M.get_token_group(lot.price)
 end
 
 
@@ -50,9 +79,10 @@ end
 
 --- Add multiply tokens
 -- @function eva.tokens.add_group
-function M.add_group(tokens, reason)
-	for id, token in pairs(tokens) do
-		M.add(id, token.amount, reason)
+function M.add_group(token_group_id, reason)
+	local tokens = M.get_token_group(token_group_id)
+	for index, token in ipairs(tokens) do
+		M.add(token.token_id, token.amount, reason)
 	end
 end
 
@@ -80,9 +110,10 @@ end
 
 --- Pay multiply tokens
 -- @function eva.tokens.pay_group
-function M.pay_group(tokens, reason)
-	for id, token in pairs(tokens) do
-		M.pay(id, token.amount, reason)
+function M.pay_group(token_group_id, reason)
+	local tokens = M.get_token_group(token_group_id)
+	for index, token in ipairs(tokens) do
+		M.pay(token.token_id, token.amount, reason)
 	end
 end
 
@@ -96,11 +127,12 @@ end
 
 --- Check multiply tokens
 -- @function eva.tokens.is_enough_group
-function M.is_enough_group(tokens, reason)
+function M.is_enough_group(token_group_id, reason)
+	local tokens = M.get_token_group(token_group_id)
 	local is_enough = true
 
-	for id, token in pairs(tokens) do
-		is_enough = is_enough and M.is_enough(id, token.amount)
+	for index, token in ipairs(tokens) do
+		is_enough = is_enough and M.is_enough(token.token_id, token.amount)
 	end
 
 	return is_enough
@@ -185,6 +217,7 @@ local function load_config(config_name, db_name)
 	end
 end
 
+
 function M.on_game_start()
 	local settings = M._eva.app.settings.tokens
 	load_config("token_config", settings.config_token_config)
@@ -201,7 +234,7 @@ end
 function M.after_game_start()
 	for token_id, data in pairs(M._eva.app[const.EVA.TOKENS].tokens) do
 		-- Link behavior and data
-		M._eva.app.smart_tokens[token_id] = create_token(token_id, data)
+		M._eva.app.smart_tokens[token_id] = create_token_in_save(token_id, data)
 	end
 end
 

@@ -1,8 +1,0 @@
-{
-  "lots": {
-    "reward1": { "token1": [ "money", 100 ] },
-    "reward2": { "token1": [ "energy", 50 ], "token2": [ "level", 1 ] },
-    "iap_1": { "token1": [ "money", 500 ] },
-    "iap_2": { "token1": [ "money", 1000 ], "token2": [ "energy", 10 ] }
-  }
-}

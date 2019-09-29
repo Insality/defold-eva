@@ -11,46 +11,44 @@ local logger = log.get_logger("eva.offers")
 local M = {}
 
 
+local function get_offer_data(offer_id)
+	local config_name = M._eva.app.settings.offers.config
+	return M._eva.app.db[config_name].offers[offer_id]
+end
+
+
 local function get_offers()
 	return M._eva.app[const.EVA.OFFERS].offers
 end
 
 
-local function add(offer_id, category, time, lot, iap_id)
-	local offers = get_offers()
-	local offer = M._eva.proto.get(const.EVA.OFFER)
-
-	local timer_id = "eva.offers." .. offer_id
-	offer.timer_id = timer_id
-	offer.lot = lot
-	offer.category = category
-	if iap_id then
-		offer.is_iap = true
-		offer.iap_id = iap_id
+function M.add(offer_id)
+	-- Check offer_id is valid
+	local offer = get_offer_data(offer_id)
+	if not offer then
+		logger:error("Incorrect offer id. No offer in data", { offer_id = offer_id })
+		return
 	end
 
-	local is_offer_exist = offers[offer_id]
-	local is_timer_exist = M._eva.timers.get(offer.timer_id)
+	-- Create offer data
+	local offer_save = M._eva.proto.get(const.EVA.OFFER)
+	local timer_id = "eva.offers." .. offer_id
+	offer_save.timer_id = timer_id
 
+	-- Check offer is unique
+	local offers = get_offers()
+	local is_offer_exist = offers[offer_id]
+	local is_timer_exist = M._eva.timers.get(offer_save.timer_id)
 	if is_offer_exist or is_timer_exist then
 		logger:error("The offer is already exist", { offer_id = offer_id, timer_id = timer_id })
 		return
 	end
 
-	offers[offer_id] = offer
-	M._eva.timers.add(offer.timer_id, offer_id, time)
+	-- Add offer data to save
+	offers[offer_id] = offer_save
+	M._eva.timers.add(offer_save.timer_id, offer_id, offer.time)
 
-	return offer
-end
-
-
-function M.add_lot(offer_id, category, time, lot)
-	return add(offer_id, category, time, lot)
-end
-
-
-function M.add_iap(offer_id, category, time, iap_id)
-	return add(offer_id, category, time, nil, iap_id)
+	return offer_save
 end
 
 
@@ -70,12 +68,12 @@ end
 function M.get_time(offer_id)
 	local offer = get_offers()[offer_id]
 
-	if offer then
-		return M._eva.timers.get_time(offer.timer_id)
+	if not offer then
+		logger:error("No offer to get time", { offer_id = offer_id })
+		return
 	end
 
-	logger:error("No offer to get time", { offer_id = offer_id })
-	return -1
+	return M._eva.timers.get_time(offer.timer_id)
 end
 
 
@@ -85,44 +83,38 @@ end
 
 
 function M.get_reward(offer_id)
-	if not M.is_active(offer_id) then
-		logger:error("No offer with id", { offer_id = offer_id })
-		return
-	end
+	local offer = get_offer_data(offer_id)
 
 	local is_iap = M.is_iap(offer_id)
 
 	if is_iap then
-		return "TODO iap reward"
+		return M._eva.iaps.get_reward(offer.iap_id)
 	else
-		return get_offers()[offer_id].lot.reward
+		return M._eva.tokens.get_lot_reward(offer.lot_id)
 	end
 end
 
 
 function M.get_price(offer_id)
-	if not M.is_active(offer_id) then
-		logger:error("No offer with id", { offer_id = offer_id })
-		return
-	end
+	local offer = get_offer_data(offer_id)
 
 	local is_iap = M.is_iap(offer_id)
 
 	if is_iap then
-		return "TODO iap price"
+		return M._eva.iaps.get_price(offer.iap_id)
 	else
-		return get_offers()[offer_id].lot.price
+		return M._eva.tokens.get_lot_price(offer.lot_id)
 	end
 end
 
 
 function M.is_iap(offer_id)
-	local offer = get_offers()[offer_id]
-	if offer then
-		return offer.is_iap
-	else
-		logger:error("No offer with id", { offer_id = offer_id })
+	local offer = get_offer_data(offer_id)
+	if offer.iap_id and offer.iap_id ~= "" then
+		return true
 	end
+
+	return false
 end
 
 
