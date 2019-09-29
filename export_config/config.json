@@ -5,8 +5,15 @@
 		"type": "csv_web",
 		"id": "1-kbuk5avCvjkAgUwKM29fHf77Uc1-jZ5TtS3EHZbY4g",
 		"rule": "./rules_eva.json",
+		"all_handlers": [{
+			"type": "convert_array"
+		},
+		{
+			"type": "convert_boolean"
+		}],
+
 		"save": [{
-			"dist": "./resources/json/",
+			"dist": "../resources/json/",
 			"format": "json"
 		}],
 		"wrap_with_name": true

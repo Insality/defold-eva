@@ -15,14 +15,33 @@ message TokenConfig {
 	TokenRestoreConfig restore = 5;
 }
 
+message Tokens {
+	string token_id = 1;
+	int32 amount = 2;
+}
+
+message Tokens {
+	repeated Token tokens = 1;
+}
+
+message TokenGroups {
+	map<string, Tokens> token_groups = 1;
+}
+
+message Lot {
+	string price = 1; // TokenGroup ID
+	string reward = 2; // TokenGroup ID
+}
+
 message Lots {
-	map<string, int32> tokens = 1;
+	map<string, Lot> lots = 1;
 }
 
 message IapConfig {
 	string ident = 1;
 	float price = 2;
 	bool forever = 3;
+	string token_group_id = 4;
 }
 
 message IapsConfig {

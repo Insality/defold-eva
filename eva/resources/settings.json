@@ -29,7 +29,9 @@
 		}
 	},
 	"tokens": {
-		"token_config": ""
+		"config_lots": "Lots",
+		"config_tokens": "Tokens",
+		"config_tokens_config": "TokensConfig"
 	},
 	"log": {
 		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
@@ -40,8 +42,8 @@
 	},
 	"iaps": {
 		"is_disabled": true,
-		"config_android": "/resources/iaps.json",
-		"config_ios": "/resources/iaps.json"
+		"config_android": "IapsAndroid",
+		"config_ios": "IapsIos"
 	},
 	"camera": {
 		"multi_touch": true,
@@ -55,7 +57,16 @@
 	},
 	"db": {
 		"paths": {
+			"Tokens": "/resources/json/tokens.json",
+			"TokensConfig": "/resources/json/tokens_config.json",
+			"Offers": "/resources/json/offers.json",
+			"Lots": "/resources/json/lots.json",
+			"IapsAndroid": "/resources/json/iaps_android.json",
+			"IapsIos": "/resources/json/iaps_ios.json"
 		}
+	},
+	"offers": {
+		"config": "Offers"
 	},
 	"daily": {
 		"interval": 28800,

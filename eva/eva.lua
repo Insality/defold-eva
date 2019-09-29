@@ -66,7 +66,9 @@ function M.init(settings_path)
 	local settings = M.utils.load_json(const.DEFAULT_SETTINGS_PATH)
 	local custom_settings = M.utils.load_json(settings_path)
 
-	luax.table.extend(settings, custom_settings)
+	for key, value in pairs(custom_settings) do
+		luax.table.extend(settings[key], value)
+	end
 
 	M.app.settings = settings
 	log.init(M.app.settings.log)

@@ -176,10 +176,10 @@ function M.before_game_start()
 
 	local settings = M._eva.app.settings.tokens
 	if settings.token_config and settings.token_config ~= "" then
-		local filename = settings.token_config
-		M._eva.app.token_config = M._eva.utils.load_json(filename)
+		local config_name = settings.token_config
+		M._eva.app.token_config = M._eva.app.db[config_name]
 
-		logger:debug("Load token config", {path = filename})
+		logger:debug("Load token config", { config_name = config_name })
 	end
 end
 

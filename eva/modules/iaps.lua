@@ -15,8 +15,8 @@ local function load_config(settings)
 	M._eva.app.iap_products = {}
 
 	local is_ios = M._eva.device.is_ios()
-	local config = is_ios and settings.config_ios or settings.config_android
-	local data = M._eva.utils.load_json(config)
+	local config_name = is_ios and settings.config_ios or settings.config_android
+	local data = M._eva.app.db[config_name]
 
 	for iap_id, info in pairs(data.iaps) do
 		M._eva.app.iap_products[iap_id] = {

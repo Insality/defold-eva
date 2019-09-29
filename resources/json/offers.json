@@ -1,0 +1,6 @@
+{
+  "offers": {
+    "starter_1": { "category": "iap", "time": 172800, "iap_id": "starter1" },
+    "level_1": { "category": "game", "time": 14400, "lot_id": "lot1" }
+  }
+}
