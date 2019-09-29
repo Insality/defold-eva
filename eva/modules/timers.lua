@@ -110,14 +110,7 @@ function M.on_game_start()
 end
 
 
-local skip_counter = 1
-function M.on_game_update(dt)
-	skip_counter = skip_counter - dt
-	if skip_counter > 0 then
-		return
-	end
-	skip_counter = 1
-
+function M.on_game_second()
 	local timers = M._eva.app[const.EVA.TIMERS].timers
 	for slot_id, timer in pairs(timers) do
 		local can_trigger = timer.auto_trigger and not timer.is_pause

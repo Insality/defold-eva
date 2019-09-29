@@ -84,9 +84,10 @@ message Gdpr {
 
 message Offer {
 	Lot lot = 1;
-	string category = 2;
-	bool is_iap = 3;
-	string iap_id = 4;
+	string timer_id = 2;
+	string category = 3;
+	bool is_iap = 4;
+	string iap_id = 5;
 }
 
 message Offers {

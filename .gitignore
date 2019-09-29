@@ -12,3 +12,5 @@ builtins
 /dist
 node_modules/
 package-lock.json
+*.sublime-project
+*.sublime-workspace

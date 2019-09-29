@@ -3,6 +3,8 @@
 -- (what we do at end of prize timer)
 -- @submodule eva
 
+local const = require("eva.const")
+
 local M = {}
 
 
@@ -23,6 +25,12 @@ end
 
 function M.get_time()
 
+end
+
+
+function M.on_game_start()
+	M._eva.app[const.EVA.DAILY] = M._eva.proto.get(const.EVA.DAILY)
+	M._eva.saver.add_save_part(const.EVA.DAILY, M._eva.app[const.EVA.DAILY])
 end
 
 
