@@ -3,8 +3,8 @@ local eva = require("eva.eva")
 
 return function()
 	describe("Offers", function()
-		local id = "test_fast"
-		local id2 = "test_iap"
+		local offer_fast = "test_fast"
+		local offer_iap = "test_iap"
 
 		before(function()
 			eva.init("/resources/eva_settings_tests.json")
@@ -17,43 +17,48 @@ return function()
 		end)
 
 		it("Create offers", function()
-			eva.offers.add(id)
+			eva.offers.add(offer_fast)
 
-			print(eva.offers.get_time(id))
-			assert(eva.offers.get_time(id) == 20)
-			print("T", eva.offers.is_iap(id))
-			assert(not eva.offers.is_iap(id))
+			assert(eva.offers.get_time(offer_fast) == 20)
+			assert(not eva.offers.is_iap(offer_fast))
 
-			eva.offers.add(id2)
-			assert(eva.offers.is_iap(id2))
+			eva.offers.add(offer_iap)
+			assert(eva.offers.is_iap(offer_iap))
 		end)
 
 		it("Should have limited time", function()
-			local offer = eva.offers.add(id)
+			local offer = eva.offers.add(offer_fast)
 
-			assert(eva.offers.is_active(id))
+			assert(eva.offers.is_active(offer_fast))
 
 			mock_time.elapse(19)
 			eva.offers.on_game_second()
-			print("t", eva.timers.get(offer.timer_id))
 			assert(eva.timers.get(offer.timer_id) ~= nil)
-			assert(eva.offers.is_active(id))
+			assert(eva.offers.is_active(offer_fast))
 
 			-- remove at 20 seconds
 			mock_time.elapse(1)
 			eva.offers.on_game_second()
-			assert(not eva.offers.is_active(id))
+			assert(not eva.offers.is_active(offer_fast))
 
 			mock_time.elapse(1)
 			eva.offers.on_game_second()
-			assert(not eva.offers.is_active(id))
+			assert(not eva.offers.is_active(offer_fast))
 
 			assert(eva.timers.get(offer.timer_id) == nil)
 		end)
 
 		it("Should return price and value", function()
-			local offer = eva.offers.add(id)
-			local offer2 = eva.offers.add(id2)
+			local reward = eva.offers.get_reward(offer_fast)
+
+			local first = reward[1]
+			assert(first.token_id == "energy")
+			assert(first.amount == 50)
+
+			local price = eva.offers.get_price(offer_fast)
+			first = price[1]
+			assert(first.token_id == "money")
+			assert(first.amount == 1000)
 		end)
 	end)
 end

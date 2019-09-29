@@ -21,7 +21,7 @@ local function create_token_in_save(token_id, token_data)
 		M._eva.app[const.EVA.TOKENS].tokens[token_id] = token_data
 	end
 
-	local config = M._eva.app.token_config[token_id] or {}
+	local config = M._eva.app.token_config.token_config[token_id] or {}
 	config.name = token_id
 	local smart_token = smart.new(config, token_data)
 
@@ -42,7 +42,7 @@ end
 
 
 function M.get_token_group(token_group_id)
-	local group = M._eva.app.token_groups[token_group_id]
+	local group = M._eva.app.token_groups.token_groups[token_group_id]
 	if not group then
 		logger:error("No token group with id", { group_id = token_group_id })
 	end
@@ -51,7 +51,7 @@ end
 
 
 function M.get_lot_reward(lot_id)
-	local lot = M._eva.app.token_lots[lot_id]
+	local lot = M._eva.app.token_lots.token_lots[lot_id]
 	if not lot then
 		logger:error("No token lot with id", { lot_id = lot_id })
 	end
@@ -61,7 +61,7 @@ end
 
 
 function M.get_lot_price(lot_id)
-	local lot = M._eva.app.token_lots[lot_id]
+	local lot = M._eva.app.token_lots.token_lots[lot_id]
 	if not lot then
 		logger:error("No token lot with id", { lot_id = lot_id })
 	end

@@ -59,7 +59,7 @@
 		"paths": {
 			"TokenGroups": "/resources/json/token_groups.json",
 			"TokensConfig": "/resources/json/tokens_config.json",
-			"Lots": "/resources/json/token_lots.json",
+			"TokenLots": "/resources/json/token_lots.json",
 			"Offers": "/resources/json/offers.json",
 			"IapsAndroid": "/resources/json/iaps_android.json",
 			"IapsIos": "/resources/json/iaps_ios.json"
