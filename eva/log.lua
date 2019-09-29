@@ -67,6 +67,10 @@ end
 
 
 local function log_msg(self, level, message, context)
+	if level > LEVEL[M.settings.level] then
+		return
+	end
+
 	message = format(self, level, message, context)
 
 	if is_mobile() then

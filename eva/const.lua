@@ -6,6 +6,8 @@ local M = {}
 
 --- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
+M.DEFAULT_SETTINGS_PATH = "/eva/resources/settings.json"
+
 
 M.FPS = 60
 

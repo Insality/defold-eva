@@ -2,6 +2,8 @@
 -- @module eva
 
 local log = require("eva.log")
+local luax = require("eva.luax")
+local const = require("eva.const")
 
 local logger = log.get_logger("eva")
 local M = {}
@@ -54,13 +56,19 @@ end
 -- @tparam string settings_path path to eva_settings.json
 function M.init(settings_path)
 	M.app = {}
+	M.app._second_counter = 1
 
 	for name, component in pairs(modules) do
 		M[name] = component
 		component._eva = M
 	end
 
-	M.app.settings = M.utils.load_json(settings_path)
+	local settings = M.utils.load_json(const.DEFAULT_SETTINGS_PATH)
+	local custom_settings = M.utils.load_json(settings_path)
+
+	luax.table.extend(settings, custom_settings)
+
+	M.app.settings = settings
 	log.init(M.app.settings.log)
 
 	call_each_module("before_game_start")
@@ -76,6 +84,12 @@ end
 -- @tparam number dt delta time
 function M.on_game_update(dt)
 	call_each_module("on_game_update", dt)
+
+	M.app._second_counter = M.app._second_counter - dt
+	if M.app._second_counter <= 0 then
+		M.app._second_counter = 1
+		call_each_module("on_game_second")
+	end
 end
 
 

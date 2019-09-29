@@ -5,7 +5,7 @@ local broadcast = require("eva.libs.broadcast")
 function init(self)
 	msg.post(".", "acquire_input_focus")
 
-	eva.init(sys.get_config("eva.settings"))
+	eva.init()
 
 	--[ Camera setup example
 	eva.camera.set_camera("main:/camera", go.get("main:/camera#script", "viewArea"))

@@ -7,7 +7,7 @@ return function()
 
 		before(function()
 			-- Subscribe on event
-			eva.on_game_start("/resources/eva_settings_tests.json")
+			eva.init("/resources/eva_settings_tests.json")
 
 			broadcast.register("Custom_event", function()
 				message_arrived = true
