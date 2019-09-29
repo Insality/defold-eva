@@ -35,6 +35,7 @@
 <li><a href="#Functions">Functions</a></li>
 <li><a href="#modules_ads_Functions">modules.ads Functions</a></li>
 <li><a href="#modules_camera_Functions">modules.camera Functions</a></li>
+<li><a href="#modules_daily_Functions">modules.daily Functions</a></li>
 <li><a href="#modules_device_Functions">modules.device Functions</a></li>
 <li><a href="#modules_events_Functions">modules.events Functions</a></li>
 <li><a href="#modules_game_Functions">modules.game Functions</a></li>
@@ -85,6 +86,14 @@
 	<td class="name" nowrap><a href="#on_game_update">on_game_update(dt)</a></td>
 	<td class="summary">Call this on main update loop</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#on_input">on_input()</a></td>
+	<td class="summary">Call this on main game on_input</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#on_message">on_message()</a></td>
+	<td class="summary">Call this on main game on_message</td>
+	</tr>
 </table>
 <h2><a href="#modules_ads_Functions">modules.ads Functions</a></h2>
 <table class="function_list">
@@ -118,6 +127,33 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.camera.set_zoom_borders">eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</a></td>
 	<td class="summary">Set the camera game object and size of the camera</td>
+	</tr>
+</table>
+<h2><a href="#modules_daily_Functions">modules.daily Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.daily.is_active">eva.daily.is_active()</a></td>
+	<td class="summary">Return is active now daily system</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.daily.set_active">eva.daily.set_active()</a></td>
+	<td class="summary">Set active daily system It will reset last pick time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.daily.pick">eva.daily.pick()</a></td>
+	<td class="summary">Pick current prize</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.daily.get_time">eva.daily.get_time()</a></td>
+	<td class="summary">Return time until you can pickup prize</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.daily.get_wait_time">eva.daily.get_wait_time()</a></td>
+	<td class="summary">Return time until you can lose the unpicked reward</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.daily.get_current_state">eva.daily.get_current_state()</a></td>
+	<td class="summary">Return current state</td>
 	</tr>
 </table>
 <h2><a href="#modules_device_Functions">modules.device Functions</a></h2>
@@ -281,6 +317,14 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.proto.get">eva.proto.get(proto_type)</a></td>
 	<td class="summary">Get empty template from proto type</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.proto.decode">eva.proto.decode()</a></td>
+	<td class="summary">Encode protobuf</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.proto.decode">eva.proto.decode()</a></td>
+	<td class="summary">Decode protobuf</td>
 	</tr>
 </table>
 <h2><a href="#modules_push_Functions">modules.push Functions</a></h2>
@@ -602,6 +646,34 @@
 
 
 </dd>
+    <dt>
+    <a name = "on_input"></a>
+    <strong>on_input()</strong>
+    </dt>
+    <dd>
+    Call this on main game on_input
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "on_message"></a>
+    <strong>on_message()</strong>
+    </dt>
+    <dd>
+    Call this on main game on_message
+
+
+
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_ads_Functions"></a>modules.ads Functions</h2>
 
@@ -747,6 +819,94 @@
         Setup zoom hard values. vector3(min<em>value, max</em>value, 0)
         </li>
     </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_daily_Functions"></a>modules.daily Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.daily.is_active"></a>
+    <strong>eva.daily.is_active()</strong>
+    </dt>
+    <dd>
+    Return is active now daily system
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.daily.set_active"></a>
+    <strong>eva.daily.set_active()</strong>
+    </dt>
+    <dd>
+    Set active daily system It will reset last pick time
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.daily.pick"></a>
+    <strong>eva.daily.pick()</strong>
+    </dt>
+    <dd>
+    Pick current prize
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.daily.get_time"></a>
+    <strong>eva.daily.get_time()</strong>
+    </dt>
+    <dd>
+    Return time until you can pickup prize
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.daily.get_wait_time"></a>
+    <strong>eva.daily.get_wait_time()</strong>
+    </dt>
+    <dd>
+    Return time until you can lose the unpicked reward
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.daily.get_current_state"></a>
+    <strong>eva.daily.get_current_state()</strong>
+    </dt>
+    <dd>
+    Return current state
+
+
 
 
 
@@ -1485,6 +1645,34 @@
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         empty table with default values from proto
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.proto.decode"></a>
+    <strong>eva.proto.decode()</strong>
+    </dt>
+    <dd>
+    Encode protobuf
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.proto.decode"></a>
+    <strong>eva.proto.decode()</strong>
+    </dt>
+    <dd>
+    Decode protobuf
+
+
+
 
 
 
@@ -2540,7 +2728,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-09-29 22:34:57 </i>
+<i style="float:right;">Last updated 2019-09-30 00:32:45 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
