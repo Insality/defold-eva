@@ -20,12 +20,12 @@ end
 
 
 function M.encode(proto_type, data)
-	return pb.encode(proto_type)
+	return pb.encode(proto_type, data)
 end
 
 
 function M.decode(proto_type, data)
-	return pb.decode(proto_type)
+	return pb.decode(proto_type, data)
 end
 
 

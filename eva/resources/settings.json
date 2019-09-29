@@ -56,6 +56,11 @@
 		"paths": {
 		}
 	},
+	"daily": {
+		"interval": 28800,
+		"days": ["gold1", "gold2", "gold3", "gold4", "gold5"],
+		"type": "wait"
+	},
 	"ads": {
 		"is_disabled": true,
 		"ads_id_ios": "3173554",

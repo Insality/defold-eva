@@ -48,6 +48,15 @@ function M.add(token_id, amount, reason)
 end
 
 
+--- Add multiply tokens
+-- @function eva.tokens.add_group
+function M.add_group(tokens, reason)
+	for id, token in pairs(tokens) do
+		M.add(id, token.amount, reason)
+	end
+end
+
+
 --- Set tokens
 -- @function eva.tokens.set
 function M.set(token_id, amount, reason)
@@ -69,10 +78,32 @@ function M.pay(token_id, amount, reason)
 end
 
 
+--- Pay multiply tokens
+-- @function eva.tokens.pay_group
+function M.pay_group(tokens, reason)
+	for id, token in pairs(tokens) do
+		M.pay(id, token.amount, reason)
+	end
+end
+
+
 --- Check is enough to pay token
 -- @function eva.tokens.is_enough
 function M.is_enough(token_id, amount)
 	return get_token(token_id):check(amount)
+end
+
+
+--- Check multiply tokens
+-- @function eva.tokens.is_enough_group
+function M.is_enough_group(tokens, reason)
+	local is_enough = true
+
+	for id, token in pairs(tokens) do
+		is_enough = is_enough and M.is_enough(id, token.amount)
+	end
+
+	return is_enough
 end
 
 

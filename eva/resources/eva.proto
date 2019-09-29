@@ -72,9 +72,30 @@ message Tokens {
 	map<string, Token> tokens = 1;
 }
 
+message Lot {
+	Tokens price = 1;
+	Tokens reward = 2;
+}
+
 message Gdpr {
 	bool is_accepted = 1;
 	string accept_date = 2;
+}
+
+message Offer {
+	Lot lot = 1;
+	string category = 2;
+	bool is_iap = 3;
+	string iap_id = 4;
+}
+
+message Offers {
+	map<string, Offer> offers = 1;
+}
+
+message Daily {
+	uint32 last_pick_time = 1;
+	repeated bool reward_state = 2;
 }
 
 message IapDetails {

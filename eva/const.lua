@@ -67,9 +67,12 @@ M.EVA = {
 	IAPS = "eva.Iaps",
 	TIMERS = "eva.Timers",
 	STORAGE = "eva.Storage",
+	OFFERS = "eva.Offers",
+	DAILY = "eva.Daily",
 
 	-- Part of data
 	TOKEN = "eva.Token",
+	OFFER = "eva.Offer",
 	STORAGE_VALUE = "eva.StorageValue",
 	TIMER = "eva.Timer",
 	IAP_INFO = "eva.IapInfo",

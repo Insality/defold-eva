@@ -16,14 +16,6 @@ function init(self)
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
 	end)
-
-	eva.storage.set("test_s", "test")
-	eva.storage.set("test_i", 24)
-	eva.storage.set("test_b", true)
-
-	print(eva.storage.get("test_b"))
-	print(eva.storage.get("test_s"))
-	print(eva.storage.get("test_i"))
 end
 
 

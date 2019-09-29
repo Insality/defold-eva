@@ -15,6 +15,14 @@ message TokenConfig {
 	TokenRestoreConfig restore = 5;
 }
 
+message Token {
+	int32 amount = 1;
+}
+
+message Tokens {
+	map<string, Token> tokens = 1;
+}
+
 message IapConfig {
 	string ident = 1;
 	float price = 2;
