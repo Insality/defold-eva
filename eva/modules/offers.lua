@@ -16,7 +16,7 @@ local function get_offers()
 end
 
 
-function M.add(offer_id, category, time, lot, iap_id)
+local function add(offer_id, category, time, lot, iap_id)
 	local offers = get_offers()
 	local offer = M._eva.proto.get(const.EVA.OFFER)
 
@@ -41,6 +41,16 @@ function M.add(offer_id, category, time, lot, iap_id)
 	M._eva.timers.add(offer.timer_id, offer_id, time)
 
 	return offer
+end
+
+
+function M.add_lot(offer_id, category, time, lot)
+	return add(offer_id, category, time, lot)
+end
+
+
+function M.add_iap(offer_id, category, time, iap_id)
+	return add(offer_id, category, time, nil, iap_id)
 end
 
 
@@ -75,12 +85,34 @@ end
 
 
 function M.get_reward(offer_id)
+	if not M.is_active(offer_id) then
+		logger:error("No offer with id", { offer_id = offer_id })
+		return
+	end
 
+	local is_iap = M.is_iap(offer_id)
+
+	if is_iap then
+		return "TODO iap reward"
+	else
+		return get_offers()[offer_id].lot.reward
+	end
 end
 
 
 function M.get_price(offer_id)
+	if not M.is_active(offer_id) then
+		logger:error("No offer with id", { offer_id = offer_id })
+		return
+	end
 
+	local is_iap = M.is_iap(offer_id)
+
+	if is_iap then
+		return "TODO iap price"
+	else
+		return get_offers()[offer_id].lot.price
+	end
 end
 
 

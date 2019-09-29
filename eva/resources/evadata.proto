@@ -15,12 +15,8 @@ message TokenConfig {
 	TokenRestoreConfig restore = 5;
 }
 
-message Token {
-	int32 amount = 1;
-}
-
-message Tokens {
-	map<string, Token> tokens = 1;
+message Lots {
+	map<string, int32> tokens = 1;
 }
 
 message IapConfig {

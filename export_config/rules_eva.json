@@ -1,0 +1,36 @@
+{
+	"rules": {
+		"tokens_config": {
+			"lists": ["TokensConfig"],
+			"handlers": [
+				{
+					"type": "union_fields",
+					"config": {
+						"name": "restore",
+						"union_type": "table",
+						"fields": ["restore_timer", "restore_value", "restore_max"],
+						"alias": ["timer", "value", "max"]
+					}
+				},
+				{
+					"type": "add_id_as_field",
+					"config": {
+						"id": "name"
+					}
+				}
+			]
+		},
+		"lots": {
+			"lists": ["Lots"]
+		},
+		"iaps_android": {
+			"lists": ["Iaps Android"]
+		},
+		"iaps_ios": {
+			"lists": ["Iaps iOS"]
+		},
+		"offers": {
+			"lists": ["Offers"]
+		},
+	}
+}

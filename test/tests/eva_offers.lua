@@ -5,6 +5,8 @@ return function()
 	describe("Offers", function()
 		local category = "test"
 		local id = "offer"
+		local id2 = "offer2"
+		local iap_id = "small_pack"
 		local lot = {
 			reward = {},
 			price = {},
@@ -21,19 +23,18 @@ return function()
 		end)
 
 		it("Create offers", function()
-			local id2 = "offer2"
-			eva.offers.add(id, category, 20, lot)
+			eva.offers.add_lot(id, category, 20, lot)
 
 			print(eva.offers.get_time(id))
 			assert(eva.offers.get_time(id) == 20)
 			assert(not eva.offers.is_iap(id))
 
-			eva.offers.add(id2, category, 20, lot, "com.test.iap")
+			eva.offers.add_iap(id2, category, 20, iap_id)
 			assert(eva.offers.is_iap(id2))
 		end)
 
 		it("Should have limited time", function()
-			local offer = eva.offers.add(id, category, 20, lot)
+			local offer = eva.offers.add_lot(id, category, 20, lot)
 
 			assert(eva.offers.is_active(id))
 
@@ -52,6 +53,11 @@ return function()
 			assert(not eva.offers.is_active(id))
 
 			assert(eva.timers.get(offer.timer_id) == nil)
+		end)
+
+		it("Should return prica and value", function()
+			local offer = eva.offers.add_lot(id, category, 20, lot)
+			local offer2 = eva.offers.add_iap(id2, category, 20, iap_id)
 		end)
 	end)
 end

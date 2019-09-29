@@ -1,7 +1,7 @@
 local deftest = require "deftest.deftest"
 
 local tests = {
-	-- require("test.tests.smart_value"),
+	require("test.tests.smart_value"),
 	-- require("test.tests.eva_events"),
 	require("test.tests.eva_offers"),
 }
