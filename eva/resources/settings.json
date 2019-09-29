@@ -69,8 +69,9 @@
 		"config": "Offers"
 	},
 	"daily": {
-		"interval": 28800,
-		"days": ["gold1", "gold2", "gold3", "gold4", "gold5"],
+		"interval": 43200,
+		"wait_time": 86400,
+		"reward": ["test_group_1", "test_group_1", "test_group_1", "test_group_1", "test_group_2"],
 		"type": "wait"
 	},
 	"ads": {

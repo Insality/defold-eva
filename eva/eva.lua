@@ -96,11 +96,15 @@ function M.on_game_update(dt)
 end
 
 
+--- Call this on main game on_input
+-- @function eva.on_input
 function M.on_input(action_id, action)
 	call_each_module("on_input", action_id, action)
 end
 
 
+--- Call this on main game on_message
+-- @function eva.on_message
 function M.on_message(message_id, message, sender)
 	call_each_module("on_message", message_id, message, sender)
 end
