@@ -26,31 +26,24 @@
 			"handlers": [
 				{
 					"type": "array_to_map",
-					"config": {
-						"field": "token1",
-						"keys": ["token_id", "amount"]
-					}
-				},
-				{
-					"type": "array_to_map",
-					"config": {
-						"field": "token2",
-						"keys": ["token_id", "amount"]
-					}
-				},
-				{
-					"type": "array_to_map",
-					"config": {
-						"field": "token3",
-						"keys": ["token_id", "amount"]
-					}
-				},
-				{
-					"type": "array_to_map",
-					"config": {
-						"field": "token4",
-						"keys": ["token_id", "amount"]
-					}
+					"config": [
+						{
+							"field": "token1",
+							"keys": ["token_id", "amount"]
+						},
+						{
+							"field": "token2",
+							"keys": ["token_id", "amount"]
+						},
+						{
+							"field": "token3",
+							"keys": ["token_id", "amount"]
+						},
+						{
+							"field": "token4",
+							"keys": ["token_id", "amount"]
+						}
+					]
 				},
 				{
 					"type": "union_fields",
