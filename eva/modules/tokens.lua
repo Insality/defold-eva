@@ -173,18 +173,24 @@ end
 function M.before_game_start()
 	M._eva.app.smart_tokens = {}
 	M._eva.app.token_config = {}
-
-	local settings = M._eva.app.settings.tokens
-	if settings.token_config and settings.token_config ~= "" then
-		local config_name = settings.token_config
-		M._eva.app.token_config = M._eva.app.db[config_name]
-
-		logger:debug("Load token config", { config_name = config_name })
-	end
+	M._eva.app.token_groups = {}
+	M._eva.app.token_lots = {}
 end
 
 
+local function load_config(config_name, db_name)
+	if db_name then
+		M._eva.app[config_name] = M._eva.app.db[db_name]
+		logger:debug("Load token config part", { name = config_name, db_name = db_name })
+	end
+end
+
 function M.on_game_start()
+	local settings = M._eva.app.settings.tokens
+	load_config("token_config", settings.config_token_config)
+	load_config("token_groups", settings.config_token_groups)
+	load_config("token_lots", settings.config_lots)
+
 	M._eva.app[const.EVA.TOKENS] = M._eva.proto.get(const.EVA.TOKENS)
 	M._eva.saver.add_save_part(const.EVA.TOKENS, M._eva.app[const.EVA.TOKENS])
 

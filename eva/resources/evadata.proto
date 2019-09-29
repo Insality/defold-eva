@@ -1,3 +1,4 @@
+
 syntax = "proto3";
 package evadata;
 
@@ -15,7 +16,7 @@ message TokenConfig {
 	TokenRestoreConfig restore = 5;
 }
 
-message Tokens {
+message Token {
 	string token_id = 1;
 	int32 amount = 2;
 }

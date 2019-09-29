@@ -153,12 +153,13 @@ end
 
 function M.before_game_start()
 	M._eva.app.iap_products = {}
-	local settings = M._eva.app.settings.iaps
-	load_config(settings)
 end
 
 
 function M.on_game_start()
+	local settings = M._eva.app.settings.iaps
+	load_config(settings)
+
 	M._eva.app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
 	M._eva.saver.add_save_part(const.EVA.IAPS, M._eva.app[const.EVA.IAPS])
 end

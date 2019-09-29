@@ -13,7 +13,7 @@
 	"saver": {
 		"save_name": "eva",
 		"autosave": 4,
-		"print_save_at_start": true
+		"print_save_at_start": false
 	},
 	"gdpr": {
 		"policy_url": "https://d.insality.com/privacypolicy.htm"
@@ -30,8 +30,8 @@
 	},
 	"tokens": {
 		"config_lots": "Lots",
-		"config_tokens": "Tokens",
-		"config_tokens_config": "TokensConfig"
+		"config_token_groups": "TokenGroups",
+		"config_token_config": "TokensConfig"
 	},
 	"log": {
 		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
@@ -41,7 +41,7 @@
 		"window_path": ""
 	},
 	"iaps": {
-		"is_disabled": true,
+		"is_disabled": false,
 		"config_android": "IapsAndroid",
 		"config_ios": "IapsIos"
 	},
@@ -57,10 +57,10 @@
 	},
 	"db": {
 		"paths": {
-			"Tokens": "/resources/json/tokens.json",
+			"TokenGroups": "/resources/json/token_groups.json",
 			"TokensConfig": "/resources/json/tokens_config.json",
-			"Offers": "/resources/json/offers.json",
 			"Lots": "/resources/json/lots.json",
+			"Offers": "/resources/json/offers.json",
 			"IapsAndroid": "/resources/json/iaps_android.json",
 			"IapsIos": "/resources/json/iaps_ios.json"
 		}
