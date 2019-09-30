@@ -1,17 +1,17 @@
 path_settings {
-  path: "/game/atlases/16bit/**"
+  path: "/assets/atlases/16bit/**"
   profile: "RGBA_16bit"
 }
 path_settings {
-  path: "/game/atlases/16bit_no_alpha/**"
+  path: "/assets/atlases/16bit_no_alpha/**"
   profile: "RGB_16bit"
 }
 path_settings {
-  path: "/game/atlases/32bit/**"
+  path: "/assets/atlases/32bit/**"
   profile: "RGBA_32bit"
 }
 path_settings {
-  path: "/game/atlases/32bit_no_alpha/**"
+  path: "/assets/atlases/32bit_no_alpha/**"
   profile: "RGB_32bit"
 }
 profiles {

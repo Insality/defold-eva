@@ -27,7 +27,8 @@ end
 --- Save the game save
 -- @function eva.saver.save
 function M.save()
-	M._saver_prefs.version = M._saver_prefs.version + 1
+	local data = M._eva.app[const.EVA.SAVER]
+	data.version = data.version + 1
 
 	local settings = M._eva.app.settings.saver
 	local path = get_save_path(settings.save_name)
@@ -74,18 +75,19 @@ end
 
 
 function M.on_game_start()
-	M._saver_prefs = M._eva.proto.get(const.EVA.SAVER)
-	M._eva.saver.add_save_part(const.EVA.SAVER, M._saver_prefs)
+	M._eva.app[const.EVA.SAVER] = M._eva.proto.get(const.EVA.SAVER)
+	M._eva.saver.add_save_part(const.EVA.SAVER, M._eva.app[const.EVA.SAVER])
 end
 
 
 function M.after_game_start()
-	local settings = M._eva.app.settings.saver
+	local app = M._eva.app
+	local settings = app.settings.saver
 	if settings.autosave > 0 then
 		timer.delay(settings.autosave, true, M.save)
 	end
 
-	local last_version = M._saver_prefs.last_game_version
+	local last_version = app[const.EVA.SAVER].last_game_version
 	local current_version = sys.get_config("project.version")
 
 	if last_version ~= "" then
@@ -97,13 +99,13 @@ function M.after_game_start()
 		end
 	end
 
-	M._saver_prefs.last_game_version = sys.get_config("project.version")
+	app[const.EVA.SAVER].last_game_version = sys.get_config("project.version")
 
 	if settings.print_save_at_start then
-		pprint(M._eva.app.save_table)
+		pprint(app.save_table)
 	end
 
-	logger:info("Save successful loaded", { version = M._saver_prefs.version })
+	logger:info("Save successful loaded", { version = app[const.EVA.SAVER].version })
 end
 
 
