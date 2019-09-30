@@ -69,9 +69,7 @@ local function check_states()
 
 	local state = settings.type
 	if M.get_wait_time() == 0 then
-		if state == const.DAILY.WAIT then
-			-- Do nothing and waiting until pickup
-		end
+		-- Do nothing and state const.DAILY.WAIT
 		if state == const.DAILY.RESET then
 			reset_daily()
 		end

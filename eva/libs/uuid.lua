@@ -123,7 +123,8 @@ function M.new(hwaddr)
       end
       i = i - 1
     end
-    assert(#hwaddr == 12, "Provided string did not contain at least 12 hex characters, retrieved '"..hwaddr.."' from '"..str.."'")
+    assert(#hwaddr == 12, [[Provided string did not contain
+      at least 12 hex characters, retrieved ']]..hwaddr.."' from '"..str.."'")
 
     -- no split() in lua. :(
     bytes[11] = to_number(hwaddr:sub(1, 2), 16)
@@ -144,7 +145,9 @@ function M.new(hwaddr)
          INT2HEX(bytes[5])..INT2HEX(bytes[6]).."-"..
          INT2HEX(bytes[7])..INT2HEX(bytes[8]).."-"..
          INT2HEX(bytes[9])..INT2HEX(bytes[10]).."-"..
-         INT2HEX(bytes[11])..INT2HEX(bytes[12])..INT2HEX(bytes[13])..INT2HEX(bytes[14])..INT2HEX(bytes[15])..INT2HEX(bytes[16])
+         INT2HEX(bytes[11])..INT2HEX(bytes[12])..
+         INT2HEX(bytes[13])..INT2HEX(bytes[14])..
+         INT2HEX(bytes[15])..INT2HEX(bytes[16])
 end
 
 ----------------------------------------------------------------------------
