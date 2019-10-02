@@ -30,6 +30,7 @@ M.AD = {
 M.INPUT = {
 	MULTITOUCH = hash("touch_multi"),
 	TOUCH = hash("touch"),
+	CLOSE = hash("close"),
 	SCROLL_UP = hash("mouse_wheel_up"),
 	SCROLL_DOWN = hash("mouse_wheel_down"),
 }

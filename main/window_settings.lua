@@ -14,13 +14,13 @@
 local function appear_simple(settings, cb)
 	local root = gui.get_node("root")
 	gui.set_scale(root, vmath.vector3(0.01))
-	gui.animate(root, gui.PROP_SCALE, 1, gui.EASING_OUTSINE, 0.1, 0, cb)
+	gui.animate(root, gui.PROP_SCALE, 1, gui.EASING_OUTSINE, 0.4, 0, cb)
 end
 
 
 local function disappear_simple(settings, cb)
 	local root = gui.get_node("root")
-	gui.animate(root, gui.PROP_SCALE, 0.01, gui.EASING_OUTSINE, 0.1, 0, cb)
+	gui.animate(root, gui.PROP_SCALE, 0.01, gui.EASING_OUTSINE, 0.4, 0, cb)
 end
 
 
@@ -57,6 +57,8 @@ local M = {
 		after_show_scene = after_show_scene,
 		before_show_window = before_show_window,
 		after_show_window = after_show_window,
+		is_popup = true,
+		is_popup_on_popup = false,
 
 		test_value = "test",
 	},

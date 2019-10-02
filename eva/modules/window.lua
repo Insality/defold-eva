@@ -2,6 +2,7 @@
 -- @submodule eva
 
 local luax = require("eva.luax")
+local const = require("eva.const")
 local monarch = require("monarch.monarch")
 local log = require("eva.log")
 
@@ -28,7 +29,7 @@ function M.show_scene(scene_id, data)
 	logger:debug("Show scene", { scene_id = scene_id })
 	local settings = get_settings(scene_id)
 
-	-- Hello, Pyramids!
+	-- Praise the pyramids!
 	settings.before_show_scene(function()
 		monarch.show(scene_id, nil, data, function()
 			settings.after_show_scene()
@@ -93,21 +94,17 @@ end
 --- Appear functions for all windows
 -- Need to call inside window
 -- @function eva.window.appear
-function M.appear(window_name, cb)
+function M.appear(window_id, cb)
 	local data = M._eva.app.window
-	if data.transitions ~= 0 then
-		logger:debug("Cant appear window due to transitions", { count = data.transitions })
-		return
-	end
-
-	local settings = get_settings(window_name)
+	local settings = get_settings(window_id)
 	gui.set_render_order(settings.render_order)
 
-	data.transitions = data.transitions + 1
+	table.insert(data.queue, {
+		url = msg.url(),
+		window_id = window_id
+	})
 
 	settings.appear_func(settings, function()
-		data.transitions = data.transitions -1
-
 		if cb then
 			cb()
 		end
@@ -118,30 +115,31 @@ end
 --- Disappear functions for all windows
 -- Need to call inside window
 -- @function eva.window.disappear
-function M.disappear(window_name, cb)
+function M.disappear(window_id, cb)
 	local data = M._eva.app.window
-	if data.transitions ~= 0 then
-		logger:debug("Cant disappear window due to transitions", { count = data.transitions })
-		return
-	end
-
-	local settings = get_settings(window_name)
-
-	data.transitions = data.transitions + 1
+	local settings = get_settings(window_id)
 
 	settings.disappear_func(settings, function()
 		monarch.back(nil, function()
-			data.transitions = data.transitions - 1
 			-- TODO: If it was popup on popup??
-			M._eva.app.last_window = nil
+			table.remove(data.queue)
+			M._eva.app.window.last_window = nil
 
 			if cb then
 				cb()
 			end
+
+			M.on_close_window(window_id)
 		end)
 	end)
 end
 
+
+function M.on_message(window_id, message_id, message, sender)
+	if message_id == const.INPUT.CLOSE then
+		M.disappear(window_id)
+	end
+end
 
 --- Set game windows settings
 -- @function eva.window.set_settings
@@ -154,7 +152,9 @@ function M.before_game_start()
 	M._eva.app.window = {
 		last_window = nil,
 		last_scene = "loader", -- TODO: To const or auto-calc?
-		transitions = 0,
+		queue = {},
+		next_queue = {},
+		close_all_callback = nil,
 	}
 end
 
