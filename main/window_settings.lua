@@ -2,8 +2,8 @@
 -- default settings will be extend with windows custom
 -- every settings should have next field:
 -- 	- render_order - number 0..15 to gui.set_render_order
--- 	- appear_func - function(settings, cb) on window show
--- 	- disappear_func - function(settings, cb) on window close
+-- 	- appear_func - function(cb) on window show
+-- 	- disappear_func - function(cb) on window close
 -- 	- before_show_scene - function before show scene
 -- 	- after_show_scene - function after show scene
 -- 	- before_show_window - function before show window
@@ -24,24 +24,24 @@ local function disappear_simple(settings, cb)
 end
 
 
-local function before_show_scene(settings, cb)
+local function before_show_scene(cb)
 	cb()
 end
 
 
-local function after_show_scene(settings, cb)
+local function after_show_scene(cb)
 	if cb then
 		cb()
 	end
 end
 
 
-local function before_show_window(settings, cb)
+local function before_show_window(cb)
 	cb()
 end
 
 
-local function after_show_window(settings, cb)
+local function after_show_window(cb)
 	if cb then
 		cb()
 	end
@@ -63,6 +63,10 @@ local M = {
 
 	["window_test"] = {
 		render_order = 11
+	},
+
+	["window_popup"] = {
+		render_order = 13
 	}
 }
 

@@ -53,6 +53,7 @@ message Ads {
 	uint32 ads_loaded = 1;
 	uint32 page_watched = 2;
 	uint32 rewarded_watched = 3;
+	bool ads_disabled = 4;
 }
 
 message Stats {

@@ -21,6 +21,7 @@ local modules = {
 	gdpr = require("eva.modules.gdpr"),
 	iaps = require("eva.modules.iaps"),
 	lang = require("eva.modules.lang"),
+	loader = require("eva.modules.loader"),
 	migrations = require("eva.modules.migrations"),
 	push = require("eva.modules.push"),
 	proto = require("eva.modules.proto"),

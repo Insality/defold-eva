@@ -1,4 +1,4 @@
-script: "/main/windows/window_test.gui_script"
+script: "/main/windows/window_shop.gui_script"
 fonts {
   name: "system_font"
   font: "/builtins/fonts/system_font.font"
@@ -29,15 +29,15 @@ nodes {
     w: 1.0
   }
   size {
-    x: 800.0
-    y: 700.0
+    x: 500.0
+    y: 600.0
     z: 0.0
     w: 1.0
   }
   color {
-    x: 0.101960786
-    y: 0.3019608
-    z: 0.101960786
+    x: 0.4
+    y: 0.4
+    z: 0.4
     w: 1.0
   }
   type: TYPE_BOX
@@ -66,7 +66,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 224.0
+    y: 187.0
     z: 0.0
     w: 1.0
   }
@@ -83,8 +83,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 100.0
-    y: 40.0
+    x: 40.0
+    y: 20.0
     z: 0.0
     w: 1.0
   }
@@ -96,7 +96,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "Test window"
+  text: "SHOP"
   font: "system_font"
   id: "text"
   xanchor: XANCHOR_NONE

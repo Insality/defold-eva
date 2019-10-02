@@ -35,7 +35,7 @@
 	},
 	"log": {
 		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
-		"level": "WARN"
+		"level": "DEBUG"
 	},
 	"window": {
 		"window_path": ""

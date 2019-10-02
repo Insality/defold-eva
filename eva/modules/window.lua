@@ -65,8 +65,8 @@ end
 
 
 --- Check is window is opened now
--- @function eva.window.is_opened
-function M.is_opened(window_id)
+-- @function eva.window.is_open
+function M.is_open(window_id)
 	return monarch.top() == hash(window_id)
 end
 
@@ -96,6 +96,7 @@ end
 function M.appear(window_name, cb)
 	local data = M._eva.app.window
 	if data.transitions ~= 0 then
+		logger:debug("Cant appear window due to transitions", { count = data.transitions })
 		return
 	end
 
@@ -120,6 +121,7 @@ end
 function M.disappear(window_name, cb)
 	local data = M._eva.app.window
 	if data.transitions ~= 0 then
+		logger:debug("Cant disappear window due to transitions", { count = data.transitions })
 		return
 	end
 

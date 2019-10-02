@@ -1,5 +1,5 @@
 local eva = require("eva.eva")
-local id = "window_test"
+local id = "window_shop"
 
 function init(self)
 	eva.window.appear(id)

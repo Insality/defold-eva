@@ -1,0 +1,16 @@
+local eva = require("eva.eva")
+local window_settings = require("main.window_settings")
+
+function init(self)
+	eva.init()
+	eva.window.set_settings(window_settings)
+
+	msg.post(".", "late_init")
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("late_init") then
+		eva.window.show_scene("scene_main")
+	end
+end
