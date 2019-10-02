@@ -38,8 +38,32 @@ local function add_to_next_queue(window_id, window_data)
 
 	table.insert(data.next_queue, {
 		window_id = window_id,
-		data = data
+		data = window_data
 	})
+end
+
+
+local function handle_callbacks(data)
+	if not data.callbacks then
+		return
+	end
+
+	data.callback_index = {}
+	local stored_url = msg.url()
+
+	for name, callback in pairs(data.callbacks) do
+		data.callback_index[name] = function()
+			local index = M._eva.callbacks.create(callback)
+			msg.post(stored_url, const.INPUT.CALLBACK, { index = index })
+		end
+	end
+
+	data.callbacks = nil
+end
+
+
+function M.get_data(window_id)
+	return monarch.data(window_id)
 end
 
 
@@ -71,9 +95,11 @@ end
 -- @function eva.window.show
 function M.show(window_id, window_data, in_queue)
 	assert(monarch.screen_exists(window_id), "Provide the correct window_id")
+	window_data = window_data or luax.table.empty
 	local settings = get_settings(window_id)
 	local data = M._eva.app.window
 
+	-- Handle window queue
 	if #data.queue > 0 and not settings.is_popup_on_popup then
 		add_to_next_queue(window_id, window_data)
 
@@ -84,11 +110,29 @@ function M.show(window_id, window_data, in_queue)
 		return true
 	end
 
+	-- Handle return context
+	if window_data.is_return then
+		data.prev_context = data.last_data
+		window_data.is_return = nil
+	end
+
+	if not settings.is_popup_on_popup then
+		data.last_data = {
+			window_id = window_id,
+			window_data = window_data,
+		}
+	end
+
+	-- Handle callbacks
+	handle_callbacks(window_data)
+
+	-- Handle window show
 	logger:debug("Show window", { window_id = window_id })
 
 	-- Hello, Pyramids again!
+	pprint(window_data)
 	settings.before_show_window(function()
-		monarch.show(window_id, nil, data, function()
+		monarch.show(window_id, nil, window_data, function()
 			settings.after_show_window()
 
 			M._eva.events.screen(data.last_scene, get_current())
@@ -186,6 +230,9 @@ function M.on_message(window_id, message_id, message, sender)
 	if message_id == const.INPUT.CLOSE then
 		M.disappear(window_id)
 	end
+	if message_id == const.INPUT.CALLBACK then
+		M._eva.callbacks.call(message.index)
+	end
 end
 
 
@@ -202,6 +249,8 @@ function M.before_game_start()
 		queue = {},
 		next_queue = {},
 		close_all_callback = nil,
+		prev_context = nil,
+		last_data = nil,
 	}
 end
 

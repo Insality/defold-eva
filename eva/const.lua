@@ -31,6 +31,7 @@ M.INPUT = {
 	MULTITOUCH = hash("touch_multi"),
 	TOUCH = hash("touch"),
 	CLOSE = hash("close"),
+	CALLBACK = hash("callback"),
 	SCROLL_UP = hash("mouse_wheel_up"),
 	SCROLL_DOWN = hash("mouse_wheel_down"),
 }

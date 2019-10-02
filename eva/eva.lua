@@ -12,6 +12,7 @@ local M = {}
 local modules = {
 	ads = require("eva.modules.ads"),
 	camera = require("eva.modules.camera"),
+	callbacks = require("eva.modules.callbacks"),
 	daily = require("eva.modules.daily"),
 	device = require("eva.modules.device"),
 	db = require("eva.modules.db"),
