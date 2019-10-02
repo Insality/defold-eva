@@ -22,6 +22,7 @@ M.gui.PROP_SCALE_X = "scale.x"
 M.gui.PROP_SCALE_Y = "scale.y"
 M.vmath.VECTOR_ZERO = vmath.vector3(0)
 M.vmath.VECTOR_ONE = vmath.vector3(1)
+M.table.empty = {}
 
 --- math.step
 -- @function luax.math.step

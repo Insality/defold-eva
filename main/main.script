@@ -41,9 +41,6 @@ function on_input(self, action_id, action)
 
 		-- eva.sound.play("click")
 		-- eva.tokens.add("money", 1)
-		timer.delay(1, false, function()
-			eva.window.close()
-		end)
 		--[[ Timers zone
 		local slot = "smelter.slot1"
 		if eva.timers.get(slot) then

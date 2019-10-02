@@ -57,7 +57,6 @@ local M = {
 		after_show_scene = after_show_scene,
 		before_show_window = before_show_window,
 		after_show_window = after_show_window,
-		is_popup = true,
 		is_popup_on_popup = false,
 
 		test_value = "test",
@@ -68,7 +67,8 @@ local M = {
 	},
 
 	["window_popup"] = {
-		render_order = 13
+		render_order = 13,
+		is_popup_on_popup = true,
 	}
 }
 
