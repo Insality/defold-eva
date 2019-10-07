@@ -48,17 +48,17 @@ local function handle_callbacks(data)
 		return
 	end
 
-	data.callback_index = {}
+	local callbacks = {}
 	local stored_url = msg.url()
 
 	for name, callback in pairs(data.callbacks) do
-		data.callback_index[name] = function()
+		callbacks[name] = function()
 			local index = M._eva.callbacks.create(callback)
 			msg.post(stored_url, const.INPUT.CALLBACK, { index = index })
 		end
 	end
 
-	data.callbacks = nil
+	data.callbacks = callbacks
 end
 
 
@@ -123,14 +123,12 @@ function M.show(window_id, window_data, in_queue)
 		}
 	end
 
-	-- Handle callbacks
 	handle_callbacks(window_data)
 
 	-- Handle window show
 	logger:debug("Show window", { window_id = window_id })
 
 	-- Hello, Pyramids again!
-	pprint(window_data)
 	settings.before_show_window(function()
 		monarch.show(window_id, nil, window_data, function()
 			settings.after_show_window()
