@@ -52,9 +52,9 @@ local function handle_callbacks(data)
 	local stored_url = msg.url()
 
 	for name, callback in pairs(data.callbacks) do
-		callbacks[name] = function()
+		callbacks[name] = function(...)
 			local index = M._eva.callbacks.create(callback)
-			msg.post(stored_url, const.INPUT.CALLBACK, { index = index })
+			msg.post(stored_url, const.INPUT.CALLBACK, { index = index, args = ...})
 		end
 	end
 
@@ -229,7 +229,7 @@ function M.on_message(window_id, message_id, message, sender)
 		M.disappear(window_id)
 	end
 	if message_id == const.INPUT.CALLBACK then
-		M._eva.callbacks.call(message.index)
+		M._eva.callbacks.call(message.index, message.args)
 	end
 end
 

@@ -36,8 +36,9 @@ function on_input(self, action_id, action)
 		if action_id == hash("key_3") then
 			eva.window.show("window_popup", {
 				callbacks = {
-					accept = function()
-						gui.set_text(gui.get_node("cb_text"), "CALLBACK!")
+					accept = function(custom_text)
+						custom_text = custom_text or "Default text"
+						gui.set_text(gui.get_node("cb_text"), custom_text)
 					end
 				}
 			})

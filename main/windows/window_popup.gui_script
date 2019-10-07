@@ -29,7 +29,9 @@ function on_input(self, action_id, action)
 		end
 		if action_id == hash("key_4") then
 			local data = eva.window.get_data(id)
-			eva.window.disappear(id, data.callbacks.accept)
+			eva.window.disappear(id, function()
+				data.callbacks.accept("From popup")
+			end)
 		end
 	end
 end
