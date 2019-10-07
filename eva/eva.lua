@@ -1,6 +1,7 @@
 --- Basic defold-eva module.
 -- @module eva
 
+
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
@@ -15,6 +16,7 @@ local modules = {
 	callbacks = require("eva.modules.callbacks"),
 	daily = require("eva.modules.daily"),
 	device = require("eva.modules.device"),
+	debug = require("eva.modules.debug"),
 	db = require("eva.modules.db"),
 	errors = require("eva.modules.errors"),
 	events = require("eva.modules.events"),
@@ -27,9 +29,11 @@ local modules = {
 	push = require("eva.modules.push"),
 	proto = require("eva.modules.proto"),
 	rate = require("eva.modules.rate"),
+	resources = require("eva.modules.resources"),
 	render = require("eva.modules.render"),
 	saver = require("eva.modules.saver"),
 	server = require("eva.modules.server"),
+	social = require("eva.modules.social"),
 	stats = require("eva.modules.stats"),
 	storage = require("eva.modules.storage"),
 	sound = require("eva.modules.sound"),
