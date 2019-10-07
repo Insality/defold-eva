@@ -6,7 +6,7 @@ custom_resources = /eva/resources,/resources
 
 [bootstrap]
 main_collection = /main/loader/loader.collectionc
-render = /rendercam/rendercam.renderc
+render = /eva/system/eva.renderc
 
 [input]
 game_binding = /in/bindings/all.input_bindingc

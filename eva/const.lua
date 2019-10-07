@@ -36,6 +36,7 @@ M.INPUT = {
 	SCROLL_DOWN = hash("mouse_wheel_down"),
 }
 
+
 M.EVENT = {
 	EVENT = "eva.events.event",
 	GAME_START = "eva.game.start",
@@ -96,9 +97,9 @@ M.DAILY = {
 
 
 M.STORE_URL = {
-	ANDROID_MARKET =	"market://details?id=%s&referrer=utm_source%%3D%s",
-	ANDROID_URL =	"https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s",
-	IOS_MARKET =	"https://itunes.apple.com/app/apple-store/id%s?pt=119008561&ct=%s&mt=8",
+	ANDROID_MARKET = "market://details?id=%s&referrer=utm_source%%3D%s",
+	ANDROID_URL = "https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s",
+	IOS_MARKET = "https://itunes.apple.com/app/apple-store/id%s?pt=119008561&ct=%s&mt=8",
 }
 
 

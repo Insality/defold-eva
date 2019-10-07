@@ -28,4 +28,9 @@ function M.set_vignette(power)
 end
 
 
+function M.on_game_update(dt)
+	model.set_constant("/render#default", "light", vmath.vector4(math.sin(socket.gettime())*10 + 11, 0, 0, 0))
+end
+
+
 return M
