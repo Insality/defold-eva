@@ -1,6 +1,7 @@
---- Defold-Eva GDPR module.
+--- Eva GDPR module.
 -- Can process stuff with GDPR
 -- @submodule eva
+
 
 local const = require("eva.const")
 

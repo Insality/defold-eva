@@ -1,4 +1,8 @@
---- Basic defold-eva module.
+--- Defold Eva library
+-- Eva library carry on all basic mobile game
+-- functions like iaps, camera, offers and other
+-- a lot of basic stuffs. Designed for fast integration
+-- and single code base.
 -- @module eva
 
 

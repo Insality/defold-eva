@@ -1,7 +1,8 @@
---- Defold-eva simply daily bonus module
+--- Eva simply daily bonus module
 -- daily types: reset, skip, wait
 -- (what we do at end of prize timer)
 -- @submodule eva
+
 
 local luax = require("eva.luax")
 local const = require("eva.const")
@@ -124,7 +125,7 @@ end
 
 
 --- Return time until you can pickup prize
--- @function eva.daily.get_time()
+-- @function eva.daily.get_time
 function M.get_time()
 	local settings = M._eva.app.settings.daily
 	local data = M._eva.app[const.EVA.DAILY]
@@ -138,7 +139,7 @@ end
 
 
 --- Return time until you can lose the unpicked reward
--- @function eva.daily.get_wait_time()
+-- @function eva.daily.get_wait_time
 function M.get_wait_time()
 	local settings = M._eva.app.settings.daily
 	local data = M._eva.app[const.EVA.DAILY]

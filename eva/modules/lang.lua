@@ -1,6 +1,7 @@
---- Defold-Eva lang module
+--- Eva lang module
 -- API to work with game localization
 -- @submodule eva
+
 
 local const = require("eva.const")
 

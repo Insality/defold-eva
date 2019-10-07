@@ -1,6 +1,8 @@
---- Defold-Eva game module
+--- Eva game module
 -- Contains basic game functions
+-- Like exit, reboot, open url etc
 -- @submodule eva
+
 
 local const = require("eva.const")
 local uuid = require("eva.libs.uuid")

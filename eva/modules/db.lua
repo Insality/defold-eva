@@ -1,3 +1,11 @@
+--- Defold db module
+-- It carry for loading all jsons from
+-- game configs, pointed in eva settings.json.
+-- You need to point name of config and his path in
+-- game eva settings.
+-- @submodule eva
+
+
 local log = require("eva.log")
 
 local logger = log.get_logger("eva.db")

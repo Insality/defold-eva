@@ -1,3 +1,7 @@
+--- Part of Eva Camera module
+-- Handle camera dragging
+-- @local
+
 local luax = require("eva.luax")
 local const = require("eva.const")
 local rendercam = require("rendercam.rendercam")

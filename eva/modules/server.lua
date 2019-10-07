@@ -1,6 +1,7 @@
---- Defold-Eva server module
+--- Eva server module
 -- Take all fucntions on client-server communication
 -- @submodule eva
+
 
 local server_helper = require("eva.modules.server.server_helper")
 local log = require("eva.log")

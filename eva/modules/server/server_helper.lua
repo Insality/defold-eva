@@ -1,3 +1,7 @@
+--- Part of Eva server module
+-- Contains utility functions
+-- @local
+
 local M = {}
 
 function M.setup_playfab()

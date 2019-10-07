@@ -1,5 +1,9 @@
---- Defold-Eva tokens module
+--- Eva tokens module
+-- Provide API to profile tokens
+-- Tokens is basic item, like money, energy or items
+-- Also provide API to work with token groups.
 -- @submodule eva
+
 
 local log = require("eva.log")
 local const = require("eva.const")

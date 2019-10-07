@@ -1,5 +1,9 @@
---- Defold-Eva saver module
+--- Eva saver module
+-- Carry on saving and loading game profile
+-- Any save contains from different parts
+-- Every part should be described via protobuf
 -- @submodule eva
+
 
 local log = require("eva.log")
 local luax = require("eva.luax")

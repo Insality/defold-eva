@@ -1,3 +1,10 @@
+--- Eva error module.
+-- Handle and store all lua errors in the game
+-- Can send error to the server, pointed in eva
+-- settings.json
+-- @submodule eva
+
+
 local log = require("eva.log")
 local luax = require("eva.luax")
 

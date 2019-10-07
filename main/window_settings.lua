@@ -9,6 +9,7 @@
 -- 	- before_show_window - function before show window
 -- 	- after_show_window - function after show window
 -- callback should be executed always!
+-- @local
 
 
 local function appear_simple(settings, cb)

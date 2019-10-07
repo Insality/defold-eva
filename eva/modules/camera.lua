@@ -1,7 +1,8 @@
---- Defold-eva camera module
+--- Eva camera module
 -- Can hanlde sweet dragging, zooming with gestures
 -- and correct camera soft and hard zones
 -- @submodule eva
+
 
 local gesture = require("in.gesture")
 local camera_drag = require("eva.modules.camera.camera_drag")

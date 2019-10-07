@@ -34,6 +34,7 @@
 <ul>
 <li><a href="#Functions">Functions</a></li>
 <li><a href="#modules_ads_Functions">modules.ads Functions</a></li>
+<li><a href="#modules_callbacks_Functions">modules.callbacks Functions</a></li>
 <li><a href="#modules_camera_Functions">modules.camera Functions</a></li>
 <li><a href="#modules_daily_Functions">modules.daily Functions</a></li>
 <li><a href="#modules_device_Functions">modules.device Functions</a></li>
@@ -72,8 +73,12 @@
 <div id="content">
 
 <h1>Module <code>eva</code></h1>
-<p>Basic defold-eva module.</p>
-<p></p>
+<p>Defold Eva library
+ Eva library carry on all basic mobile game
+ functions like iaps, camera, offers and other
+ a lot of basic stuffs.</p>
+<p> Designed for fast integration
+ and single code base.</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
@@ -107,11 +112,37 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.show_rewarded">eva.ads.show_rewarded()</a></td>
-	<td class="summary">Start show rewarded ads On success it will throw const.MSG.ADS<em>SUCCESS</em>REWARDED event</td>
+	<td class="summary">Start show rewarded ads
+ On success it will throw ADS_SUCCESS_REWARDED event</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.show_page">eva.ads.show_page()</a></td>
 	<td class="summary">Start show page ads</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.set_enabled">eva.ads.set_enabled(state)</a></td>
+	<td class="summary">Set enabled ads state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.is_enabled">eva.ads.is_enabled()</a></td>
+	<td class="summary">Check ads is enabled</td>
+	</tr>
+</table>
+<h2><a href="#modules_callbacks_Functions">modules.callbacks Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.callbacks.create">eva.callbacks.create(callback)</a></td>
+	<td class="summary">Wrap callback
+ It return index for callback, You can call it now
+ via eva.callbacks.call(index, ...)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.callbacks.call">eva.callbacks.call(index, ...)</a></td>
+	<td class="summary">Call wrapped callback</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.callbacks.clear">eva.callbacks.clear(index)</a></td>
+	<td class="summary">Clear callback</td>
 	</tr>
 </table>
 <h2><a href="#modules_camera_Functions">modules.camera Functions</a></h2>
@@ -137,7 +168,8 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.daily.set_active">eva.daily.set_active()</a></td>
-	<td class="summary">Set active daily system It will reset last pick time</td>
+	<td class="summary">Set active daily system
+ It will reset last pick time</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.daily.pick">eva.daily.pick()</a></td>
@@ -282,14 +314,16 @@
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#eva.migrations.add">eva.migrations.add()</a></td>
-	<td class="summary">Add migration to the system Need to call this before save loaded</td>
+	<td class="summary">Add migration to the system
+ Need to call this before save loaded</td>
 	</tr>
 </table>
 <h2><a href="#modules_offers_Functions">modules.offers Functions</a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#eva.offers.add">eva.offers.add(offer_id)</a></td>
-	<td class="summary">Start new offer Every offer is unique.</td>
+	<td class="summary">Start new offer
+ Every offer is unique.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.offers.get_time">eva.offers.get_time(offer_id)</a></td>
@@ -448,7 +482,8 @@
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#eva.timers.add">eva.timers.add(slot_id, timer_id, time[, auto_trigger])</a></td>
-	<td class="summary">Add new timer Timer with slot_id should no exist</td>
+	<td class="summary">Add new timer
+ Timer with slot_id should no exist</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.timers.get">eva.timers.get()</a></td>
@@ -581,10 +616,12 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.window.show">eva.window.show()</a></td>
-	<td class="summary">Show the game window</td>
+	<td class="summary">Show the game window
+ It will close current window and open new, if any opened
+ It can be popup on popup, so don't close prev.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.window.is_opened">eva.window.is_opened()</a></td>
+	<td class="name" nowrap><a href="#eva.window.is_open">eva.window.is_open()</a></td>
 	<td class="summary">Check is window is opened now</td>
 	</tr>
 	<tr>
@@ -594,6 +631,20 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.window.close_all">eva.window.close_all()</a></td>
 	<td class="summary">Close all windows</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.appear">eva.window.appear()</a></td>
+	<td class="summary">Appear functions for all windows
+ Need to call inside window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.disappear">eva.window.disappear()</a></td>
+	<td class="summary">Disappear functions for all windows
+ Need to call inside window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.set_settings">eva.window.set_settings()</a></td>
+	<td class="summary">Set game windows settings</td>
 	</tr>
 </table>
 
@@ -616,7 +667,7 @@
     <ul>
         <li><span class="parameter">settings_path</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        path to eva_settings.json
+         path to eva_settings.json
         </li>
     </ul>
 
@@ -637,7 +688,7 @@
     <ul>
         <li><span class="parameter">dt</span>
             <span class="types"><span class="type">number</span></span>
-        delta time
+         delta time
         </li>
     </ul>
 
@@ -723,7 +774,8 @@
     <strong>eva.ads.show_rewarded()</strong>
     </dt>
     <dd>
-    Start show rewarded ads On success it will throw const.MSG.ADS<em>SUCCESS</em>REWARDED event
+    Start show rewarded ads
+ On success it will throw ADS_SUCCESS_REWARDED event
 
 
 
@@ -746,6 +798,126 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.ads.set_enabled"></a>
+    <strong>eva.ads.set_enabled(state)</strong>
+    </dt>
+    <dd>
+    Set enabled ads state
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">state</span>
+            <span class="types"><span class="type">bool</span></span>
+         ads state
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.is_enabled"></a>
+    <strong>eva.ads.is_enabled()</strong>
+    </dt>
+    <dd>
+    Check ads is enabled
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        is ads enabled
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_callbacks_Functions"></a>modules.callbacks Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.callbacks.create"></a>
+    <strong>eva.callbacks.create(callback)</strong>
+    </dt>
+    <dd>
+    Wrap callback
+ It return index for callback, You can call it now
+ via eva.callbacks.call(index, ...)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         Callback to wrap
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        index New index of wrapped callback
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.callbacks.call"></a>
+    <strong>eva.callbacks.call(index, ...)</strong>
+    </dt>
+    <dd>
+    Call wrapped callback
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         Index of wrapped callback
+        </li>
+        <li><span class="parameter">...</span>
+            <span class="types"><span class="type">args</span></span>
+         Args of calling callback
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.callbacks.clear"></a>
+    <strong>eva.callbacks.clear(index)</strong>
+    </dt>
+    <dd>
+    Clear callback
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         Index of wrapped callback
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_camera_Functions"></a>modules.camera Functions</h2>
 
@@ -762,11 +934,11 @@
     <ul>
         <li><span class="parameter">cam_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        url of camera game object
+         url of camera game object
         </li>
         <li><span class="parameter">camera_box</span>
             <span class="types"><span class="type">vector3</span></span>
-        size of the camera at zoom=1
+         size of the camera at zoom=1
         </li>
     </ul>
 
@@ -787,11 +959,11 @@
     <ul>
         <li><span class="parameter">border_soft</span>
             <span class="types"><span class="type">vector4</span></span>
-        Soft zones of camera. Order is: left-top-right-bot.
+         Soft zones of camera. Order is: left-top-right-bot.
         </li>
         <li><span class="parameter">border_hard</span>
             <span class="types"><span class="type">vector4</span></span>
-        Hard zones of camera. Order is: left-top-right-bot.
+         Hard zones of camera. Order is: left-top-right-bot.
         </li>
     </ul>
 
@@ -812,11 +984,11 @@
     <ul>
         <li><span class="parameter">zoom_soft</span>
             <span class="types"><span class="type">vector3</span></span>
-        Setup zoom soft values. vector3(min<em>value, max</em>value, 0)
+         Setup zoom soft values. vector3(min_value, max_value, 0)
         </li>
         <li><span class="parameter">zoom_hard</span>
             <span class="types"><span class="type">vector3</span></span>
-        Setup zoom hard values. vector3(min<em>value, max</em>value, 0)
+         Setup zoom hard values. vector3(min_value, max_value, 0)
         </li>
     </ul>
 
@@ -848,7 +1020,8 @@
     <strong>eva.daily.set_active()</strong>
     </dt>
     <dd>
-    Set active daily system It will reset last pick time
+    Set active daily system
+ It will reset last pick time
 
 
 
@@ -922,7 +1095,9 @@
     <strong>eva.device.get_device_id()</strong>
     </dt>
     <dd>
-    Return device id. If device<em>id is empty, it will generate device</em>id with uuid library. And store it on file
+    Return device id.
+ If device_id is empty, it will generate device_id with
+ uuid library. And store it on file
 
 
 
@@ -942,7 +1117,8 @@
     <strong>eva.device.get_region()</strong>
     </dt>
     <dd>
-    Return device region. If region is unknown, it will return “UN”.
+    Return device region.
+ If region is unknown, it will return "UN".
 
 
 
@@ -1029,11 +1205,11 @@
     <ul>
         <li><span class="parameter">event</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        name of event
+         name of event
         </li>
         <li><span class="parameter">params</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        params
+         params
          (<em>default</em> {})
         </li>
     </ul>
@@ -1055,7 +1231,7 @@
     <ul>
         <li><span class="parameter">screen_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        screen id
+         screen id
         </li>
     </ul>
 
@@ -1076,7 +1252,7 @@
     <ul>
         <li><span class="parameter">event_system</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-        custom event handler
+         custom event handler
         </li>
     </ul>
 
@@ -1115,7 +1291,7 @@
     <ul>
         <li><span class="parameter">delay</span>
             <span class="types"><span class="type">number</span></span>
-        Delay before reboot, in seconds
+         Delay before reboot, in seconds
         </li>
     </ul>
 
@@ -1136,7 +1312,7 @@
     <ul>
         <li><span class="parameter">code</span>
             <span class="types"><span class="type">int</span></span>
-        The exit code
+         The exit code
         </li>
     </ul>
 
@@ -1192,7 +1368,7 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        Time format in iso e.g. “2019–09–25T01:48:19Z”
+        Time format in iso e.g. "2019-09-25T01:48:19Z"
     </ol>
 
 
@@ -1281,7 +1457,7 @@
     <ul>
         <li><span class="parameter">iap_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        In-game inapp ID from iaps settings
+         In-game inapp ID from iaps settings
         </li>
     </ul>
 
@@ -1302,7 +1478,7 @@
     <ul>
         <li><span class="parameter">iap_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        the inapp id
+         the inapp id
         </li>
     </ul>
 
@@ -1323,7 +1499,7 @@
     <ul>
         <li><span class="parameter">iap_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        the inapp id
+         the inapp id
         </li>
     </ul>
 
@@ -1348,7 +1524,7 @@
     <ul>
         <li><span class="parameter">lang</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        current language code from eva-settings
+         current language code from eva-settings
         </li>
     </ul>
 
@@ -1389,7 +1565,7 @@
     <ul>
         <li><span class="parameter">lang_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        locale id from your localization
+         locale id from your localization
         </li>
     </ul>
 
@@ -1416,11 +1592,11 @@
     <ul>
         <li><span class="parameter">lang_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        locale id from your localization
+         locale id from your localization
         </li>
         <li><span class="parameter">...</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        params for string.format for lang_id
+         params for string.format for lang_id
         </li>
     </ul>
 
@@ -1444,7 +1620,8 @@
     <strong>eva.migrations.add()</strong>
     </dt>
     <dd>
-    Add migration to the system Need to call this before save loaded
+    Add migration to the system
+ Need to call this before save loaded
 
 
 
@@ -1462,14 +1639,16 @@
     <strong>eva.offers.add(offer_id)</strong>
     </dt>
     <dd>
-    Start new offer Every offer is unique. You got error, if offer_id is already started. Data pickups from Offers DB.
+    Start new offer
+ Every offer is unique.  You got error, if offer_id
+ is already started. Data pickups from Offers DB.
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        offer id from db
+         offer id from db
         </li>
     </ul>
 
@@ -1489,14 +1668,15 @@
     <strong>eva.offers.get_time(offer_id)</strong>
     </dt>
     <dd>
-    Return time till offer end. If offer is no exist now, print the error
+    Return time till offer end.
+ If offer is no exist now, print the error
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        offer id from db
+         offer id from db
         </li>
     </ul>
 
@@ -1523,7 +1703,7 @@
     <ul>
         <li><span class="parameter">offer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        offer id from db
+         offer id from db
         </li>
     </ul>
 
@@ -1550,7 +1730,7 @@
     <ul>
         <li><span class="parameter">offer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        offer id from db
+         offer id from db
         </li>
     </ul>
 
@@ -1577,7 +1757,7 @@
     <ul>
         <li><span class="parameter">offer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        offer id from db
+         offer id from db
         </li>
     </ul>
 
@@ -1604,7 +1784,7 @@
     <ul>
         <li><span class="parameter">offer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        offer id from db
+         offer id from db
         </li>
     </ul>
 
@@ -1635,7 +1815,7 @@
     <ul>
         <li><span class="parameter">proto_type</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        name of proto message e.g. ‘eva.Token’
+         name of proto message e.g. 'eva.Token'
         </li>
     </ul>
 
@@ -1733,7 +1913,7 @@
     <strong>eva.rate.set_accepted()</strong>
     </dt>
     <dd>
-    Set rate as accepted. It will no show more
+    Set rate as accepted.  It will no show more
 
 
 
@@ -1892,7 +2072,7 @@
     <ul>
         <li><span class="parameter">callback</span>
             <span class="types"><span class="type">function</span></span>
-        Callback after login
+         Callback after login
         </li>
     </ul>
 
@@ -1913,7 +2093,7 @@
     <ul>
         <li><span class="parameter">json_data</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        JSON data
+         JSON data
         </li>
     </ul>
 
@@ -2040,7 +2220,7 @@
     <ul>
         <li><span class="parameter">id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The record id
+         The record id
         </li>
     </ul>
 
@@ -2061,11 +2241,11 @@
     <ul>
         <li><span class="parameter">id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The record id
+         The record id
         </li>
         <li><span class="parameter">value</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a>, <span class="type">number</span> or <span class="type">bool</span></span>
-        Value
+         Value
         </li>
     </ul>
 
@@ -2083,26 +2263,27 @@
     <strong>eva.timers.add(slot_id, timer_id, time[, auto_trigger])</strong>
     </dt>
     <dd>
-    Add new timer Timer with slot_id should no exist
+    Add new timer
+ Timer with slot_id should no exist
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">slot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        identificator of timer
+         identificator of timer
         </li>
         <li><span class="parameter">timer_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        string param of timer
+         string param of timer
         </li>
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
-        time of timer, in seconds
+         time of timer, in seconds
         </li>
         <li><span class="parameter">auto_trigger</span>
             <span class="types"><span class="type">bool</span></span>
-        true, if event should fire event at end
+         true, if event should fire event at end
          (<em>optional</em>)
         </li>
     </ul>
@@ -2138,7 +2319,7 @@
     <ul>
         <li><span class="parameter">slot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        identificator of timer
+         identificator of timer
         </li>
     </ul>
 
@@ -2159,7 +2340,7 @@
     <ul>
         <li><span class="parameter">slot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        identificator of timer
+         identificator of timer
         </li>
     </ul>
 
@@ -2180,7 +2361,7 @@
     <ul>
         <li><span class="parameter">slot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        identificator of timer
+         identificator of timer
         </li>
     </ul>
 
@@ -2201,11 +2382,11 @@
     <ul>
         <li><span class="parameter">slot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        identificator of timer
+         identificator of timer
         </li>
         <li><span class="parameter">is_pause</span>
             <span class="types"><span class="type">boolean</span></span>
-        pause state
+         pause state
         </li>
     </ul>
 
@@ -2223,14 +2404,15 @@
     <strong>eva.tokens.get_token_group(token_group_id)</strong>
     </dt>
     <dd>
-    Return token group by id. It pickup data from DB
+    Return token group by id.
+ It pickup data from DB
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_group_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        the token group id
+         the token group id
         </li>
     </ul>
 
@@ -2250,14 +2432,15 @@
     <strong>eva.tokens.get_lot_reward(lot_id)</strong>
     </dt>
     <dd>
-    Return lot reward by id. It pickup data from DB
+    Return lot reward by id.
+ It pickup data from DB
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        the token lot id
+         the token lot id
         </li>
     </ul>
 
@@ -2277,14 +2460,15 @@
     <strong>eva.tokens.get_lot_price(lot_id)</strong>
     </dt>
     <dd>
-    Return lot price by id. It pickup data from DB
+    Return lot price by id.
+ It pickup data from DB
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lot_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        the token lot id
+         the token lot id
         </li>
     </ul>
 
@@ -2367,15 +2551,15 @@
     <ul>
         <li><span class="parameter">token_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        Token id
+         Token id
         </li>
         <li><span class="parameter">amount</span>
             <span class="types"><span class="type">number</span></span>
-        Amount to pay
+         Amount to pay
         </li>
         <li><span class="parameter">reason</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The reason to pay
+         The reason to pay
         </li>
     </ul>
 
@@ -2396,11 +2580,11 @@
     <ul>
         <li><span class="parameter">token_group_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The token group id
+         The token group id
         </li>
         <li><span class="parameter">reason</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        The reason to pay
+         The reason to pay
         </li>
     </ul>
 
@@ -2435,7 +2619,7 @@
     <ul>
         <li><span class="parameter">token_group_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        the token group id
+         the token group id
         </li>
     </ul>
 
@@ -2621,18 +2805,19 @@
     <strong>eva.utils.compare_versions(version_a, version_b)</strong>
     </dt>
     <dd>
-    Compare two project version. Version format should be in semver(“x.y.z”)
+    Compare two project version.
+ Version format should be in semver("x.y.z")
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">version_a</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        project version
+         project version
         </li>
         <li><span class="parameter">version_b</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        project version
+         project version
         </li>
     </ul>
 
@@ -2640,7 +2825,7 @@
     <ol>
 
            <span class="types"><span class="type">int</span></span>
-        -1 if version<em>a higher, 1 if version</em>b higher, 0 if they are equal
+        -1 if version_a higher, 1 if version_b higher, 0 if they are equal
     </ol>
 
 
@@ -2671,6 +2856,10 @@
     </dt>
     <dd>
     Show the game window
+ It will close current window and open new, if any opened
+ It can be popup on popup, so don't close prev.  window
+ Can add window in queue to open it after current one is closed
+ Window callbacks will be separated module? Calling with ID
 
 
 
@@ -2680,8 +2869,8 @@
 
 </dd>
     <dt>
-    <a name = "eva.window.is_opened"></a>
-    <strong>eva.window.is_opened()</strong>
+    <a name = "eva.window.is_open"></a>
+    <strong>eva.window.is_open()</strong>
     </dt>
     <dd>
     Check is window is opened now
@@ -2721,6 +2910,50 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.window.appear"></a>
+    <strong>eva.window.appear()</strong>
+    </dt>
+    <dd>
+    Appear functions for all windows
+ Need to call inside window
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.disappear"></a>
+    <strong>eva.window.disappear()</strong>
+    </dt>
+    <dd>
+    Disappear functions for all windows
+ Need to call inside window
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.set_settings"></a>
+    <strong>eva.window.set_settings()</strong>
+    </dt>
+    <dd>
+    Set game windows settings
+
+
+
+
+
+
+
+</dd>
 </dl>
 
 
@@ -2728,7 +2961,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-09-30 00:32:45 </i>
+<i style="float:right;">Last updated 2019-10-07 21:20:36 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

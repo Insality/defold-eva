@@ -1,4 +1,5 @@
---- Defold-Eva module. Handle any social connection.
+--- Social Eva module
+-- Handle any social connection
 -- For example: Facebook, Google Play Game Services and Game Center
 -- @submodule eva
 

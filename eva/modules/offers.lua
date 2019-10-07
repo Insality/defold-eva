@@ -1,7 +1,9 @@
---- Defolf-eva offers module
+--- Eva offers module
 -- Make logic about offer time, price and reward
--- Can be iap or for tokens
+-- Price of offers can be iap or token group
+-- Reward of offer is token group
 -- @submodule eva
+
 
 local log = require("eva.log")
 local const = require("eva.const")

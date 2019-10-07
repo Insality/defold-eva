@@ -1,10 +1,11 @@
---- Defold-Eva Timer module
+--- Eva Timer module
 -- Use to make some action on future, in concrete time
 -- Can be used for crafts, long-time upgrades, special events.
 -- You need check timers mostly by youself.
 -- Auto_trigger events fire the TIMER_TRIGGER event, but in response
 -- you should clear the timer (in case, if you did'nt catch the event).
 -- @submodule eva
+
 
 local log = require("eva.log")
 local const = require("eva.const")

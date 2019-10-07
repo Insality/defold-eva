@@ -1,3 +1,7 @@
+--- Part of Eva Camera module
+-- Handle the camera gestures like zoom and multitouchs
+-- @local
+
 local luax = require("eva.luax")
 local const = require("eva.const")
 local rendercam = require("rendercam.rendercam")

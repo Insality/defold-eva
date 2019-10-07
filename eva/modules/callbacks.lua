@@ -1,6 +1,18 @@
+--- Eva callbacks system module.
+-- Using for pass callbacks though context
+-- It make wrap callbacks to call it via messages by callback index
+-- @submodule eva
+
+
 local M = {}
 
 
+--- Wrap callback
+-- It return index for callback, You can call it now
+-- via eva.callbacks.call(index, ...)
+-- @function eva.callbacks.create
+-- @tparam function callback Callback to wrap
+-- @treturn number index New index of wrapped callback
 function M.create(callback)
 	local data = M._eva.app.callbacks_data
 	data.last_index = data.last_index + 1
@@ -10,6 +22,10 @@ function M.create(callback)
 end
 
 
+--- Call wrapped callback
+-- @function eva.callbacks.call
+-- @tparam number index Index of wrapped callback
+-- @tparam args ... Args of calling callback
 function M.call(index, ...)
 	local data = M._eva.app.callbacks_data
 
@@ -20,6 +36,9 @@ function M.call(index, ...)
 end
 
 
+--- Clear callback
+-- @function eva.callbacks.clear
+-- @tparam number index Index of wrapped callback
 function M.clear(index)
 	local data = M._eva.app.callbacks_data
 	if data.callbacks[index] then

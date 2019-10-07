@@ -1,5 +1,5 @@
---- Defold-eva key-value storage
--- Using for simple key-value storage
+--- Eva key-value storage
+-- Using for simple key-value local storage
 -- @submodule eva
 
 local luax = require("eva.luax")

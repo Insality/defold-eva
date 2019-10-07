@@ -1,6 +1,7 @@
---- Defold-Eva proto module
+--- Eva proto module
 -- Load proto file and give API to work with them
 -- @submodule eva
+
 
 local log = require("eva.log")
 local protoc = require("pb.protoc")

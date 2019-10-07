@@ -1,4 +1,5 @@
---- Defold-Eva sound module
+--- Eva sound module
+-- Carry on any sound and music in the game
 -- @submodule eva
 
 local const = require("eva.const")

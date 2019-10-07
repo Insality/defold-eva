@@ -1,4 +1,4 @@
---- Defold-Eva ads module
+--- Eva ads module
 -- This module provide API to unityads
 -- @submodule eva
 
@@ -69,7 +69,7 @@ end
 
 
 --- Start show rewarded ads
--- On success it will throw const.MSG.ADS_SUCCESS_REWARDED event
+-- On success it will throw ADS_SUCCESS_REWARDED event
 -- @function eva.ads.show_rewarded
 function M.show_rewarded()
 	if not M.is_rewarded_ready() then
@@ -107,7 +107,7 @@ end
 
 
 --- Set enabled ads state
--- @funtion eva.ads.set_enabled
+-- @function eva.ads.set_enabled
 -- @tparam bool state ads state
 function M.set_enabled(state)
 	M._eva.app[const.EVA.ADS].ads_disabled = state

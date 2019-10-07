@@ -1,5 +1,8 @@
---- Defold-Eva render module
+--- Eva render module
+-- Can adjust different game render settings
+-- and effects
 -- @submodule eva
+
 
 local M = {}
 

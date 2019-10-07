@@ -1,5 +1,10 @@
---- Defold-Eva window module
+--- Eva window module
+-- Carry on game window system
+-- All windows are setup via separate window_config
+-- You can see example at eva/resource/window_settings_template.lua
+-- All windows should be described in this settings
 -- @submodule eva
+
 
 local luax = require("eva.luax")
 local const = require("eva.const")

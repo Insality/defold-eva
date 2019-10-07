@@ -1,6 +1,7 @@
---- Defold-Eva device module
+--- Eva device module
 -- Contains stuff to work with device info
 -- @submodule eva
+
 
 local log = require("eva.log")
 local const = require("eva.const")

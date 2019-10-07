@@ -1,4 +1,4 @@
---- Defold-Eva IAPs module
+--- Eva IAPs module
 -- Can process all in-apps in your application
 -- @submodule eva
 

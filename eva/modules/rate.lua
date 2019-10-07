@@ -1,5 +1,9 @@
---- Defold-Eva rate module
+--- Eva rate module
+-- Can promt to user rate the game
+-- Can store rate settings and handle basic
+-- logic to when need to show rate or enough
 -- @submodule eva
+
 
 local const = require("eva.const")
 

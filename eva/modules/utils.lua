@@ -1,5 +1,8 @@
---- Defold-Eva utils module
+--- Eva utils module
+-- Contains simple helpers functions to
+-- make your life easier
 -- @submodule eva
+
 
 local luax = require("eva.luax")
 
