@@ -15,10 +15,14 @@ uniform lowp vec4 effects;
 // lcd ~ 0.1, lcd_alpha ~ [.25, 1]
 uniform lowp vec4 effects2;
 
+// vec4(chrom_distance, 0, 0, 0)
+uniform lowp vec4 effects3;
+
 
 void main()
 {
 	// Pre-multiply alpha since all runtime textures already are
+	vec2 uv = var_texcoord0.xy;
 	lowp vec4 result = texture2D(original, var_texcoord0.xy);
 
 	// Blur
@@ -48,6 +52,21 @@ void main()
 		target += 4.0*(i00);
 		target /= 16.0;
 		result = vec4(target, result.w);
+	}
+
+	// Chromatical Abberation
+	// If enabled - drop blur effect (choose only one)
+	if (effects3.x > 0.) {
+		float amount = effects3.x / 100.;
+
+		vec3 col;
+		col.r = texture2D(original, vec2(uv.x+amount, uv.y) ).r;
+		col.g = texture2D(original, uv ).g;
+		col.b = texture2D(original, vec2(uv.x-amount, uv.y) ).b;
+
+		col *= (1.0 - amount * 0.5);
+
+		result = vec4(col, result.w);
 	}
 
 	// Tint
@@ -90,7 +109,7 @@ void main()
 
 	// LCD
 	if (effects2.z != 0.) {
-		vec2 fragCoord = vec2(var_texcoord0.xy.x * resolution.x, var_texcoord0.xy.y * resolution.y);
+		vec2 fragCoord = vec2(var_texcoord0.x * resolution.x, var_texcoord0.y * resolution.y);
 		// Default lcd colour (affects brightness)
 		float pb = 1. + effects2.z;
 		vec4 lcdColor = vec4(pb, pb, pb, 1.0);
