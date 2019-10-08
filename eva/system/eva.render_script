@@ -28,10 +28,6 @@ function init(self)
 	self.particle_pred = render.predicate({"particle"})
 
 	self.effect_default = render.predicate({"default"})
-	self.effect_blur = render.predicate({"blur"})
-	self.effect_grayscale = render.predicate({"grayscale"})
-	self.effect_lcd = render.predicate({"lcd"})
-	self.effect_chromatic_aberration = render.predicate({"chromatic_aberration"})
 
 	self.clear_color = vmath.vector4(0)
 
@@ -86,13 +82,8 @@ end
 
 local function draw_render_target(self)
 	render.enable_texture(0, self.game_rt, render.BUFFER_COLOR_BIT)
-	-- render.draw(self.effect_grayscale)
-	-- render.draw(self.effect_blur)
-	-- render.draw(self.effect_lcd)
-	-- render.draw(self.effect_chromatic_aberration)
 	render.draw(self.effect_default)
 	render.disable_texture(0, self.game_rt)
-	--]]
 end
 
 
