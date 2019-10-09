@@ -7,6 +7,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
@@ -33,7 +34,7 @@ function M.add(slot_id, timer_id, time, auto_trigger)
 	timer.end_time = M._eva.game.get_time() + time
 	timer.auto_trigger = auto_trigger
 
-	M._eva.app[const.EVA.TIMERS].timers[slot_id] = timer
+	app[const.EVA.TIMERS].timers[slot_id] = timer
 	logger:debug("New timer created", timer)
 
 	return timer
@@ -43,7 +44,7 @@ end
 --- Get timer
 -- @function eva.timers.get
 function M.get(slot_id)
-	return M._eva.app[const.EVA.TIMERS].timers[slot_id]
+	return app[const.EVA.TIMERS].timers[slot_id]
 end
 
 
@@ -80,7 +81,7 @@ end
 -- @tparam string slot_id identificator of timer
 function M.clear(slot_id)
 	logger:debug("Clear timer slot", { slot_id = slot_id })
-	M._eva.app[const.EVA.TIMERS].timers[slot_id] = nil
+	app[const.EVA.TIMERS].timers[slot_id] = nil
 end
 
 
@@ -106,13 +107,13 @@ end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.TIMERS] = M._eva.proto.get(const.EVA.TIMERS)
-	M._eva.saver.add_save_part(const.EVA.TIMERS, M._eva.app[const.EVA.TIMERS])
+	app[const.EVA.TIMERS] = M._eva.proto.get(const.EVA.TIMERS)
+	M._eva.saver.add_save_part(const.EVA.TIMERS, app[const.EVA.TIMERS])
 end
 
 
 function M.on_game_second()
-	local timers = M._eva.app[const.EVA.TIMERS].timers
+	local timers = app[const.EVA.TIMERS].timers
 	for slot_id, timer in pairs(timers) do
 		local can_trigger = timer.auto_trigger and not timer.is_pause
 		if can_trigger and M.is_end(slot_id) then

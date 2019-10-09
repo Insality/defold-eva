@@ -4,6 +4,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
@@ -14,8 +15,8 @@ local M = {}
 
 
 local function check_days()
-	local settings = M._eva.app.settings.daily
-	local data = M._eva.app[const.EVA.DAILY]
+	local settings = app.settings.daily
+	local data = app[const.EVA.DAILY]
 
 	if not data.is_active then
 		return
@@ -30,7 +31,7 @@ end
 
 
 local function reset_daily()
-	local data = M._eva.app[const.EVA.DAILY]
+	local data = app[const.EVA.DAILY]
 
 	logger:debug("Reset daily bonus cycle", { day = #data.reward_state })
 	M._eva.events.event(const.EVENT.DAILY_RESET, { day = #data.reward_state })
@@ -41,9 +42,9 @@ end
 
 
 local function lost_daily()
-	local settings = M._eva.app.settings.daily
+	local settings = app.settings.daily
 
-	local data = M._eva.app[const.EVA.DAILY]
+	local data = app[const.EVA.DAILY]
 	-- New pick time: need to calc extra time more than wait_time + interval
 	-- last_pick_time = [cur_time - extra_time .. cur_time]
 	local extra_time = M._eva.game.get_time() - data.last_pick_time
@@ -60,8 +61,8 @@ end
 
 
 local function check_states()
-	local settings = M._eva.app.settings.daily
-	local data = M._eva.app[const.EVA.DAILY]
+	local settings = app.settings.daily
+	local data = app[const.EVA.DAILY]
 
 	if #data.reward_state == 0 then
 		-- Do nothing at first day
@@ -84,7 +85,7 @@ end
 --- Return is active now daily system
 -- @function eva.daily.is_active
 function M.is_active()
-	return M._eva.app[const.EVA.DAILY].is_active
+	return app[const.EVA.DAILY].is_active
 end
 
 
@@ -92,7 +93,7 @@ end
 -- It will reset last pick time
 -- @function eva.daily.set_active
 function M.set_active(state)
-	local data = M._eva.app[const.EVA.DAILY]
+	local data = app[const.EVA.DAILY]
 	data.is_active = state
 	data.last_pick_time = 0
 end
@@ -101,8 +102,8 @@ end
 --- Pick current prize
 -- @function eva.daily.pick
 function M.pick()
-	local settings = M._eva.app.settings.daily
-	local data = M._eva.app[const.EVA.DAILY]
+	local settings = app.settings.daily
+	local data = app[const.EVA.DAILY]
 
 	if not data.is_active or M.get_time() > 0 then
 		return
@@ -127,8 +128,8 @@ end
 --- Return time until you can pickup prize
 -- @function eva.daily.get_time
 function M.get_time()
-	local settings = M._eva.app.settings.daily
-	local data = M._eva.app[const.EVA.DAILY]
+	local settings = app.settings.daily
+	local data = app[const.EVA.DAILY]
 	local elapsed = (M._eva.game.get_time() - data.last_pick_time)
 	if not data.is_active then
 		return 0
@@ -141,8 +142,8 @@ end
 --- Return time until you can lose the unpicked reward
 -- @function eva.daily.get_wait_time
 function M.get_wait_time()
-	local settings = M._eva.app.settings.daily
-	local data = M._eva.app[const.EVA.DAILY]
+	local settings = app.settings.daily
+	local data = app[const.EVA.DAILY]
 	local elapsed = (M._eva.game.get_time() - data.last_pick_time)
 	if not data.is_active then
 		return 0
@@ -155,14 +156,14 @@ end
 --- Return current state
 -- @function eva.daily.get_current_state
 function M.get_current_state()
-	local data = M._eva.app[const.EVA.DAILY]
+	local data = app[const.EVA.DAILY]
 	return data.reward_state
 end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.DAILY] = M._eva.proto.get(const.EVA.DAILY)
-	M._eva.saver.add_save_part(const.EVA.DAILY, M._eva.app[const.EVA.DAILY])
+	app[const.EVA.DAILY] = M._eva.proto.get(const.EVA.DAILY)
+	M._eva.saver.add_save_part(const.EVA.DAILY, app[const.EVA.DAILY])
 end
 
 

@@ -4,6 +4,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local broadcast = require("eva.libs.broadcast")
 local const = require("eva.const")
@@ -21,7 +22,7 @@ function M.event(event, params)
 	logger:debug("Game event", {event = event, params = params})
 	broadcast.send(const.EVENT.EVENT, {event = event, params = params})
 
-	local systems = M._eva.app.event_systems
+	local systems = app.event_systems
 	for i = 1, #systems do
 		systems[i].event(event, params)
 	end
@@ -41,12 +42,12 @@ end
 -- @tparam table event_system custom event handler
 function M.add_event_system(event_system)
 	assert(event_system.event, "The event system should have `event` method")
-	table.insert(M._eva.app.event_systems, event_system)
+	table.insert(app.event_systems, event_system)
 end
 
 
 function M.before_game_start()
-	M._eva.app.event_systems = {}
+	app.event_systems = {}
 end
 
 

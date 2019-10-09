@@ -6,6 +6,7 @@
 -- @module eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
@@ -16,42 +17,42 @@ local M = {}
 
 local modules = {
 	ads = require("eva.modules.ads"),
-	camera = require("eva.modules.camera"),
 	callbacks = require("eva.modules.callbacks"),
+	camera = require("eva.modules.camera"),
 	daily = require("eva.modules.daily"),
-	device = require("eva.modules.device"),
+	db = require("eva.modules.db"),
 	debug = require("eva.modules.debug"),
+	device = require("eva.modules.device"),
+	errors = require("eva.modules.errors"),
+	events = require("eva.modules.events"),
 	festival = require("eva.modules.festival"),
+	game = require("eva.modules.game"),
+	gdpr = require("eva.modules.gdpr"),
 	generator = require("eva.modules.generator"),
 	grid = require("eva.modules.grid"),
 	hexgrid = require("eva.modules.hexgrid"),
-	rating = require("eva.modules.rating"),
-	pathfinder = require("eva.modules.pathfinder"),
-	tiled = require("eva.modules.tiled"),
-	quest = require("eva.modules.quest"),
-	db = require("eva.modules.db"),
-	errors = require("eva.modules.errors"),
-	events = require("eva.modules.events"),
-	game = require("eva.modules.game"),
-	gdpr = require("eva.modules.gdpr"),
 	iaps = require("eva.modules.iaps"),
 	lang = require("eva.modules.lang"),
 	loader = require("eva.modules.loader"),
 	migrations = require("eva.modules.migrations"),
-	push = require("eva.modules.push"),
+	offers = require("eva.modules.offers"),
+	pathfinder = require("eva.modules.pathfinder"),
 	proto = require("eva.modules.proto"),
+	push = require("eva.modules.push"),
+	quest = require("eva.modules.quest"),
 	rate = require("eva.modules.rate"),
-	resources = require("eva.modules.resources"),
+	rating = require("eva.modules.rating"),
 	render = require("eva.modules.render"),
+	resources = require("eva.modules.resources"),
 	saver = require("eva.modules.saver"),
 	server = require("eva.modules.server"),
 	social = require("eva.modules.social"),
+	sound = require("eva.modules.sound"),
 	stats = require("eva.modules.stats"),
 	storage = require("eva.modules.storage"),
-	sound = require("eva.modules.sound"),
+	tiled = require("eva.modules.tiled"),
 	timers = require("eva.modules.timers"),
 	tokens = require("eva.modules.tokens"),
-	offers = require("eva.modules.offers"),
 	utils = require("eva.modules.utils"),
 	window = require("eva.modules.window")
 }
@@ -59,7 +60,7 @@ local modules = {
 
 local function call_each_module(func_name, ...)
 	for name, component in pairs(modules) do
-		local csettings = M.app.settings[name]
+		local csettings = app.settings[name]
 		if not csettings or csettings and not csettings.is_disabled then
 			if component[func_name] then
 				component[func_name](...)
@@ -73,8 +74,11 @@ end
 -- @function eva.on_game_start
 -- @tparam string settings_path path to eva_settings.json
 function M.init(settings_path)
-	M.app = {}
-	M.app._second_counter = 1
+	print("Before App keys:", #luax.table.list(app))
+	app.clear()
+	print("After clear App keys:", #luax.table.list(app))
+
+	app._second_counter = 1
 
 	for name, component in pairs(modules) do
 		M[name] = component
@@ -89,14 +93,16 @@ function M.init(settings_path)
 		end
 	end
 
-	M.app.settings = settings
-	log.init(M.app.settings.log)
+	app.settings = settings
+	log.init(app.settings.log)
 
 	call_each_module("before_game_start")
 	call_each_module("on_game_start")
 	call_each_module("after_game_start")
 
 	logger:debug("Eva init completed", { settings = settings_path })
+
+	print("App keys:", #luax.table.list(app))
 end
 
 
@@ -106,9 +112,9 @@ end
 function M.on_game_update(dt)
 	call_each_module("on_game_update", dt)
 
-	M.app._second_counter = M.app._second_counter - dt
-	if M.app._second_counter <= 0 then
-		M.app._second_counter = 1
+	app._second_counter = app._second_counter - dt
+	if app._second_counter <= 0 then
+		app._second_counter = 1
 		call_each_module("on_game_second")
 	end
 end

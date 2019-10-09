@@ -3,15 +3,16 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local const = require("eva.const")
 
 
 local M = {}
 
 local function load_lang(lang)
-	local settings = M._eva.app.settings.lang
+	local settings = app.settings.lang
 	local filename = settings.lang_paths[lang]
-	M._eva.app.lang_dict = M._eva.utils.load_json(filename)
+	app.lang_dict = M._eva.utils.load_json(filename)
 end
 
 
@@ -20,7 +21,7 @@ end
 -- @tparam string lang current language code from eva-settings
 function M.set_lang(lang)
 	load_lang(lang)
-	M._eva.app[const.EVA.LANG].lang = lang
+	app[const.EVA.LANG].lang = lang
 	M._eva.events.event(const.EVENT.LANG_UPDATE, { lang = lang })
 end
 
@@ -29,7 +30,7 @@ end
 -- @function eva.lang.get_lang
 -- @treturn string return current language code
 function M.get_lang()
-	return M._eva.app[const.EVA.LANG].lang
+	return app[const.EVA.LANG].lang
 end
 
 
@@ -39,7 +40,7 @@ end
 -- @treturn string translated locale
 function M.txt(lang_id)
 	assert(lang_id, "You must provide the lang id")
-	return M._eva.app.lang_dict[lang_id] or lang_id
+	return app.lang_dict[lang_id] or lang_id
 end
 
 
@@ -55,7 +56,7 @@ end
 
 
 function M.on_game_start()
-	local settings = M._eva.app.settings.lang
+	local settings = app.settings.lang
 	local default_lang = settings.default
 	local device_lang = string.sub(sys.get_sys_info().device_language, 1, 2)
 
@@ -63,15 +64,15 @@ function M.on_game_start()
 		default_lang = device_lang
 	end
 
-	M._eva.app[const.EVA.LANG] = M._eva.proto.get(const.EVA.LANG)
-	M._eva.app[const.EVA.LANG].lang = default_lang
+	app[const.EVA.LANG] = M._eva.proto.get(const.EVA.LANG)
+	app[const.EVA.LANG].lang = default_lang
 
-	M._eva.saver.add_save_part(const.EVA.LANG, M._eva.app[const.EVA.LANG])
+	M._eva.saver.add_save_part(const.EVA.LANG, app[const.EVA.LANG])
 end
 
 
 function M.after_game_start()
-	M.set_lang(M._eva.app[const.EVA.LANG].lang)
+	M.set_lang(app[const.EVA.LANG].lang)
 end
 
 

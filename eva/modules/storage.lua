@@ -2,6 +2,8 @@
 -- Using for simple key-value local storage
 -- @submodule eva
 
+
+local app = require("eva.app")
 local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
@@ -15,7 +17,7 @@ local M = {}
 -- @function eva.storage.get
 -- @tparam string id The record id
 function M.get(id)
-	local storage = M._eva.app[const.EVA.STORAGE].storage
+	local storage = app[const.EVA.STORAGE].storage
 	local value = storage[id]
 
 	return value.s_value or value.i_value or value.b_value
@@ -26,7 +28,7 @@ end
 -- @tparam string id The record id
 -- @tparam string|number|bool value Value
 function M.set(id, value)
-	local storage = M._eva.app[const.EVA.STORAGE].storage
+	local storage = app[const.EVA.STORAGE].storage
 	local v = M._eva.proto.get(const.EVA.STORAGE_VALUE)
 
 	if type(value) == "string" then
@@ -49,8 +51,8 @@ end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.STORAGE] = M._eva.proto.get(const.EVA.STORAGE)
-	M._eva.saver.add_save_part(const.EVA.STORAGE, M._eva.app[const.EVA.STORAGE])
+	app[const.EVA.STORAGE] = M._eva.proto.get(const.EVA.STORAGE)
+	M._eva.saver.add_save_part(const.EVA.STORAGE, app[const.EVA.STORAGE])
 end
 
 

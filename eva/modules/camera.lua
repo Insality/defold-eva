@@ -4,6 +4,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local gesture = require("in.gesture")
 local camera_drag = require("eva.modules.camera.camera_drag")
 local camera_gesture = require("eva.modules.camera.camera_gesture")
@@ -43,7 +44,7 @@ end
 -- @tparam string cam_id url of camera game object
 -- @tparam vector3 camera_box size of the camera at zoom=1
 function M.set_camera(cam_id, camera_box)
-	local state = M._eva.app.camera_state
+	local state = app.camera_state
 
 	state.cam_id = cam_id
 
@@ -61,7 +62,7 @@ end
 -- @tparam vector4 border_soft Soft zones of camera. Order is: left-top-right-bot.
 -- @tparam vector4 border_hard Hard zones of camera. Order is: left-top-right-bot.
 function M.set_borders(border_soft, border_hard)
-	local state = M._eva.app.camera_state
+	local state = app.camera_state
 
 	state.border_soft = border_soft
 	state.border_hard = border_hard
@@ -73,7 +74,7 @@ end
 -- @tparam vector3 zoom_soft Setup zoom soft values. vector3(min_value, max_value, 0)
 -- @tparam vector3 zoom_hard Setup zoom hard values. vector3(min_value, max_value, 0)
 function M.set_zoom_borders(zoom_soft, zoom_hard)
-	local state = M._eva.app.camera_state
+	local state = app.camera_state
 
 	state.zoom_border_soft = zoom_soft
 	state.zoom_border_hard = zoom_hard
@@ -81,7 +82,7 @@ end
 
 
 function M.on_input(action_id, action)
-	local state = M._eva.app.camera_state
+	local state = app.camera_state
 
 	camera_drag.handle_drag(action_id, action, state)
 	camera_gesture.handle_gesture(action_id, action, state)
@@ -89,9 +90,9 @@ end
 
 
 function M.before_game_start()
-	M._eva.app.camera_state = get_initial_state()
+	app.camera_state = get_initial_state()
 
-	local settings = M._eva.app.settings.camera
+	local settings = app.settings.camera
 	camera_gesture.GESTURE = gesture.create({
 		multi_touch = settings.multi_touch
 	})
@@ -100,8 +101,8 @@ end
 
 
 function M.on_game_update(dt)
-	local state = M._eva.app.camera_state
-	local settings = M._eva.app.settings.camera
+	local state = app.camera_state
+	local settings = app.settings.camera
 
 	camera_drag.update_camera_pos(state, dt, settings)
 	camera_gesture.update_camera_zoom(state, dt, settings)

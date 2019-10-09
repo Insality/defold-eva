@@ -4,6 +4,8 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
+
 local M = {}
 
 
@@ -14,7 +16,7 @@ local M = {}
 -- @tparam function callback Callback to wrap
 -- @treturn number index New index of wrapped callback
 function M.create(callback)
-	local data = M._eva.app.callbacks_data
+	local data = app.callbacks_data
 	data.last_index = data.last_index + 1
 	data.callbacks[data.last_index] = callback
 
@@ -27,7 +29,7 @@ end
 -- @tparam number index Index of wrapped callback
 -- @tparam args ... Args of calling callback
 function M.call(index, ...)
-	local data = M._eva.app.callbacks_data
+	local data = app.callbacks_data
 
 	if data.callbacks[index] then
 		data.callbacks[index](...)
@@ -40,7 +42,7 @@ end
 -- @function eva.callbacks.clear
 -- @tparam number index Index of wrapped callback
 function M.clear(index)
-	local data = M._eva.app.callbacks_data
+	local data = app.callbacks_data
 	if data.callbacks[index] then
 		data.callbacks[index] = nil
 	end
@@ -48,7 +50,7 @@ end
 
 
 function M.before_game_start()
-	M._eva.app.callbacks_data = {
+	app.callbacks_data = {
 		callbacks = {},
 		last_index = 0
 	}

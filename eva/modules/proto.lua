@@ -3,6 +3,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local protoc = require("pb.protoc")
 
@@ -35,7 +36,7 @@ end
 
 
 function M.before_game_start()
-	local settings = M._eva.app.settings.proto
+	local settings = app.settings.proto
 	local proto_paths = settings.proto_paths
 
 	for _, path in ipairs(proto_paths) do

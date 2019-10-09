@@ -2,6 +2,7 @@
 -- This module provide API to unityads
 -- @submodule eva
 
+local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
@@ -16,7 +17,7 @@ end
 
 
 local function ads_callback(self, message_id, message)
-	local data = M._eva.app[const.EVA.ADS]
+	local data = app[const.EVA.ADS]
 
 	if message_id == unityads.TYPE_IS_READY then
 		logger:debug("Ads ready", message)
@@ -110,7 +111,7 @@ end
 -- @function eva.ads.set_enabled
 -- @tparam bool state ads state
 function M.set_enabled(state)
-	M._eva.app[const.EVA.ADS].ads_disabled = state
+	app[const.EVA.ADS].ads_disabled = state
 end
 
 
@@ -118,13 +119,13 @@ end
 -- @function eva.ads.is_enabled
 -- @treturn bool is ads enabled
 function M.is_enabled()
-	return not M._eva.app[const.EVA.ADS].ads_disabled
+	return not app[const.EVA.ADS].ads_disabled
 end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.ADS] = M._eva.proto.get(const.EVA.ADS)
-	M._eva.saver.add_save_part(const.EVA.ADS, M._eva.app[const.EVA.ADS])
+	app[const.EVA.ADS] = M._eva.proto.get(const.EVA.ADS)
+	M._eva.saver.add_save_part(const.EVA.ADS, app[const.EVA.ADS])
 end
 
 
@@ -133,7 +134,7 @@ function M.after_game_start()
 		return
 	end
 
-	local settings = M._eva.app.settings.ads
+	local settings = app.settings.ads
 	local is_debug = M._eva.game.is_debug()
 	local ads_id = nil
 

@@ -5,6 +5,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
@@ -14,13 +15,13 @@ local M = {}
 
 
 local function get_offer_data(offer_id)
-	local config_name = M._eva.app.settings.offers.config
-	return M._eva.app.db[config_name].offers[offer_id]
+	local config_name = app.settings.offers.config
+	return app.db[config_name].offers[offer_id]
 end
 
 
 local function get_offers()
-	return M._eva.app[const.EVA.OFFERS].offers
+	return app[const.EVA.OFFERS].offers
 end
 
 
@@ -152,8 +153,8 @@ end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.OFFERS] = M._eva.proto.get(const.EVA.OFFERS)
-	M._eva.saver.add_save_part(const.EVA.OFFERS, M._eva.app[const.EVA.OFFERS])
+	app[const.EVA.OFFERS] = M._eva.proto.get(const.EVA.OFFERS)
+	M._eva.saver.add_save_part(const.EVA.OFFERS, app[const.EVA.OFFERS])
 end
 
 

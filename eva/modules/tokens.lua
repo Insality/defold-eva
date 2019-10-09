@@ -5,6 +5,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 local smart = require("eva.libs.smart.smart")
@@ -22,10 +23,10 @@ end
 local function create_token_in_save(token_id, token_data)
 	if not token_data then
 		token_data = M._eva.proto.get(const.EVA.TOKEN)
-		M._eva.app[const.EVA.TOKENS].tokens[token_id] = token_data
+		app[const.EVA.TOKENS].tokens[token_id] = token_data
 	end
 
-	local config = M._eva.app.token_config.token_config[token_id] or {}
+	local config = app.token_config.token_config[token_id] or {}
 	config.name = token_id
 	local smart_token = smart.new(config, token_data)
 
@@ -35,7 +36,7 @@ end
 
 
 local function get_token(token_id)
-	local tokens = M._eva.app.smart_tokens
+	local tokens = app.smart_tokens
 
 	if not tokens[token_id] then
 		tokens[token_id] = create_token_in_save(token_id)
@@ -51,7 +52,7 @@ end
 -- @tparam string token_group_id the token group id
 -- @treturn evadata.Tokens the token list
 function M.get_token_group(token_group_id)
-	local group = M._eva.app.token_groups.token_groups[token_group_id]
+	local group = app.token_groups.token_groups[token_group_id]
 	if not group then
 		logger:error("No token group with id", { group_id = token_group_id })
 	end
@@ -65,7 +66,7 @@ end
 -- @tparam string lot_id the token lot id
 -- @treturn evadata.Tokens the token list
 function M.get_lot_reward(lot_id)
-	local lot = M._eva.app.token_lots.token_lots[lot_id]
+	local lot = app.token_lots.token_lots[lot_id]
 	if not lot then
 		logger:error("No token lot with id", { lot_id = lot_id })
 	end
@@ -80,7 +81,7 @@ end
 -- @tparam string lot_id the token lot id
 -- @treturn evadata.Tokens the token list
 function M.get_lot_price(lot_id)
-	local lot = M._eva.app.token_lots.token_lots[lot_id]
+	local lot = app.token_lots.token_lots[lot_id]
 	if not lot then
 		logger:error("No token lot with id", { lot_id = lot_id })
 	end
@@ -228,44 +229,44 @@ end
 
 
 function M.before_game_start()
-	M._eva.app.smart_tokens = {}
-	M._eva.app.token_config = {}
-	M._eva.app.token_groups = {}
-	M._eva.app.token_lots = {}
+	app.smart_tokens = {}
+	app.token_config = {}
+	app.token_groups = {}
+	app.token_lots = {}
 end
 
 
 local function load_config(config_name, db_name)
 	if db_name then
-		M._eva.app[config_name] = M._eva.app.db[db_name]
+		app[config_name] = app.db[db_name]
 		logger:debug("Load token config part", { name = config_name, db_name = db_name })
 	end
 end
 
 
 function M.on_game_start()
-	local settings = M._eva.app.settings.tokens
+	local settings = app.settings.tokens
 	load_config("token_config", settings.config_token_config)
 	load_config("token_groups", settings.config_token_groups)
 	load_config("token_lots", settings.config_lots)
 
-	M._eva.app[const.EVA.TOKENS] = M._eva.proto.get(const.EVA.TOKENS)
-	M._eva.saver.add_save_part(const.EVA.TOKENS, M._eva.app[const.EVA.TOKENS])
+	app[const.EVA.TOKENS] = M._eva.proto.get(const.EVA.TOKENS)
+	M._eva.saver.add_save_part(const.EVA.TOKENS, app[const.EVA.TOKENS])
 
 	smart.set_time_function(M._eva.game.get_time)
 end
 
 
 function M.after_game_start()
-	for token_id, data in pairs(M._eva.app[const.EVA.TOKENS].tokens) do
+	for token_id, data in pairs(app[const.EVA.TOKENS].tokens) do
 		-- Link behavior and data
-		M._eva.app.smart_tokens[token_id] = create_token_in_save(token_id, data)
+		app.smart_tokens[token_id] = create_token_in_save(token_id, data)
 	end
 end
 
 
 function M.on_game_update(dt)
-	local tokens = M._eva.app.smart_tokens
+	local tokens = app.smart_tokens
 	for id, token in pairs(tokens) do
 		token:update()
 	end

@@ -3,6 +3,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
@@ -17,7 +18,7 @@ local M = {}
 -- @function eva.device.get_device_id
 -- @treturn string device_id
 function M.get_device_id()
-	local data = M._eva.app[const.EVA.DEVICE]
+	local data = app[const.EVA.DEVICE]
 	if data.device_id == "" then
 		if M.is_mobile() then
 			local sys_info = sys.get_sys_info()
@@ -106,8 +107,8 @@ end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.DEVICE] = M._eva.proto.get(const.EVA.DEVICE)
-	M._eva.saver.add_save_part(const.EVA.DEVICE, M._eva.app[const.EVA.DEVICE])
+	app[const.EVA.DEVICE] = M._eva.proto.get(const.EVA.DEVICE)
+	M._eva.saver.add_save_part(const.EVA.DEVICE, app[const.EVA.DEVICE])
 
 	local device_id = M.get_device_id()
 	logger:info("Device ID", { device_id = device_id })

@@ -5,6 +5,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
@@ -23,7 +24,7 @@ end
 --- Load the game save
 -- @function eva.saver.load
 function M.load()
-	local settings = M._eva.app.settings.saver
+	local settings = app.settings.saver
 	local path = get_save_path(settings.save_name)
 	return sys.load(path)
 end
@@ -32,19 +33,19 @@ end
 --- Save the game save
 -- @function eva.saver.save
 function M.save()
-	local data = M._eva.app[const.EVA.SAVER]
+	local data = app[const.EVA.SAVER]
 	data.version = data.version + 1
 
-	local settings = M._eva.app.settings.saver
+	local settings = app.settings.saver
 	local path = get_save_path(settings.save_name)
-	sys.save(path, M._eva.app.save_table)
+	sys.save(path, app.save_table)
 end
 
 
 --- Reset the game profile
 -- @function eva.saver.reset
 function M.reset()
-	M._eva.app.save_table = {}
+	app.save_table = {}
 end
 
 
@@ -52,7 +53,7 @@ end
 -- @function eva.saver.add_save_part
 function M.add_save_part(name, table_ref)
 	assert(M.can_load_save, "Add save part should be called after eva init")
-	local save_table = M._eva.app.save_table
+	local save_table = app.save_table
 
 	if not save_table[name] then
 		-- Add save template as new
@@ -74,19 +75,19 @@ end
 
 
 function M.before_game_start()
-	M._eva.app.save_table = M.load()
+	app.save_table = M.load()
 	M.can_load_save = true
 end
 
 
 function M.on_game_start()
-	M._eva.app[const.EVA.SAVER] = M._eva.proto.get(const.EVA.SAVER)
-	M._eva.saver.add_save_part(const.EVA.SAVER, M._eva.app[const.EVA.SAVER])
+	app[const.EVA.SAVER] = M._eva.proto.get(const.EVA.SAVER)
+	M._eva.saver.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
 end
 
 
 function M.after_game_start()
-	local app = M._eva.app
+	local app = app
 	local settings = app.settings.saver
 	if settings.autosave > 0 then
 		timer.delay(settings.autosave, true, M.save)

@@ -3,8 +3,9 @@
 -- @submodule eva
 
 
-local server_helper = require("eva.modules.server.server_helper")
+local app = require("eva.app")
 local log = require("eva.log")
+local server_helper = require("eva.modules.server.server_helper")
 
 local logger = log.get_logger("eva.server")
 
@@ -15,7 +16,7 @@ local M = {}
 -- @function eva.server.login
 -- @tparam function callback Callback after login
 function M.login(callback)
-	local settings = M._eva.app.settings.server
+	local settings = app.settings.server
 	if not settings.is_enabled then
 		logger:debug("The server is disabled")
 		return

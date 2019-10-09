@@ -3,6 +3,7 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
@@ -13,19 +14,19 @@ local M = {}
 
 
 local function get_iaps_config()
-	local settings = M._eva.app.settings.iaps
+	local settings = app.settings.iaps
 	local is_ios = M._eva.device.is_ios()
 	local config_name = is_ios and settings.config_ios or settings.config_android
-	return M._eva.app.db[config_name].iaps
+	return app.db[config_name].iaps
 end
 
 
 local function load_config()
-	M._eva.app.iap_products = {}
+	app.iap_products = {}
 
 	local iaps = get_iaps_config()
 	for iap_id, info in pairs(iaps) do
-		M._eva.app.iap_products[iap_id] = {
+		app.iap_products[iap_id] = {
 			is_available = false,
 			price = info.price,
 			ident = info.ident,
@@ -39,7 +40,7 @@ end
 
 
 local function get_id_by_ident(ident)
-	for iap_id, v in pairs(M._eva.app.iap_products) do
+	for iap_id, v in pairs(app.iap_products) do
 		if v.ident == ident then
 			return iap_id
 		end
@@ -56,7 +57,7 @@ local function list_callback(self, products, error)
 
 		for k, v in pairs(products) do
 			local iap_id = get_id_by_ident(k)
-			local iap_info = M._eva.app.iap_products[iap_id]
+			local iap_info = app.iap_products[iap_id]
 
 			iap_info.is_available = true
 			iap_info.currency_code = v.currency_code
@@ -85,7 +86,7 @@ end
 
 
 local function save_iap(iap_id, transaction)
-	local purchased = M._eva.app[const.EVA.IAPS].purchased_iaps
+	local purchased = app[const.EVA.IAPS].purchased_iaps
 	local iap_data = M._eva.proto.get(const.EVA.IAP_INFO)
 
 	iap_data.transaction_id = transaction.trans_ident
@@ -99,7 +100,7 @@ end
 
 
 local function consume(iap_id, transaction)
-	local item = M._eva.app.iap_products[iap_id]
+	local item = app.iap_products[iap_id]
 
 	if not item then
 		logger:error("The iap_id is not exist", {iap_id = iap_id})
@@ -137,7 +138,7 @@ end
 -- @function eva.iaps.buy
 -- @tparam string iap_id In-game inapp ID from iaps settings
 function M.buy(iap_id)
-	local products = M._eva.app.iap_products
+	local products = app.iap_products
 	local item = products[iap_id]
 
 	if not item then
@@ -173,20 +174,20 @@ end
 -- @function eva.iaps.get_price
 -- @tparam string iap_id the inapp id
 function M.get_price(iap_id)
-	return M._eva.app.iap_products[iap_id].price
+	return app.iap_products[iap_id].price
 end
 
 
 function M.before_game_start()
-	M._eva.app.iap_products = {}
+	app.iap_products = {}
 end
 
 
 function M.on_game_start()
 	load_config()
 
-	M._eva.app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
-	M._eva.saver.add_save_part(const.EVA.IAPS, M._eva.app[const.EVA.IAPS])
+	app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
+	M._eva.saver.add_save_part(const.EVA.IAPS, app[const.EVA.IAPS])
 end
 
 
@@ -197,7 +198,7 @@ function M.after_game_start()
 	end
 
 	iap.set_listener(iap_listener)
-	iap.list(luax.table.list(M._eva.app.iap_products, "ident"), list_callback)
+	iap.list(luax.table.list(app.iap_products, "ident"), list_callback)
 end
 
 
