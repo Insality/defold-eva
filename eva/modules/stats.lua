@@ -3,6 +3,8 @@
 -- @submodule eva
 
 
+-- TODO: Can we calculate average FPS statistic? and other system
+
 local app = require("eva.app")
 local const = require("eva.const")
 
