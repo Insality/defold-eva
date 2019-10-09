@@ -103,7 +103,7 @@ void main()
 
 	// Scanlines
 	if (effects.w > 0.) {
-		float scanline = sin(var_texcoord0.y * resolution.y)* effects.w;
+		float scanline = sin(var_texcoord0.y * resolution.y) * effects.w;
 		result -= scanline;
 	}
 
