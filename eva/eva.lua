@@ -107,9 +107,9 @@ end
 
 
 --- Call this on main update loop
--- @function eva.on_eva_update
+-- @function eva.update
 -- @tparam number dt delta time
-function M.on_eva_update(dt)
+function M.update(dt)
 	call_each_module("on_eva_update", dt)
 
 	app._second_counter = app._second_counter - dt

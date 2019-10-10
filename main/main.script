@@ -18,7 +18,7 @@ end
 
 
 function update(self, dt)
-	eva.on_eva_update(dt)
+	eva.update(dt)
 end
 
 
