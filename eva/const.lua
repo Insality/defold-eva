@@ -60,6 +60,13 @@ M.EVENT = {
 	DAILY_REWARD = "eva.daily.reward",
 	DAILY_RESET = "eva.daily.reset",
 	DAILY_NEW_CYCLE = "eva.daily.new_cycle",
+	FESTIVAL_START = "eva.festivals.start",
+	FESTIVAL_END = "eva.festivals.end",
+	FESTIVAL_CLOSE_TO_END = "eva.festivals.clost_to_end",
+	QUEST_START = "eva.quests.start",
+	QUEST_PROGRESS = "eva.quests.progress",
+	QUEST_TASK_COMPLETE = "eva.quests.task_complete",
+	QUEST_END = "eva.quests.end",
 }
 
 

@@ -11,6 +11,10 @@ return function()
 			mock_time.set(0)
 		end)
 
+		after(function()
+			mock_time.unmock()
+		end)
+
 		it("Should be creatable", function()
 			assert(eva.timers.get(id) == nil)
 			eva.timers.add(id, data, 100)

@@ -9,6 +9,10 @@ return function()
 			mock_time.set(5000)
 		end)
 
+		after(function()
+			mock_time.unmock()
+		end)
+
 		it("Should be inactive at start", function()
 			assert(eva.daily.is_active() == false)
 
