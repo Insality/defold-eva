@@ -58,3 +58,36 @@ message IapConfig {
 message IapsConfig {
 	map<string, IapConfig> iaps = 1;
 }
+
+message Festival {
+	string start_date = 1;
+	uint32 duration = 2;
+	bool is_unique = 3;
+	string repeat_time = 4;
+	uint32 close_time = 5;
+}
+
+message Festivals {
+	map<string, Festival> festivals = 1;
+}
+
+message QuestProgress {
+	int32 initial = 1;
+	int32 required = 2;
+	string action = 3;
+	string object = 4;
+	string param1 = 5;
+	string param2 = 6;
+}
+
+message Quest {
+	repeated string required_quests = 1;
+	repeated Token required_tokens = 2;
+	repeated QuestProgress progress = 3;
+	repeated Token reward = 4;
+	bool catch_events_offline = 5;
+}
+
+message Quests {
+	map<string, Quest> quests = 1;
+}
