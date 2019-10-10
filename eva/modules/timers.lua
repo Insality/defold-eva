@@ -11,6 +11,12 @@ local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
+local game = require("eva.modules.game")
+local saver = require("eva.modules.saver")
+local proto = require("eva.modules.proto")
+local events = require("eva.modules.events")
+
+
 local logger = log.get_logger("eva.timers")
 
 local M = {}
@@ -29,9 +35,9 @@ function M.add(slot_id, timer_id, time, auto_trigger)
 		return false
 	end
 
-	local timer = M._eva.proto.get(const.EVA.TIMER)
+	local timer = proto.get(const.EVA.TIMER)
 	timer.timer_id = timer_id
-	timer.end_time = M._eva.game.get_time() + time
+	timer.end_time = game.get_time() + time
 	timer.auto_trigger = auto_trigger
 
 	app[const.EVA.TIMERS].timers[slot_id] = timer
@@ -55,10 +61,10 @@ function M.get_time(slot_id)
 	local timer = M.get(slot_id)
 
 	if timer then
-		local till_end = timer.end_time - M._eva.game.get_time()
+		local till_end = timer.end_time - game.get_time()
 
 		if timer.is_pause then
-			till_end = till_end + M._eva.game.get_time() - timer.pause_time
+			till_end = till_end + game.get_time() - timer.pause_time
 		end
 
 		return math.max(0, till_end)
@@ -95,9 +101,9 @@ function M.set_pause(slot_id, is_pause)
 		timer.is_pause = is_pause
 
 		if is_pause then
-			timer.pause_time = M._eva.game.get_time()
+			timer.pause_time = game.get_time()
 		else
-			local time_delta = M._eva.game.get_time() - timer.pause_time
+			local time_delta = game.get_time() - timer.pause_time
 			timer.end_time = timer.end_time + time_delta
 			timer.pause_time = 0
 		end
@@ -107,8 +113,8 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.TIMERS] = M._eva.proto.get(const.EVA.TIMERS)
-	M._eva.saver.add_save_part(const.EVA.TIMERS, app[const.EVA.TIMERS])
+	app[const.EVA.TIMERS] = proto.get(const.EVA.TIMERS)
+	saver.add_save_part(const.EVA.TIMERS, app[const.EVA.TIMERS])
 end
 
 
@@ -117,7 +123,7 @@ function M.on_eva_second()
 	for slot_id, timer in pairs(timers) do
 		local can_trigger = timer.auto_trigger and not timer.is_pause
 		if can_trigger and M.is_end(slot_id) then
-			M._eva.events.event(const.EVENT.TIMER_TRIGGER, {
+			events.event(const.EVENT.TIMER_TRIGGER, {
 				slot_id = slot_id,
 				timer_id = timer.timer_id
 			})

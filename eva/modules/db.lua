@@ -9,6 +9,9 @@
 local app = require("eva.app")
 local log = require("eva.log")
 
+local utils = require("eva.modules.utils")
+
+
 local logger = log.get_logger("eva.db")
 
 local M = {}
@@ -21,7 +24,7 @@ function M.before_eva_init()
 
 	for name, path in pairs(paths) do
 		logger:debug("Load JSON data", { name = name, path = path })
-		app.db[name] = M._eva.utils.load_json(path)
+		app.db[name] = utils.load_json(path)
 	end
 end
 

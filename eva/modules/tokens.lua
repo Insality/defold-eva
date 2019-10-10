@@ -10,19 +10,25 @@ local log = require("eva.log")
 local const = require("eva.const")
 local smart = require("eva.libs.smart.smart")
 
+local game = require("eva.modules.game")
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+local events = require("eva.modules.events")
+
+
 local logger = log.get_logger("eva.tokens")
 
 local M = {}
 
 
 local function on_change_token(delta, reason, token_id, amount)
-	M._eva.events.event(const.EVENT.TOKEN_CHANGE, { delta = delta, token_id = token_id, reason = reason, amount = amount })
+	events.event(const.EVENT.TOKEN_CHANGE, { delta = delta, token_id = token_id, reason = reason, amount = amount })
 end
 
 
 local function create_token_in_save(token_id, token_data)
 	if not token_data then
-		token_data = M._eva.proto.get(const.EVA.TOKEN)
+		token_data = proto.get(const.EVA.TOKEN)
 		app[const.EVA.TOKENS].tokens[token_id] = token_data
 	end
 
@@ -250,10 +256,10 @@ function M.on_eva_init()
 	load_config("token_groups", settings.config_token_groups)
 	load_config("token_lots", settings.config_lots)
 
-	app[const.EVA.TOKENS] = M._eva.proto.get(const.EVA.TOKENS)
-	M._eva.saver.add_save_part(const.EVA.TOKENS, app[const.EVA.TOKENS])
+	app[const.EVA.TOKENS] = proto.get(const.EVA.TOKENS)
+	saver.add_save_part(const.EVA.TOKENS, app[const.EVA.TOKENS])
 
-	smart.set_time_function(M._eva.game.get_time)
+	smart.set_time_function(game.get_time)
 end
 
 

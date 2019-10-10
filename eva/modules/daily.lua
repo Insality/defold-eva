@@ -9,6 +9,13 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
 
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+local game = require("eva.modules.game")
+local tokens = require("eva.modules.tokens")
+local events = require("eva.modules.events")
+
+
 local logger = log.get_logger("eva.daily")
 
 local M = {}
@@ -25,7 +32,7 @@ local function check_days()
 	if #data.reward_state >= #settings.reward then
 		data.reward_state = {}
 		logger:debug("New daily bonus cycle")
-		M._eva.events.event(const.EVENT.DAILY_NEW_CYCLE)
+		events.event(const.EVENT.DAILY_NEW_CYCLE)
 	end
 end
 
@@ -34,7 +41,7 @@ local function reset_daily()
 	local data = app[const.EVA.DAILY]
 
 	logger:debug("Reset daily bonus cycle", { day = #data.reward_state })
-	M._eva.events.event(const.EVENT.DAILY_RESET, { day = #data.reward_state })
+	events.event(const.EVENT.DAILY_RESET, { day = #data.reward_state })
 
 	data.last_pick_time = 0
 	data.reward_state = {}
@@ -47,11 +54,11 @@ local function lost_daily()
 	local data = app[const.EVA.DAILY]
 	-- New pick time: need to calc extra time more than wait_time + interval
 	-- last_pick_time = [cur_time - extra_time .. cur_time]
-	local extra_time = M._eva.game.get_time() - data.last_pick_time
+	local extra_time = game.get_time() - data.last_pick_time
 	extra_time = extra_time - settings.interval - settings.wait_time
 	extra_time = luax.math.clamp(extra_time, 0, settings.interval)
 
-	data.last_pick_time = M._eva.game.get_time() - extra_time
+	data.last_pick_time = game.get_time() - extra_time
 	table.insert(data.reward_state, false)
 
 	logger:debug("Lost one daily bonus", { day = #data.reward_state - 1})
@@ -109,15 +116,15 @@ function M.pick()
 		return
 	end
 
-	data.last_pick_time = M._eva.game.get_time()
+	data.last_pick_time = game.get_time()
 
 	table.insert(data.reward_state, true)
 
 	local reward_id = settings.reward[#data.reward_state]
-	M._eva.tokens.add_group(reward_id)
+	tokens.add_group(reward_id)
 
 	logger:info("Get daily bonus prize", { reward_id = reward_id, day = #data.reward_state })
-	M._eva.events.event(const.EVENT.DAILY_REWARD, { reward_id = reward_id, day = #data.reward_state })
+	events.event(const.EVENT.DAILY_REWARD, { reward_id = reward_id, day = #data.reward_state })
 
 
 	check_days()
@@ -130,7 +137,7 @@ end
 function M.get_time()
 	local settings = app.settings.daily
 	local data = app[const.EVA.DAILY]
-	local elapsed = (M._eva.game.get_time() - data.last_pick_time)
+	local elapsed = (game.get_time() - data.last_pick_time)
 	if not data.is_active then
 		return 0
 	end
@@ -144,7 +151,7 @@ end
 function M.get_wait_time()
 	local settings = app.settings.daily
 	local data = app[const.EVA.DAILY]
-	local elapsed = (M._eva.game.get_time() - data.last_pick_time)
+	local elapsed = (game.get_time() - data.last_pick_time)
 	if not data.is_active then
 		return 0
 	end
@@ -162,8 +169,8 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.DAILY] = M._eva.proto.get(const.EVA.DAILY)
-	M._eva.saver.add_save_part(const.EVA.DAILY, app[const.EVA.DAILY])
+	app[const.EVA.DAILY] = proto.get(const.EVA.DAILY)
+	saver.add_save_part(const.EVA.DAILY, app[const.EVA.DAILY])
 end
 
 

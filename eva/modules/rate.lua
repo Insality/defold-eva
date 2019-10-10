@@ -8,6 +8,12 @@
 local app = require("eva.app")
 local const = require("eva.const")
 
+local device = require("eva.modules.device")
+local game = require("eva.modules.game")
+local saver = require("eva.modules.saver")
+local proto = require("eva.modules.proto")
+
+
 local M = {}
 
 
@@ -28,7 +34,7 @@ end
 --- Try to promt rate game to the player
 -- @function eva.rate.promt_rate
 function M.promt_rate(on_can_promt)
-	if not M._eva.device.is_mobile() then
+	if not device.is_mobile() then
 		return
 	end
 
@@ -54,14 +60,14 @@ function M.open_rate()
 	if defreview and defreview.isSupported() then
 		defreview.requestReview()
 	else
-		M._eva.game.open_store_page()
+		game.open_store_page()
 	end
 end
 
 
 function M.on_eva_init()
-	app[const.EVA.RATE] = M._eva.proto.get(const.EVA.RATE)
-	M._eva.saver.add_save_part(const.EVA.RATE, app[const.EVA.RATE])
+	app[const.EVA.RATE] = proto.get(const.EVA.RATE)
+	saver.add_save_part(const.EVA.RATE, app[const.EVA.RATE])
 end
 
 

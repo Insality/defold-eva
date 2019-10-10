@@ -9,6 +9,9 @@ local gesture = require("in.gesture")
 local camera_drag = require("eva.modules.camera.camera_drag")
 local camera_gesture = require("eva.modules.camera.camera_gesture")
 
+local device = require("eva.modules.device")
+
+
 local M = {}
 
 
@@ -96,7 +99,7 @@ function M.before_eva_init()
 	camera_gesture.GESTURE = gesture.create({
 		multi_touch = settings.multi_touch
 	})
-	camera_drag.IS_MOBILE = M._eva.device.is_mobile()
+	camera_drag.IS_MOBILE = device.is_mobile()
 end
 
 

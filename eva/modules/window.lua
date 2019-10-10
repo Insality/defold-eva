@@ -12,6 +12,10 @@ local const = require("eva.const")
 local monarch = require("monarch.monarch")
 local log = require("eva.log")
 
+local callbacks = require("eva.modules.callbacks")
+local events = require("eva.modules.events")
+
+
 local logger = log.get_logger("eva.window")
 
 
@@ -54,17 +58,17 @@ local function handle_callbacks(data)
 		return
 	end
 
-	local callbacks = {}
+	local callbacks_wrapped = {}
 	local stored_url = msg.url()
 
 	for name, callback in pairs(data.callbacks) do
-		callbacks[name] = function(...)
-			local index = M._eva.callbacks.create(callback)
+		callbacks_wrapped[name] = function(...)
+			local index = callbacks.create(callback)
 			msg.post(stored_url, const.INPUT.CALLBACK, { index = index, args = ...})
 		end
 	end
 
-	data.callbacks = callbacks
+	data.callbacks = callbacks_wrapped
 end
 
 
@@ -86,7 +90,7 @@ function M.show_scene(scene_id, data)
 			settings.after_show_scene()
 
 			app.window.last_scene = scene_id
-			M._eva.events.screen(app.window.last_scene, get_current())
+			events.screen(app.window.last_scene, get_current())
 		end)
 	end)
 end
@@ -138,7 +142,7 @@ function M.show(window_id, window_data, in_queue)
 		monarch.show(window_id, nil, window_data, function()
 			settings.after_show_window()
 
-			M._eva.events.screen(data.last_scene, get_current())
+			events.screen(data.last_scene, get_current())
 		end)
 	end)
 end
@@ -231,7 +235,7 @@ function M.on_message(window_id, message_id, message, sender)
 		M.disappear(window_id)
 	end
 	if message_id == const.INPUT.CALLBACK then
-		M._eva.callbacks.call(message.index, message.args)
+		callbacks.call(message.index, message.args)
 	end
 end
 

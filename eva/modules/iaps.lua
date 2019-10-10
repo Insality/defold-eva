@@ -8,6 +8,14 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
 
+local device = require("eva.modules.device")
+local proto = require("eva.modules.proto")
+local events = require("eva.modules.events")
+local saver = require("eva.modules.saver")
+local game = require("eva.modules.game")
+local tokens = require("eva.modules.tokens")
+
+
 local logger = log.get_logger("eva.iaps")
 
 local M = {}
@@ -15,7 +23,7 @@ local M = {}
 
 local function get_iaps_config()
 	local settings = app.settings.iaps
-	local is_ios = M._eva.device.is_ios()
+	local is_ios = device.is_ios()
 	local config_name = is_ios and settings.config_ios or settings.config_android
 	return app.db[config_name].iaps
 end
@@ -70,7 +78,7 @@ local function list_callback(self, products, error)
 		logger:warn("IAP udpate products error", { error = error })
 	end
 
-	M._eva.events.event(const.EVENT.IAP_UPDATE)
+	events.event(const.EVENT.IAP_UPDATE)
 end
 
 
@@ -78,8 +86,8 @@ local function fake_transaction(iap_id)
 	return {
 		ident = iap_id,
 		state = "success (sandbox)",
-		date = M._eva.game.get_current_time_string(),
-		trans_ident = M._eva.game.get_uuid(),
+		date = game.get_current_time_string(),
+		trans_ident = device.get_uuid(),
 		is_fake = true,
 	}
 end
@@ -87,7 +95,7 @@ end
 
 local function save_iap(iap_id, transaction)
 	local purchased = app[const.EVA.IAPS].purchased_iaps
-	local iap_data = M._eva.proto.get(const.EVA.IAP_INFO)
+	local iap_data = proto.get(const.EVA.IAP_INFO)
 
 	iap_data.transaction_id = transaction.trans_ident
 	iap_data.ident = transaction.ident
@@ -109,11 +117,11 @@ local function consume(iap_id, transaction)
 
 	save_iap(iap_id, transaction)
 
-	if iap and (not item.forever or M._eva.device.is_ios()) then
+	if iap and (not item.forever or device.is_ios()) then
 		iap.finish(transaction)
 	end
 
-	M._eva.events.event(const.EVENT.IAP_PURCHASE, {iap_id = iap_id, ident = item.ident})
+	events.event(const.EVENT.IAP_PURCHASE, {iap_id = iap_id, ident = item.ident})
 end
 
 
@@ -126,7 +134,7 @@ local function iap_listener(self, transaction, error)
 	else
 		if error.reason == iap.REASON_USER_CANCELED then
 			logger:info("Iap canceled", transaction)
-			M._eva.events.event(const.EVENT.IAP_CANCEL, transaction and transaction.ident or "n/a")
+			events.event(const.EVENT.IAP_CANCEL, transaction and transaction.ident or "n/a")
 		else
 			logger:warn("Error while IAP processing", transaction)
 		end
@@ -166,7 +174,7 @@ function M.get_reward(iap_id)
 		logger:error("No iap with id", { iap_id = iap_id })
 	end
 
-	return M._eva.tokens.get_token_group(iap_data.token_group_id)
+	return tokens.get_token_group(iap_data.token_group_id)
 end
 
 
@@ -186,8 +194,8 @@ end
 function M.on_eva_init()
 	load_config()
 
-	app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
-	M._eva.saver.add_save_part(const.EVA.IAPS, app[const.EVA.IAPS])
+	app[const.EVA.IAPS] = proto.get(const.EVA.IAPS)
+	saver.add_save_part(const.EVA.IAPS, app[const.EVA.IAPS])
 end
 
 

@@ -8,6 +8,9 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 local log = require("eva.log")
 
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+
 local logger = log.get_logger("eva.storage")
 
 local M = {}
@@ -29,7 +32,7 @@ end
 -- @tparam string|number|bool value Value
 function M.set(id, value)
 	local storage = app[const.EVA.STORAGE].storage
-	local v = M._eva.proto.get(const.EVA.STORAGE_VALUE)
+	local v = proto.get(const.EVA.STORAGE_VALUE)
 
 	if type(value) == "string" then
 		v.s_value = value
@@ -51,8 +54,8 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.STORAGE] = M._eva.proto.get(const.EVA.STORAGE)
-	M._eva.saver.add_save_part(const.EVA.STORAGE, app[const.EVA.STORAGE])
+	app[const.EVA.STORAGE] = proto.get(const.EVA.STORAGE)
+	saver.add_save_part(const.EVA.STORAGE, app[const.EVA.STORAGE])
 end
 
 

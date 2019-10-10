@@ -6,13 +6,44 @@
 local app = require("eva.app")
 local const = require("eva.const")
 
+local utils = require("eva.modules.utils")
+local events = require("eva.modules.events")
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+
 
 local M = {}
 
 local function load_lang(lang)
 	local settings = app.settings.lang
 	local filename = settings.lang_paths[lang]
-	app.lang_dict = M._eva.utils.load_json(filename)
+	app.lang_dict = utils.load_json(filename)
+end
+
+
+local function get_time_data(seconds)
+	local minutes = math.max(0, math.floor(seconds / 60))
+	seconds = math.max(0, math.floor(seconds % 60))
+	local hours = math.max(0, math.floor(minutes / 60))
+	minutes = math.max(0, math.floor(minutes % 60))
+	local days = math.max(0, math.floor(hours / 24))
+	hours = math.max(0, math.floor(hours % 24))
+
+	return days, hours, minutes, seconds
+end
+
+
+--- Return localized time format from seconds
+-- @function eva.lang.time_format
+function M.time_format(seconds)
+	local days, hours, minutes, secs = get_time_data(seconds)
+	if days > 0 then
+		return M.txp("time_format_d", days, hours, minutes, secs)
+	elseif hours > 0 then
+		return M.txp("time_format_h", hours, minutes, secs)
+	else
+		return M.txp("time_format_m", minutes, secs)
+	end
 end
 
 
@@ -22,7 +53,7 @@ end
 function M.set_lang(lang)
 	load_lang(lang)
 	app[const.EVA.LANG].lang = lang
-	M._eva.events.event(const.EVENT.LANG_UPDATE, { lang = lang })
+	events.event(const.EVENT.LANG_UPDATE, { lang = lang })
 end
 
 
@@ -64,10 +95,10 @@ function M.on_eva_init()
 		default_lang = device_lang
 	end
 
-	app[const.EVA.LANG] = M._eva.proto.get(const.EVA.LANG)
+	app[const.EVA.LANG] = proto.get(const.EVA.LANG)
 	app[const.EVA.LANG].lang = default_lang
 
-	M._eva.saver.add_save_part(const.EVA.LANG, app[const.EVA.LANG])
+	saver.add_save_part(const.EVA.LANG, app[const.EVA.LANG])
 end
 
 

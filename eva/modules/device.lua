@@ -6,6 +6,10 @@
 local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
+local uuid = require("eva.libs.uuid")
+
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
 
 local logger = log.get_logger("eva.device")
 
@@ -27,12 +31,20 @@ function M.get_device_id()
 		end
 
 		if #data.device_id < 8 then
-			data.device_id = M._eva.game.get_uuid()
+			data.device_id = M.get_uuid()
 			logger:debug("Generate device_id from uuid", { device_id = data.device_id })
 		end
 	end
 
 	return data.device_id
+end
+
+
+--- Generate uuid
+-- @function eva.device.get_uuid
+-- @treturn string the uuid
+function M.get_uuid()
+	return uuid()
 end
 
 
@@ -107,8 +119,10 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.DEVICE] = M._eva.proto.get(const.EVA.DEVICE)
-	M._eva.saver.add_save_part(const.EVA.DEVICE, app[const.EVA.DEVICE])
+	uuid.randomseed(socket.gettime() * 10000)
+
+	app[const.EVA.DEVICE] = proto.get(const.EVA.DEVICE)
+	saver.add_save_part(const.EVA.DEVICE, app[const.EVA.DEVICE])
 
 	local device_id = M.get_device_id()
 	logger:info("Device ID", { device_id = device_id })

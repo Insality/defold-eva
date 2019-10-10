@@ -5,9 +5,11 @@
 
 
 local const = require("eva.const")
-local uuid = require("eva.libs.uuid")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local iso_format = require("eva.libs.iso_format")
+
+local device = require("eva.modules.device")
+
 
 local M = {}
 
@@ -16,7 +18,7 @@ local function select_url(url_ios, url_android)
 	local android_id = sys.get_config("android.package") or ""
 	local ios_id = sys.get_config("ios.id") or ""
 
-	local is_ios = M._eva.device.is_ios()
+	local is_ios = device.is_ios()
 	local url_source = "game"
 	local market_url = is_ios and url_ios or url_android
 
@@ -42,7 +44,7 @@ end
 function M.reboot(delay)
 	delay = delay or 0
 
-	M._eva.sound.stop_all()
+	sound.stop_all()
 	timer.delay(delay, false, function()
 		msg.post("@system:", "reboot")
 	end)
@@ -81,20 +83,11 @@ function M.get_current_time_string()
 end
 
 
---- Generate uuid
--- @function eva.game.get_uuid
--- @treturn string the uuid
-function M.get_uuid()
-	return uuid()
-end
-
-
 function M.on_eva_init()
 	math.randomseed(os.time())
 	math.random()
-	uuid.randomseed(socket.gettime() * 10000)
 
-	if M._eva.device.is_mobile() then
+	if device.is_mobile() then
 		window.set_dim_mode(window.DIMMING_OFF)
 	end
 

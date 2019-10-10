@@ -6,6 +6,11 @@
 local app = require("eva.app")
 local const = require("eva.const")
 
+local game = require("eva.modules.game")
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+
+
 local M = {}
 
 --- Play the sound in the game
@@ -87,12 +92,12 @@ end
 
 
 function M.on_eva_init()
-	local is_debug = not M._eva.game.is_debug()
+	local is_debug = not game.is_debug()
 
-	app[const.EVA.SOUND] = M._eva.proto.get(const.EVA.SOUND)
+	app[const.EVA.SOUND] = proto.get(const.EVA.SOUND)
 	app[const.EVA.SOUND].sound_gain = is_debug and 0 or 1
 	app[const.EVA.SOUND].music_gain = is_debug and 0 or 1
-	M._eva.saver.add_save_part(const.EVA.SOUND, app[const.EVA.SOUND])
+	saver.add_save_part(const.EVA.SOUND, app[const.EVA.SOUND])
 
 	app.sound_props = { gain = 1 }
 	app.sound_times = {}

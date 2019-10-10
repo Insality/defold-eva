@@ -6,13 +6,19 @@ local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
+local saver = require("eva.modules.saver")
+local proto = require("eva.modules.proto")
+local events = require("eva.modules.events")
+local device = require("eva.modules.device")
+local game = require("eva.modules.game")
+
 local logger = log.get_logger("eva.ads")
 
 local M = {}
 
 
 local function on_rewarded_success()
-	M._eva.events.event(const.EVENT.ADS_SUCCESS_REWARDED)
+	events.event(const.EVENT.ADS_SUCCESS_REWARDED)
 end
 
 
@@ -24,7 +30,7 @@ local function ads_callback(self, message_id, message)
 
 		data.ads_loaded = data.ads_loaded + 1
 
-		M._eva.events.event(const.EVENT.ADS_READY, { placement = message.placementId })
+		events.event(const.EVENT.ADS_READY, { placement = message.placementId })
 	end
 
 	if message_id == unityads.TYPE_DID_FINISH then
@@ -77,7 +83,7 @@ function M.show_rewarded()
 		return
 	end
 
-	M._eva.events.event(const.EVENT.ADS_SHOW_REWARDED)
+	events.event(const.EVENT.ADS_SHOW_REWARDED)
 	logger:debug("Ads rewarded show")
 
 	if not unityads then
@@ -96,7 +102,7 @@ function M.show_page()
 		return
 	end
 
-	M._eva.events.event(const.EVENT.ADS_SHOW_PAGE)
+	events.event(const.EVENT.ADS_SHOW_PAGE)
 	logger:debug("Ads page show")
 
 	if not unityads then
@@ -124,8 +130,8 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.ADS] = M._eva.proto.get(const.EVA.ADS)
-	M._eva.saver.add_save_part(const.EVA.ADS, app[const.EVA.ADS])
+	app[const.EVA.ADS] = proto.get(const.EVA.ADS)
+	saver.add_save_part(const.EVA.ADS, app[const.EVA.ADS])
 end
 
 
@@ -135,13 +141,13 @@ function M.after_eva_init()
 	end
 
 	local settings = app.settings.ads
-	local is_debug = M._eva.game.is_debug()
+	local is_debug = game.is_debug()
 	local ads_id = nil
 
-	if M._eva.device.is_ios() then
+	if device.is_ios() then
 		ads_id = settings.ads_id_ios
 	end
-	if M._eva.device.is_android() then
+	if device.is_android() then
 		ads_id = settings.ads_id_android
 	end
 

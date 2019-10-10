@@ -82,7 +82,6 @@ function M.init(settings_path)
 
 	for name, component in pairs(modules) do
 		M[name] = component
-		component._eva = M
 	end
 
 	local settings = M.utils.load_json(const.DEFAULT_SETTINGS_PATH)

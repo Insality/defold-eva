@@ -10,6 +10,9 @@ local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 
+local proto = require("eva.modules.proto")
+local utils = require("eva.modules.utils")
+
 local logger = log.get_logger("eva.saver")
 
 local M = {}
@@ -64,8 +67,7 @@ function M.add_save_part(name, table_ref)
 	local prev_ref = save_table[name]
 
 	-- Clear the variables via protobuf
-	if not M._eva.device.is_web() then
-		local proto = M._eva.proto
+	if pb then
 		prev_ref = proto.decode(name, proto.encode(name, prev_ref))
 	end
 
@@ -81,8 +83,8 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.SAVER] = M._eva.proto.get(const.EVA.SAVER)
-	M._eva.saver.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
+	app[const.EVA.SAVER] = proto.get(const.EVA.SAVER)
+	M.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
 end
 
 
@@ -96,7 +98,7 @@ function M.after_eva_init()
 	local current_version = sys.get_config("project.version")
 
 	if last_version ~= "" then
-		local compare = M._eva.utils.compare_versions(last_version, current_version)
+		local compare = utils.compare_versions(last_version, current_version)
 		if compare == -1 then
 			-- For some reasons, current version is lower when last one
 			-- TODO: Check this out later

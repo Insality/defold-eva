@@ -9,6 +9,9 @@ local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 
+local game = require("eva.modules.game")
+
+
 local logger = log.get_logger("eva.errors")
 
 local M = {}
@@ -41,7 +44,7 @@ end
 function M.on_eva_init()
 	app.errors_sended = {}
 
-	if M._eva.game.is_debug() then
+	if game.is_debug() then
 		return
 	end
 

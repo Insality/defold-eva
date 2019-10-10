@@ -6,6 +6,9 @@
 local app = require("eva.app")
 local const = require("eva.const")
 
+local game = require("eva.modules.game")
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
 
 local M = {}
 
@@ -14,7 +17,7 @@ local M = {}
 -- @function eva.gdpr.apply_gdpr
 function M.apply_gdpr()
 	app[const.EVA.GDPR].is_accepted = true
-	app[const.EVA.GDPR].accept_date = M._eva.game.get_current_time_string()
+	app[const.EVA.GDPR].accept_date = game.get_current_time_string()
 end
 
 
@@ -34,8 +37,8 @@ end
 
 
 function M.on_eva_init()
-	app[const.EVA.GDPR] = M._eva.proto.get(const.EVA.GDPR)
-	M._eva.saver.add_save_part(const.EVA.GDPR, app[const.EVA.GDPR])
+	app[const.EVA.GDPR] = proto.get(const.EVA.GDPR)
+	saver.add_save_part(const.EVA.GDPR, app[const.EVA.GDPR])
 end
 
 
