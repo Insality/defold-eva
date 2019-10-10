@@ -1,4 +1,4 @@
---- Eva quest module
+--- Eva quests module
 -- Carry for some quest type data
 -- Can be used for different quests, tasks, achievements etc
 -- It can be required by another quests
@@ -18,8 +18,8 @@ local M = {}
 
 
 function M.on_eva_init()
-	app[const.EVA.QUEST] = proto.get(const.EVA.QUEST)
-	saver.add_save_part(const.EVA.QUEST, app[const.EVA.QUEST])
+	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
+	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
 end
 
 

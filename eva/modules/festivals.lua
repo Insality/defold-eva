@@ -1,4 +1,4 @@
---- Eva festival module
+--- Eva festivals module
 -- It carry on some time events, like halloween,
 -- new year, foodtracks in some games.
 -- It can start and end events by date with some logic
@@ -19,8 +19,8 @@ local M = {}
 
 
 function M.on_eva_init()
-	app[const.EVA.FESTIVAL] = proto.get(const.EVA.FESTIVAL)
-	saver.add_save_part(const.EVA.FESTIVAL, app[const.EVA.FESTIVAL])
+	app[const.EVA.FESTIVALS] = proto.get(const.EVA.FESTIVALS)
+	saver.add_save_part(const.EVA.FESTIVALS, app[const.EVA.FESTIVALS])
 end
 
 

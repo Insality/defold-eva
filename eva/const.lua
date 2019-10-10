@@ -79,8 +79,8 @@ M.EVA = {
 	STORAGE = "eva.Storage",
 	OFFERS = "eva.Offers",
 	DAILY = "eva.Daily",
-	FESTIVAL = "eva.Festival",
-	QUEST = "eva.Quest",
+	FESTIVALS = "eva.Festivals",
+	QUESTS = "eva.Quests",
 
 	-- Part of data
 	TOKEN = "eva.Token",
