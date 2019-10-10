@@ -108,6 +108,14 @@
 
 		"offers": {
 			"lists": ["Offers"]
+		},
+
+		"festivals": {
+			"lists": ["Festivals"]
+		},
+
+		"quests": {
+			"lists": ["Quests"]
 		}
 	}
 }
