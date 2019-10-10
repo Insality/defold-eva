@@ -12,7 +12,6 @@ local M = {}
 -- @function eva.sound.play
 function M.play(sound_id, gain)
 	gain = gain or 1
-	local app = app
 
 	if app[const.EVA.SOUND].sound_gain == 0 then
 		return
@@ -87,7 +86,7 @@ function M.set_sound_gain(value)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	local is_debug = not M._eva.game.is_debug()
 
 	app[const.EVA.SOUND] = M._eva.proto.get(const.EVA.SOUND)

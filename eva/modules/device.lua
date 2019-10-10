@@ -106,7 +106,7 @@ function M.is_web()
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.DEVICE] = M._eva.proto.get(const.EVA.DEVICE)
 	M._eva.saver.add_save_part(const.EVA.DEVICE, app[const.EVA.DEVICE])
 

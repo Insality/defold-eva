@@ -55,7 +55,7 @@ function M.txp(lang_id, ...)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	local settings = app.settings.lang
 	local default_lang = settings.default
 	local device_lang = string.sub(sys.get_sys_info().device_language, 1, 2)
@@ -71,7 +71,7 @@ function M.on_game_start()
 end
 
 
-function M.after_game_start()
+function M.after_eva_init()
 	M.set_lang(app[const.EVA.LANG].lang)
 end
 

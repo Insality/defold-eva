@@ -71,7 +71,7 @@ end
 
 
 --- Call this to init Eva module
--- @function eva.on_game_start
+-- @function eva.on_eva_init
 -- @tparam string settings_path path to eva_settings.json
 function M.init(settings_path)
 	print("Before App keys:", #luax.table.list(app))
@@ -96,9 +96,9 @@ function M.init(settings_path)
 	app.settings = settings
 	log.init(app.settings.log)
 
-	call_each_module("before_game_start")
-	call_each_module("on_game_start")
-	call_each_module("after_game_start")
+	call_each_module("before_eva_init")
+	call_each_module("on_eva_init")
+	call_each_module("after_eva_init")
 
 	logger:debug("Eva init completed", { settings = settings_path })
 
@@ -107,15 +107,15 @@ end
 
 
 --- Call this on main update loop
--- @function eva.on_game_update
+-- @function eva.on_eva_update
 -- @tparam number dt delta time
-function M.on_game_update(dt)
-	call_each_module("on_game_update", dt)
+function M.on_eva_update(dt)
+	call_each_module("on_eva_update", dt)
 
 	app._second_counter = app._second_counter - dt
 	if app._second_counter <= 0 then
 		app._second_counter = 1
-		call_each_module("on_game_second")
+		call_each_module("on_eva_second")
 	end
 end
 

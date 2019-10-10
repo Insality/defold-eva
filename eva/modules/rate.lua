@@ -59,7 +59,7 @@ function M.open_rate()
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.RATE] = M._eva.proto.get(const.EVA.RATE)
 	M._eva.saver.add_save_part(const.EVA.RATE, app[const.EVA.RATE])
 end

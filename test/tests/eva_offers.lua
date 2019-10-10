@@ -32,13 +32,13 @@ return function()
 			assert(eva.offers.is_active(offer_fast))
 
 			mock_time.elapse(19)
-			eva.offers.on_game_second()
+			eva.offers.on_eva_second()
 			assert(eva.timers.get(offer.timer_id) ~= nil)
 			assert(eva.offers.is_active(offer_fast))
 
 			-- remove at 20 seconds
 			mock_time.elapse(1)
-			eva.offers.on_game_second()
+			eva.offers.on_eva_second()
 			assert(not eva.offers.is_active(offer_fast))
 
 			assert(eva.timers.get(offer.timer_id) == nil)

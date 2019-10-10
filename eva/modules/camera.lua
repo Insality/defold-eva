@@ -89,7 +89,7 @@ function M.on_input(action_id, action)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	app.camera_state = get_initial_state()
 
 	local settings = app.settings.camera
@@ -100,7 +100,7 @@ function M.before_game_start()
 end
 
 
-function M.on_game_update(dt)
+function M.on_eva_update(dt)
 	local state = app.camera_state
 	local settings = app.settings.camera
 

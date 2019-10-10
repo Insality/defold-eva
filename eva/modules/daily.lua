@@ -161,13 +161,13 @@ function M.get_current_state()
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.DAILY] = M._eva.proto.get(const.EVA.DAILY)
 	M._eva.saver.add_save_part(const.EVA.DAILY, app[const.EVA.DAILY])
 end
 
 
-function M.on_game_second()
+function M.on_eva_second()
 	check_states()
 end
 

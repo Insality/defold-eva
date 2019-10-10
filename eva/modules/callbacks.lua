@@ -49,7 +49,7 @@ function M.clear(index)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	app.callbacks_data = {
 		callbacks = {},
 		last_index = 0

@@ -89,7 +89,7 @@ function M.get_uuid()
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	math.randomseed(os.time())
 	math.random()
 	uuid.randomseed(socket.gettime() * 10000)

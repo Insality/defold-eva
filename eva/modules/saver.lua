@@ -74,20 +74,19 @@ function M.add_save_part(name, table_ref)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	app.save_table = M.load()
 	M.can_load_save = true
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.SAVER] = M._eva.proto.get(const.EVA.SAVER)
 	M._eva.saver.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
 end
 
 
-function M.after_game_start()
-	local app = app
+function M.after_eva_init()
 	local settings = app.settings.saver
 	if settings.autosave > 0 then
 		timer.delay(settings.autosave, true, M.save)

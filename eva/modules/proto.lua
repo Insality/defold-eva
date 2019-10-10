@@ -35,7 +35,7 @@ function M.decode(proto_type, data)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	local settings = app.settings.proto
 	local proto_paths = settings.proto_paths
 

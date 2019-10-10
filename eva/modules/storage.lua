@@ -50,7 +50,7 @@ function M.set(id, value)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.STORAGE] = M._eva.proto.get(const.EVA.STORAGE)
 	M._eva.saver.add_save_part(const.EVA.STORAGE, app[const.EVA.STORAGE])
 end

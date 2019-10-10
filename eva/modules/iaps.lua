@@ -178,12 +178,12 @@ function M.get_price(iap_id)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	app.iap_products = {}
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	load_config()
 
 	app[const.EVA.IAPS] = M._eva.proto.get(const.EVA.IAPS)
@@ -191,7 +191,7 @@ function M.on_game_start()
 end
 
 
-function M.after_game_start()
+function M.after_eva_init()
 	if not iap then
 		logger:debug("No iap on current platform")
 		return

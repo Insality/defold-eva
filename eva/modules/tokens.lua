@@ -228,7 +228,7 @@ function M.get_seconds_to_restore(token_id)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	app.smart_tokens = {}
 	app.token_config = {}
 	app.token_groups = {}
@@ -244,7 +244,7 @@ local function load_config(config_name, db_name)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	local settings = app.settings.tokens
 	load_config("token_config", settings.config_token_config)
 	load_config("token_groups", settings.config_token_groups)
@@ -257,7 +257,7 @@ function M.on_game_start()
 end
 
 
-function M.after_game_start()
+function M.after_eva_init()
 	for token_id, data in pairs(app[const.EVA.TOKENS].tokens) do
 		-- Link behavior and data
 		app.smart_tokens[token_id] = create_token_in_save(token_id, data)
@@ -265,7 +265,7 @@ function M.after_game_start()
 end
 
 
-function M.on_game_update(dt)
+function M.on_eva_update(dt)
 	local tokens = app.smart_tokens
 	for id, token in pairs(tokens) do
 		token:update()

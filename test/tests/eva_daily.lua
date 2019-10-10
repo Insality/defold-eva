@@ -48,7 +48,7 @@ return function()
 			assert(state[1] == true)
 
 			mock_time.elapse(30)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 			local new_state = eva.daily.get_current_state()
 			assert(#new_state == 0)
 		end)
@@ -59,12 +59,12 @@ return function()
 			eva.daily.pick()
 
 			mock_time.elapse(30)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 			local state1 = eva.daily.get_current_state()
 			assert(#state1 == 1)
 
 			mock_time.elapse(100)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 
 			assert(eva.daily.get_time() == 0)
 			assert(eva.daily.get_wait_time() == 0)
@@ -83,12 +83,12 @@ return function()
 			eva.daily.pick()
 
 			mock_time.elapse(10)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 			local state1 = eva.daily.get_current_state()
 			assert(#state1 == 1)
 
 			mock_time.elapse(20)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 
 			assert(eva.daily.get_time() == 10)
 			assert(eva.daily.get_wait_time() == 30)
@@ -101,14 +101,14 @@ return function()
 			-- check time is can translate to next pickup
 
 			mock_time.elapse(35)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 
 			assert(eva.daily.get_time() == 5)
 			assert(eva.daily.get_wait_time() == 25)
 			eva.daily.pick()
 
 			mock_time.elapse(25)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 
 			-- new cycle
 			local state3 = eva.daily.get_current_state()
@@ -118,7 +118,7 @@ return function()
 			eva.daily.pick()
 
 			mock_time.elapse(4000)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 
 			local state4 = eva.daily.get_current_state()
 			assert(#state4 == 2)
@@ -134,14 +134,14 @@ return function()
 			eva.daily.pick()
 
 			mock_time.elapse(10)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 			eva.daily.pick()
 
 			local state = eva.daily.get_current_state()
 			assert(#state == 2)
 
 			mock_time.elapse(10)
-			eva.daily.on_game_second()
+			eva.daily.on_eva_second()
 			eva.daily.pick()
 
 			assert(eva.tokens.get("money") == 2000)

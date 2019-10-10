@@ -106,13 +106,13 @@ function M.set_pause(slot_id, is_pause)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.TIMERS] = M._eva.proto.get(const.EVA.TIMERS)
 	M._eva.saver.add_save_part(const.EVA.TIMERS, app[const.EVA.TIMERS])
 end
 
 
-function M.on_game_second()
+function M.on_eva_second()
 	local timers = app[const.EVA.TIMERS].timers
 	for slot_id, timer in pairs(timers) do
 		local can_trigger = timer.auto_trigger and not timer.is_pause

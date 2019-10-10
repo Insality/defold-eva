@@ -38,7 +38,7 @@ local send_traceback = function(message, traceback)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app.errors_sended = {}
 
 	if M._eva.game.is_debug() then

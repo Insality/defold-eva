@@ -123,13 +123,13 @@ function M.is_enabled()
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.ADS] = M._eva.proto.get(const.EVA.ADS)
 	M._eva.saver.add_save_part(const.EVA.ADS, app[const.EVA.ADS])
 end
 
 
-function M.after_game_start()
+function M.after_eva_init()
 	if M.is_enabled() then
 		return
 	end

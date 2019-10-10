@@ -28,7 +28,7 @@ function M.set_vignette(power)
 end
 
 
-function M.on_game_update(dt)
+function M.on_eva_update(dt)
 	-- model.set_constant("/render#default", "time", M.time)
 end
 

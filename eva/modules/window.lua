@@ -243,7 +243,7 @@ function M.set_settings(window_settings)
 end
 
 
-function M.before_game_start()
+function M.before_eva_init()
 	app.window = {
 		last_scene = "loader", -- TODO: To const or auto-calc?
 		queue = {},

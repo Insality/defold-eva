@@ -11,13 +11,13 @@ local const = require("eva.const")
 local M = {}
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.STATS] = M._eva.proto.get(const.EVA.STATS)
 	M._eva.saver.add_save_part(const.EVA.STATS, app[const.EVA.STATS])
 end
 
 
-function M.after_game_start()
+function M.after_eva_init()
 	local settings = app.settings.stats
 	local stats = app[const.EVA.STATS]
 	stats.game_start_count = stats.game_start_count + 1
@@ -29,7 +29,7 @@ function M.after_game_start()
 end
 
 
-function M.on_game_update(dt)
+function M.on_eva_update(dt)
 	app[const.EVA.STATS].game_time = app[const.EVA.STATS].game_time + dt
 end
 

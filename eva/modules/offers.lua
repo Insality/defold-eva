@@ -152,13 +152,13 @@ function M.is_iap(offer_id)
 end
 
 
-function M.on_game_start()
+function M.on_eva_init()
 	app[const.EVA.OFFERS] = M._eva.proto.get(const.EVA.OFFERS)
 	M._eva.saver.add_save_part(const.EVA.OFFERS, app[const.EVA.OFFERS])
 end
 
 
-function M.on_game_second()
+function M.on_eva_second()
 	local offers = get_offers()
 
 	for offer_id, offer in pairs(offers) do
