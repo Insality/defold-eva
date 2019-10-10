@@ -90,4 +90,17 @@ function M.get_time_to_next(start_date, delta_time, cur_time_str)
 	return time
 end
 
+
+function M.get_delta_seconds(delta_str)
+	local time_table = get_delta_time(delta_str)
+	local seconds = 0
+	seconds = seconds + time_table.min * 60
+	seconds = seconds + time_table.hour * 60 * 60
+	seconds = seconds + time_table.day * 60 * 60 * 24
+	seconds = seconds + time_table.month * 60 * 60 * 24 * 30
+	seconds = seconds + time_table.year * 60 * 60 * 24 * 365
+	return seconds
+end
+
+
 return M

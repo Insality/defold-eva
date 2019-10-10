@@ -21,5 +21,11 @@ return function()
 			next_time = iso_format.get_time_to_next(sunday, "1W", cur_time)
 			assert(iso_format.get_time(next_time) == "2019-10-13T00:00:00Z")
 		end)
+
+		it("Test delta to seconds", function()
+			assert(iso_format.get_delta_seconds("1W") == 60 * 60 * 24 * 7)
+			assert(iso_format.get_delta_seconds("1D") == 60 * 60 * 24)
+			assert(iso_format.get_delta_seconds("10m") == 60 * 10)
+		end)
 	end)
 end
