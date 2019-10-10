@@ -97,6 +97,20 @@ message Daily {
 	repeated bool reward_state = 3;
 }
 
+message Festival {
+	repeated string current = 1;
+	map<string, uint32> completed = 2;
+}
+
+message QuestData {
+	repeated int32 progress = 1;
+}
+
+message Quest {
+	map<string, QuestData> current = 1;
+	repeated string completed = 2;
+}
+
 message IapDetails {
 	float price = 1;
 	string currency_code = 2;

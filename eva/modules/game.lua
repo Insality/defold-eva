@@ -119,4 +119,5 @@ function M.on_eva_update(dt)
 	app[const.EVA.GAME].game_time = app[const.EVA.GAME].game_time + dt
 end
 
+
 return M

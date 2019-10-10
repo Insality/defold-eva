@@ -7,7 +7,20 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
+local const = require("eva.const")
+
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+
+
 local M = {}
+
+
+function M.on_eva_init()
+	app[const.EVA.QUEST] = proto.get(const.EVA.QUEST)
+	saver.add_save_part(const.EVA.QUEST, app[const.EVA.QUEST])
+end
 
 
 return M
