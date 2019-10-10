@@ -4,9 +4,14 @@
 -- @submodule eva
 
 
+local app = require("eva.app")
 local const = require("eva.const")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local iso_format = require("eva.libs.iso_format")
+
+local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+
 
 local device = require("eva.modules.device")
 
@@ -92,7 +97,26 @@ function M.on_eva_init()
 	end
 
 	gui_extra_functions.init()
+
+	app[const.EVA.GAME] = proto.get(const.EVA.GAME)
+	saver.add_save_part(const.EVA.GAME, app[const.EVA.GAME])
 end
 
+
+function M.after_eva_init()
+	local settings = app.settings.game
+	local game = app[const.EVA.GAME]
+	game.game_start_count = game.game_start_count + 1
+
+	table.insert(game.game_start_dates, M.get_current_time_string())
+	while #game.game_start_dates > settings.game_started_max_count_stats do
+		table.remove(game.game_start_dates, 1)
+	end
+end
+
+
+function M.on_eva_update(dt)
+	app[const.EVA.GAME].game_time = app[const.EVA.GAME].game_time + dt
+end
 
 return M

@@ -48,7 +48,6 @@ local modules = {
 	server = require("eva.modules.server"),
 	social = require("eva.modules.social"),
 	sound = require("eva.modules.sound"),
-	stats = require("eva.modules.stats"),
 	storage = require("eva.modules.storage"),
 	tiled = require("eva.modules.tiled"),
 	timers = require("eva.modules.timers"),

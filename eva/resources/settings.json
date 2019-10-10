@@ -7,8 +7,8 @@
 		"repeat_threshold": 0.08,
 		"sound_path": "main:/sounds#"
 	},
-	"stats": {
-		"game_started_max_count": 5
+	"game": {
+		"game_started_max_count_stats": 5
 	},
 	"saver": {
 		"save_name": "eva",

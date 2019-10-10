@@ -56,7 +56,7 @@ message Ads {
 	bool ads_disabled = 4;
 }
 
-message Stats {
+message Game {
 	uint32 game_time = 1;
 	uint32 game_start_count = 2;
 	float prefer_playing_time = 3;
