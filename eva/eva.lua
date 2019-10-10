@@ -74,10 +74,7 @@ end
 -- @function eva.on_eva_init
 -- @tparam string settings_path path to eva_settings.json
 function M.init(settings_path)
-	print("Before App keys:", #luax.table.list(app))
 	app.clear()
-	print("After clear App keys:", #luax.table.list(app))
-
 	app._second_counter = 1
 
 	for name, component in pairs(modules) do
@@ -100,8 +97,6 @@ function M.init(settings_path)
 	call_each_module("after_eva_init")
 
 	logger:debug("Eva init completed", { settings = settings_path })
-
-	print("App keys:", #luax.table.list(app))
 end
 
 
