@@ -1,7 +1,11 @@
---- ISO format time parser
+--- Time string module. Carry ISO format and custom delta format
+-- ISO format:
 -- format: yyyy-mm-ddThh:mm:ss.ffffff
 -- example: 2008-09-15T15:53:00
 -- 			2008-09-15T15:53:00+05:00
+-- Delta format:
+-- format: 1Y 10M 2W 1D 12h 30m
+-- example: 1Y, 1h 30m, 10D
 
 local M = {}
 
@@ -29,21 +33,9 @@ local function parse_offset(str)
 end
 
 
-function M.parse(str)
-	local Y, MM, D = parse_date(str)
-	local h, m, s = parse_time(str)
-	local oh, om = parse_offset(str)
-	return os.time({year=Y, month=MM, day=D, hour=(h+oh), min=(m+om), sec=s})
-end
-
-
-function M.get_time(seconds)
-	return os.date("%Y-%m-%dT%TZ", seconds)
-end
-
-
 --- Get the table with delta times
 -- @tparam string str In format: "1Y 10M 2W 1D 12h 30m". Can pass part of time
+-- @local
 local function get_delta_time(str)
 	local year = tonumber(str:match("(%d?)Y")) or 0
 	local month = tonumber(str:match("(%d?%d?)M")) or 0
@@ -62,16 +54,32 @@ local function get_delta_time(str)
 end
 
 
+--- Get seconds from ISO string time format
+-- @tparam string str time in ISO format
+function M.parse_ISO(str)
+	local Y, MM, D = parse_date(str)
+	local h, m, s = parse_time(str)
+	local oh, om = parse_offset(str)
+	return os.time({year=Y, month=MM, day=D, hour=(h+oh), min=(m+om), sec=s})
+end
+
+
+--- Get time in ISO format from seconds
+function M.get_ISO(seconds)
+	return os.date("%Y-%m-%dT%TZ", seconds)
+end
+
+
 --- Return next time in seconds on event
 -- @tparam string start_date date in ISO format
 -- @tparam string delta_time delta in next format: "1Y 10M 2W 1D 12h 30m". Can pass part of time
 -- @tparam[opt] string cur_time_str date in ISO format. local time by default
-function M.get_time_to_next(start_date, delta_time, cur_time_str)
-	local start_time = M.parse(start_date)
+function M.get_next_time(start_date, delta_time, cur_time_str)
+	local start_time = M.parse_ISO(start_date)
 
 	local cur_time = socket.gettime()
 	if cur_time_str then
-		cur_time = M.parse(cur_time_str)
+		cur_time = M.parse_ISO(cur_time_str)
 	end
 
 	local cur_table = os.date("*t", start_time)
@@ -91,6 +99,7 @@ function M.get_time_to_next(start_date, delta_time, cur_time_str)
 end
 
 
+--- Convert Delta string format to seconds
 function M.get_delta_seconds(delta_str)
 	local time_table = get_delta_time(delta_str)
 	local seconds = 0
