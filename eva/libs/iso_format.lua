@@ -41,6 +41,7 @@ function M.get_time(seconds)
 	return os.date("%Y-%m-%dT%TZ", seconds)
 end
 
+
 --- Get the table with delta times
 -- @tparam string str In format: "1Y 10M 2W 1D 12h 30m". Can pass part of time
 local function get_delta_time(str)

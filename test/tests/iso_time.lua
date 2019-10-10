@@ -15,6 +15,11 @@ return function()
 			local next_date = "2019-11-10Z"
 			next_time = iso_format.get_time_to_next(next_date, "2Y", cur_time)
 			assert(iso_format.get_time(next_time) == "2019-11-10T00:00:00Z")
+
+
+			local sunday = "2017-10-01Z"
+			next_time = iso_format.get_time_to_next(sunday, "1W", cur_time)
+			assert(iso_format.get_time(next_time) == "2019-10-13T00:00:00Z")
 		end)
 	end)
 end
