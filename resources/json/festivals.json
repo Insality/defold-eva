@@ -1,7 +1,7 @@
 {
   "festivals": {
-    "weekly_festival": { "start_date": "2019-10-07", "duration": 86400, "close_time": 3600, "repeat_time": "1W" },
-    "event_festival": { "start_date": "2019-10-20", "duration": 1209600, "close_time": 259200, "is_unique": true },
-    "short_festival": { "start_date": "2019-10-20T12:00:00", "duration": 28800, "close_time": 3600, "repeat_time": "1D" }
+    "weekly_festival": { "start_date": "2019-10-07Z", "duration": 86400, "close_time": 3600, "repeat_time": "1W" },
+    "event_festival": { "start_date": "2019-10-20Z", "duration": 1209600, "close_time": 259200 },
+    "short_festival": { "start_date": "2019-10-20T12:00:00Z", "duration": 28800, "close_time": 3600, "repeat_time": "1D" }
   }
 }
