@@ -25,31 +25,8 @@
 			"lists": ["TokenGroups"],
 			"handlers": [
 				{
-					"type": "array_to_map",
-					"config": [
-						{
-							"field": "token1",
-							"keys": ["token_id", "amount"]
-						},
-						{
-							"field": "token2",
-							"keys": ["token_id", "amount"]
-						},
-						{
-							"field": "token3",
-							"keys": ["token_id", "amount"]
-						},
-						{
-							"field": "token4",
-							"keys": ["token_id", "amount"]
-						}
-					]
-				},
-				{
-					"type": "union_fields",
+					"type": "tokens",
 					"config": {
-						"name": "tokens",
-						"union_type": "array",
 						"fields": ["token1", "token2", "token3", "token4"]
 					}
 				}
@@ -115,7 +92,29 @@
 		},
 
 		"quests": {
-			"lists": ["Quests"]
+			"lists": ["Quests"],
+			"handlers": [
+				{
+					"type": "tokens",
+					"config": [
+						{
+							"id": "required_tokens",
+							"fields": ["required_tokens"]
+						},
+						{
+							"id": "reward",
+							"fields": ["reward"]
+						}
+					]
+				},
+				{
+					"type": "quest_tasks",
+					"config": {
+						"id": "progress",
+						"fields": ["task1", "task2", "task3"]
+					}
+				}
+			]
 		}
 	}
 }

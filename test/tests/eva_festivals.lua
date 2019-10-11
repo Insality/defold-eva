@@ -18,7 +18,7 @@ local mock_cb = {
 }
 
 return function()
-	describe("Section", function()
+	describe("Eva Festivals", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
 
@@ -38,7 +38,7 @@ return function()
 			mock.unmock(mock_cb)
 		end)
 
-		it("It should return correct start time (repeat festivals to)", function()
+		it("It should return correct start time (repeat festivals too)", function()
 			-- event_festivals start at 2019-10-20, end after 14d
 			-- weekly_festival start at 2019-10-07, end after 24h, every 7D
 			local current_time = set_time("2019-10-05Z")
@@ -131,10 +131,10 @@ return function()
 			assert(mock_cb.callback.params[1] == const.EVENT.FESTIVAL_START)
 			assert(mock_cb.callback.params[2].id == "weekly_festival")
 
-			local completed = eva.festivals.get_completed()
+			completed = eva.festivals.get_completed()
 			assert(luax.table.contains(completed, "weekly_festival"))
 			assert(luax.table.contains(completed, "event_festival"))
-			local current = eva.festivals.get_current()
+			current = eva.festivals.get_current()
 			assert(luax.table.contains(current, "weekly_festival"))
 			assert(not luax.table.contains(current, "event_festival"))
 		end)

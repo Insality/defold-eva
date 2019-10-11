@@ -3,7 +3,7 @@
 -- Can be used for crafts, long-time upgrades, special events.
 -- You need check timers mostly by youself.
 -- Auto_trigger events fire the TIMER_TRIGGER event, but in response
--- you should clear the timer (in case, if you did'nt catch the event).
+-- you should clear the timer (in case, if you did not catch the event).
 -- @submodule eva
 
 
@@ -57,6 +57,7 @@ end
 --- Get time until end, in seconds
 -- @function eva.timers.get_time
 -- @tparam string slot_id identificator of timer
+-- @treturn number Time until end of timer. -1 if timer is not exist
 function M.get_time(slot_id)
 	local timer = M.get(slot_id)
 

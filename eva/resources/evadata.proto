@@ -82,9 +82,9 @@ message QuestProgress {
 
 message Quest {
 	repeated string required_quests = 1;
-	repeated Token required_tokens = 2;
+	Tokens required_tokens = 2;
 	repeated QuestProgress progress = 3;
-	repeated Token reward = 4;
+	Tokens reward = 4;
 	bool catch_events_offline = 5;
 	string category = 6;
 }
