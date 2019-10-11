@@ -9,6 +9,7 @@
 
 
 local log = require("eva.log")
+local luax = require("eva.luax")
 local app = require("eva.app")
 local const = require("eva.const")
 local time_string = require("eva.libs.time_string")
@@ -31,7 +32,7 @@ end
 
 local function is_current_festival(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
-	return table.contains(festival_data.current, festival_id)
+	return luax.table.contains(festival_data.current, festival_id)
 end
 
 

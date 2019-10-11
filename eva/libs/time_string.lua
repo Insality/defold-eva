@@ -71,16 +71,11 @@ end
 
 
 --- Return next time in seconds on event
--- @tparam string start_date date in ISO format
+-- @tparam number start_time date in seconds
 -- @tparam string delta_time delta in next format: "1Y 10M 2W 1D 12h 30m". Can pass part of time
--- @tparam[opt] string cur_time_str date in ISO format. local time by default
-function M.get_next_time(start_date, delta_time, cur_time_str)
-	local start_time = M.parse_ISO(start_date)
-
-	local cur_time = socket.gettime()
-	if cur_time_str then
-		cur_time = M.parse_ISO(cur_time_str)
-	end
+-- @tparam[opt] number cur_time date in seconds. local time by default
+function M.get_next_time(start_time, delta_time, cur_time)
+	cur_time = cur_time or socket.gettime()
 
 	local cur_table = os.date("*t", start_time)
 	local time = os.time(cur_table)
