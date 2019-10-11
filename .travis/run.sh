@@ -4,7 +4,6 @@ else
 	PLATFORM="$1"
 fi
 
-
 echo "${PLATFORM}"
 
 # {"version": "1.2.89", "sha1": "5ca3dd134cc960c35ecefe12f6dc81a48f212d40"}
@@ -12,14 +11,8 @@ echo "${PLATFORM}"
 SHA1=$(curl -s http://d.defold.com/stable/info.json | sed 's/.*sha1": "\(.*\)".*/\1/')
 echo "Using Defold dmengine_headless version ${SHA1}"
 
-# Create dmengine_headless and bob.jar URLs
-DMENGINE_URL="http://d.defold.com/archive/${SHA1}/engine/${PLATFORM}/dmengine_headless"
+# Create bob.jar URLs
 BOB_URL="http://d.defold.com/archive/${SHA1}/bob/bob.jar"
-
-# Download dmengine_headless
-echo "Downloading ${DMENGINE_URL}"
-curl -o dmengine_headless ${DMENGINE_URL}
-chmod +x dmengine_headless
 
 # Download bob.jar
 echo "Downloading ${BOB_URL}"
@@ -32,11 +25,11 @@ if [ -n "${DEFOLD_AUTH}" ] && [ -n "${DEFOLD_USER}" ]; then
 fi
 
 echo "Running bob.jar - building"
-java -jar bob.jar build --keep-unused
+java -jar bob.jar -p ${PLATFORM} --archive --keep-unused --variant -bo ./.ci headless build bundle
 
 echo "Starting dmengine_headless"
 if [ -n "${DEFOLD_BOOSTRAP_COLLECTION}" ]; then
-	./dmengine_headless --config=bootstrap.main_collection=${DEFOLD_BOOSTRAP_COLLECTION}
+	./.ci/defold-eva/defoldeva.x86_64 --config=bootstrap.main_collection=${DEFOLD_BOOSTRAP_COLLECTION}
 else
-	./dmengine_headless
+	./.ci/defold-eva/defoldeva.x86_64
 fi
