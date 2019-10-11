@@ -1,0 +1,13 @@
+language: java
+
+jdk:
+  - oraclejdk11
+
+env:
+  global:
+    - DEFOLD_AUTH=12345
+    - DEFOLD_USER=some@gmail.com
+    - DEFOLD_BOOSTRAP_COLLECTION=/test/test.collectionc
+
+script:
+  - "./.travis/run.sh"
