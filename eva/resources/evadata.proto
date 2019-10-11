@@ -86,6 +86,7 @@ message Quest {
 	repeated QuestProgress progress = 3;
 	repeated Token reward = 4;
 	bool catch_events_offline = 5;
+	string category = 6;
 }
 
 message Quests {
