@@ -62,9 +62,8 @@ message IapsConfig {
 message Festival {
 	string start_date = 1;
 	uint32 duration = 2;
-	bool is_unique = 3;
-	string repeat_time = 4;
-	uint32 close_time = 5;
+	string repeat_time = 3;
+	uint32 close_time = 4;
 }
 
 message Festivals {

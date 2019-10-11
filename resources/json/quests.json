@@ -1,1 +1,8 @@
-{ "quests": {} }
+{
+  "quests": {
+    "quest_1": { "task1": [ "get", "money", 10 ], "reward": [ "money", 100 ] },
+    "quest_2": { "required_quests": "quest_2", "required_tokens": [ "level", 2 ], "task1": [ "get", "money", 200 ] },
+    "quest_3": { "required_quests": "quest_3", "required_tokens": [ "level", 3 ], "task1": [ "get", "money", 300 ] },
+    "quest_4": { "task1": [ "get", "money", 100 ], "catch_events_offline": true }
+  }
+}

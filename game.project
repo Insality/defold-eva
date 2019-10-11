@@ -1,7 +1,7 @@
 [project]
 title = defold-eva
 version = 1.0.0
-dependencies = https://github.com/insalitygames/monarch/archive/master.zip,https://github.com/insalitygames/rendercam/archive/master.zip,https://github.com/insalitygames/defold-protobuf/archive/master.zip,https://github.com/insalitygames/defold-cjson/archive/master.zip,https://github.com/insalitygames/set_screen_position/archive/master.zip,https://github.com/insalitygames/deftest/archive/2.7.1.zip,https://github.com/insalitygames/defreview/archive/0.1.0.zip,https://github.com/insalitygames/DefVideoAds/archive/3.2.4.zip,https://github.com/insalitygames/defold-input/archive/master.zip,https://github.com/defold/extension-iap/archive/master.zip
+dependencies = https://github.com/insalitygames/monarch/archive/master.zip,https://github.com/insalitygames/rendercam/archive/master.zip,https://github.com/insalitygames/defold-protobuf/archive/master.zip,https://github.com/insalitygames/defold-cjson/archive/master.zip,https://github.com/insalitygames/set_screen_position/archive/master.zip,https://github.com/insalitygames/deftest/archive/master.zip,https://github.com/insalitygames/defreview/archive/0.1.0.zip,https://github.com/insalitygames/DefVideoAds/archive/3.2.4.zip,https://github.com/insalitygames/defold-input/archive/master.zip,https://github.com/defold/extension-iap/archive/master.zip
 custom_resources = /eva/resources,/resources
 
 [bootstrap]
