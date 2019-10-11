@@ -30,7 +30,7 @@ local function get_timer_slot(festival_id)
 end
 
 
-local function is_time_to_start_festival(festival_id)
+local function is_time_to_start(festival_id)
 	local festivals = app.db.Festivals.festivals
 	local festival = festivals[festival_id]
 	local current_time = game.get_time()
@@ -44,13 +44,13 @@ local function is_time_to_start_festival(festival_id)
 end
 
 
-local function is_need_to_start_festival(festival_id)
+local function is_need_to_start(festival_id)
 	local festivals = app.db.Festivals.festivals
 	local festival = festivals[festival_id]
 
-	local is_current = M.is_active_festival(festival_id)
-	local is_completed = M.is_completed_festival(festival_id) and not festival.repeat_time
-	local is_time_to = is_time_to_start_festival(festival_id)
+	local is_current = M.is_active(festival_id)
+	local is_completed = M.is_completed(festival_id) and not festival.repeat_time
+	local is_time_to = is_time_to_start(festival_id)
 
 	if not is_completed and not is_current and is_time_to then
 		return true
@@ -61,7 +61,7 @@ end
 local function start_festival(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
 
-	local is_current = M.is_active_festival(festival_id)
+	local is_current = M.is_active(festival_id)
 	if is_current then
 		logger:warn("Trying to start already started festival", { id = festival_id })
 		return
@@ -78,10 +78,8 @@ end
 
 local function end_festival(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
-	local completed = festival_data.completed
-	-- TODO: Check in current
-	local is_current = M.is_active_festival(festival_id)
 
+	local is_current = M.is_active(festival_id)
 	if not is_current then
 		logger:warn("Trying to end non current festival", { id = festival_id })
 		return
@@ -90,42 +88,75 @@ local function end_festival(festival_id)
 	local festival_slot = get_timer_slot(festival_id)
 	timers.clear(festival_slot)
 	table.remove(festival_data.current, is_current)
-	completed[festival_id] = (completed[festival_id] or 0) + 1
+	festival_data.completed[festival_id] = (festival_data.completed[festival_id] or 0) + 1
 
 	events.event(const.EVENT.FESTIVAL_END, { id = festival_id })
 end
 
 
-function M.is_active_festival(festival_id)
+--- Return is festival is active now
+-- @function eva.festivals.is_active
+-- @tparam string festival_id Festival id from Festivals json
+-- @treturn boolean Current festival state
+function M.is_active(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
 	return luax.table.contains(festival_data.current, festival_id)
 end
 
 
-function M.is_completed_festival(festival_id)
+--- Return is festival is completed
+-- Return true for repeated festivals, is they are completed now
+-- @function eva.festivals.is_completed
+-- @tparam string festival_id Festival id from Festivals json
+-- @treturn number Festival completed counter (For repeat festivals can be > 1)
+function M.is_completed(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
 	return festival_data.completed[festival_id]
 end
 
 
+--- Return next start time for festival_id
+-- @function eva.festivals.get_start_time
+-- @tparam string festival_id Festival id from Festivals json
+-- @treturn number Time in seconds since epoch
 function M.get_start_time(festival_id)
 	local festivals = app.db.Festivals.festivals
 	local festival = festivals[festival_id]
-	local current_time = game.get_time()
 
-	local start_time = time_string.parse_ISO(festival.start_date)
+	if not festival then
+		logger:warn("No festival with id", { id = festival_id })
+		return
+	end
+
+	local current_time = game.get_time()
+	local start_time = app.festivals_cache[festival_id] or time_string.parse_ISO(festival.start_date)
+
+	if start_time > current_time then
+		return start_time
+	end
+
 	local is_going_now = start_time + festival.duration > current_time
 	if not is_going_now and festival.repeat_time then
 		start_time = time_string.get_next_time(start_time, festival.repeat_time, current_time)
+		app.festivals_cache[festival_id] = start_time
 	end
 
 	return start_time
 end
 
 
+--- Return next end time for festival_id
+-- @function eva.festivals.get_end_time
+-- @tparam string festival_id Festival id from Festivals json
+-- @treturn number Time in seconds since epoch
 function M.get_end_time(festival_id)
 	local festivals = app.db.Festivals.festivals
 	local festival = festivals[festival_id]
+
+	if not festival then
+		logger:warn("No festival with id", { id = festival_id })
+		return
+	end
 
 	local start_time = M.get_start_time(festival_id)
 	return start_time + festival.duration
@@ -133,6 +164,7 @@ end
 
 
 function M.on_eva_init()
+	app.festivals_cache = {}
 	app[const.EVA.FESTIVALS] = proto.get(const.EVA.FESTIVALS)
 	saver.add_save_part(const.EVA.FESTIVALS, app[const.EVA.FESTIVALS])
 end
@@ -141,7 +173,7 @@ end
 function M.on_eva_second()
 	local festivals = app.db.Festivals.festivals
 	for festival_id in pairs(festivals) do
-		if is_need_to_start_festival(festival_id) then
+		if is_need_to_start(festival_id) then
 			start_festival(festival_id)
 		end
 
