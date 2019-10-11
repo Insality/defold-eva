@@ -163,6 +163,23 @@ function M.get_end_time(festival_id)
 end
 
 
+--- Return current festivals
+-- @function eva.festivals.get_current
+-- @treturn table array of current festivals
+function M.get_current()
+	return app[const.EVA.FESTIVALS].current
+end
+
+
+--- Return completed festivals
+-- @function eva.festivals.get_completed
+-- @treturn table array of completed festivals
+function M.get_completed()
+	return luax.table.list(app[const.EVA.FESTIVALS].completed)
+end
+
+
+
 function M.on_eva_init()
 	app.festivals_cache = {}
 	app[const.EVA.FESTIVALS] = proto.get(const.EVA.FESTIVALS)

@@ -64,6 +64,7 @@ message Festival {
 	uint32 duration = 2;
 	string repeat_time = 3;
 	uint32 close_time = 4;
+	string category = 5;
 }
 
 message Festivals {
