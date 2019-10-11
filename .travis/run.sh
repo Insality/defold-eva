@@ -25,7 +25,7 @@ if [ -n "${DEFOLD_AUTH}" ] && [ -n "${DEFOLD_USER}" ]; then
 fi
 
 echo "Running bob.jar - building"
-java -jar bob.jar -p ${PLATFORM} --archive --keep-unused --variant -bo ./.ci headless build bundle
+java -jar bob.jar -p ${PLATFORM} --archive --keep-unused --variant headless -bo ./.ci build bundle
 
 echo "Starting dmengine_headless"
 if [ -n "${DEFOLD_BOOSTRAP_COLLECTION}" ]; then
