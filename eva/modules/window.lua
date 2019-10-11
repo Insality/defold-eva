@@ -82,7 +82,7 @@ end
 function M.show_scene(scene_id, data)
 	assert(monarch.screen_exists(scene_id), "Provide the correct scene_id")
 	local settings = get_settings(scene_id)
-	logger:debug("Show scene", { scene_id = scene_id })
+	events.event(const.EVENT.SCENE_SHOW, { scene_id = scene_id })
 
 	-- Praise the pyramids!
 	settings.before_show_scene(function()
@@ -135,7 +135,7 @@ function M.show(window_id, window_data, in_queue)
 	handle_callbacks(window_data)
 
 	-- Handle window show
-	logger:debug("Show window", { window_id = window_id })
+	events.event(const.EVENT.WINDOW_SHOW, { window_id = window_id })
 
 	-- Hello, Pyramids again!
 	settings.before_show_window(function()
@@ -181,7 +181,7 @@ end
 
 
 function M.on_close_window(prev_window_id)
-	logger:debug("Close window", { window_id = prev_window_id })
+	events.event(const.EVENT.WINDOW_CLOSE, { window_id = prev_window_id })
 	local data = app.window
 
 	if #data.next_queue > 0 and #data.queue == 0 then

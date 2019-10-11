@@ -31,7 +31,6 @@ local function check_days()
 
 	if #data.reward_state >= #settings.reward then
 		data.reward_state = {}
-		logger:debug("New daily bonus cycle")
 		events.event(const.EVENT.DAILY_NEW_CYCLE)
 	end
 end
@@ -40,7 +39,6 @@ end
 local function reset_daily()
 	local data = app[const.EVA.DAILY]
 
-	logger:debug("Reset daily bonus cycle", { day = #data.reward_state })
 	events.event(const.EVENT.DAILY_RESET, { day = #data.reward_state })
 
 	data.last_pick_time = 0
@@ -61,7 +59,7 @@ local function lost_daily()
 	data.last_pick_time = game.get_time() - extra_time
 	table.insert(data.reward_state, false)
 
-	logger:debug("Lost one daily bonus", { day = #data.reward_state - 1})
+	events.event(const.EVENT.DAILY_LOST, { day = #data.reward_state - 1 })
 
 	check_days()
 end
@@ -123,9 +121,7 @@ function M.pick()
 	local reward_id = settings.reward[#data.reward_state]
 	tokens.add_group(reward_id)
 
-	logger:info("Get daily bonus prize", { reward_id = reward_id, day = #data.reward_state })
 	events.event(const.EVENT.DAILY_REWARD, { reward_id = reward_id, day = #data.reward_state })
-
 
 	check_days()
 	return true

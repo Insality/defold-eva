@@ -59,6 +59,7 @@ M.EVENT = {
 	OFFERS_CLEAR = "eva.offers.clear",
 	DAILY_REWARD = "eva.daily.reward",
 	DAILY_RESET = "eva.daily.reset",
+	DAILY_LOST = "eva.daily.lost",
 	DAILY_NEW_CYCLE = "eva.daily.new_cycle",
 	FESTIVAL_START = "eva.festivals.start",
 	FESTIVAL_END = "eva.festivals.end",
@@ -67,6 +68,10 @@ M.EVENT = {
 	QUEST_PROGRESS = "eva.quests.progress",
 	QUEST_TASK_COMPLETE = "eva.quests.task_complete",
 	QUEST_END = "eva.quests.end",
+	WINDOW_SHOW = "eva.window.window_show",
+	WINDOW_CLOSE = "eva.window.window_close",
+	SCENE_SHOW = "eva.window.scene_show",
+	SCENE_CLOSE = "eva.window.scene_close",
 }
 
 

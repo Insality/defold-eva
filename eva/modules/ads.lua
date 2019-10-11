@@ -84,7 +84,6 @@ function M.show_rewarded()
 	end
 
 	events.event(const.EVENT.ADS_SHOW_REWARDED)
-	logger:debug("Ads rewarded show")
 
 	if not unityads then
 		on_rewarded_success()
@@ -103,7 +102,6 @@ function M.show_page()
 	end
 
 	events.event(const.EVENT.ADS_SHOW_PAGE)
-	logger:debug("Ads page show")
 
 	if not unityads then
 		return

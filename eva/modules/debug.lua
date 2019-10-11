@@ -26,4 +26,19 @@ function M.complete_all_timers()
 end
 
 
+function M.start_festival()
+
+end
+
+
+function M.end_festival()
+
+end
+
+
+function M.complete_quest()
+
+end
+
+
 return M

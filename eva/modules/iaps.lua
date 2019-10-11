@@ -133,7 +133,6 @@ local function iap_listener(self, transaction, error)
 		end
 	else
 		if error.reason == iap.REASON_USER_CANCELED then
-			logger:info("Iap canceled", transaction)
 			events.event(const.EVENT.IAP_CANCEL, transaction and transaction.ident or "n/a")
 		else
 			logger:warn("Error while IAP processing", transaction)
