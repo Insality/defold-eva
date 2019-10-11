@@ -110,7 +110,7 @@
 				{
 					"type": "quest_tasks",
 					"config": {
-						"id": "progress",
+						"id": "tasks",
 						"fields": ["task1", "task2", "task3"]
 					}
 				}

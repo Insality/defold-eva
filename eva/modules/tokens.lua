@@ -156,11 +156,19 @@ function M.is_enough(token_id, amount)
 end
 
 
---- Check multiply tokens
+--- Check multiply tokens from token_group_id
 -- @function eva.tokens.is_enough_group
 -- @tparam string token_group_id the token group id
 function M.is_enough_group(token_group_id)
 	local tokens = M.get_token_group(token_group_id)
+	return M.is_enough_tokens(tokens)
+end
+
+
+--- Check multiply tokens
+-- @function eva.tokens.is_enough_tokens
+-- @tparam evadata.Tokens tokens list
+function M.is_enough_tokens(tokens)
 	local is_enough = true
 
 	for index, token in ipairs(tokens) do

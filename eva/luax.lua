@@ -23,6 +23,7 @@ M.gui.PROP_SCALE_Y = "scale.y"
 M.vmath.VECTOR_ZERO = vmath.vector3(0)
 M.vmath.VECTOR_ONE = vmath.vector3(1)
 M.table.empty = {}
+M.string.empty = {}
 
 --- math.step
 -- @function luax.math.step
@@ -380,9 +381,9 @@ function M.table.tostring(t)
 			if type(v) == "table" then
 				v = M.table.tostring(v)
 			end
-			result = string.format("%s %s = %s", result, k, v)
+			result = string.format("%s = %s %s", k, v, result)
 		end
-		result = string.format("{%s }", result)
+		result = string.format("{ %s}", result)
 	end
 
 	return result

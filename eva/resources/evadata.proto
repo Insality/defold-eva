@@ -71,7 +71,7 @@ message Festivals {
 	map<string, Festival> festivals = 1;
 }
 
-message QuestProgress {
+message QuestTasks {
 	int32 initial = 1;
 	int32 required = 2;
 	string action = 3;
@@ -83,7 +83,7 @@ message QuestProgress {
 message Quest {
 	repeated string required_quests = 1;
 	Tokens required_tokens = 2;
-	repeated QuestProgress progress = 3;
+	repeated QuestTasks tasks = 3;
 	Tokens reward = 4;
 	bool catch_events_offline = 5;
 	string category = 6;
