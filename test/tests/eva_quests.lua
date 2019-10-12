@@ -49,5 +49,9 @@ return function()
 		it("Should correct save quest progress", function()
 
 		end)
+
+		it("Should have custom logic to start and end quests", function()
+
+		end)
 	end)
 end

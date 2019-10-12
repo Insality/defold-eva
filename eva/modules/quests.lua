@@ -94,9 +94,8 @@ local function start_quest(quest_id)
 	end
 
 	quests.current[quest_id] = proto.get("eva.QuestData")
-	local progress = quests.current[quest_id].progress
 	for i = 1, #quests_data.tasks do
-		progress[i] = 0
+		quests.current[quest_id].progress[i] = 0
 	end
 
 	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
@@ -122,6 +121,7 @@ end
 
 local function update_quests_list()
 	local quests_data = app.db.Quests.quests
+
 	for quest_id, quest in pairs(quests_data) do
 		if is_need_start(quest_id) or quest.catch_events_offline then
 			start_quest(quest_id)
@@ -180,6 +180,13 @@ function M.quest_event(action, object, amount)
 			update_quests_list()
 		end
 	end
+end
+
+
+--- Set game quests settings
+-- @function eva.quests.set_settings
+function M.set_settings(quests_settings)
+	app.quests_settings = quests_settings
 end
 
 
