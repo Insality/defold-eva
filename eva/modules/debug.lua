@@ -107,6 +107,14 @@ function M.on_input(action_id, action)
 		end
 	end
 
+	if action_id == const.INPUT.KEY_N and action.released then
+		app.debug_data.new_game_counter = (app.debug_data.new_game_counter or 0) + 1
+		if app.debug_data.new_game_counter == 5 then
+			saver.delete()
+			M.restart_game()
+		end
+	end
+
 	if action_id == const.INPUT.KEY_1 and action.released then
 		if app.debug_data.is_lalt then
 			M.load_profile("eva_test_1.json")

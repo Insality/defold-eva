@@ -5,7 +5,7 @@ dependencies = https://github.com/insalitygames/monarch/archive/master.zip,https
 custom_resources = /eva/resources,/resources
 
 [bootstrap]
-main_collection = /test/test.collectionc
+main_collection = /main/loader/loader.collectionc
 render = /eva/system/eva.renderc
 
 [input]
