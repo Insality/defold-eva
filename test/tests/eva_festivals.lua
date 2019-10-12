@@ -22,6 +22,8 @@ return function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
 
+			-- Possibly, I can mock the eva.events and check events method?
+			-- But this way is more like game API provided, so...
 			local eva_events = {
 				event = function(event, params)
 					mock_cb.callback(event, params)
@@ -38,7 +40,7 @@ return function()
 			mock.unmock(mock_cb)
 		end)
 
-		it("It should return correct start time (repeat festivals too)", function()
+		it("Should return correct start time (repeat festivals too)", function()
 			-- event_festivals start at 2019-10-20, end after 14d
 			-- weekly_festival start at 2019-10-07, end after 24h, every 7D
 			local current_time = set_time("2019-10-05Z")
@@ -64,7 +66,7 @@ return function()
 			assert((to_start_weekly - current_time) == 60 * 60 * 24 * 3)
 		end)
 
-		it("It should return correct end time", function()
+		it("Should return correct end time", function()
 			local current_time = set_time("2019-10-05Z")
 			local to_end = eva.festivals.get_end_time("event_festival")
 			assert((to_end - current_time) == 60 * 60 * 24 * (15 + 14))
@@ -88,7 +90,7 @@ return function()
 			assert((to_end - current_time) == 60 * 60 * 24 * -7)
 		end)
 
-		it("It should correct start and end festival", function()
+		it("Should correct start and end festival", function()
 			set_time("2019-10-05Z")
 			assert(not eva.festivals.is_active("event_festival"))
 			assert(not eva.festivals.is_active("weekly_festival"))
@@ -153,6 +155,30 @@ return function()
 			set_time("2019-11-10Z")
 			assert(not eva.festivals.is_active("event_festival"))
 			assert(mock_cb.callback.calls == 0)
+		end)
+
+		it("Should have custom logic to start festivals", function()
+			local is_need_start = false
+			local settings = {
+				check_start = function(festival_id)
+					return is_need_start
+				end
+			}
+
+			eva.festivals.set_settings(settings)
+			set_time("2019-10-05Z")
+			assert(not eva.festivals.is_active("event_festival"))
+
+			set_time("2019-10-21T8:00:00Z")
+			assert(not eva.festivals.is_active("event_festival"))
+
+			is_need_start = true
+			set_time("2019-10-21T8:20:00Z")
+			assert(eva.festivals.is_active("event_festival"))
+		end)
+
+		it("Should be enabled and disabled via debug, without time conditions", function()
+
 		end)
 	end)
 end

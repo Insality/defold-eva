@@ -48,11 +48,16 @@ local function is_need_to_start(festival_id)
 	local festivals = app.db.Festivals.festivals
 	local festival = festivals[festival_id]
 
-	local is_current = M.is_active(festival_id)
+	-- Festivals with repeat time never can be fully completed
 	local is_completed = M.is_completed(festival_id) and not festival.repeat_time
+	local is_current = M.is_active(festival_id)
 	local is_time_to = is_time_to_start(festival_id)
+	local is_custom_condition = true
+	if app.festivals_settings and app.festivals_settings.check_start then
+		is_custom_condition = app.festivals_settings.check_start(festival_id)
+	end
 
-	if not is_completed and not is_current and is_time_to then
+	if not is_completed and not is_current and is_time_to and is_custom_condition then
 		return true
 	end
 end
@@ -72,7 +77,11 @@ local function start_festival(festival_id)
 	local festival_slot = get_timer_slot(festival_id)
 	local time = M.get_end_time(festival_id) - game.get_time()
 	timers.add(festival_slot, festival_id, time)
-	events.event(const.EVENT.FESTIVAL_START, { id = festival_id })
+
+	events.event(const.EVENT.FESTIVAL_START, {
+		id = festival_id,
+		time = time
+	})
 end
 
 
@@ -90,7 +99,10 @@ local function end_festival(festival_id)
 	table.remove(festival_data.current, is_current)
 	festival_data.completed[festival_id] = (festival_data.completed[festival_id] or 0) + 1
 
-	events.event(const.EVENT.FESTIVAL_END, { id = festival_id })
+	events.event(const.EVENT.FESTIVAL_END, {
+		id = festival_id,
+		completed_times = festival_data.completed[festival_id]
+	})
 end
 
 
@@ -178,6 +190,13 @@ function M.get_completed()
 	return luax.table.list(app[const.EVA.FESTIVALS].completed)
 end
 
+
+--- Set game festivals settings
+-- functions: check_start(festival_id)
+-- @function eva.festivals.set_settings
+function M.set_settings(festivals_settings)
+	app.festivals_settings = festivals_settings
+end
 
 
 function M.on_eva_init()
