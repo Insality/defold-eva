@@ -29,7 +29,7 @@ java -jar bob.jar -p ${PLATFORM} --archive --keep-unused --variant headless -bo 
 
 echo "Starting dmengine_headless"
 if [ -n "${DEFOLD_BOOSTRAP_COLLECTION}" ]; then
-	./.ci/defold-eva/defoldeva.x86_64 --config=bootstrap.main_collection=${DEFOLD_BOOSTRAP_COLLECTION}
+	./.ci/defold-eva/defoldeva.x86_64 --config=bootstrap.main_collection=${DEFOLD_BOOSTRAP_COLLECTION} --config=display.width=256 --config=display.height=256
 else
-	./.ci/defold-eva/defoldeva.x86_64
+	./.ci/defold-eva/defoldeva.x86_64 --config=display.width=256 --config=display.height=256
 fi
