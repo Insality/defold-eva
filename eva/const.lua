@@ -37,6 +37,7 @@ M.INPUT = {
 	KEY_Q = hash("key_q"),
 	KEY_R = hash("key_r"),
 	KEY_N = hash("key_n"),
+	KEY_D = hash("key_d"),
 	KEY_1 = hash("key_1"),
 	KEY_2 = hash("key_2"),
 	KEY_3 = hash("key_3"),

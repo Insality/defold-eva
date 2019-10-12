@@ -75,3 +75,6 @@ settings = /eva/resources/settings.json
 [iap]
 auto_finish_transactions = 0
 
+[sprite]
+max_count = 2048
+

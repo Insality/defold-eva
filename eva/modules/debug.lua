@@ -100,6 +100,10 @@ function M.on_input(action_id, action)
 		end
 	end
 
+	if action_id == const.INPUT.KEY_D and action.released then
+		M.toogle_profiler()
+	end
+
 	if action_id == const.INPUT.KEY_R and action.released then
 		app.debug_data.restart_counter = (app.debug_data.restart_counter or 0) + 1
 		if app.debug_data.restart_counter == 3 then

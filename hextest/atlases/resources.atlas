@@ -1,0 +1,90 @@
+images {
+  image: "/hextest/tiled/images/resources/pineAutumn_high.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineAutumn_low.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineAutumn_mid.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineBlue_high.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineBlue_low.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineBlue_mid.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineGreen_high.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineGreen_low.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/pineGreen_mid.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockDirt.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockDirt_moss1.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockDirt_moss2.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockDirt_moss3.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockStone.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockStone_moss1.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockStone_moss2.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockStone_moss3.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/smallRockDirt.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/smallRockGrass.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/smallRockStone.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeAutumn_high.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeAutumn_low.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeAutumn_mid.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeBlue_high.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeBlue_low.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeBlue_mid.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeGreen_high.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeGreen_low.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/treeGreen_mid.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

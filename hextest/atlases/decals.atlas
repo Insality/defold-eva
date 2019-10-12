@@ -1,0 +1,30 @@
+images {
+  image: "/hextest/tiled/images/decals/bushDirt.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/bushGrass.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/flowerGreen.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/flowerRed.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/flowerWhite.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/flowerYellow.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/treeCactus_1.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/treeCactus_2.png"
+}
+images {
+  image: "/hextest/tiled/images/decals/treeCactus_3.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
