@@ -230,21 +230,45 @@ function M.quest_event(action, object, amount)
 	end
 
 	if is_need_update then
-		update_quests_list()
+		M.update_quests()
 	end
 end
 
 
 local base_quest_system = {
 	event = function(event, params)
+		if not app.quest_started then
+			return
+		end
+
 		if event == const.EVENT.TOKEN_CHANGE then
-			update_quests_list()
+			M.update_quests()
 		end
 	end
 }
 
 
---- Set game quests settings
+--- Start eva quests system
+-- Call it to activate quests. If you has the quest custom settings
+-- setup it before call start_quests
+-- @function eva.quests.start_quests
+function M.start_quests()
+	app.quest_started = true
+	M.update_quests()
+end
+
+--- Update quests list
+-- Call only if you have quest custom settings
+-- Example: you have a condition to start quest only if festival is enabled
+-- So on festival status change call update_quests
+-- @function eva.quests.update_quests
+function M.update_quests()
+	update_quests_list()
+end
+
+
+--- Set game quests settings. Setup settings before
+-- call eva.quest.start_quests
 -- @function eva.quests.set_settings
 function M.set_settings(quests_settings)
 	app.quests_settings = quests_settings
@@ -256,11 +280,6 @@ function M.on_eva_init()
 	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
 	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
 	events.add_event_system(base_quest_system)
-end
-
-
-function M.after_eva_init()
-	update_quests_list()
 end
 
 

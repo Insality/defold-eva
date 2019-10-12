@@ -81,7 +81,7 @@ end
 
 
 function M.delete(filename)
-	local path = get_save_path(filename)
+	local path = get_save_path(filename or app.settings.saver.save_name)
 	os.remove(path)
 end
 

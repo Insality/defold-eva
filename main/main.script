@@ -11,6 +11,8 @@ function init(self)
 	eva.camera.set_zoom_borders(vmath.vector3(0.1, 1.1, 0), vmath.vector3(0.05, 1.25, 0))
 	--]]
 
+	eva.quests.start_quests()
+
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
 	end)

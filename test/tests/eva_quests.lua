@@ -41,6 +41,7 @@ return function()
 		end)
 
 		it("Should correct start quests", function()
+			eva.quests.start_quests()
 			local current = eva.quests.get_current()
 			assert(luax.table.contains(current, "quest_1"))
 			assert(luax.table.contains(current, "quest_4"))
@@ -48,6 +49,7 @@ return function()
 		end)
 
 		it("Should catch events", function()
+			eva.quests.start_quests()
 			eva.quests.quest_event("get", "money", 5)
 			assert(events[PROGRESS].calls == 1)
 			assert(events[PROGRESS].params[1] == PROGRESS)
@@ -77,6 +79,7 @@ return function()
 		end)
 
 		it("Should end quests after complete tasks", function()
+			eva.quests.start_quests()
 			eva.quests.quest_event("get", "money", 2000)
 			assert(events[PROGRESS].calls == 1)
 			assert(events[PROGRESS].params[2].delta == 10)
@@ -88,28 +91,31 @@ return function()
 		end)
 
 		it("Should start new quests after complete other", function()
+			eva.quests.start_quests()
 			eva.tokens.add("level", 2, "test")
 			eva.quests.quest_event("get", "money", 2000)
 			assert(events[END].calls == 1)
 			assert(events[END].params[2].quest_id == "quest_1")
 
-			assert(events[START].calls == 1)
+			assert(events[START].calls == 3)
 			assert(events[START].params[2].quest_id == "quest_2")
 			local current = eva.quests.get_current()
 			assert(luax.table.contains(current, "quest_2"))
 		end)
 
 		it("Should check start quests after changing tokens", function()
+			eva.quests.start_quests()
 			eva.quests.quest_event("get", "money", 2000)
 			assert(events[END].calls == 1)
-			assert(events[START].calls == 0)
+			assert(events[START].calls == 2)
 
 			eva.tokens.add("level", 2, "test")
-			assert(events[START].calls == 1)
+			assert(events[START].calls == 3)
 			assert(events[START].params[2].quest_id == "quest_2")
 		end)
 
 		it("Should not complete, before become available (offline quests)", function()
+			eva.quests.start_quests()
 			eva.quests.quest_event("get", "exp", 90)
 			assert(events[PROGRESS].calls == 1)
 			assert(events[END].calls == 0)
@@ -124,6 +130,7 @@ return function()
 		end)
 
 		it("Should can be required by multiply quests", function()
+			eva.quests.start_quests()
 			assert(not eva.quests.is_active("quest_5"))
 			assert(eva.quests.is_active("quest_1"))
 			assert(not eva.quests.is_active("quest_4"))
@@ -141,6 +148,7 @@ return function()
 		end)
 
 		it("Should correct save quest progress", function()
+			eva.quests.start_quests()
 			eva.tokens.add("level", 3, "test")
 			eva.quests.quest_event("get", "exp", 100)
 			eva.quests.quest_event("get", "money", 10)
@@ -161,6 +169,7 @@ return function()
 
 			eva.saver.save("eva_test.json")
 			eva.init("/resources/tests/eva_tests.json")
+			eva.quests.start_quests()
 
 			q2_progress = eva.quests.get_progress("quest_2")
 			q5_progress = eva.quests.get_progress("quest_5")
@@ -185,6 +194,24 @@ return function()
 				end,
 			}
 			eva.quests.set_settings(settings)
+			eva.quests.start_quests()
+
+			assert(events[START].calls == 0)
+			is_can_start = true
+			eva.quests.update_quests()
+			assert(events[START].calls == 2)
+
+			eva.quests.quest_event("get", "money", 10)
+			assert(events[PROGRESS].calls == 0)
+
+			is_can_event = true
+			eva.quests.quest_event("get", "money", 10)
+			assert(events[PROGRESS].calls == 1)
+			assert(events[END].calls == 0)
+
+			is_can_end = true
+			eva.quests.update_quests()
+			assert(events[END].calls == 1)
 		end)
 	end)
 end
