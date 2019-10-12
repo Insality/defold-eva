@@ -109,28 +109,28 @@ function M.on_input(action_id, action)
 
 	if action_id == const.INPUT.KEY_1 and action.released then
 		if app.debug_data.is_lalt then
-			M.load_profile("eva_test_1")
+			M.load_profile("eva_test_1.json")
 		end
 		if app.debug_data.is_lctrl then
-			M.save_profile("eva_test_1")
+			M.save_profile("eva_test_1.json")
 		end
 	end
 
 	if action_id == const.INPUT.KEY_2 and action.released then
 		if app.debug_data.is_lalt then
-			M.load_profile("eva_test_2")
+			M.load_profile("eva_test_2.json")
 		end
 		if app.debug_data.is_lctrl then
-			M.save_profile("eva_test_2")
+			M.save_profile("eva_test_2.json")
 		end
 	end
 
 	if action_id == const.INPUT.KEY_3 and action.released then
 		if app.debug_data.is_lalt then
-			M.load_profile("eva_test_3")
+			M.load_profile("eva_test_3.json")
 		end
 		if app.debug_data.is_lctrl then
-			M.save_profile("eva_test_3")
+			M.save_profile("eva_test_3.json")
 		end
 	end
 end

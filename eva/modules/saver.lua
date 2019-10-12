@@ -35,11 +35,27 @@ function M.load(filename)
 
 	local settings = app.settings.saver
 	local path = get_save_path(filename or settings.save_name)
-	if filename then
-		logger:info("Load custom filename", { path = path })
-	end
 
-	return sys.load(path)
+	if filename and luax.string.ends(filename, ".json") then
+		logger:info("Load custom filename", { path = path })
+
+		local file = io.open(path)
+		if file then
+			local save_data = file:read("*all")
+			file:close()
+			if save_data then
+				local save = cjson.decode(save_data)
+				if save then
+					return save
+				end
+			end
+		end
+
+		logger:warn("Error in loading custom save file", { path = path })
+		return {}
+	else
+		return sys.load(path)
+	end
 end
 
 
@@ -51,11 +67,16 @@ function M.save(filename)
 
 	local settings = app.settings.saver
 	local path = get_save_path(filename or settings.save_name)
-	if filename then
-		logger:info("Save custom filename", { path = path })
-	end
 
-	sys.save(path, app.save_table)
+	if filename and luax.string.ends(filename, ".json") then
+		logger:info("Save custom filename", { path = path })
+
+		local file = io.open(path, "w+")
+		file:write(cjson.encode(app.save_table))
+		file:close()
+	else
+		sys.save(path, app.save_table)
+	end
 end
 
 
