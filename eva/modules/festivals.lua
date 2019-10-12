@@ -221,4 +221,14 @@ function M.on_eva_second()
 end
 
 
+function M.debug_start_festival(festival_id)
+	start_festival(festival_id)
+end
+
+
+function M.debug_end_festival(festival_id)
+	end_festival(festival_id)
+end
+
+
 return M

@@ -178,7 +178,22 @@ return function()
 		end)
 
 		it("Should be enabled and disabled via debug, without time conditions", function()
+			set_time("2019-10-05Z")
+			assert(not eva.festivals.is_active("event_festival"))
+			assert(not eva.festivals.is_active("weekly_festival"))
 
+			eva.debug.start_festival("weekly_festival")
+			assert(not eva.festivals.is_active("event_festival"))
+			assert(eva.festivals.is_active("weekly_festival"))
+
+			eva.debug.start_festival("event_festival")
+			eva.debug.end_festival("weekly_festival")
+			assert(eva.festivals.is_active("event_festival"))
+			assert(not eva.festivals.is_active("weekly_festival"))
+
+			eva.debug.end_festival("event_festival")
+			assert(not eva.festivals.is_active("event_festival"))
+			assert(not eva.festivals.is_active("weekly_festival"))
 		end)
 	end)
 end

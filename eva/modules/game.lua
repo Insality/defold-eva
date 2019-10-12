@@ -10,6 +10,7 @@ local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local time_string = require("eva.libs.time_string")
 
 local proto = require("eva.modules.proto")
+local sound = require("eva.modules.sound")
 local saver = require("eva.modules.saver")
 
 
@@ -46,12 +47,12 @@ end
 --- Reboot the game
 -- @function eva.game.reboot
 -- @tparam number delay Delay before reboot, in seconds
-function M.reboot(delay)
+function M.reboot(delay, arg1, arg2)
 	delay = delay or 0
 
 	sound.stop_all()
 	timer.delay(delay, false, function()
-		msg.post("@system:", "reboot")
+		msg.post("@system:", "reboot", {arg1 = arg1, arg2 = arg2})
 	end)
 end
 

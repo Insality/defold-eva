@@ -6,7 +6,6 @@
 local app = require("eva.app")
 local const = require("eva.const")
 
-local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
 
@@ -92,7 +91,7 @@ end
 
 
 function M.on_eva_init()
-	local is_debug = not game.is_debug()
+	local is_debug = sys.get_engine_info().is_debug
 
 	app[const.EVA.SOUND] = proto.get(const.EVA.SOUND)
 	app[const.EVA.SOUND].sound_gain = is_debug and 0 or 1

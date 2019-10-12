@@ -26,21 +26,35 @@ end
 
 --- Load the game save
 -- @function eva.saver.load
-function M.load()
+function M.load(filename)
+	-- Load via game project settings. Used in reload with filename
+	local load_filename_settings = sys.get_config("eva.load_filename")
+	if load_filename_settings and load_filename_settings ~= "" then
+		filename = load_filename_settings
+	end
+
 	local settings = app.settings.saver
-	local path = get_save_path(settings.save_name)
+	local path = get_save_path(filename or settings.save_name)
+	if filename then
+		logger:info("Load custom filename", { path = path })
+	end
+
 	return sys.load(path)
 end
 
 
 --- Save the game save
 -- @function eva.saver.save
-function M.save()
+function M.save(filename)
 	local data = app[const.EVA.SAVER]
 	data.version = data.version + 1
 
 	local settings = app.settings.saver
-	local path = get_save_path(settings.save_name)
+	local path = get_save_path(filename or settings.save_name)
+	if filename then
+		logger:info("Save custom filename", { path = path })
+	end
+
 	sys.save(path, app.save_table)
 end
 
@@ -91,7 +105,9 @@ end
 function M.after_eva_init()
 	local settings = app.settings.saver
 	if settings.autosave > 0 then
-		timer.delay(settings.autosave, true, M.save)
+		timer.delay(settings.autosave, true, function()
+			M.save()
+		end)
 	end
 
 	local last_version = app[const.EVA.SAVER].last_game_version
