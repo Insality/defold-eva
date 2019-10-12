@@ -7,11 +7,26 @@ local WINDOW_RESIZED = hash("window_resized")
 local UPDATE_WINDOW = hash("update window")
 
 
+local function next_pot(num)
+	local result = 1
+
+	while num > result do
+		result = bit.lshift(result, 1)
+	end
+
+	return result
+end
+
+
 local function update_window(self)
 	-- Update game RT
+	local pot_width = next_pot(render.get_window_width())
+	local pot_height = next_pot(render.get_window_height())
+
 	local color_params = { format = render.FORMAT_RGBA,
-		width = render.get_window_width(),
-		height = render.get_window_height() }
+		width = pot_width,
+		height = pot_height }
+
 	local target_params = { [render.BUFFER_COLOR_BIT] = color_params }
 	self.game_rt = render.render_target("game", target_params)
 
@@ -74,7 +89,7 @@ end
 local function render_to_render_target(self)
 	render.clear({[render.BUFFER_COLOR_BIT] = self.clear_color})
 
-	render.set_viewport(0, 0, vp.width, vp.height)
+	render.set_viewport(0, 0, next_pot(vp.width), next_pot(vp.height))
 	render.set_view(IDENTITY_MATRIX)
 	render.set_projection(IDENTITY_MATRIX)
 end
