@@ -45,24 +45,24 @@ local function is_quests_ok(quests_list)
 end
 
 
-local function is_completed(quest_id)
-	local quests = app[const.EVA.QUESTS]
-	return luax.table.contains(quests.completed, quest_id)
-end
-
-
 --- All requirements is satisfied
 local function is_available(quest_id)
 	local quests_data = app.db.Quests.quests
 	local quest = quests_data[quest_id]
 
-	return not is_completed(quest_id) and
+	return not M.is_completed(quest_id) and
 			 is_quests_ok(quest.required_quests) and
 			 is_tokens_ok(quest.required_tokens)
 end
 
 
-local function is_task_completed(quest_id)
+local function is_catch_offline(quest_id)
+	local quests_data = app.db.Quests.quests
+	return not M.is_completed(quest_id) and quests_data[quest_id].catch_events_offline
+end
+
+
+local function is_tasks_completed(quest_id)
 	local quests_data = app.db.Quests.quests[quest_id]
 	local quests = app[const.EVA.QUESTS].current[quest_id]
 
@@ -76,12 +76,6 @@ local function is_task_completed(quest_id)
 	end
 
 	return true
-end
-
-
-local function is_need_start(quest_id)
-	local quests = app[const.EVA.QUESTS]
-	return not quests.current[quest_id] and is_available(quest_id)
 end
 
 
@@ -108,7 +102,7 @@ local function end_quest(quest_id)
 		logger:warn("No quest in current list to end it", { quest_id = quest_id })
 		return
 	end
-	if is_completed(quest_id) then
+	if M.is_completed(quest_id) then
 		logger:warn("Quest already completed", { quest_id = quest_id })
 		return
 	end
@@ -121,17 +115,87 @@ end
 
 local function update_quests_list()
 	local quests_data = app.db.Quests.quests
+	local quests = app[const.EVA.QUESTS]
 
 	for quest_id, quest in pairs(quests_data) do
-		if is_need_start(quest_id) or quest.catch_events_offline then
-			start_quest(quest_id)
+		if M.is_active(quest_id) and is_tasks_completed(quest_id) then
+			local is_can_end = true
+
+			if app.quests_settings.check_end then
+				is_can_end = app.quests_settings.check_end(quest_id)
+			end
+
+			if is_can_end then
+				end_quest(quest_id)
+			end
+		end
+
+		if not quests.current[quest_id] and (is_available(quest_id) or is_catch_offline(quest_id)) then
+			local is_can_start = true
+
+			if app.quests_settings.check_start then
+				is_can_start = app.quests_settings.check_start(quest_id)
+			end
+
+			if is_can_start then
+				start_quest(quest_id)
+			end
 		end
 	end
 end
 
 
+local function apply_event(quest_id, quest, action, object, amount)
+	local quests_data = app.db.Quests.quests
+	local quest_data = quests_data[quest_id]
+	local is_updated = false
+
+	for i = 1, #quest_data.tasks do
+		local task_data = quest_data.tasks[i]
+		local match_action = task_data.action == action
+		local match_object = (task_data.object == object or task_data.object == luax.string.empty)
+
+		if match_action and match_object then
+			is_updated = true
+
+			local prev_value = quest.progress[i]
+			quest.progress[i] = luax.math.clamp(quest.progress[i] + amount, 0, task_data.required)
+
+			local delta = quest.progress[i] - prev_value
+
+			events.event(const.EVENT.QUEST_PROGRESS, {
+				quest_id = quest_id,
+				delta = delta,
+				total = quest.progress[i],
+				task_index = i
+			})
+
+			if quest.progress[i] == task_data.required then
+				events.event(const.EVENT.QUEST_TASK_COMPLETE, {
+					quest_id = quest_id,
+					task_index = i
+				})
+			end
+		end
+	end
+
+	return is_updated
+end
+
+
+function M.get_progress(quest_id)
+	local quests = app[const.EVA.QUESTS]
+	return quests.current[quest_id] and quests.current[quest_id].progress or {}
+end
+
+
 function M.get_current()
 	return luax.table.list(app[const.EVA.QUESTS].current)
+end
+
+
+function M.get_completed()
+	return app[const.EVA.QUESTS].completed
 end
 
 
@@ -141,46 +205,43 @@ function M.is_active(quest_id)
 end
 
 
+function M.is_completed(quest_id)
+	local quests = app[const.EVA.QUESTS]
+	return luax.table.contains(quests.completed, quest_id)
+end
+
+
 function M.quest_event(action, object, amount)
-	local quests_data = app.db.Quests.quests
 	local current = app[const.EVA.QUESTS].current
+	local is_need_update = false
 
 	for quest_id, quest in pairs(current) do
-		local quest_data = quests_data[quest_id]
+		local is_can_event = true
 
-		local changed = false
-		for i = 1, #quest_data.tasks do
-			local task_data = quest_data.tasks[i]
-			local match_action = task_data.action == action
-			local match_object = (task_data.object == object or task_data.object == luax.string.empty)
-
-			if match_action and match_object then
-				changed = true
-
-				quest.progress[i] = luax.math.clamp(quest.progress[i] + amount, 0, task_data.required)
-
-				events.event(const.EVENT.QUEST_PROGRESS, {
-					quest_id = quest_id,
-					delta = amount,
-					total = quest.progress[i],
-					task_index = i
-				})
-
-				if quest.progress[i] == task_data.required then
-					events.event(const.EVENT.QUEST_TASK_COMPLETE, {
-						quest_id = quest_id,
-						task_index = i
-					})
-				end
-			end
+		if app.quests_settings.check_event then
+			is_can_event = app.quests_settings.check_event(quest_id)
 		end
 
-		if changed and is_task_completed(quest_id) then
-			end_quest(quest_id)
+		if is_can_event then
+			if apply_event(quest_id, quest, action, object, amount) then
+				is_need_update = true
+			end
+		end
+	end
+
+	if is_need_update then
+		update_quests_list()
+	end
+end
+
+
+local base_quest_system = {
+	event = function(event, params)
+		if event == const.EVENT.TOKEN_CHANGE then
 			update_quests_list()
 		end
 	end
-end
+}
 
 
 --- Set game quests settings
@@ -191,8 +252,10 @@ end
 
 
 function M.on_eva_init()
+	app.quests_settings = {}
 	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
 	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
+	events.add_event_system(base_quest_system)
 end
 
 

@@ -171,7 +171,7 @@ end
 function M.is_enough_tokens(tokens)
 	local is_enough = true
 
-	for index, token in ipairs(tokens) do
+	for index, token in ipairs(tokens.tokens) do
 		is_enough = is_enough and M.is_enough(token.token_id, token.amount)
 	end
 

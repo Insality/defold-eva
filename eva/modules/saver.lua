@@ -28,16 +28,17 @@ end
 -- @function eva.saver.load
 function M.load(filename)
 	-- Load via game project settings. Used in reload with filename
-	local load_filename_settings = sys.get_config("eva.load_filename")
-	if load_filename_settings and load_filename_settings ~= "" then
-		filename = load_filename_settings
+	local settings = app.settings.saver
+	filename = filename or sys.get_config("eva.load_filename") or settings.save_name
+
+	if filename == "" then
+		filename = settings.save_name
 	end
 
-	local settings = app.settings.saver
-	local path = get_save_path(filename or settings.save_name)
+	local path = get_save_path(filename)
 
-	if filename and luax.string.ends(filename, ".json") then
-		logger:info("Load custom filename", { path = path })
+	if luax.string.ends(filename, ".json") then
+		logger:info("Load save from json", { path = path })
 
 		local file = io.open(path)
 		if file then
@@ -51,7 +52,6 @@ function M.load(filename)
 			end
 		end
 
-		logger:warn("Error in loading custom save file", { path = path })
 		return {}
 	else
 		return sys.load(path)
@@ -77,6 +77,12 @@ function M.save(filename)
 	else
 		sys.save(path, app.save_table)
 	end
+end
+
+
+function M.delete(filename)
+	local path = get_save_path(filename)
+	os.remove(path)
 end
 
 
