@@ -72,6 +72,15 @@ function M.set_borders(border_soft, border_hard)
 end
 
 
+function M.set_position(x, y)
+	local state = app.camera_state
+	local pos = vmath.vector3(x, y, 0)
+	go.set_position(pos,state.cam_id)
+
+	state.pos = pos
+	state.target_pos = vmath.vector3(state.pos)
+end
+
 --- Set the camera game object and size of the camera
 -- @function eva.camera.set_zoom_borders
 -- @tparam vector3 zoom_soft Setup zoom soft values. vector3(min_value, max_value, 0)
