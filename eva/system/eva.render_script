@@ -14,7 +14,11 @@ local function next_pot(num)
 		result = bit.lshift(result, 1)
 	end
 
-	return result
+	-- return result
+	-- TODO: there is issue with vignette and other
+	-- effects on UV coodtinates
+	-- for now disabling this
+	return num
 end
 
 
@@ -23,11 +27,22 @@ local function update_window(self)
 	local pot_width = next_pot(render.get_window_width())
 	local pot_height = next_pot(render.get_window_height())
 
-	local color_params = { format = render.FORMAT_RGBA,
+	local color_params = {
+		format = render.FORMAT_RGBA,
 		width = pot_width,
-		height = pot_height }
+		height = pot_height
+	}
 
-	local target_params = { [render.BUFFER_COLOR_BIT] = color_params }
+	local depth_params = {
+		format = render.FORMAT_DEPTH,
+		width = pot_width,
+		height = pot_height
+	}
+
+	local target_params = {
+		[render.BUFFER_COLOR_BIT] = color_params,
+		[render.BUFFER_DEPTH_BIT] = depth_params
+	}
 	self.game_rt = render.render_target("game", target_params)
 
 	rendercam.update_window(render.get_window_width(), render.get_window_height())
