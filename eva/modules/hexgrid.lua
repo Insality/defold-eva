@@ -11,17 +11,12 @@ local M = {}
 
 local function get_scene_size()
 	local data = app.hexgrid_data
-	local tile_count = data.height
 
-	local tile_height = data.tileheight
-	local tile_hex_size = data.hexsidelength
+	local double_size = data.tileheight + data.hexsidelength
 
-	local size_y = math.floor(tile_count/2) * (tile_height + tile_hex_size)
-	if tile_count % 2 == 1 then
-		size_y = size_y + tile_height
-	end
-
-	return vmath.vector3(data.width * data.tilewidth, size_y, 0)
+	local width = (data.width+0.5) * data.tilewidth
+	local height = (data.height/2 * double_size) + (data.tileheight-data.hexsidelength)/2
+	return vmath.vector3(width, height, 0)
 end
 
 
@@ -37,12 +32,16 @@ function M.cell_to_pos(i, j)
 	local data = app.hexgrid_data
 	local scene_size = app.hexgrid_meta.scene_size
 	local double_side = (data.tileheight + data.hexsidelength)
+	local part_size = (data.tileheight - data.hexsidelength)
 
 	local x = data.tilewidth * (i + 0.5 * (bit.band(j, 1)))
 	local y = double_side / 2 * j
 
 	-- invert
 	y = scene_size.y - y
+	-- add half offset
+	x = x + data.tilewidth/2
+	y = y - part_size
 
 	return x, y
 end
@@ -52,7 +51,11 @@ function M.pos_to_cell(x, y)
 	local data = app.hexgrid_data
 	local scene_size = app.hexgrid_meta.scene_size
 	local double_side = data.tileheight + data.hexsidelength
+	local part_size = (data.tileheight - data.hexsidelength)
 
+	-- add half offset
+	x = x - data.tilewidth/2
+	y = y + part_size
 	-- invert
 	y = scene_size.y - y
 

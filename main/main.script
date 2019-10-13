@@ -6,7 +6,7 @@ local rendercam = require("rendercam.rendercam")
 
 local function load_tiled_map(map_path)
 	local map = eva.utils.load_json(map_path)
-	eva.tiled.load_map(map, mapping)
+	eva.tiled.load_map(map, mapping, "/resources/tiled/")
 end
 
 
@@ -15,8 +15,6 @@ function init(self)
 
 	--[ Camera setup example
 	eva.camera.set_camera("main:/camera", go.get("main:/camera#script", "viewArea"))
-	local borders = vmath.vector4(-2000, -2000, 2000, 2000)
-	eva.camera.set_borders(borders * 0.9, borders)
 	eva.camera.set_zoom_borders(vmath.vector3(0.1, 1.1, 0), vmath.vector3(0.05, 1.25, 0))
 	--]]
 
@@ -26,10 +24,12 @@ function init(self)
 		eva.timers.clear(message.params.slot_id)
 	end)
 	load_tiled_map("/resources/tiled/hextest.json")
-	eva.render.set_clear_color(vmath.vector4(0.85))
+	eva.render.set_clear_color(vmath.vector4(0.25))
 
 	local x, y = eva.hexgrid.cell_to_pos(19, 19)
 	eva.camera.set_position(x, y)
+	local borders = vmath.vector4(x - 2000, y-2000, x+2000, y+2000)
+	eva.camera.set_borders(borders * 0.9, borders)
 end
 
 
@@ -55,7 +55,7 @@ function on_input(self, action_id, action)
 
 	if action_id == hash("touch") and action.released then
 		local x, y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
-		pprint(eva.hexgrid.pos_to_cell(x, y))
+		print("Click at", eva.hexgrid.pos_to_cell(x, y))
 
 		-- eva.sound.play("click")
 		-- eva.tokens.add("money", 1)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.4" name="decals" tilewidth="32" tileheight="66" tilecount="9" columns="0">
+<tileset version="1.2" tiledversion="1.2.5" name="decals" tilewidth="32" tileheight="66" tilecount="9" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="15" height="20" source="../images/decals/bushDirt.png"/>
@@ -28,7 +28,7 @@
  <tile id="3">
   <image width="12" height="11" source="../images/decals/flowerRed.png"/>
   <objectgroup draworder="index">
-   <object id="1" x="6" y="5">
+   <object id="1" x="5" y="6">
     <point/>
    </object>
   </objectgroup>

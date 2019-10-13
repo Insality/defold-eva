@@ -76,5 +76,12 @@ settings = /eva/resources/settings.json
 auto_finish_transactions = 0
 
 [sprite]
-max_count = 2048
+max_count = 4048
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+
+[collection]
+max_instances = 4048
 

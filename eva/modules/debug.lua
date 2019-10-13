@@ -95,7 +95,7 @@ function M.on_input(action_id, action)
 
 	if action_id == const.INPUT.KEY_Q and action.released then
 		app.debug_data.quit_counter = (app.debug_data.quit_counter or 0) + 1
-		if app.debug_data.quit_counter == 3 then
+		if app.debug_data.quit_counter == 1 then
 			M.exit_game()
 		end
 	end
