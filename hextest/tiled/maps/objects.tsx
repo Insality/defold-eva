@@ -57,6 +57,9 @@
  </tile>
  <tile id="18">
   <image width="29" height="33" source="../images/resources/smallRockGrass.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="29" height="66"/>
+  </objectgroup>
  </tile>
  <tile id="19">
   <image width="29" height="33" source="../images/resources/smallRockStone.png"/>

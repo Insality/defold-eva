@@ -7,7 +7,7 @@
 local M = {}
 
 
-local function process_tiles(data, layer, mapping)
+local function process_tiles(data, layer, mapping, index)
 	assert(mapping[layer.name], "Should be mapping for layer name")
 	local width = layer.width
 	local height = layer.height
@@ -35,10 +35,10 @@ local function process_tiles(data, layer, mapping)
 end
 
 
-local function process_objects(data, layer, mapping)
+local function process_objects(data, layer, mapping, index)
 	local layer_mapping = mapping[layer.name]
 	if not layer_mapping then
-		print("No parse now", layer.name)
+		print("No mapping for layer", layer.name)
 		return
 	end
 
@@ -49,8 +49,7 @@ local function process_objects(data, layer, mapping)
 	local objects = layer.objects
 	for i = 1, #objects do
 		local object = objects[i]
-		-- need to calc real ID from firstgid
-		local gid_offset = layer.name == "decals" and 9 or 18
+		local gid_offset = data.tilesets[index].firstgid
 		local object_id = object.gid - gid_offset
 		local position = vmath.vector3(object.x, scene_height/2 - object.y, 50 - (scene_height/2 - object.y) / 100)
 		layer_mapping[object_id](position)
@@ -63,10 +62,10 @@ function M.load_map(data, mapping)
 
 	for i = 1, #map_layers do
 		if map_layers[i].type == "tilelayer" then
-			process_tiles(data, map_layers[i], mapping)
+			process_tiles(data, map_layers[i], mapping, i)
 		end
 		if map_layers[i].type == "objectgroup" then
-			process_objects(data, map_layers[i], mapping)
+			process_objects(data, map_layers[i], mapping, i)
 		end
 	end
 end

@@ -1,8 +1,8 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/hextest/atlases/resources.atlas\"\n"
-  "default_animation: \"pineAutumn_low\"\n"
+  data: "tile_set: \"/hextest/atlases/decals.atlas\"\n"
+  "default_animation: \"flowerWhite\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
