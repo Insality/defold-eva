@@ -20,9 +20,6 @@ local function process_tiles(data, layer, mapping, index)
 			local cell_y = math.floor(i / width)
 
 			local position = hexgrid.get_tile_pos(cell_x, cell_y)
-			if value == 7 then
-				print("Spawn", value-1, position, cell_x, cell_y)
-			end
 			layer_mapping[value-1](position)
 		end
 	end
@@ -57,7 +54,7 @@ function M.load_map(data, mapping)
 			process_tiles(data, map_layers[i], mapping, i)
 		end
 		if map_layers[i].type == "objectgroup" then
-			process_objects(data, map_layers[i], mapping, i)
+			-- process_objects(data, map_layers[i], mapping, i)
 		end
 	end
 end

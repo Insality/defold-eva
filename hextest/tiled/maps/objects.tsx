@@ -3,33 +3,83 @@
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="30" height="99" source="../images/resources/pineAutumn_high.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="16" y="88">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="1">
   <image width="30" height="79" source="../images/resources/pineAutumn_low.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="16" y="69">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="2">
   <image width="30" height="101" source="../images/resources/pineAutumn_mid.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="15" y="90">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="3">
   <image width="30" height="99" source="../images/resources/pineBlue_high.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="16" y="89">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="4">
   <image width="30" height="79" source="../images/resources/pineBlue_low.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="15" y="69">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="5">
   <image width="30" height="101" source="../images/resources/pineBlue_mid.png"/>
+  <objectgroup draworder="index">
+   <object id="2" x="16" y="90">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="6">
   <image width="30" height="99" source="../images/resources/pineGreen_high.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="15" y="88">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="7">
   <image width="30" height="79" source="../images/resources/pineGreen_low.png"/>
+  <objectgroup draworder="index">
+   <object id="2" x="15" y="69">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="8">
   <image width="30" height="101" source="../images/resources/pineGreen_mid.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="15" y="91">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="9">
   <image width="65" height="91" source="../images/resources/rockDirt_moss1.png"/>
+  <objectgroup draworder="index">
+   <object id="1" x="32" y="33">
+    <point/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="10">
   <image width="65" height="91" source="../images/resources/rockDirt_moss2.png"/>
@@ -47,7 +97,7 @@
   <image width="65" height="91" source="../images/resources/rockStone_moss2.png"/>
  </tile>
  <tile id="15">
-  <image width="65" height="91" source="../images/resources/rockStone_moss3.png"/>
+  <image width="65" height="65" source="../images/resources/rockStone_moss3.png"/>
  </tile>
  <tile id="16">
   <image width="65" height="91" source="../images/resources/rockStone.png"/>
