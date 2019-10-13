@@ -47,7 +47,7 @@ fragment_constants {
   name: "effects2"
   type: CONSTANT_TYPE_USER
   value {
-    x: 15.0
+    x: 10.0
     y: 0.1
     z: 0.0
     w: 0.0

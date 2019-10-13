@@ -13,7 +13,6 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 
 	--[ Camera setup example
-	go.set_position(vmath.vector3(1000, 1000, 0), "main:/camera#script")
 	eva.camera.set_camera("main:/camera", go.get("main:/camera#script", "viewArea"))
 	local borders = vmath.vector4(-2000, -2000, 2000, 2000)
 	eva.camera.set_borders(borders * 0.9, borders)
@@ -26,6 +25,7 @@ function init(self)
 		eva.timers.clear(message.params.slot_id)
 	end)
 	load_tiled_map("/resources/tiled/hextest.json")
+	eva.render.set_clear_color(vmath.vector4(1))
 end
 
 
