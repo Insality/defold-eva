@@ -1,0 +1,7 @@
+function init(self)
+	go.animate(".", "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(0.2), go.EASING_OUTSINE, 0.7)
+	go.animate("#sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTSINE, 0.7, 0, function()
+		go.delete()
+	end)
+end
+

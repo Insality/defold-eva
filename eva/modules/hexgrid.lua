@@ -110,7 +110,7 @@ end
 -- Can pass the offset to calculate it correctly (+ z coordinate)
 -- @function eva.hexgrid.get_object_pos
 -- @treturn vector3 Object position
-function M.get_object_pos(object_x, object_y, offset, map_params)
+function M.get_object_pos(object_x, object_y, offset, is_grid_center, map_params)
 	local data = map_params or app.hexgrid_default
 
 	local x = object_x
@@ -119,6 +119,10 @@ function M.get_object_pos(object_x, object_y, offset, map_params)
 	if offset then
 		x = x + offset.x
 		y = y + offset.y
+	end
+
+	if is_grid_center then
+		x, y = M.cell_to_pos(M.pos_to_cell(x, y))
 	end
 
 	local z = (data.scene.size_y - y) / 100

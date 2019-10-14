@@ -1,6 +1,11 @@
 --- Eva tiled	 module
 -- Can load maps, exported from tiled
 -- Need to bind some objects before creating stuff
+--
+-- Tiled configuration:
+-- Layers:
+-- 	Layer can have properties:
+-- 	- grid_center (bool) - if true, center every object to map grid
 -- @submodule eva
 
 local luax = require("eva.luax")
@@ -36,6 +41,16 @@ local function process_objects(data, layer, mapping, index, objects_data)
 		return
 	end
 
+	local is_grid_center = false
+	local props = layer.properties
+	if props then
+		local is_grid_prop = luax.table.get_item_from_array(props, "name", "grid_center")
+		if is_grid_prop then
+			is_grid_center = is_grid_prop.value
+		end
+	end
+
+
 	local objects = layer.objects
 	for i = 1, #objects do
 		local object = objects[i]
@@ -51,7 +66,7 @@ local function process_objects(data, layer, mapping, index, objects_data)
 			offset = vmath.vector3(point.x, (obj_data.imageheight - point.y), 0)
 		end
 
-		local position = hexgrid.get_object_pos(object.x, object.y, offset)
+		local position = hexgrid.get_object_pos(object.x, object.y, offset, is_grid_center)
 		layer_mapping[object_id](position)
 	end
 end
