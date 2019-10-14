@@ -41,17 +41,17 @@ local function process_objects(data, layer, mapping, index, objects_data)
 		local object = objects[i]
 		local gid_offset = data.tilesets[index].firstgid
 		local object_id = object.gid - gid_offset
-		local position = hexgrid.get_object_pos(object)
+		local offset = nil
 
 		local obj_data = luax.table.get_item_from_array(objects_data.tiles, "id", object_id)
 		local object_objects = obj_data.objectgroup.objects
 
 		if #object_objects > 0 then
 			local point = luax.table.get_item_from_array(object_objects, "point", true)
-			position.x = position.x + point.x
-			position.y = position.y + (obj_data.imageheight - point.y)
+			offset = vmath.vector3(point.x, (obj_data.imageheight - point.y), 0)
 		end
 
+		local position = hexgrid.get_object_pos(object, offset)
 		layer_mapping[object_id](position)
 	end
 end
@@ -62,7 +62,9 @@ function M.load_map(data, mapping, path_to_objects)
 	data.tileheight = data.tileheight - 1
 	data.hexsidelength = data.hexsidelength - 1
 
-	hexgrid.set_data(data)
+	local map_params = hexgrid.get_map_params(data.tilewidth, data.tileheight,
+		data.hexsidelength, data.width, data.height)
+	hexgrid.set_default_map_params(map_params)
 	local map_layers = data.layers
 
 	for i = 1, #map_layers do
