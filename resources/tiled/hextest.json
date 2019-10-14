@@ -2221,6 +2221,11 @@
                  "name":"grid_center",
                  "type":"bool",
                  "value":true
+                }, 
+                {
+                 "name":"z_layer",
+                 "type":"int",
+                 "value":3
                 }],
          "type":"objectgroup",
          "visible":true,
