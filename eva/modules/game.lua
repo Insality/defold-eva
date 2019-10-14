@@ -25,34 +25,37 @@ local logger = log.get_logger("eva.game")
 
 local M = {}
 
+-- How to update the game time. See module description
 local TIME_LOCAL = "local"
 local TIME_LOCAL_UPTIME = "local_uptime"
 local TIME_SERVER = "server"
 
 
 local function sync_time()
+	local settings = app.settings.game
 	local game_save = app[const.EVA.GAME]
 
-	local current_uptime = socket.gettime()
-	if uptime then
-		current_uptime = uptime.get()
+	if settings.time_policy == TIME_LOCAL_UPTIME then
+		local current_uptime = socket.gettime()
+		if uptime then
+			current_uptime = uptime.get()
+		end
+
+		if current_uptime < game_save.last_uptime or game_save.last_uptime == 0 then
+			game_save.last_diff_time = socket.gettime() - current_uptime
+
+			local prev_uptime = game_save.last_uptime
+			game_save.last_uptime = current_uptime
+
+			logger:debug("Sync time with uptime", {
+				time = game_save.last_uptime,
+				diff = game_save.last_diff_time,
+				prev_time = prev_uptime
+			})
+		end
+
+		app.game_data.current_time = current_uptime + game_save.last_diff_time
 	end
-
-	if current_uptime < game_save.last_uptime or game_save.last_uptime == 0 then
-		game_save.last_diff_time = socket.gettime() - current_uptime
-
-		local prev_uptime = game_save.last_uptime
-		game_save.last_uptime = current_uptime
-
-		logger:debug("Sync time with uptime", {
-			time = game_save.last_uptime,
-			diff = game_save.last_diff_time,
-			prev_time = prev_uptime
-		})
-	end
-
-	local game_data = app.game_data
-	game_data.current_time = current_uptime + game_save.last_diff_time
 end
 
 
