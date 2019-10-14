@@ -9,6 +9,7 @@ local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
+local protoc = require("pb.protoc")
 
 local proto = require("eva.modules.proto")
 local utils = require("eva.modules.utils")
@@ -40,15 +41,37 @@ local function apply_migrations()
 end
 
 
+local function get_loaded_proto()
+	local result = {}
+	local loaded = protoc.loaded
+	for filename, data in pairs(loaded) do
+		local package = data.package
+		for i = 1, #data.message_type do
+			local name = data.message_type[i].name
+			table.insert(result, package .. "." .. name)
+		end
+	end
+
+	return result
+end
+
+
 local function clean_up_save()
 	if not pb then
 		return
 	end
 
 	local save_table = app.save_table
+	local loaded_proto = get_loaded_proto()
 
 	for name, save_ref in pairs(save_table) do
-		save_table[name] = proto.decode(name, proto.encode(name, save_ref))
+		if luax.table.contains(loaded_proto, name) then
+			save_table[name] = proto.decode(name, proto.encode(name, save_ref))
+		else
+			logger:warn("No proto to save part. Remove it from save", {
+				proto_name = name
+			})
+		end
 	end
 end
 
