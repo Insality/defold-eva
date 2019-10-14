@@ -1,9 +1,12 @@
 local eva = require("eva.eva")
 local window_settings = require("main.window_settings")
+local eva_migrations = require("main.test_migrations")
 
 function init(self)
-	eva.init()
-	eva.window.set_settings(window_settings)
+	eva.init(nil, {
+		migrations = eva_migrations,
+		window_settings = window_settings
+	})
 
 	msg.post(".", "late_init")
 end

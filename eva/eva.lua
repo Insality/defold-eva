@@ -3,6 +3,13 @@
 -- functions like iaps, camera, offers and other
 -- a lot of basic stuffs. Designed for fast integration
 -- and single code base.
+--
+-- module_settings: {
+-- 	migrations: see migrations_example,
+-- 	window_settings: see window_settings_example
+-- 	festivals_settings: see festival_settings_example,
+-- 	quests_settings: see quest_settings_example,
+-- }
 -- @module eva
 
 
@@ -57,6 +64,29 @@ local modules = {
 }
 
 
+local function apply_module_settings(settings)
+	if not settings then
+		return
+	end
+
+	if settings.migrations then
+		M.migrations.set_migrations(settings.migrations)
+	end
+
+	if settings.window_settings then
+		M.window.set_settings(settings.window_settings)
+	end
+
+	if settings.festivals_settings then
+		M.festivals.set_settings(settings.festivals_settings)
+	end
+
+	if settings.quests_settings then
+		M.quests.set_settings(settings.quests_settings)
+	end
+end
+
+
 local function call_each_module(func_name, ...)
 	for name, component in pairs(modules) do
 		local csettings = app.settings[name]
@@ -72,13 +102,16 @@ end
 --- Call this to init Eva module
 -- @function eva.on_eva_init
 -- @tparam string settings_path path to eva_settings.json
-function M.init(settings_path)
+-- @tparam table module_settings Settings to modules. See description on eva.lua
+function M.init(settings_path, module_settings)
 	app.clear()
 	app._second_counter = 1
 
 	for name, component in pairs(modules) do
 		M[name] = component
 	end
+
+	apply_module_settings(module_settings)
 
 	local settings = M.utils.load_json(const.DEFAULT_SETTINGS_PATH)
 	if settings_path then

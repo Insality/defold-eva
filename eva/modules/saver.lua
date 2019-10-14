@@ -12,6 +12,7 @@ local const = require("eva.const")
 
 local proto = require("eva.modules.proto")
 local utils = require("eva.modules.utils")
+local migrations = require("eva.modules.migrations")
 
 local logger = log.get_logger("eva.saver")
 
@@ -21,6 +22,34 @@ local M = {}
 local function get_save_path(save_name)
 	local project_name = sys.get_config("project.title")
 	return sys.get_save_file(project_name, save_name)
+end
+
+
+local function apply_migrations()
+	local save_data = app[const.EVA.SAVER]
+
+	local current_version = save_data.migration_version
+	local migrations_count = migrations.get_count()
+
+	while current_version < migrations_count do
+		current_version = current_version + 1
+		migrations.apply(current_version, app.save_table)
+	end
+
+	save_data.migration_version = migrations_count
+end
+
+
+local function clean_up_save()
+	if not pb then
+		return
+	end
+
+	local save_table = app.save_table
+
+	for name, save_ref in pairs(save_table) do
+		save_table[name] = proto.decode(name, proto.encode(name, save_ref))
+	end
 end
 
 
@@ -107,11 +136,6 @@ function M.add_save_part(name, table_ref)
 
 	local prev_ref = save_table[name]
 
-	-- Clear the variables via protobuf
-	if pb then
-		prev_ref = proto.decode(name, proto.encode(name, prev_ref))
-	end
-
 	save_table[name] = table_ref
 	luax.table.override(prev_ref, table_ref)
 end
@@ -125,6 +149,7 @@ end
 
 function M.on_eva_init()
 	app[const.EVA.SAVER] = proto.get(const.EVA.SAVER)
+	app[const.EVA.SAVER].migration_version = migrations.get_count()
 	M.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
 end
 
@@ -151,11 +176,17 @@ function M.after_eva_init()
 
 	app[const.EVA.SAVER].last_game_version = sys.get_config("project.version")
 
+	apply_migrations()
+	clean_up_save()
+
 	if settings.print_save_at_start then
 		pprint(app.save_table)
 	end
 
-	logger:info("Save successful loaded", { version = app[const.EVA.SAVER].version })
+	logger:info("Save successful loaded", {
+		version = app[const.EVA.SAVER].version,
+		migration_version = app[const.EVA.SAVER].migration_version
+	})
 end
 
 

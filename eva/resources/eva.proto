@@ -25,6 +25,7 @@ message Lang {
 message Saver {
 	uint32 version = 1;
 	string last_game_version = 2;
+	uint32 migration_version = 3;
 }
 
 message Device {
