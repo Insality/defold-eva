@@ -8,7 +8,8 @@
 		"sound_path": "main:/sounds#"
 	},
 	"game": {
-		"game_started_max_count_stats": 5
+		"game_started_max_count_stats": 5,
+		"time_policy": "local_uptime"
 	},
 	"saver": {
 		"save_name": "eva",

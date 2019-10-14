@@ -63,4 +63,5 @@ globals = {
   "firebase",
   "defreview",
   "pb",
+  "uptime",
 }

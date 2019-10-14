@@ -58,10 +58,12 @@ message Ads {
 }
 
 message Game {
-	uint32 game_time = 1;
+	uint32 played_time = 1;
 	uint32 game_start_count = 2;
 	float prefer_playing_time = 3;
 	repeated string game_start_dates = 4;
+	uint32 last_uptime = 5;
+	uint32 last_diff_time = 6;
 }
 
 message Token {

@@ -1,10 +1,16 @@
 --- Eva game module
 -- Contains basic game functions
 -- Like exit, reboot, open url etc
+-- time_policy:
+-- 	- local - just socket.gettime
+-- 	- local_uptime - try to protect time with uptime
+-- 	- server - use server time
 -- @submodule eva
 
 
+local log = require("eva.log")
 local app = require("eva.app")
+local luax = require("eva.luax")
 local const = require("eva.const")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local time_string = require("eva.libs.time_string")
@@ -12,12 +18,42 @@ local time_string = require("eva.libs.time_string")
 local proto = require("eva.modules.proto")
 local sound = require("eva.modules.sound")
 local saver = require("eva.modules.saver")
-
-
 local device = require("eva.modules.device")
+
+local logger = log.get_logger("eva.game")
 
 
 local M = {}
+
+local TIME_LOCAL = "local"
+local TIME_LOCAL_UPTIME = "local_uptime"
+local TIME_SERVER = "server"
+
+
+local function sync_time()
+	local game_save = app[const.EVA.GAME]
+
+	local current_uptime = socket.gettime()
+	if uptime then
+		current_uptime = uptime.get()
+	end
+
+	if current_uptime < game_save.last_uptime or game_save.last_uptime == 0 then
+		game_save.last_diff_time = socket.gettime() - current_uptime
+
+		local prev_uptime = game_save.last_uptime
+		game_save.last_uptime = current_uptime
+
+		logger:debug("Sync time with uptime", {
+			time = game_save.last_uptime,
+			diff = game_save.last_diff_time,
+			prev_time = prev_uptime
+		})
+	end
+
+	local game_data = app.game_data
+	game_data.current_time = current_uptime + game_save.last_diff_time
+end
 
 
 local function select_url(url_ios, url_android)
@@ -29,6 +65,13 @@ local function select_url(url_ios, url_android)
 	local market_url = is_ios and url_ios or url_android
 
 	return string.format(market_url, is_ios and ios_id or android_id, url_source)
+end
+
+
+local function on_window_event(self, event, data)
+	if luax.math.is(event, window.WINDOW_EVENT_FOCUS_GAINED, window.WINDOW_EVENT_RESIZED) then
+		sync_time()
+	end
 end
 
 
@@ -77,6 +120,17 @@ end
 -- @function eva.game.get_time
 -- @treturn number return game time in seconds
 function M.get_time()
+	local settings = app.settings.game
+
+	if settings.time_policy == TIME_LOCAL then
+		return socket.gettime()
+	end
+
+	if settings.time_policy == TIME_LOCAL_UPTIME then
+		return app.game_data.current_time
+	end
+
+	logger:error("Unknown game time_policy type", { policy = settings.time_policy })
 	return socket.gettime()
 end
 
@@ -93,6 +147,9 @@ function M.on_eva_init()
 	math.randomseed(os.time())
 	math.random()
 
+	app.game_data = {
+		current_time = 0
+	}
 	if device.is_mobile() then
 		window.set_dim_mode(window.DIMMING_OFF)
 	end
@@ -101,6 +158,9 @@ function M.on_eva_init()
 
 	app[const.EVA.GAME] = proto.get(const.EVA.GAME)
 	saver.add_save_part(const.EVA.GAME, app[const.EVA.GAME])
+	sync_time()
+
+	window.set_listener(on_window_event)
 end
 
 
@@ -117,7 +177,8 @@ end
 
 
 function M.on_eva_update(dt)
-	app[const.EVA.GAME].game_time = app[const.EVA.GAME].game_time + dt
+	app.game_data.current_time = app.game_data.current_time + dt
+	app[const.EVA.GAME].played_time = app[const.EVA.GAME].played_time + dt
 end
 
 
