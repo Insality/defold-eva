@@ -51,7 +51,7 @@ local function process_objects(data, layer, mapping, index, objects_data)
 			offset = vmath.vector3(point.x, (obj_data.imageheight - point.y), 0)
 		end
 
-		local position = hexgrid.get_object_pos(object, offset)
+		local position = hexgrid.get_object_pos(object.x, object.y, offset)
 		layer_mapping[object_id](position)
 	end
 end

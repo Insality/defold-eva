@@ -3,6 +3,7 @@
 -- on map in hexagon grid representation
 -- Cells starts from 0, 0 from left top corner
 -- Hexagon grid type: oddr, pointytop
+-- For more info see here: https://www.redblobgames.com/grids/hexagons/#coordinates-offset
 -- @submodule eva
 
 local app = require("eva.app")
@@ -22,7 +23,17 @@ local function get_scene_size(map_params)
 end
 
 
-
+--- Get map params data to work with it
+-- You can pass directly params in every method or set is as default
+-- with eva.hexgrid.set_default_map_params
+-- Pass the map sizes to calculate correct coordinates
+-- @function eva.hexgrid.get_map_params
+-- @tparam number tilewidth Hexagon width
+-- @tparam number tileheight Hexagon height
+-- @tparam number tileside Hexagon side height
+-- @tparam number tiles_x Map width in tiles count
+-- @tparam number tiles_y Map height in tiles count
+-- @treturn map_params Map params data
 function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)
 	local map_params = {}
 	map_params.tile = {
@@ -55,6 +66,8 @@ function M.set_default_map_params(map_params)
 end
 
 
+--- Transform hex to pixel position
+-- @function eva.hexgrid.cell_to_pos
 function M.cell_to_pos(i, j, map_params)
 	local data = map_params or app.hexgrid_default
 
@@ -73,6 +86,8 @@ function M.cell_to_pos(i, j, map_params)
 end
 
 
+--- Transform pixel to hex
+-- @function eva.hexgrid.pos_to_cell
 function M.pos_to_cell(x, y, map_params)
 	local data = map_params or app.hexgrid_default
 
@@ -91,11 +106,15 @@ function M.pos_to_cell(x, y, map_params)
 end
 
 
-function M.get_object_pos(object, offset, map_params)
+--- Get object position (object from tiled)
+-- Can pass the offset to calculate it correctly (+ z coordinate)
+-- @function eva.hexgrid.get_object_pos
+-- @treturn vector3 Object position
+function M.get_object_pos(object_x, object_y, offset, map_params)
 	local data = map_params or app.hexgrid_default
 
-	local x = object.x
-	local y = data.scene.size_y - object.y
+	local x = object_x
+	local y = data.scene.size_y - object_y
 
 	if offset then
 		x = x + offset.x
@@ -108,6 +127,9 @@ function M.get_object_pos(object, offset, map_params)
 end
 
 
+--- Get tile position. Convert from i, j to map position
+-- @function eva.hexgrid.get_tile_pos
+-- @treturn vector3 Tile position
 function M.get_tile_pos(i, j, map_params)
 	local x, y = M.cell_to_pos(i, j, map_params)
 
