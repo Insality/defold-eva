@@ -9,7 +9,6 @@ local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
-local protoc = require("pb.protoc")
 
 local proto = require("eva.modules.proto")
 local utils = require("eva.modules.utils")
@@ -38,41 +37,6 @@ local function apply_migrations()
 	end
 
 	save_data.migration_version = migrations_count
-end
-
-
-local function get_loaded_proto()
-	local result = {}
-	local loaded = protoc.loaded
-	for filename, data in pairs(loaded) do
-		local package = data.package
-		for i = 1, #data.message_type do
-			local name = data.message_type[i].name
-			table.insert(result, package .. "." .. name)
-		end
-	end
-
-	return result
-end
-
-
-local function clean_up_save()
-	if not pb then
-		return
-	end
-
-	local save_table = app.save_table
-	local loaded_proto = get_loaded_proto()
-
-	for name, save_ref in pairs(save_table) do
-		if luax.table.contains(loaded_proto, name) then
-			save_table[name] = proto.decode(name, proto.encode(name, save_ref))
-		else
-			logger:warn("No proto to save part. Remove it from save", {
-				proto_name = name
-			})
-		end
-	end
 end
 
 
@@ -118,7 +82,8 @@ function M.save(filename)
 	data.version = data.version + 1
 
 	local settings = app.settings.saver
-	local path = get_save_path(filename or settings.save_name)
+	filename = filename or settings.save_name
+	local path = get_save_path(filename)
 
 	if filename and luax.string.ends(filename, ".json") then
 		logger:info("Save custom filename", { path = path })
@@ -158,8 +123,8 @@ function M.add_save_part(name, table_ref)
 	end
 
 	local prev_ref = save_table[name]
-
 	save_table[name] = table_ref
+	prev_ref = proto.decode(name, proto.encode(name, prev_ref))
 	luax.table.override(prev_ref, table_ref)
 end
 
@@ -200,7 +165,6 @@ function M.after_eva_init()
 	app[const.EVA.SAVER].last_game_version = sys.get_config("project.version")
 
 	apply_migrations()
-	clean_up_save()
 
 	if settings.print_save_at_start then
 		pprint(app.save_table)

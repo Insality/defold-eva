@@ -12,7 +12,7 @@
 		"time_policy": "local_uptime"
 	},
 	"saver": {
-		"save_name": "eva",
+		"save_name": "eva.json",
 		"autosave": 4,
 		"print_save_at_start": false
 	},

@@ -3,6 +3,9 @@
 		"save_name": "eva_test",
 		"print_save_at_start": false
 	},
+	"game": {
+		"time_policy": "local"
+	},
 	"daily": {
 		"interval": 10,
 		"wait_time": 20,

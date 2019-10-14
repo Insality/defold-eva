@@ -1,7 +1,5 @@
 --- Eva save migrations
 -- Can apply migrations to save
--- Migrations applied before cleaning with protobuf
--- So you can store previos values to the new save
 -- @submodule eva
 
 local log = require("eva.log")
@@ -13,8 +11,6 @@ local M = {}
 
 
 local function add(version, code)
-	app.migrations = app.migrations or {}
-
 	table.insert(app.migrations, code)
 	assert(#app.migrations == version)
 end
@@ -26,6 +22,7 @@ end
 -- in migration list (array from 1 to N)
 -- @function eva.migrations.set_migrations
 function M.set_migrations(migration_list)
+	app.migrations = {}
 	for i = 1, #migration_list do
 		add(i, migration_list[i])
 	end
@@ -35,7 +32,7 @@ end
 --- Return amount of migrations
 -- @function eva.migrations.get_count
 function M.get_count()
-	return #app.migrations
+	return app.migrations and #app.migrations or 0
 end
 
 

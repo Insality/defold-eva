@@ -58,6 +58,7 @@ function on_input(self, action_id, action)
 		print("Click at", eva.hexgrid.pos_to_cell(x, y))
 		local px, py = eva.hexgrid.cell_to_pos(eva.hexgrid.pos_to_cell(x, y))
 		factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, py/100 - 0.1))
+
 		-- eva.sound.play("click")
 		-- eva.tokens.add("money", 1)
 		--[[ Timers zone
