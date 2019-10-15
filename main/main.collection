@@ -69,7 +69,7 @@ instances {
 }
 instances {
   id: "spawner"
-  prototype: "/hextest/spawner.go"
+  prototype: "/hextest/generated/spawner.go"
   position {
     x: 0.0
     y: 0.0

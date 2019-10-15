@@ -44,6 +44,11 @@ function main() {
 	let export_path = path.join(process.cwd(), process.argv[2])
 	let output_path = path.join(process.cwd(), process.argv[3])
 
+	if (!fs.existsSync(path.join(process.cwd(), "game.project"))) {
+		console.log("Error: you should run script inside the root of game.project")
+		return
+	}
+
 	start_process_dir(export_path, output_path)
 }
 

@@ -1,14 +1,14 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/hextest/atlases/resources.atlas\"\n"
-  "default_animation: \"pineGreen_low\"\n"
+  data: "tile_set: \"/hextest/generated/atlases/resources.atlas\"\n"
+  "default_animation: \"rockDirt_moss1\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
   position {
-    x: 0.0
-    y: 29.0
+    x: 0.5
+    y: -9.5
     z: 0.0
   }
   rotation {

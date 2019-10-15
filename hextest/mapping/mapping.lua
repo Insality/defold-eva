@@ -9,14 +9,14 @@ local function make_object(spawner, image_name)
 end
 
 M.hexes = {
-	[0] = make_object("hexes", "tileAutumn_tile"),
-	[1] = make_object("hexes", "tileDirt_tile"),
-	[2] = make_object("hexes", "tileGrass_tile"),
-	[3] = make_object("hexes", "tileLava_tile"),
-	[4] = make_object("hexes", "tileMagic_tile"),
-	[5] = make_object("hexes", "tileRock_tile"),
-	[6] = make_object("hexes", "tileSand_tile"),
-	[7] = make_object("hexes", "tileWater_tile"),
+	[0] = make_object("hex", "tileAutumn_tile"),
+	[1] = make_object("hex", "tileDirt_tile"),
+	[2] = make_object("hex", "tileGrass_tile"),
+	[3] = make_object("hex", "tileLava_tile"),
+	[4] = make_object("hex", "tileMagic_tile"),
+	[5] = make_object("hex", "tileRock_tile"),
+	[6] = make_object("hex", "tileSand_tile"),
+	[7] = make_object("hex", "tileWater_tile"),
 }
 
 M.decals = {

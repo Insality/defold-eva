@@ -1,14 +1,14 @@
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "tile_set: \"/hextest/atlases/resources.atlas\"\n"
-  "default_animation: \"treeBlue_low\"\n"
+  data: "tile_set: \"/hextest/generated/atlases/decals.atlas\"\n"
+  "default_animation: \"treeCactus_1\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
   position {
-    x: 0.0
-    y: 33.0
+    x: 0
+    y: 22
     z: 0.0
   }
   rotation {

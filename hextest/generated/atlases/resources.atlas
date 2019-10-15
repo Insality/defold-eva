@@ -26,9 +26,6 @@ images {
   image: "/hextest/tiled/images/resources/pineGreen_mid.png"
 }
 images {
-  image: "/hextest/tiled/images/resources/rockDirt.png"
-}
-images {
   image: "/hextest/tiled/images/resources/rockDirt_moss1.png"
 }
 images {
@@ -38,7 +35,7 @@ images {
   image: "/hextest/tiled/images/resources/rockDirt_moss3.png"
 }
 images {
-  image: "/hextest/tiled/images/resources/rockStone.png"
+  image: "/hextest/tiled/images/resources/rockDirt.png"
 }
 images {
   image: "/hextest/tiled/images/resources/rockStone_moss1.png"
@@ -48,6 +45,9 @@ images {
 }
 images {
   image: "/hextest/tiled/images/resources/rockStone_moss3.png"
+}
+images {
+  image: "/hextest/tiled/images/resources/rockStone.png"
 }
 images {
   image: "/hextest/tiled/images/resources/smallRockDirt.png"

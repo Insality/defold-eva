@@ -22,6 +22,6 @@ images {
 images {
   image: "/hextest/tiled/images/hex/tileWater_tile.png"
 }
-margin: 2
+margin: 0
 extrude_borders: 2
 inner_padding: 0
