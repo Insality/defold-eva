@@ -4,9 +4,10 @@ local broadcast = require("eva.libs.broadcast")
 local mapping = require("hextest.mapping.mapping")
 local rendercam = require("rendercam.rendercam")
 
+
 local function load_tiled_map(map_path)
 	local map = eva.utils.load_json(map_path)
-	eva.tiled.load_map(map, mapping.make_object, "/resources/tiled/")
+	eva.tiled.load_map(map, mapping.make_object)
 end
 
 

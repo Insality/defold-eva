@@ -107,14 +107,17 @@ M.generate_objects = function(data, output_path, mapping) {
 			console.log("No property `object_name` at object", tile_image)
 			continue
 		}
+		let anchor = get_anchor(tile)
 
 		mapping[data.name][tile.id] = {
 			object_name: object_name,
 			image_name: tile_image.split(".")[0],
+			anchor: anchor,
+			width: tile.imagewidth,
+			height: tile.imageheight,
 			properties: get_all_properies(tile.properties)
 		}
 
-		let anchor = get_anchor(tile)
 		let object_path = path.join(output_path, "objects", data.name)
 		fs.mkdirSync(object_path, { recursive: true })
 
