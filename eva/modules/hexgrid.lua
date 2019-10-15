@@ -106,6 +106,11 @@ function M.pos_to_cell(x, y, map_params)
 end
 
 
+--- Get Z position from object Y position and his z_layer
+-- @function eva.hexgrid.get_z
+-- @tparam number y Object Y position
+-- @tparam number z_layer Object Z layer index
+-- @treturn map_params Map params data
 function M.get_z(y, z_layer, map_params)
 	z_layer = z_layer or 0
 	local data = map_params or app.hexgrid_default

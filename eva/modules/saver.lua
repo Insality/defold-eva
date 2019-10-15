@@ -86,8 +86,6 @@ function M.save(filename)
 	local path = get_save_path(filename)
 
 	if filename and luax.string.ends(filename, ".json") then
-		logger:info("Save custom filename", { path = path })
-
 		local file = io.open(path, "w+")
 		file:write(cjson.encode(app.save_table))
 		file:close()

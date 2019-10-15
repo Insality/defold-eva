@@ -23,6 +23,19 @@ local logger = log.get_logger("eva.quests")
 local M = {}
 
 
+local quest_event_system = {
+	event = function(event, params)
+		if not app.quest_started then
+			return
+		end
+
+		if luax.table.contains(app.quest_update_events, event) then
+			M.update_quests()
+		end
+	end
+}
+
+
 local function is_tokens_ok(tokens_list)
 	return tokens.is_enough_tokens(tokens_list)
 end
@@ -235,19 +248,6 @@ function M.quest_event(action, object, amount)
 end
 
 
-local base_quest_system = {
-	event = function(event, params)
-		if not app.quest_started then
-			return
-		end
-
-		if event == const.EVENT.TOKEN_CHANGE then
-			M.update_quests()
-		end
-	end
-}
-
-
 --- Start eva quests system
 -- Call it to activate quests. If you has the quest custom settings
 -- setup it before call start_quests
@@ -257,13 +257,21 @@ function M.start_quests()
 	M.update_quests()
 end
 
+
 --- Update quests list
--- Call only if you have quest custom settings
--- Example: you have a condition to start quest only if festival is enabled
--- So on festival status change call update_quests
+-- It will start and end quests, by checking quests condition
 -- @function eva.quests.update_quests
 function M.update_quests()
 	update_quests_list()
+end
+
+
+--- Add event, to trigger quest list update
+-- Example: you have a condition to start quest only if festival is enabled
+-- So add event FESTIVAL_START to update quests on this update
+-- @function eva.quests.add_update_quest_event
+function M.add_update_quest_event(event)
+	table.insert(app.quest_update_events, event)
 end
 
 
@@ -277,9 +285,12 @@ end
 
 function M.on_eva_init()
 	app.quests_settings = {}
+	app.quest_update_events = {
+		const.EVENT.TOKEN_CHANGE
+	}
 	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
 	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
-	events.add_event_system(base_quest_system)
+	events.add_event_system(quest_event_system)
 end
 
 
