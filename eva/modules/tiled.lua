@@ -17,10 +17,8 @@ local hexgrid = require("eva.modules.hexgrid")
 local M = {}
 
 
-local function process_tiles(data, layer, mapping, index)
-	assert(mapping[layer.name], "Should be mapping for layer name")
+local function process_tiles(data, layer, create_object_fn, index)
 	local width = layer.width
-	local layer_mapping = mapping[layer.name]
 
 	local z_layer = 0
 	local props = layer.properties
@@ -33,24 +31,18 @@ local function process_tiles(data, layer, mapping, index)
 
 	for i = 1, #layer.data do
 		local value = layer.data[i]
-		if value > 0 and layer_mapping[value-1] then
+		if value > 0 then
 			local cell_y = math.floor((i-1) / width)
 			local cell_x = (i-1) - (cell_y * width)
 
 			local position = hexgrid.get_tile_pos(cell_x, cell_y, z_layer)
-			layer_mapping[value-1](position)
+			create_object_fn(layer.name, value-1, position)
 		end
 	end
 end
 
 
-local function process_objects(data, layer, mapping, index, objects_data)
-	local layer_mapping = mapping[layer.name]
-	if not layer_mapping then
-		print("No mapping for layer", layer.name)
-		return
-	end
-
+local function process_objects(data, layer, create_object_fn, index, objects_data)
 	local is_grid_center = false
 	local z_layer = 3
 	local props = layer.properties
@@ -82,12 +74,17 @@ local function process_objects(data, layer, mapping, index, objects_data)
 		end
 
 		local position = hexgrid.get_object_pos(object.x, object.y, offset, is_grid_center, z_layer)
-		layer_mapping[object_id](position)
+		create_object_fn(layer.name, object_id, position)
 	end
 end
 
 
-function M.load_map(data, mapping, path_to_objects)
+--- Load map from tiled json data
+-- @function eva.tiled.load_map
+-- @tparam table data Json map data
+-- @tparam callback create_object_fn Module call this with param(object_layer, object_id, position)
+-- @tparam string path_to_objects Path with all tilesets jsons. Need to get anchor (need to remove it to automapping)
+function M.load_map(data, create_object_fn, path_to_objects)
 	data.tilewidth = data.tilewidth - 1
 	data.tileheight = data.tileheight - 1
 	data.hexsidelength = data.hexsidelength - 1
@@ -99,11 +96,11 @@ function M.load_map(data, mapping, path_to_objects)
 
 	for i = 1, #map_layers do
 		if map_layers[i].type == "tilelayer" then
-			process_tiles(data, map_layers[i], mapping, i)
+			process_tiles(data, map_layers[i], create_object_fn, i)
 		end
 		if map_layers[i].type == "objectgroup" then
 			local objects = utils.load_json(path_to_objects .. map_layers[i].name .. ".json")
-			process_objects(data, map_layers[i], mapping, i, objects)
+			process_objects(data, map_layers[i], create_object_fn, i, objects)
 		end
 	end
 end

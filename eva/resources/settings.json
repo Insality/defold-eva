@@ -65,7 +65,8 @@
 			"IapsAndroid": "/resources/json/iaps_android.json",
 			"IapsIos": "/resources/json/iaps_ios.json",
 			"Festivals": "/resources/json/festivals.json",
-			"Quests": "/resources/json/quests.json"
+			"Quests": "/resources/json/quests.json",
+			"TiledMapping": "/resources/mapping.json"
 		}
 	},
 	"offers": {

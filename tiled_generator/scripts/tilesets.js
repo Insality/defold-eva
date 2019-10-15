@@ -19,6 +19,15 @@ function get_property(props, prop_name) {
 }
 
 
+function get_all_properies(props) {
+	let map = {}
+	for (let i in props) {
+		map[props[i].name] = props[i].value
+	}
+	return map
+}
+
+
 function get_anchor(tile) {
 	if (tile.objectgroup) {
 		let objects = tile.objectgroup.objects
@@ -72,8 +81,10 @@ M.generate_atlas = function(data, output_path) {
 
 /// Generate new objects for all images
 // It is not override previous objects, due to customization
-M.generate_objects = function(data, output_path) {
+M.generate_objects = function(data, output_path, mapping) {
 	console.log("Start generate game objects for", data.name)
+
+	mapping[data.name] = mapping[data.name] || {}
 	let tiles = data.tiles
 	let generated = 0
 	let skipped = 0
@@ -97,12 +108,13 @@ M.generate_objects = function(data, output_path) {
 			continue
 		}
 
-		let anchor = get_anchor(tile)
-		if (!anchor) {
-			console.log("No anchor point at object", tile_image)
-			continue
+		mapping[data.name][tile.id] = {
+			object_name: object_name,
+			image_name: tile_image.split(".")[0],
+			properties: get_all_properies(tile.properties)
 		}
 
+		let anchor = get_anchor(tile)
 		let object_path = path.join(output_path, "objects", data.name)
 		fs.mkdirSync(object_path, { recursive: true })
 
