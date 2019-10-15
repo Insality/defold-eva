@@ -39,7 +39,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"bush"
+                }]
         }, 
         {
          "id":1,
@@ -68,7 +74,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"bush"
+                }]
         }, 
         {
          "id":2,
@@ -97,7 +109,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"flower"
+                }]
         }, 
         {
          "id":3,
@@ -126,7 +144,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"flower"
+                }]
         }, 
         {
          "id":4,
@@ -155,7 +179,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"flower"
+                }]
         }, 
         {
          "id":5,
@@ -184,7 +214,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"flower"
+                }]
         }, 
         {
          "id":6,
@@ -213,7 +249,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"cactus"
+                }]
         }, 
         {
          "id":7,
@@ -242,7 +284,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"cactus"
+                }]
         }, 
         {
          "id":8,
@@ -271,7 +319,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"cactus"
+                }]
         }],
  "tilewidth":32,
  "type":"tileset",

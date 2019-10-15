@@ -39,7 +39,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_high"
+                }]
         }, 
         {
          "id":1,
@@ -68,7 +74,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_low"
+                }]
         }, 
         {
          "id":2,
@@ -97,7 +109,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_medium"
+                }]
         }, 
         {
          "id":3,
@@ -126,7 +144,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_high"
+                }]
         }, 
         {
          "id":4,
@@ -155,7 +179,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_low"
+                }]
         }, 
         {
          "id":5,
@@ -184,7 +214,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_medium"
+                }]
         }, 
         {
          "id":6,
@@ -213,7 +249,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_high"
+                }]
         }, 
         {
          "id":7,
@@ -242,7 +284,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_low"
+                }]
         }, 
         {
          "id":8,
@@ -271,7 +319,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_pine_mid"
+                }]
         }, 
         {
          "id":9,
@@ -300,7 +354,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":10,
@@ -329,7 +389,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":11,
@@ -358,7 +424,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":12,
@@ -387,7 +459,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":13,
@@ -416,7 +494,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":14,
@@ -445,7 +529,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":15,
@@ -474,7 +564,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":16,
@@ -503,7 +599,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_big"
+                }]
         }, 
         {
          "id":17,
@@ -532,7 +634,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_small"
+                }]
         }, 
         {
          "id":18,
@@ -572,7 +680,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_small"
+                }]
         }, 
         {
          "id":19,
@@ -601,7 +715,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"rock_small"
+                }]
         }, 
         {
          "id":20,
@@ -630,7 +750,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_high"
+                }]
         }, 
         {
          "id":21,
@@ -659,7 +785,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_low"
+                }]
         }, 
         {
          "id":22,
@@ -688,7 +820,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_high"
+                }]
         }, 
         {
          "id":23,
@@ -717,7 +855,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_high"
+                }]
         }, 
         {
          "id":24,
@@ -746,7 +890,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_low"
+                }]
         }, 
         {
          "id":25,
@@ -775,7 +925,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_high"
+                }]
         }, 
         {
          "id":26,
@@ -804,7 +960,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_high"
+                }]
         }, 
         {
          "id":27,
@@ -833,7 +995,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_low"
+                }]
         }, 
         {
          "id":28,
@@ -862,7 +1030,13 @@
              "visible":true,
              "x":0,
              "y":0
-            }
+            },
+         "properties":[
+                {
+                 "name":"object_name",
+                 "type":"string",
+                 "value":"tree_round_high"
+                }]
         }],
  "tilewidth":65,
  "type":"tileset",
