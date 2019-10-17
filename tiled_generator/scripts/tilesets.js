@@ -5,8 +5,11 @@ const settings = require("../settings.json")
 
 const ATLAS_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/atlas.template")).toString('utf8')
 const ATLAS_NODE_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/atlas_node.template")).toString('utf8')
-const GO_TEMPALTE = fs.readFileSync(path.join(__dirname, "../templates/go.template")).toString('utf8')
-const FACTORY_NODE_TEMPALTE = fs.readFileSync(path.join(__dirname, "../templates/factory_node.template")).toString('utf8')
+const GO_SPRITE_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/go_sprite.template")).toString('utf8')
+const GO_COLLISION_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/go_collision.template")).toString('utf8')
+const GO_COLLISION_SHAPE_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/go_collision_shape.template")).toString('utf8')
+const GO_COLLISION_DATA_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/go_collision_data.template")).toString('utf8')
+const FACTORY_NODE_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/factory_node.template")).toString('utf8')
 
 const M = {}
 
@@ -46,6 +49,68 @@ function get_anchor(tile) {
 		x: 0,
 		y: 0
 	}
+}
+
+
+function check_colliders(object_data, anchor, tile) {
+	let props = tile.properties
+
+	let group = get_property(props, "group")
+	if (!group) {
+		return object_data
+	}
+
+	let collision_shape = GO_COLLISION_TEMPLATE.replace("{1}", group) // Group
+	collision_shape = collision_shape.replace("{2}", "cursor") // Mask
+	let shapes = ""
+	let data = []
+	let cur_index = 0
+
+	if (!tile.objectgroup) {
+		console.log("ERROR: no objects at object", tile.image)
+	}
+	let objects = tile.objectgroup.objects
+	let width = tile.imagewidth
+	let height = tile.imageheight
+	for (let i in objects) {
+		let object = objects[i]
+
+		let pos_x = (object.width/2 - width/2 + object.x + anchor.x).toFixed(1)
+		let pos_y = (-object.height/2 + height/2 - object.y + anchor.y).toFixed(1)
+		if (object.ellipse) {
+			if (object.width != object.height) {
+				console.log("WARNING: in ellipse width and height should be equal.", tile.image)
+			}
+			let shape_data = GO_COLLISION_SHAPE_TEMPLATE.replace("{1}", "TYPE_SPHERE")
+			shape_data = shape_data.replace("{2}", pos_x)
+			shape_data = shape_data.replace("{3}", pos_y)
+			shape_data = shape_data.replace("{4}", cur_index)
+			shape_data = shape_data.replace("{5}", 1)
+			cur_index += 1
+
+			shapes += shape_data
+			data.push(GO_COLLISION_DATA_TEMPLATE.replace("{1}", (object.width/2).toFixed(1)))
+		}
+		// This is the rectangle by default
+		if (!object.ellipse && !object.point) {
+			let shape_data = GO_COLLISION_SHAPE_TEMPLATE.replace("{1}", "TYPE_BOX")
+			shape_data = shape_data.replace("{2}", pos_x)
+			shape_data = shape_data.replace("{3}", pos_y)
+			shape_data = shape_data.replace("{4}", cur_index)
+			shape_data = shape_data.replace("{5}", 3)
+			cur_index += 3
+
+			shapes += shape_data
+			data.push(GO_COLLISION_DATA_TEMPLATE.replace("{1}", (object.width/2).toFixed(1)))
+			data.push(GO_COLLISION_DATA_TEMPLATE.replace("{1}", (object.height/2).toFixed(1)))
+			data.push(GO_COLLISION_DATA_TEMPLATE.replace("{1}", (object.width/2).toFixed(1)))
+		}
+	}
+
+	collision_shape = collision_shape.replace("{3}", shapes) // Shapes
+	collision_shape = collision_shape.replace("{4}", data.join("\n")) // Shapes
+
+	return object_data + collision_shape
 }
 
 
@@ -126,7 +191,7 @@ M.generate_objects = function(data, output_path, mapping) {
 		let object_game_path = object_full_path.replace(process.cwd(), "")
 
 		if (!objects_ready[object_name]) {
-			let spawner_data = FACTORY_NODE_TEMPALTE.replace("{1}", object_name)
+			let spawner_data = FACTORY_NODE_TEMPLATE.replace("{1}", object_name)
 			spawner_data = spawner_data.replace("{2}", object_game_path)
 			spawner_go += spawner_data 
 			objects_ready[object_name] = true
@@ -142,12 +207,15 @@ M.generate_objects = function(data, output_path, mapping) {
 		let atlas_name = path.join(output_path, "atlases", data.name + ".atlas")
 		atlas_name = atlas_name.replace(process.cwd(), "")
 
-		let object_data = GO_TEMPALTE.replace("{1}", atlas_name)
+		// Any object will have the sprite component
+		let object_data = GO_SPRITE_TEMPLATE.replace("{1}", atlas_name)
 		object_data = object_data.replace("{2}", tile_image.split(".")[0])
 		object_data = object_data.replace("{3}", anchor.x)
 		object_data = object_data.replace("{4}", anchor.y)
 		object_data = object_data.replace("{5}", settings.sprite_material)
 
+		// Check colliders component
+		object_data = check_colliders(object_data, anchor, tile)
 
 		console.log("Write game object", object_full_path)
 		generated += 1
