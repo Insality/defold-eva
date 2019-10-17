@@ -41,6 +41,8 @@ end
 
 function on_input(self, action_id, action)
 	eva.on_input(action_id, action)
+	action.x, action.y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
+	msg.post("/cursor", "input", { action_id = action_id, action = action })
 
 	if action.released then
 		if action_id == hash("key_4") then
@@ -56,9 +58,8 @@ function on_input(self, action_id, action)
 
 	if action_id == hash("touch") and action.released then
 		local x, y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
-		print("Click at", eva.hexgrid.pos_to_cell(x, y))
-		local px, py = eva.hexgrid.cell_to_pos(eva.hexgrid.pos_to_cell(x, y))
-		factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
+		-- print("Click hex: ", eva.hexgrid.pos_to_cell(x, y))
+		
 
 		-- eva.sound.play("click")
 		-- eva.tokens.add("money", 1)

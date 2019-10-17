@@ -1,0 +1,19 @@
+local eva = require("eva.eva")
+local cursor = require("in.cursor")
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == cursor.RELEASED then
+		if message.id then
+			go.set_scale(vmath.vector3(1.1, 1.1, 1), message.id)
+			go.animate(message.id, "scale", go.PLAYBACK_ONCE_FORWARD, vmath.vector3(1), go.EASING_OUTSINE, 0.2)
+
+			local go_pos = go.get_position(message.id)
+			local px, py = eva.hexgrid.cell_to_pos(eva.hexgrid.pos_to_cell(go_pos.x, go_pos.y))
+			factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
+		else
+			local px, py = eva.hexgrid.cell_to_pos(eva.hexgrid.pos_to_cell(message.x, message.y))
+			factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
+		end
+	end
+end
