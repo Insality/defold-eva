@@ -3,7 +3,7 @@ embedded_components {
   type: "sprite"
   data: "tile_set: \"/hextest/generated/atlases/hexes.atlas\"\n"
   "default_animation: \"tileAutumn_tile\"\n"
-  "material: \"/builtins/materials/sprite.material\"\n"
+  "material: \"/eva/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
   position {

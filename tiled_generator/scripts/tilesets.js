@@ -1,6 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const process = require("process")
+const settings = require("../settings.json")
 
 const ATLAS_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/atlas.template")).toString('utf8')
 const ATLAS_NODE_TEMPLATE = fs.readFileSync(path.join(__dirname, "../templates/atlas_node.template")).toString('utf8')
@@ -145,6 +146,8 @@ M.generate_objects = function(data, output_path, mapping) {
 		object_data = object_data.replace("{2}", tile_image.split(".")[0])
 		object_data = object_data.replace("{3}", anchor.x)
 		object_data = object_data.replace("{4}", anchor.y)
+		object_data = object_data.replace("{5}", settings.sprite_material)
+
 
 		console.log("Write game object", object_full_path)
 		generated += 1

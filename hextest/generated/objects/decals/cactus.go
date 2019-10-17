@@ -3,7 +3,7 @@ embedded_components {
   type: "sprite"
   data: "tile_set: \"/hextest/generated/atlases/decals.atlas\"\n"
   "default_animation: \"treeCactus_1\"\n"
-  "material: \"/builtins/materials/sprite.material\"\n"
+  "material: \"/eva/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
   position {

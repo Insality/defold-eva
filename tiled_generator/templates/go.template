@@ -3,7 +3,7 @@ embedded_components {
   type: "sprite"
   data: "tile_set: \"{1}\"\n"
   "default_animation: \"{2}\"\n"
-  "material: \"/builtins/materials/sprite.material\"\n"
+  "material: \"{5}\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""
   position {
