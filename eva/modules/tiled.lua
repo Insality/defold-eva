@@ -57,12 +57,15 @@ local function add_tile(map_data, name, i, j, index)
 	local position = hexgrid.get_tile_pos(i, j, z_layer)
 	local gameobject = map_data.create_object_fn(name, index, position)
 
-	table.insert(map_data.game_objects, gameobject)
-	tile_layer[i][j] = {
+	local object_info = {
 		go = gameobject,
 		index = index,
+		layer = name,
 		properties = object_data.properties
 	}
+
+	map_data.game_objects[gameobject] = object_info
+	tile_layer[i][j] = object_info
 end
 
 
@@ -75,12 +78,15 @@ local function add_object(map_data, name, x, y, index)
 	local position = hexgrid.get_object_pos(x, y, z_layer)
 	local gameobject = map_data.create_object_fn(name, index, position)
 
-	table.insert(map_data.game_objects, gameobject)
-	table.insert(map_data.objects[name], {
+	local object_info = {
 		go = gameobject,
 		index = index,
+		layer = name,
 		properties = object_data.properties
-	})
+	}
+
+	map_data.game_objects[gameobject] = object_info
+	map_data.objects[gameobject] = object_info
 end
 
 
@@ -177,11 +183,14 @@ function M.load_map(tiled_data, create_object_fn)
 		end
 	end
 
+	app.tiled_map_default = map_data
 	return map_data
 end
 
 
-function M.get_tile(map_data, name, i, j)
+function M.get_tile(name, i, j, map_data)
+	map_data = map_data or app.tiled_map_default
+
 	local layer = map_data.tiles[name]
 	if not layer then
 		logger.warn("No layer witn name in map_data", { name = name })
@@ -196,7 +205,9 @@ function M.get_tile(map_data, name, i, j)
 end
 
 
-function M.delete_tile(map_data, name, i, j)
+function M.delete_tile(name, i, j, map_data)
+	map_data = map_data or app.tiled_map_default
+
 	local layer = map_data.tiles[name]
 	if not layer then
 		logger.warn("No layer witn name in map_data", { name = name })
@@ -208,11 +219,11 @@ function M.delete_tile(map_data, name, i, j)
 	end
 
 	if layer[i][j] then
-		local object = layer[i][j].go
-		go.delete(object)
+		go.delete(layer[i][j].go)
 
-		luax.table.remove_item(map_data.game_objects, object)
+		map_data.game_objects[layer[i][j].go] = nil
 		layer[i][j] = false
+
 		return true
 	end
 
@@ -220,12 +231,39 @@ function M.delete_tile(map_data, name, i, j)
 end
 
 
-function M.add_tile(map_data, name, i, j, index)
+function M.add_tile(name, i, j, index, map_data)
+	map_data = map_data or app.tiled_map_default
 	add_tile(map_data, name, i, j, index)
 end
 
-function M.add_object(map_data, name, x, y, index)
+
+function M.add_object(name, x, y, index, map_data)
+	map_data = map_data or app.tiled_map_default
 	add_object(map_data, name, x, y, index)
 end
+
+
+function M.get_object_by_id(game_object_id, map_data)
+	map_data = map_data or app.tiled_map_default
+	return map_data.game_objects[game_object_id]
+end
+
+
+function M.remove_object_by_id(game_object_id, map_data)
+	map_data = map_data or app.tiled_map_default
+	local object = M.get_object_by_id(game_object_id)
+	if not object then
+		logger:warn("No object with ID", { id = game_object_id })
+		return
+	end
+
+	go.delete(object.go)
+	map_data.game_objects[object.go] = nil
+	map_data.objects[object.layer][object.go] = nil
+
+	pprint(map_data.game_objects)
+end
+
+
 
 return M
