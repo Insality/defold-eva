@@ -59,7 +59,6 @@ function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.released then
 		local x, y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
 		-- print("Click hex: ", eva.hexgrid.pos_to_cell(x, y))
-		
 
 		-- eva.sound.play("click")
 		-- eva.tokens.add("money", 1)

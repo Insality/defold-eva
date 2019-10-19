@@ -1,0 +1,37 @@
+{
+	"game": {
+		"time_policy": "local_uptime"
+	},
+	"saver": {
+		"print_save_at_start": false
+	},
+	"gdpr": {
+		"policy_url": "https://d.insality.com/privacypolicy.htm"
+	},
+	"errors": {
+		"error_server_url": "https://8.8.8.8"
+	},
+	"lang": {
+		"default": "en",
+		"lang_paths": {
+			"ru": "/resources/locales/ru.json",
+			"en": "/resources/locales/en.json"
+		}
+	},
+	"log": {
+		"level": "DEBUG"
+	},
+	"db": {
+		"paths": {
+			"TokenGroups": "/resources/json/token_groups.json",
+			"TokenConfig": "/resources/json/token_config.json",
+			"TokenLots": "/resources/json/token_lots.json",
+			"Offers": "/resources/json/offers.json",
+			"IapsAndroid": "/resources/json/iaps_android.json",
+			"IapsIos": "/resources/json/iaps_ios.json",
+			"Festivals": "/resources/json/festivals.json",
+			"Quests": "/resources/json/quests.json",
+			"TiledMapping": "/resources/mapping.json"
+		}
+	}
+}

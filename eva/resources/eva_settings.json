@@ -9,7 +9,7 @@
 	},
 	"game": {
 		"game_started_max_count_stats": 5,
-		"time_policy": "local_uptime"
+		"time_policy": "local"
 	},
 	"saver": {
 		"save_name": "eva",
@@ -17,15 +17,14 @@
 		"print_save_at_start": false
 	},
 	"gdpr": {
-		"policy_url": "https://d.insality.com/privacypolicy.htm"
+		"policy_url": ""
 	},
 	"errors": {
-		"error_server_url": "https://8.8.8.8"
+		"error_server_url": ""
 	},
 	"lang": {
 		"default": "en",
 		"lang_paths": {
-			"ru": "/resources/locales/ru.json",
 			"en": "/resources/locales/en.json"
 		}
 	},
@@ -37,9 +36,6 @@
 	"log": {
 		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
 		"level": "DEBUG"
-	},
-	"window": {
-		"window_path": ""
 	},
 	"iaps": {
 		"is_disabled": false,
