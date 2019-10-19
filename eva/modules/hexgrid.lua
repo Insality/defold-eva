@@ -120,15 +120,23 @@ function M.get_z(y, z_layer, map_params)
 	return z_pos
 end
 
---- Get object position (object from tiled)
+--- Get object position
 -- Can pass the offset to calculate it correctly (+ z coordinate)
 -- @function eva.hexgrid.get_object_pos
 -- @treturn vector3 Object position
-function M.get_object_pos(object_x, object_y, offset, is_grid_center, z_layer, map_params)
+function M.get_object_pos(x, y, z_layer, map_params)
+	return vmath.vector3(x, y, M.get_z(y, z_layer, map_params))
+end
+
+
+--- Convert tiled object position to scene position
+-- @function eva.hexgrid.get_scene_pos
+-- @treturn number,number x,y Object scene position
+function M.get_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
 	local data = map_params or app.hexgrid_default
 
-	local x = object_x
-	local y = data.scene.size_y - object_y
+	local x = tiled_x
+	local y = data.scene.size_y - tiled_y
 
 	if offset then
 		x = x + offset.x
@@ -139,7 +147,7 @@ function M.get_object_pos(object_x, object_y, offset, is_grid_center, z_layer, m
 		x, y = M.cell_to_pos(M.pos_to_cell(x, y))
 	end
 
-	return vmath.vector3(x, y, M.get_z(y, z_layer))
+	return x, y
 end
 
 

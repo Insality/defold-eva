@@ -200,7 +200,7 @@ end
 --- table.remove_item
 -- @function luax.table.remove_item
 function M.table.remove_item(t, value)
-	local index = table.contains(t, value)
+	local index = M.table.contains(t, value)
 	if index then
 		table.remove(t, index)
 	end

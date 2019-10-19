@@ -5,9 +5,11 @@ local mapping = require("hextest.mapping.mapping")
 local rendercam = require("rendercam.rendercam")
 
 
-local function load_tiled_map(map_path)
+local function load_tiled_map(self, map_path)
 	local map = eva.utils.load_json(map_path)
-	eva.tiled.load_map(map, mapping.make_object)
+	local map_data = eva.tiled.load_map(map, mapping.make_object)
+
+	self.map_data = map_data
 end
 
 
@@ -24,7 +26,7 @@ function init(self)
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
 	end)
-	load_tiled_map("/resources/tiled/hextest.json")
+	load_tiled_map(self, "/resources/tiled/hextest.json")
 	eva.render.set_clear_color(vmath.vector4(0.07))
 
 	local x, y = eva.hexgrid.cell_to_pos(19, 19)
@@ -58,7 +60,10 @@ function on_input(self, action_id, action)
 
 	if action_id == hash("touch") and action.released then
 		local x, y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
-		-- print("Click hex: ", eva.hexgrid.pos_to_cell(x, y))
+		local i, j = eva.hexgrid.pos_to_cell(x, y)
+
+		-- eva.tiled.delete_tile(self.map_data, "hexes", i, j)
+		eva.tiled.add_object(self.map_data, "resources", x, y, 9)
 
 		-- eva.sound.play("click")
 		-- eva.tokens.add("money", 1)
