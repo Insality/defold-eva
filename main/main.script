@@ -4,6 +4,8 @@ local broadcast = require("eva.libs.broadcast")
 local mapping = require("hextest.mapping.mapping")
 local rendercam = require("rendercam.rendercam")
 
+local hexgrid_handler = require("eva.libs.astar.hexgrid_handler")
+local astar = require("eva.libs.astar.astar")
 
 local function load_tiled_map(self, map_path)
 	local map = eva.utils.load_json(map_path)
@@ -61,6 +63,13 @@ function on_input(self, action_id, action)
 	if action_id == hash("touch") and action.released then
 		local x, y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
 		local i, j = eva.hexgrid.pos_to_cell(x, y)
+
+		print("Click on", i, j)
+		local path = astar.find_path(hexgrid_handler, i, j, 19, 19)
+		print("Path to 19 19")
+		for k = 1, #path.nodes do
+			print(path.nodes[k].x, path.nodes[k].y)
+		end
 
 		-- eva.tiled.delete_tile("hexes", i, j)
 		-- eva.tiled.add_object("resources", x, y, 9)
