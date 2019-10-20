@@ -57,7 +57,7 @@ local function trace_path(n)
 
 	table.insert(nodes, 1, n)
 
-	while true do
+	while true and p do
 		if p.parent == nil then
 			break
 		end
@@ -76,9 +76,14 @@ local function handle_node(data, map_handler, node, to)
 	assert(node.x ~= nil, 'About to pass a node with nil location to get_adjacent_nodes')
 	assert(node.y ~= nil, 'About to pass a node with nil location to get_adjacent_nodes')
 
+	if map_handler.locations_are_equal(node, to) then
+		return node
+	end
+
 	local nodes = map_handler.get_adjacent_nodes(node, to)
 
-	for uid, n in pairs(nodes) do repeat
+	for i = 1, #nodes do repeat
+		local n = nodes[i]
 		if map_handler.locations_are_equal(n, to) then
 			return n
 		elseif data.closed[n.uid] then -- Alread in close, skip this
@@ -104,8 +109,7 @@ function M.find_path(map_handler, from_x, from_y, to_x, to_y)
 		closed = {}
 	}
 
-	pprint(map_handler)
-	local from_node = map_handler.get_node(from_x, from_y)
+	local from_node = map_handler.get_node(from_x, from_y, 0)
 
 	local next_node = nil
 
