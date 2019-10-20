@@ -120,6 +120,7 @@ function M.get_z(y, z_layer, map_params)
 	return z_pos
 end
 
+
 --- Get object position
 -- Can pass the offset to calculate it correctly (+ z coordinate)
 -- @function eva.hexgrid.get_object_pos

@@ -188,6 +188,27 @@ function M.load_map(tiled_data, create_object_fn)
 end
 
 
+--- Add tile to the map by tile index from tiled tileset
+-- @function eva.tiled.add_tile
+-- @tparam string name Name of tileset
+-- @tparam number i Cell x position
+-- @tparam number j Cell y position
+-- @tparam number index Tile index from tileset
+-- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
+-- Last map by default
+function M.add_tile(name, i, j, index, map_data)
+	map_data = map_data or app.tiled_map_default
+	add_tile(map_data, name, i, j, index)
+end
+
+
+--- Get tile from the map by tile pos
+-- @function eva.tiled.get_tile
+-- @tparam string name Name of tileset
+-- @tparam number i Cell x position
+-- @tparam number j Cell y position
+-- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
+-- Last map by default
 function M.get_tile(name, i, j, map_data)
 	map_data = map_data or app.tiled_map_default
 
@@ -205,6 +226,13 @@ function M.get_tile(name, i, j, map_data)
 end
 
 
+--- Delete tile from the map by tile pos
+-- @function eva.tiled.delete_tile
+-- @tparam string name Name of tileset
+-- @tparam number i Cell x position
+-- @tparam number j Cell y position
+-- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
+-- Last map by default
 function M.delete_tile(name, i, j, map_data)
 	map_data = map_data or app.tiled_map_default
 
@@ -231,25 +259,37 @@ function M.delete_tile(name, i, j, map_data)
 end
 
 
-function M.add_tile(name, i, j, index, map_data)
-	map_data = map_data or app.tiled_map_default
-	add_tile(map_data, name, i, j, index)
-end
-
-
+--- Add object to the map by object index from tiled tileset
+-- @function eva.tiled.add_object
+-- @tparam string name Name of tileset
+-- @tparam number x x position
+-- @tparam number y y position
+-- @tparam number index Object index from tileset
+-- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
+-- Last map by default
 function M.add_object(name, x, y, index, map_data)
 	map_data = map_data or app.tiled_map_default
 	add_object(map_data, name, x, y, index)
 end
 
 
-function M.get_object_by_id(game_object_id, map_data)
+--- Get object to the map by game_object id
+-- @function eva.tiled.get_object
+-- @tparam hash game_object_id Game object id
+-- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
+-- Last map by default
+function M.get_object(game_object_id, map_data)
 	map_data = map_data or app.tiled_map_default
 	return map_data.game_objects[game_object_id]
 end
 
 
-function M.remove_object_by_id(game_object_id, map_data)
+--- Delete object from the map by game_object id
+-- @function eva.tiled.delete_object
+-- @tparam hash game_object_id Game object id
+-- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
+-- Last map by default
+function M.delete_object(game_object_id, map_data)
 	map_data = map_data or app.tiled_map_default
 	local object = M.get_object_by_id(game_object_id)
 	if not object then
@@ -260,10 +300,7 @@ function M.remove_object_by_id(game_object_id, map_data)
 	go.delete(object.go)
 	map_data.game_objects[object.go] = nil
 	map_data.objects[object.layer][object.go] = nil
-
-	pprint(map_data.game_objects)
 end
-
 
 
 return M
