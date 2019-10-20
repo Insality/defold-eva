@@ -10,10 +10,13 @@
 -- @submodule eva
 
 local log = require("eva.log")
-local luax = require("eva.luax")
 local app = require("eva.app")
 
 local hexgrid = require("eva.modules.hexgrid")
+
+local hexgrid_handler = require("eva.libs.astar.hexgrid_handler")
+local isogrid_handler = require("eva.libs.astar.isogrid_handler")
+local grid_handler = require("eva.libs.astar.grid_handler")
 
 local logger = log.get_logger("eva.tiled")
 
@@ -166,10 +169,19 @@ function M.load_map(tiled_data, create_object_fn)
 	hexgrid.set_default_map_params(map_params)
 	local map_layers = tiled_data.layers
 
+	local astar_handler = hexgrid_handler
+	if tiled_data.orientation == "isometric" then
+		astar_handler = isogrid_handler
+	end
+	if tiled_data.orientation == "grid" then
+		astar_handler = grid_handler
+	end
+
 	local map_data = {
 		game_objects = {},
 		objects = {},
 		tiles = {},
+		astar_handler = astar_handler,
 		layer_props = get_layer_props(tiled_data),
 		create_object_fn = create_object_fn,
 	}

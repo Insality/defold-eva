@@ -1,3 +1,6 @@
+--- Handler for hexagonal grid astar
+
+local luax = require("eva.luax")
 local node = require("eva.libs.astar.node")
 
 local M = {}
@@ -13,14 +16,12 @@ local hex_neighbors = {
 }
 
 
-local function handle_node(x, y, from_node, destx, desty)
+local function handle_node(map_handler, x, y, from_node, destx, desty)
 	-- Fetch a Node for the given location and set its parameters
-	local n = M.get_node(x, y)
+	local n = map_handler.get_node(x, y)
 
-	if n then
-		local dx = math.max(x, destx) - math.min(x, destx)
-		local dy = math.max(y, desty) - math.min(y, desty)
-		local em_cost = dx + dy
+	if n and n.move_cost then
+		local em_cost = luax.math.distance(x, y, destx, desty)
 
 		n.move_cost = n.move_cost + from_node.move_cost
 		n.score = n.move_cost + em_cost
@@ -49,7 +50,7 @@ function M.locations_are_equal(a, b)
 end
 
 
-function M.get_adjacent_nodes(from_node, to_node)
+function M.get_adjacent_nodes(map_handler, from_node, to_node)
 	local nodes = {}
 	local x, y = from_node.x, from_node.y
 
@@ -57,13 +58,29 @@ function M.get_adjacent_nodes(from_node, to_node)
 
 	for i = 1, #neighbors do
 		local offset = neighbors[i]
-		local n = handle_node(x + offset[1], y + offset[2], from_node, to_node.x, to_node.y)
+		local n = handle_node(map_handler, x + offset[1], y + offset[2], from_node, to_node.x, to_node.y)
 		if n then
 			table.insert(nodes, n)
 		end
 	end
 
 	return nodes
+end
+
+
+--- Get new handler for astar api
+-- get_node_fn - function to get tile: function(i, j)
+-- should return Node (astar.node)
+-- Set move_cost to nil, if cell is unpassable
+function M.new_handler(get_node_fn)
+	local data = {
+		get_node = function(x, y)
+			local cost = get_node_fn(x, y)
+			return node.get(x, y, cost)
+		end
+	}
+
+	return setmetatable(data, { __index = M })
 end
 
 

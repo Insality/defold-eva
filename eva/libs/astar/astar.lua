@@ -1,4 +1,3 @@
---
 --  astar.lua
 --  lua-astar, modified by Insality
 --
@@ -27,6 +26,7 @@
 --  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 --  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 --  THE SOFTWARE.
+
 
 local path = require("eva.libs.astar.path")
 
@@ -80,7 +80,11 @@ local function handle_node(data, map_handler, node, to)
 		return node
 	end
 
-	local nodes = map_handler.get_adjacent_nodes(node, to)
+	if not node.move_cost then
+		return nil
+	end
+
+	local nodes = map_handler.get_adjacent_nodes(map_handler, node, to)
 
 	for i = 1, #nodes do repeat
 		local n = nodes[i]
