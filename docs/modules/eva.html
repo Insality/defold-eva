@@ -42,18 +42,21 @@
 <li><a href="#modules_festivals_Functions">modules.festivals Functions</a></li>
 <li><a href="#modules_game_Functions">modules.game Functions</a></li>
 <li><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></li>
+<li><a href="#modules_hexgrid_Functions">modules.hexgrid Functions</a></li>
 <li><a href="#modules_iaps_Functions">modules.iaps Functions</a></li>
 <li><a href="#modules_lang_Functions">modules.lang Functions</a></li>
 <li><a href="#modules_migrations_Functions">modules.migrations Functions</a></li>
 <li><a href="#modules_offers_Functions">modules.offers Functions</a></li>
 <li><a href="#modules_proto_Functions">modules.proto Functions</a></li>
 <li><a href="#modules_push_Functions">modules.push Functions</a></li>
+<li><a href="#modules_quests_Functions">modules.quests Functions</a></li>
 <li><a href="#modules_rate_Functions">modules.rate Functions</a></li>
 <li><a href="#modules_render_Functions">modules.render Functions</a></li>
 <li><a href="#modules_saver_Functions">modules.saver Functions</a></li>
 <li><a href="#modules_server_Functions">modules.server Functions</a></li>
 <li><a href="#modules_sound_Functions">modules.sound Functions</a></li>
 <li><a href="#modules_storage_Functions">modules.storage Functions</a></li>
+<li><a href="#modules_tiled_Functions">modules.tiled Functions</a></li>
 <li><a href="#modules_timers_Functions">modules.timers Functions</a></li>
 <li><a href="#modules_tokens_Functions">modules.tokens Functions</a></li>
 <li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
@@ -79,13 +82,19 @@
  functions like iaps, camera, offers and other
  a lot of basic stuffs.</p>
 <p> Designed for fast integration
- and single code base.</p>
+ and single code base.
+<p> module_settings: {
+ 	migrations: see migrations_example,
+ 	window_settings: see window_settings_example
+ 	festivals_settings: see festival_settings_example,
+ 	quests_settings: see quest_settings_example,
+ }</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#on_eva_init">on_eva_init(settings_path)</a></td>
+	<td class="name" nowrap><a href="#on_eva_init">on_eva_init(settings_path, module_settings)</a></td>
 	<td class="summary">Call this to init Eva module</td>
 	</tr>
 	<tr>
@@ -155,6 +164,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.camera.set_borders">eva.camera.set_borders(border_soft, border_hard)</a></td>
 	<td class="summary">Set the borders of the camera zone</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_position">eva.camera.set_position(x, y)</a></td>
+	<td class="summary">Set the camera position</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.camera.set_zoom_borders">eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</a></td>
@@ -262,6 +275,11 @@
 	<td class="name" nowrap><a href="#eva.festivals.get_completed">eva.festivals.get_completed()</a></td>
 	<td class="summary">Return completed festivals</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.festivals.set_settings">eva.festivals.set_settings()</a></td>
+	<td class="summary">Set game festivals settings
+ functions: check_start(festival_id)</td>
+	</tr>
 </table>
 <h2><a href="#modules_game_Functions">modules.game Functions</a></h2>
 <table class="function_list">
@@ -305,6 +323,46 @@
 	<td class="summary">Open the policy URL</td>
 	</tr>
 </table>
+<h2><a href="#modules_hexgrid_Functions">modules.hexgrid Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_map_params">eva.hexgrid.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)</a></td>
+	<td class="summary">Get map params data to work with it
+ You can pass directly params in every method or set is as default
+ with eva.hexgrid.set_default_map_params
+ Pass the map sizes to calculate correct coordinates</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.set_default_map_params">eva.hexgrid.set_default_map_params(map_params)</a></td>
+	<td class="summary">Set default map params
+ To dont pass it every time in transform functions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.cell_to_pos">eva.hexgrid.cell_to_pos()</a></td>
+	<td class="summary">Transform hex to pixel position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.pos_to_cell">eva.hexgrid.pos_to_cell()</a></td>
+	<td class="summary">Transform pixel to hex</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_z">eva.hexgrid.get_z(y, z_layer)</a></td>
+	<td class="summary">Get Z position from object Y position and his z_layer</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_object_pos">eva.hexgrid.get_object_pos()</a></td>
+	<td class="summary">Get object position
+ Can pass the offset to calculate it correctly (+ z coordinate)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_scene_pos">eva.hexgrid.get_scene_pos()</a></td>
+	<td class="summary">Convert tiled object position to scene position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_tile_pos">eva.hexgrid.get_tile_pos()</a></td>
+	<td class="summary">Get tile position.</td>
+	</tr>
+</table>
 <h2><a href="#modules_iaps_Functions">modules.iaps Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -346,9 +404,19 @@
 <h2><a href="#modules_migrations_Functions">modules.migrations Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.migrations.add">eva.migrations.add()</a></td>
-	<td class="summary">Add migration to the system
- Need to call this before save loaded</td>
+	<td class="name" nowrap><a href="#eva.migrations.set_migrations">eva.migrations.set_migrations()</a></td>
+	<td class="summary">Add migration to the eva system
+ Pass the migrations list in eva.init
+ You should directly point the migration version
+ in migration list (array from 1 to N)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.migrations.get_count">eva.migrations.get_count()</a></td>
+	<td class="summary">Return amount of migrations</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.migrations.apply">eva.migrations.apply()</a></td>
+	<td class="summary">Apply the migrations</td>
 	</tr>
 </table>
 <h2><a href="#modules_offers_Functions">modules.offers Functions</a></h2>
@@ -403,6 +471,29 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.push.schedule">eva.push.schedule()</a></td>
 	<td class="summary">Schedule notification</td>
+	</tr>
+</table>
+<h2><a href="#modules_quests_Functions">modules.quests Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.start_quests">eva.quests.start_quests()</a></td>
+	<td class="summary">Start eva quests system
+ Call it to activate quests.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.update_quests">eva.quests.update_quests()</a></td>
+	<td class="summary">Update quests list
+ It will start and end quests, by checking quests condition</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.add_update_quest_event">eva.quests.add_update_quest_event()</a></td>
+	<td class="summary">Add event, to trigger quest list update
+ Example: you have a condition to start quest only if festival is enabled
+ So add event FESTIVAL_START to update quests on this update</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.set_settings">eva.quests.set_settings()</a></td>
+	<td class="summary">Set game quests settings.</td>
 	</tr>
 </table>
 <h2><a href="#modules_rate_Functions">modules.rate Functions</a></h2>
@@ -511,6 +602,37 @@
 	<td class="summary">Set the value to eva storage</td>
 	</tr>
 </table>
+<h2><a href="#modules_tiled_Functions">modules.tiled Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.load_map">eva.tiled.load_map(data, create_object_fn)</a></td>
+	<td class="summary">Load map from tiled json data</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.add_tile">eva.tiled.add_tile(name, i, j, index[, map_data])</a></td>
+	<td class="summary">Add tile to the map by tile index from tiled tileset</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.get_tile">eva.tiled.get_tile(name, i, j[, map_data])</a></td>
+	<td class="summary">Get tile from the map by tile pos</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.delete_tile">eva.tiled.delete_tile(name, i, j[, map_data])</a></td>
+	<td class="summary">Delete tile from the map by tile pos</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(name, x, y, index[, map_data])</a></td>
+	<td class="summary">Add object to the map by object index from tiled tileset</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.get_object">eva.tiled.get_object(game_object_id[, map_data])</a></td>
+	<td class="summary">Get object to the map by game_object id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.delete_object">eva.tiled.delete_object(game_object_id[, map_data])</a></td>
+	<td class="summary">Delete object from the map by game_object id</td>
+	</tr>
+</table>
 <h2><a href="#modules_timers_Functions">modules.timers Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -583,6 +705,10 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.is_enough_group">eva.tokens.is_enough_group(token_group_id)</a></td>
+	<td class="summary">Check multiply tokens from token_group_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.is_enough_tokens">eva.tokens.is_enough_tokens(tokens)</a></td>
 	<td class="summary">Check multiply tokens</td>
 	</tr>
 	<tr>
@@ -686,7 +812,7 @@
     <dl class="function">
     <dt>
     <a name = "on_eva_init"></a>
-    <strong>on_eva_init(settings_path)</strong>
+    <strong>on_eva_init(settings_path, module_settings)</strong>
     </dt>
     <dd>
     Call this to init Eva module
@@ -697,6 +823,10 @@
         <li><span class="parameter">settings_path</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          path to eva_settings.json
+        </li>
+        <li><span class="parameter">module_settings</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Settings to modules. See description on eva.lua
         </li>
     </ul>
 
@@ -993,6 +1123,31 @@
         <li><span class="parameter">border_hard</span>
             <span class="types"><span class="type">vector4</span></span>
          Hard zones of camera. Order is: left-top-right-bot.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.set_position"></a>
+    <strong>eva.camera.set_position(x, y)</strong>
+    </dt>
+    <dd>
+    Set the camera position
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         X position
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         Y position
         </li>
     </ul>
 
@@ -1463,6 +1618,21 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.festivals.set_settings"></a>
+    <strong>eva.festivals.set_settings()</strong>
+    </dt>
+    <dd>
+    Set game festivals settings
+ functions: check_start(festival_id)
+
+
+
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_game_Functions"></a>modules.game Functions</h2>
 
@@ -1618,6 +1788,198 @@
 
 
 
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_hexgrid_Functions"></a>modules.hexgrid Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.hexgrid.get_map_params"></a>
+    <strong>eva.hexgrid.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)</strong>
+    </dt>
+    <dd>
+    Get map params data to work with it
+ You can pass directly params in every method or set is as default
+ with eva.hexgrid.set_default_map_params
+ Pass the map sizes to calculate correct coordinates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tilewidth</span>
+            <span class="types"><span class="type">number</span></span>
+         Hexagon width
+        </li>
+        <li><span class="parameter">tileheight</span>
+            <span class="types"><span class="type">number</span></span>
+         Hexagon height
+        </li>
+        <li><span class="parameter">tileside</span>
+            <span class="types"><span class="type">number</span></span>
+         Hexagon side height
+        </li>
+        <li><span class="parameter">tiles_x</span>
+            <span class="types"><span class="type">number</span></span>
+         Map width in tiles count
+        </li>
+        <li><span class="parameter">tiles_y</span>
+            <span class="types"><span class="type">number</span></span>
+         Map height in tiles count
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_params</span></span>
+        Map params data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.set_default_map_params"></a>
+    <strong>eva.hexgrid.set_default_map_params(map_params)</strong>
+    </dt>
+    <dd>
+    Set default map params
+ To dont pass it every time in transform functions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.cell_to_pos"></a>
+    <strong>eva.hexgrid.cell_to_pos()</strong>
+    </dt>
+    <dd>
+    Transform hex to pixel position
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.pos_to_cell"></a>
+    <strong>eva.hexgrid.pos_to_cell()</strong>
+    </dt>
+    <dd>
+    Transform pixel to hex
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.get_z"></a>
+    <strong>eva.hexgrid.get_z(y, z_layer)</strong>
+    </dt>
+    <dd>
+    Get Z position from object Y position and his z_layer
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         Object Y position
+        </li>
+        <li><span class="parameter">z_layer</span>
+            <span class="types"><span class="type">number</span></span>
+         Object Z layer index
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_params</span></span>
+        Map params data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.get_object_pos"></a>
+    <strong>eva.hexgrid.get_object_pos()</strong>
+    </dt>
+    <dd>
+    Get object position
+ Can pass the offset to calculate it correctly (+ z coordinate)
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector3</span></span>
+        Object position
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.get_scene_pos"></a>
+    <strong>eva.hexgrid.get_scene_pos()</strong>
+    </dt>
+    <dd>
+    Convert tiled object position to scene position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number,number</span></span>
+        x,y Object scene position
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.get_tile_pos"></a>
+    <strong>eva.hexgrid.get_tile_pos()</strong>
+    </dt>
+    <dd>
+    Get tile position.  Convert from i, j to map position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector3</span></span>
+        Tile position
+    </ol>
 
 
 
@@ -1812,12 +2174,42 @@
 
     <dl class="function">
     <dt>
-    <a name = "eva.migrations.add"></a>
-    <strong>eva.migrations.add()</strong>
+    <a name = "eva.migrations.set_migrations"></a>
+    <strong>eva.migrations.set_migrations()</strong>
     </dt>
     <dd>
-    Add migration to the system
- Need to call this before save loaded
+    Add migration to the eva system
+ Pass the migrations list in eva.init
+ You should directly point the migration version
+ in migration list (array from 1 to N)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.migrations.get_count"></a>
+    <strong>eva.migrations.get_count()</strong>
+    </dt>
+    <dd>
+    Return amount of migrations
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.migrations.apply"></a>
+    <strong>eva.migrations.apply()</strong>
+    </dt>
+    <dd>
+    Apply the migrations
 
 
 
@@ -2078,6 +2470,72 @@
     </dt>
     <dd>
     Schedule notification
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_quests_Functions"></a>modules.quests Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.quests.start_quests"></a>
+    <strong>eva.quests.start_quests()</strong>
+    </dt>
+    <dd>
+    Start eva quests system
+ Call it to activate quests.  If you has the quest custom settings
+ setup it before call start_quests
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.update_quests"></a>
+    <strong>eva.quests.update_quests()</strong>
+    </dt>
+    <dd>
+    Update quests list
+ It will start and end quests, by checking quests condition
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.add_update_quest_event"></a>
+    <strong>eva.quests.add_update_quest_event()</strong>
+    </dt>
+    <dd>
+    Add event, to trigger quest list update
+ Example: you have a condition to start quest only if festival is enabled
+ So add event FESTIVAL_START to update quests on this update
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.set_settings"></a>
+    <strong>eva.quests.set_settings()</strong>
+    </dt>
+    <dd>
+    Set game quests settings.  Setup settings before
+ call eva.quest.start_quests
 
 
 
@@ -2451,6 +2909,237 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_tiled_Functions"></a>modules.tiled Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.tiled.load_map"></a>
+    <strong>eva.tiled.load_map(data, create_object_fn)</strong>
+    </dt>
+    <dd>
+    Load map from tiled json data
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Json map data
+        </li>
+        <li><span class="parameter">create_object_fn</span>
+            <span class="types"><span class="type">callback</span></span>
+         Module call this with param(object_layer, object_id, position)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.add_tile"></a>
+    <strong>eva.tiled.add_tile(name, i, j, index[, map_data])</strong>
+    </dt>
+    <dd>
+    Add tile to the map by tile index from tiled tileset
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of tileset
+        </li>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell x position
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell y position
+        </li>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         Tile index from tileset
+        </li>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map_data returned by eva.tiled.load_map.
+ Last map by default
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.get_tile"></a>
+    <strong>eva.tiled.get_tile(name, i, j[, map_data])</strong>
+    </dt>
+    <dd>
+    Get tile from the map by tile pos
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of tileset
+        </li>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell x position
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell y position
+        </li>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map_data returned by eva.tiled.load_map.
+ Last map by default
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.delete_tile"></a>
+    <strong>eva.tiled.delete_tile(name, i, j[, map_data])</strong>
+    </dt>
+    <dd>
+    Delete tile from the map by tile pos
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of tileset
+        </li>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell x position
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell y position
+        </li>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map_data returned by eva.tiled.load_map.
+ Last map by default
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.add_object"></a>
+    <strong>eva.tiled.add_object(name, x, y, index[, map_data])</strong>
+    </dt>
+    <dd>
+    Add object to the map by object index from tiled tileset
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of tileset
+        </li>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         x position
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         y position
+        </li>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         Object index from tileset
+        </li>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map_data returned by eva.tiled.load_map.
+ Last map by default
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.get_object"></a>
+    <strong>eva.tiled.get_object(game_object_id[, map_data])</strong>
+    </dt>
+    <dd>
+    Get object to the map by game_object id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">game_object_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         Game object id
+        </li>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map_data returned by eva.tiled.load_map.
+ Last map by default
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.delete_object"></a>
+    <strong>eva.tiled.delete_object(game_object_id[, map_data])</strong>
+    </dt>
+    <dd>
+    Delete object from the map by game_object id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">game_object_id</span>
+            <span class="types"><span class="type">hash</span></span>
+         Game object id
+        </li>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map_data returned by eva.tiled.load_map.
+ Last map by default
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_timers_Functions"></a>modules.timers Functions</h2>
 
     <dl class="function">
@@ -2519,6 +3208,12 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Time until end of timer. -1 if timer is not exist
+    </ol>
 
 
 
@@ -2808,7 +3503,7 @@
     <strong>eva.tokens.is_enough_group(token_group_id)</strong>
     </dt>
     <dd>
-    Check multiply tokens
+    Check multiply tokens from token_group_id
 
 
     <h3>Parameters:</h3>
@@ -2816,6 +3511,27 @@
         <li><span class="parameter">token_group_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          the token group id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tokens.is_enough_tokens"></a>
+    <strong>eva.tokens.is_enough_tokens(tokens)</strong>
+    </dt>
+    <dd>
+    Check multiply tokens
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         list
         </li>
     </ul>
 
@@ -3143,7 +3859,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-10-12 00:27:33 </i>
+<i style="float:right;">Last updated 2019-10-20 13:29:54 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
