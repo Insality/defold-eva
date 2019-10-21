@@ -4,8 +4,18 @@
 -- @submodule eva
 
 local app = require("eva.app")
+local luax = require("eva.luax")
 
 local M = {}
+
+
+local function get_scene_size(map_params)
+	local data = map_params or app.appgrid_default
+
+	local width = data.scene.tiles_x * data.tile.width + data.tile.width / 2
+	local height = data.tile.height + ((data.scene.tiles_y-1) * data.tile.height/2)
+	return width, height
+end
 
 
 --- Get map params data to work with it
@@ -14,7 +24,26 @@ local M = {}
 -- Pass the map sizes to calculate correct coordinates
 -- @function eva.isogrid.get_map_params
 -- @treturn map_params Map params data
-function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)
+function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, invert_y)
+	local map_params = {}
+	map_params.tile = {
+		width = tilewidth,
+		height = tileheight,
+	}
+	map_params.scene = {
+		invert_y = invert_y,
+		tiles_x = tiles_x,
+		tiles_y = tiles_y,
+		size_x = 0,
+		size_y = 0
+	}
+
+	local size_x, size_y = get_scene_size(map_params)
+	map_params.scene.size_x = size_x
+	map_params.scene.size_y = size_y
+	pprint(map_params.scene)
+
+	return map_params
 end
 
 
@@ -30,12 +59,41 @@ end
 --- Transform hex to pixel position
 -- @function eva.isogrid.cell_to_pos
 function M.cell_to_pos(i, j, map_params)
+	local data = map_params or app.isogrid_default
+
+	local x = data.tile.width * (i + 0.5 * (bit.band(j, 1)))
+	local y = data.tile.height/2 * j
+
+	-- invert
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
+
+	-- add half offset
+	x = x + data.tile.width/2
+	y = y + (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
+
+	return x, y
 end
 
 
 --- Transform pixel to hex
 -- @function eva.isogrid.pos_to_cell
 function M.pos_to_cell(x, y, map_params)
+	local data = map_params or app.isogrid_default
+
+	-- add half offset
+	x = x - data.tile.width/2
+	y = y - (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
+
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
+
+	local j = y / (data.tile.height / 2)
+	local i = (x / data.tile.width) - 0.5 * (bit.band(j, 1))
+
+	return math.floor(i), luax.math.round(j)
 end
 
 
@@ -45,8 +103,14 @@ end
 -- @tparam number z_layer Object Z layer index
 -- @treturn map_params Map params data
 function M.get_z(y, z_layer, map_params)
+	z_layer = z_layer or 0
 	local data = map_params or app.isogrid_default
-	return 0
+
+	local y_value = (y - z_layer * 200)
+	y_value = data.scene.size_y - y_value
+
+	local z_pos = y_value / 200
+	return z_pos
 end
 
 
@@ -64,6 +128,23 @@ end
 -- @treturn number,number x,y Object scene position
 function M.get_tiled_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
 	local data = map_params or app.isogrid_default
+
+	local x = tiled_x
+	local y = tiled_y
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
+
+	if offset then
+		x = x + offset.x
+		y = y + (data.scene.invert_y and offset.y or -offset.y)
+	end
+
+	if is_grid_center then
+		x, y = M.cell_to_pos(M.pos_to_cell(x, y))
+	end
+
+	return x, y
 end
 
 
@@ -71,6 +152,10 @@ end
 -- @function eva.isogrid.get_tile_pos
 -- @treturn vector3 Tile position
 function M.get_tile_pos(i, j, z_layer, map_params)
+	z_layer = z_layer or 0
+	local x, y = M.cell_to_pos(i, j, map_params)
+
+	return vmath.vector3(x, y, M.get_z(y, z_layer))
 end
 
 

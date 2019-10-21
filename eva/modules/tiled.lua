@@ -162,9 +162,14 @@ end
 -- @tparam table data Json map data
 -- @tparam callback create_object_fn Module call this with param(object_layer, object_id, position)
 function M.load_map(tiled_data, create_object_fn)
-	tiled_data.tilewidth = tiled_data.tilewidth - 1
-	tiled_data.tileheight = tiled_data.tileheight - 1
-	tiled_data.hexsidelength = tiled_data.hexsidelength - 1
+	-- For some reasons, in hexagonal we need substract 1
+	if tiled_data.orientation == "hexagonal" then
+		tiled_data.tilewidth = tiled_data.tilewidth - 1
+		tiled_data.tileheight = tiled_data.tileheight - 1
+		if tiled_data.hexsidelength then
+			tiled_data.hexsidelength = tiled_data.hexsidelength - 1
+		end
+	end
 
 	local grid_module = nil
 	local astar_handler = nil
@@ -173,7 +178,7 @@ function M.load_map(tiled_data, create_object_fn)
 		astar_handler = hexgrid_handler
 		grid_module = hexgrid
 	end
-	if tiled_data.orientation == "isometric" then
+	if tiled_data.orientation == "staggered" then
 		astar_handler = isogrid_handler
 		grid_module = isogrid
 	end
