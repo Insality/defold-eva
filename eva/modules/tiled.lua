@@ -150,7 +150,7 @@ local function process_objects(map_data, tiled_data, index)
 			object_data.width/2 - object_data.anchor.x,
 			object_data.height/2 - object_data.anchor.y - 2,
 		0)
-		local scene_x, scene_y = map_data.grid.get_scene_pos(object.x, object.y, offset, is_grid_center)
+		local scene_x, scene_y = map_data.grid.get_tiled_scene_pos(object.x, object.y, offset, is_grid_center)
 
 		add_object(map_data, name, scene_x, scene_y, object_id)
 	end

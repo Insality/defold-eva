@@ -60,9 +60,9 @@ end
 
 
 --- Convert tiled object position to scene position
--- @function eva.isogrid.get_scene_pos
+-- @function eva.isogrid.get_tiled_scene_pos
 -- @treturn number,number x,y Object scene position
-function M.get_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
+function M.get_tiled_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
 	local data = map_params or app.isogrid_default
 end
 

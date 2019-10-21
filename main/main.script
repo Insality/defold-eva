@@ -18,6 +18,9 @@ local function load_tiled_map(self, map_path)
 		if not tile or tile.index == 7 then
 			cost = nil
 		end
+		if tile and tile.index == 1 then
+			cost = 3
+		end
 
 		return cost
 	end)

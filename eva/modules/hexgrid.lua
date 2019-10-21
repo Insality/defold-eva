@@ -139,9 +139,9 @@ end
 
 
 --- Convert tiled object position to scene position
--- @function eva.hexgrid.get_scene_pos
+-- @function eva.hexgrid.get_tiled_scene_pos
 -- @treturn number,number x,y Object scene position
-function M.get_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
+function M.get_tiled_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
 	local data = map_params or app.hexgrid_default
 
 	local x = tiled_x
