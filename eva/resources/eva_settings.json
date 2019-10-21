@@ -66,7 +66,9 @@
 		}
 	},
 	"tiled": {
-		"mapping_config": "TiledMapping"
+		"mapping_config": "TiledMapping",
+		"z_layer_objects_default": 3,
+		"z_layer_tiles_default": 0
 	},
 	"offers": {
 		"config": "Offers"

@@ -34,7 +34,7 @@ end
 -- @tparam number tiles_x Map width in tiles count
 -- @tparam number tiles_y Map height in tiles count
 -- @treturn map_params Map params data
-function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)
+function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, invert_y)
 	local map_params = {}
 	map_params.tile = {
 		width = tilewidth,
@@ -43,6 +43,7 @@ function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)
 		double_side = tileheight + tileside
 	}
 	map_params.scene = {
+		invert_y = invert_y,
 		tiles_x = tiles_x,
 		tiles_y = tiles_y,
 		size_x = 0,
@@ -77,10 +78,12 @@ function M.cell_to_pos(i, j, map_params)
 	local y = data.tile.double_side / 2 * j
 
 	-- invert
-	y = data.scene.size_y - y
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
 	-- add half offset
 	x = x + data.tile.width/2
-	y = y - part_size
+	y = y + (data.scene.invert_y and -part_size or part_size)
 
 	return x, y
 end
@@ -95,9 +98,11 @@ function M.pos_to_cell(x, y, map_params)
 
 	-- add half offset
 	x = x - data.tile.width/2
-	y = y + part_size
+	y = y - (data.scene.invert_y and -part_size or part_size)
 	-- invert
-	y = data.scene.size_y - y
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
 
 	local j = 2 * y / data.tile.double_side
 	local i = x / data.tile.width - 0.5 * bit.band(j, 1)
@@ -115,7 +120,10 @@ function M.get_z(y, z_layer, map_params)
 	z_layer = z_layer or 0
 	local data = map_params or app.hexgrid_default
 
-	local z_pos = (data.scene.size_y - (y - z_layer * 200))/200
+	local y_value = (y - z_layer * 200)
+	y_value = data.scene.size_y - y_value
+
+	local z_pos = y_value / 200
 
 	return z_pos
 end
@@ -137,11 +145,14 @@ function M.get_scene_pos(tiled_x, tiled_y, offset, is_grid_center, map_params)
 	local data = map_params or app.hexgrid_default
 
 	local x = tiled_x
-	local y = data.scene.size_y - tiled_y
+	local y = tiled_y
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
 
 	if offset then
 		x = x + offset.x
-		y = y + offset.y
+		y = y + (data.scene.invert_y and offset.y or -offset.y)
 	end
 
 	if is_grid_center then

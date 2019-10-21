@@ -13,6 +13,8 @@ local log = require("eva.log")
 local app = require("eva.app")
 
 local hexgrid = require("eva.modules.hexgrid")
+local isogrid = require("eva.modules.isogrid")
+local grid = require("eva.modules.grid")
 
 local hexgrid_handler = require("eva.libs.astar.hexgrid_handler")
 local isogrid_handler = require("eva.libs.astar.isogrid_handler")
@@ -44,8 +46,8 @@ end
 
 
 local function add_tile(map_data, name, i, j, index)
-	local mapping_config_name = app.settings.tiled.mapping_config
-	local mapping_data = app.db[mapping_config_name]
+	local settings = app.settings.tiled
+	local mapping_data = app.db[settings.mapping_config]
 	local object_data = mapping_data[name][tostring(index)]
 
 	local tile_layer = map_data.tiles[name]
@@ -56,8 +58,8 @@ local function add_tile(map_data, name, i, j, index)
 		return
 	end
 
-	local z_layer = map_data.layer_props[name].z_layer or 0
-	local position = hexgrid.get_tile_pos(i, j, z_layer)
+	local z_layer = map_data.layer_props[name].z_layer or settings.z_layer_tiles_default
+	local position = map_data.grid.get_tile_pos(i, j, z_layer)
 	local gameobject = map_data.create_object_fn(name, index, position)
 
 	local object_info = {
@@ -73,12 +75,12 @@ end
 
 
 local function add_object(map_data, name, x, y, index)
-	local mapping_config_name = app.settings.tiled.mapping_config
-	local mapping_data = app.db[mapping_config_name]
+	local settings = app.settings.tiled
+	local mapping_data = app.db[settings.mapping_config]
 	local object_data = mapping_data[name][tostring(index)]
 
-	local z_layer = map_data.layer_props[name].z_layer or 3
-	local position = hexgrid.get_object_pos(x, y, z_layer)
+	local z_layer = map_data.layer_props[name].z_layer or settings.z_layer_objects_default
+	local position = map_data.grid.get_object_pos(x, y, z_layer)
 	local gameobject = map_data.create_object_fn(name, index, position)
 
 	local object_info = {
@@ -148,7 +150,7 @@ local function process_objects(map_data, tiled_data, index)
 			object_data.width/2 - object_data.anchor.x,
 			object_data.height/2 - object_data.anchor.y - 2,
 		0)
-		local scene_x, scene_y = hexgrid.get_scene_pos(object.x, object.y, offset, is_grid_center)
+		local scene_x, scene_y = map_data.grid.get_scene_pos(object.x, object.y, offset, is_grid_center)
 
 		add_object(map_data, name, scene_x, scene_y, object_id)
 	end
@@ -164,27 +166,37 @@ function M.load_map(tiled_data, create_object_fn)
 	tiled_data.tileheight = tiled_data.tileheight - 1
 	tiled_data.hexsidelength = tiled_data.hexsidelength - 1
 
-	local map_params = hexgrid.get_map_params(tiled_data.tilewidth, tiled_data.tileheight,
-		tiled_data.hexsidelength, tiled_data.width, tiled_data.height)
-	hexgrid.set_default_map_params(map_params)
-	local map_layers = tiled_data.layers
+	local grid_module = nil
+	local astar_handler = nil
 
-	local astar_handler = hexgrid_handler
+	if tiled_data.orientation == "hexagonal" then
+		astar_handler = hexgrid_handler
+		grid_module = hexgrid
+	end
 	if tiled_data.orientation == "isometric" then
 		astar_handler = isogrid_handler
+		grid_module = isogrid
 	end
 	if tiled_data.orientation == "grid" then
 		astar_handler = grid_handler
+		grid_module = grid
 	end
 
 	local map_data = {
 		game_objects = {},
 		objects = {},
 		tiles = {},
+		grid = grid_module,
 		astar_handler = astar_handler,
 		layer_props = get_layer_props(tiled_data),
 		create_object_fn = create_object_fn,
 	}
+
+	local map_params = map_data.grid.get_map_params(tiled_data.tilewidth, tiled_data.tileheight,
+		tiled_data.hexsidelength, tiled_data.width, tiled_data.height, true)
+	map_data.grid.set_default_map_params(map_params)
+
+	local map_layers = tiled_data.layers
 
 	for index = 1, #map_layers do
 		if map_layers[index].type == "tilelayer" then
