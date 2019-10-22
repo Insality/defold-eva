@@ -82,8 +82,8 @@ function M.pos_to_cell(x, y, map_params)
 	local data = map_params or app.grid_default
 
 	-- add half offset
-	x = x - data.tile.width/2
-	y = y - (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
+	x = x - data.tile.width
+	y = y - (data.scene.invert_y and -data.tile.height or data.tile.height)
 
 	-- invert
 	if data.scene.invert_y then
@@ -93,7 +93,7 @@ function M.pos_to_cell(x, y, map_params)
 	local i = x / data.tile.width
 	local j = y / data.tile.height
 
-	return math.floor(i), math.floor(j)
+	return math.ceil(i), math.ceil(j)
 end
 
 
