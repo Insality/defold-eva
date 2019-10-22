@@ -53,6 +53,7 @@ end
 local function trace_path(n)
 	local nodes = {}
 	local total_cost = n.move_cost
+	local total_score = n.score
 	local p = n.parent
 
 	table.insert(nodes, 1, n)
@@ -65,7 +66,7 @@ local function trace_path(n)
 		p = p.parent
 	end
 
-	return path.get(nodes, total_cost)
+	return path.get(nodes, total_cost, total_score)
 end
 
 
