@@ -4,7 +4,6 @@
 -- @submodule eva
 
 local app = require("eva.app")
-local luax = require("eva.luax")
 
 local M = {}
 
@@ -24,16 +23,16 @@ end
 -- Pass the map sizes to calculate correct coordinates
 -- @function eva.grid.get_map_params
 -- @treturn map_params Map params data
-function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, invert_y)
+function M.get_map_params(options)
 	local map_params = {}
 	map_params.tile = {
-		width = tilewidth,
-		height = tileheight
+		width = options.tilewidth,
+		height = options.tileheight
 	}
 	map_params.scene = {
-		invert_y = invert_y,
-		tiles_x = tiles_x,
-		tiles_y = tiles_y,
+		invert_y = options.invert_y,
+		tiles_x = options.width,
+		tiles_y = options.height,
 		size_x = 0,
 		size_y = 0
 	}
@@ -44,6 +43,18 @@ function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, inv
 
 	return map_params
 end
+
+
+function M.get_map_params_from_tiled(tiled_data)
+	return M.get_map_params({
+		tilewidth = tiled_data.tilewidth,
+		tileheight = tiled_data.tileheight,
+		width = tiled_data.width,
+		height = tiled_data.height,
+		invert_y = true
+	})
+end
+
 
 
 --- Set default map params

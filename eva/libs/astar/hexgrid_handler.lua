@@ -1,20 +1,10 @@
 --- Handler for hexagonal grid astar
 
 local luax = require("eva.luax")
+local const = require("eva.const")
 local node = require("eva.libs.astar.node")
 
 local M = {}
-
-
--- EVEN ROW / ODD ROW
-local hex_neighbors = {
-    {{  1, 0 }, {  0,-1 }, { -1, -1 },
-     { -1, 0 }, { -1, 1 }, {  0,  1 }},
-
-    {{  1, 0 }, { 1, -1 }, { 0, -1 },
-     { -1, 0 }, { 0,  1 }, { 1,  1 }},
-}
-
 
 local function handle_node(map_handler, x, y, from_node, destx, desty)
 	-- Fetch a Node for the given location and set its parameters
@@ -41,11 +31,6 @@ end
 
 
 function M.locations_are_equal(a, b)
-	-- Here you check to see if two locations (not nodes) are equivalent
-	-- If you are using a vector for a location you may be able to simply
-	-- return a == b
-	-- however, if your location is represented some other way, you can handle
-	-- it correctly here without having to modufy the AStar class
 	return a.x == b.x and a.y == b.y
 end
 
@@ -54,7 +39,7 @@ function M.get_adjacent_nodes(map_handler, from_node, to_node)
 	local nodes = {}
 	local x, y = from_node.x, from_node.y
 
-	local neighbors = hex_neighbors[(bit.band(y, 1)) + 1]
+	local neighbors = map_handler.neighbors[(bit.band(y, 1)) + 1]
 
 	for i = 1, #neighbors do
 		local offset = neighbors[i]
@@ -79,6 +64,7 @@ function M.new_handler(get_node_fn)
 			return node.get(x, y, cost)
 		end
 	}
+	data.neighbors = const.ASTAR.HEX.NEIGHBORS
 
 	return setmetatable(data, { __index = M })
 end

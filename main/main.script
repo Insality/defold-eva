@@ -12,7 +12,9 @@ local function load_tiled_map(self, map_path)
 	self.map_data = map_data
 
 	eva.pathfinder.init_astar(self.map_data, function(x, y)
-		local tile = eva.tiled.get_tile("hexes", x, y)
+		-- local tile = eva.tiled.get_tile("hexes", x, y)
+		local tile = eva.tiled.get_tile("grid", x, y)
+		-- local tile = eva.tiled.get_tile("iso_tileset", x, y)
 		local cost = 1
 
 		if not tile or tile.index == 7 then
@@ -40,12 +42,14 @@ function init(self)
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
 	end)
-	load_tiled_map(self, "/resources/tiled/hextest.json")
+	load_tiled_map(self, "/resources/tiled/gridtest.json")
+	-- load_tiled_map(self, "/resources/tiled/hextest.json")
+	-- load_tiled_map(self, "/resources/tiled/isotest.json")
 	eva.render.set_clear_color(vmath.vector4(0.07))
 
 	local x, y = self.map_data.grid.cell_to_pos(19, 19)
 	eva.camera.set_position(x, y)
-	local borders = vmath.vector4(x - 660, y-660, x+660, y+660)
+	local borders = vmath.vector4(x - 1000, y-1000, x+1000, y+1000)
 	eva.camera.set_borders(borders * 0.9, borders)
 end
 

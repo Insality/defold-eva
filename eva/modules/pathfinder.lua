@@ -19,11 +19,13 @@ local M = {}
 -- @function eva.pathfinder.init_astar
 -- @tparam map_data map_data Map data from eva.tiled.load_map
 -- @tparam function get_node_fn Get node cost function from map
+-- @tparam table options. Options for map handlers:
+-- - diagonal boolean, to grid and isogrid pathfinding
 -- @treturn map_handler Handler for astar work
-function M.init_astar(map_data, get_node_fn)
+function M.init_astar(map_data, get_node_fn, options)
 	local handler = map_data.astar_handler
 
-	local map_handler = handler.new_handler(get_node_fn)
+	local map_handler = handler.new_handler(get_node_fn, options)
 	app.pathfinder_default_handler = map_handler
 
 	return map_handler

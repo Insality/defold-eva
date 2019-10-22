@@ -34,18 +34,18 @@ end
 -- @tparam number tiles_x Map width in tiles count
 -- @tparam number tiles_y Map height in tiles count
 -- @treturn map_params Map params data
-function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, invert_y)
+function M.get_map_params(options)
 	local map_params = {}
 	map_params.tile = {
-		width = tilewidth,
-		height = tileheight,
-		side = tileside,
-		double_side = tileheight + tileside
+		width = options.tilewidth,
+		height = options.tileheight,
+		side = options.tileside,
+		double_side = options.tileheight + options.tileside
 	}
 	map_params.scene = {
-		invert_y = invert_y,
-		tiles_x = tiles_x,
-		tiles_y = tiles_y,
+		invert_y = options.invert_y,
+		tiles_x = options.width,
+		tiles_y = options.height,
 		size_x = 0,
 		size_y = 0
 	}
@@ -55,6 +55,19 @@ function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, inv
 	map_params.scene.size_y = size_y
 
 	return map_params
+end
+
+
+function M.get_map_params_from_tiled(tiled_data)
+	-- For some reasons, on hex grid we need to substract 1
+	return M.get_map_params({
+		tilewidth = tiled_data.tilewidth - 1,
+		tileheight = tiled_data.tileheight - 1,
+		tileside = tiled_data.hexsidelength - 1,
+		width = tiled_data.width,
+		height = tiled_data.height,
+		invert_y = true
+	})
 end
 
 

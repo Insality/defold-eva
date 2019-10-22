@@ -13,7 +13,7 @@ local function get_scene_size(map_params)
 	local data = map_params or app.appgrid_default
 
 	local width = data.scene.tiles_x * data.tile.width + data.tile.width / 2
-	local height = data.tile.height + ((data.scene.tiles_y-1) * data.tile.height/2)
+	local height = data.tile.height + ((data.scene.tiles_y - 1) * data.tile.height/2)
 	return width, height
 end
 
@@ -24,16 +24,16 @@ end
 -- Pass the map sizes to calculate correct coordinates
 -- @function eva.isogrid.get_map_params
 -- @treturn map_params Map params data
-function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, invert_y)
+function M.get_map_params(options)
 	local map_params = {}
 	map_params.tile = {
-		width = tilewidth,
-		height = tileheight,
+		width = options.tilewidth,
+		height = options.tileheight,
 	}
 	map_params.scene = {
-		invert_y = invert_y,
-		tiles_x = tiles_x,
-		tiles_y = tiles_y,
+		invert_y = options.invert_y,
+		tiles_x = options.width,
+		tiles_y = options.height,
 		size_x = 0,
 		size_y = 0
 	}
@@ -41,9 +41,19 @@ function M.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y, inv
 	local size_x, size_y = get_scene_size(map_params)
 	map_params.scene.size_x = size_x
 	map_params.scene.size_y = size_y
-	pprint(map_params.scene)
 
 	return map_params
+end
+
+
+function M.get_map_params_from_tiled(tiled_data)
+	return M.get_map_params({
+		tilewidth = tiled_data.tilewidth,
+		tileheight = tiled_data.tileheight,
+		width = tiled_data.width,
+		height = tiled_data.height,
+		invert_y = true
+	})
 end
 
 
