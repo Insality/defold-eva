@@ -18,6 +18,9 @@ function process_json(export_path, name, output_path, mapping) {
 		process_tileset(json_content, output_path, mapping)
 		console.log("")
 	}
+	if (json_type == "map") {
+		// Make collection for every map?
+	}
 }
 
 
@@ -27,11 +30,6 @@ function start_process_dir(export_path, output_path) {
 		.map(name => name.split(".")[0])
 
 	console.log("Process next files:", json_list)
-	let spawner_path = path.join(output_path, "spawner.go")
-	if (fs.existsSync(spawner_path)) {
-		fs.unlinkSync(spawner_path)
-		console.log("Clear spawner.go")
-	}
 
 	let mapping = {}
 	for (let i in json_list) {

@@ -141,6 +141,7 @@ local function process_objects(map_data, tiled_data, index)
 		local object = objects[i]
 		local gid_offset = tiled_data.tilesets[index].firstgid
 		local object_id = object.gid - gid_offset
+		-- TODO: Take object name from GID? in one layer can be different tilesets
 		local object_data = mapping_data[name][tostring(object_id)]
 
 		local is_grid_center = map_data.layer_props[name].grid_center or false
