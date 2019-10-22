@@ -14,6 +14,6 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("late_init") then
-		eva.window.show_scene("scene_main")
+		eva.window.show_scene("scene_hex")
 	end
 end

@@ -86,6 +86,9 @@ function M.show_scene(scene_id, data)
 
 	-- Praise the pyramids!
 	settings.before_show_scene(function()
+		if app.window.last_scene then
+			monarch.back()
+		end
 		monarch.show(scene_id, nil, data, function()
 			settings.after_show_scene()
 

@@ -1,9 +1,22 @@
+go.property("map", hash("hex"))
+
 local eva = require("eva.eva")
 local eva_const = require("eva.const")
 local broadcast = require("eva.libs.broadcast")
 local mapping = require("hextest.mapping.mapping")
 local rendercam = require("rendercam.rendercam")
 
+local map_mapping = {
+	[hash("hex")] = {
+		"hexes", "/resources/tiled/hextest.json", "/map_spawner_hextest"
+	},
+	[hash("grid")] = {
+		"grid", "/resources/tiled/gridtest.json", "/map_spawner_gridtest"
+	},
+	[hash("iso")] = {
+		"iso_tileset", "/resources/tiled/isotest.json", "/map_spawner_isotest"
+	}
+}
 
 local function get_spawner(prefix)
 	prefix = prefix or ""
@@ -14,25 +27,21 @@ end
 
 local function load_tiled_map(self, map_path)
 	local map = eva.utils.load_json(map_path)
-	local map_data = eva.tiled.load_map(map, get_spawner("/map_spawner_hextest"))
+	local map_data = eva.tiled.load_map(map, get_spawner(map_mapping[go.get("#", "map")][3]))
 
 	self.map_data = map_data
 
 	eva.pathfinder.init_astar(self.map_data, function(x, y)
-		local tile = eva.tiled.get_tile("hexes", x, y)
-		-- local tile = eva.tiled.get_tile("grid", x, y)
-		-- local tile = eva.tiled.get_tile("iso_tileset", x, y)
-		local cost = 1
+		local layer_name = map_mapping[go.get("#", "map")][1]
+		local tile = eva.tiled.get_tile(layer_name, x, y)
 
+		local cost = 1
 		if not tile or tile.index == 7 then
 			cost = nil
 		end
-		if tile and tile.index == 1 then
-			cost = 3
-		end
 
 		return cost
-	end, {diagonal = true})
+	end, {diagonal = false})
 end
 
 
@@ -40,7 +49,7 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 
 	--[ Camera setup example
-	eva.camera.set_camera("main:/camera", go.get("main:/camera#script", "viewArea"))
+	eva.camera.set_camera("main:/basic_map/camera", go.get("main:/basic_map/camera#script", "viewArea"))
 	eva.camera.set_zoom_borders(vmath.vector3(0.3, 2, 0), vmath.vector3(0.2, 2.7, 0))
 	--]]
 
@@ -49,11 +58,9 @@ function init(self)
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
 	end)
-	-- load_tiled_map(self, "/resources/tiled/gridtest.json")
-	load_tiled_map(self, "/resources/tiled/hextest.json")
-	-- load_tiled_map(self, "/resources/tiled/isotest.json")
-	eva.render.set_clear_color(vmath.vector4(0.07))
+	load_tiled_map(self, map_mapping[go.get("#", "map")][2])
 
+	eva.render.set_clear_color(vmath.vector4(0.07))
 	local x, y = self.map_data.grid.cell_to_pos(19, 19)
 	eva.camera.set_position(x, y)
 	local borders = vmath.vector4(x - 1000, y-1000, x+1000, y+1000)
@@ -69,7 +76,7 @@ end
 function on_input(self, action_id, action)
 	eva.on_input(action_id, action)
 	action.x, action.y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
-	msg.post("/cursor", "input", { action_id = action_id, action = action })
+	msg.post("/basic_map/cursor", "input", { action_id = action_id, action = action })
 
 	if action.released then
 		if action_id == hash("key_4") then
@@ -81,23 +88,33 @@ function on_input(self, action_id, action)
 		if action_id == hash("key_6") then
 			eva.window.show("window_popup")
 		end
+		if action_id == hash("key_7") then
+			eva.window.show_scene("scene_hex")
+		end
+		if action_id == hash("key_8") then
+			eva.window.show_scene("scene_grid")
+		end
+		if action_id == hash("key_9") then
+			eva.window.show_scene("scene_iso")
+		end
 	end
 
 	if action_id == hash("touch") and action.released then
 		local x, y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
 		local i, j = self.map_data.grid.pos_to_cell(x, y)
 
-		pprint(i, j)
+		x, y = self.map_data.grid.cell_to_pos(i, j)
 		local path = eva.pathfinder.path(i, j, 19, 19)
 		if path then
+			factory.create("/basic_map/ingame_spawner#cursor", vmath.vector3(x, y, self.map_data.grid.get_z(y, 1)))
 			for k = 1, #path.nodes do
 				local path_x = path.nodes[k].x
 				local path_y = path.nodes[k].y
-				print(path_x, path_y, path.nodes[k].move_cost, path.nodes[k].score)
+				-- print(path_x, path_y, path.nodes[k].move_cost, path.nodes[k].score)
 
 				timer.delay(0.07 * k, false, function()
 					local px, py = self.map_data.grid.cell_to_pos(path_x, path_y)
-					factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, self.map_data.grid.get_z(py, 1)))
+					factory.create("/basic_map/ingame_spawner#cursor", vmath.vector3(px, py, self.map_data.grid.get_z(py, 1)))
 				end)
 			end
 		end
