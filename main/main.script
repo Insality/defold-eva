@@ -5,15 +5,22 @@ local mapping = require("hextest.mapping.mapping")
 local rendercam = require("rendercam.rendercam")
 
 
+local function get_spawner(prefix)
+	prefix = prefix or ""
+	return function(...)
+		return mapping.make_object(prefix, ...)
+	end
+end
+
 local function load_tiled_map(self, map_path)
 	local map = eva.utils.load_json(map_path)
-	local map_data = eva.tiled.load_map(map, mapping.make_object)
+	local map_data = eva.tiled.load_map(map, get_spawner("/map_spawner_hextest"))
 
 	self.map_data = map_data
 
 	eva.pathfinder.init_astar(self.map_data, function(x, y)
-		-- local tile = eva.tiled.get_tile("hexes", x, y)
-		local tile = eva.tiled.get_tile("grid", x, y)
+		local tile = eva.tiled.get_tile("hexes", x, y)
+		-- local tile = eva.tiled.get_tile("grid", x, y)
 		-- local tile = eva.tiled.get_tile("iso_tileset", x, y)
 		local cost = 1
 
@@ -25,7 +32,7 @@ local function load_tiled_map(self, map_path)
 		end
 
 		return cost
-	end)
+	end, {diagonal = true})
 end
 
 
@@ -34,7 +41,7 @@ function init(self)
 
 	--[ Camera setup example
 	eva.camera.set_camera("main:/camera", go.get("main:/camera#script", "viewArea"))
-	eva.camera.set_zoom_borders(vmath.vector3(0.3, 0.8, 0), vmath.vector3(0.2, 0.87, 0))
+	eva.camera.set_zoom_borders(vmath.vector3(0.3, 2, 0), vmath.vector3(0.2, 2.7, 0))
 	--]]
 
 	eva.quests.start_quests()
@@ -42,8 +49,8 @@ function init(self)
 	broadcast.register(eva_const.EVENT.TIMER_TRIGGER, function(_, message)
 		eva.timers.clear(message.params.slot_id)
 	end)
-	load_tiled_map(self, "/resources/tiled/gridtest.json")
-	-- load_tiled_map(self, "/resources/tiled/hextest.json")
+	-- load_tiled_map(self, "/resources/tiled/gridtest.json")
+	load_tiled_map(self, "/resources/tiled/hextest.json")
 	-- load_tiled_map(self, "/resources/tiled/isotest.json")
 	eva.render.set_clear_color(vmath.vector4(0.07))
 

@@ -2,11 +2,18 @@ const fs = require("fs")
 const path = require("path")
 const process = require("process")
 const tilesets = require("./scripts/tilesets")
+const maps = require("./scripts/maps")
 
 function process_tileset(data, output_path, mapping) {
 	console.log("Process tileset", data.name)
 	tilesets.generate_atlas(data, output_path)
 	tilesets.generate_objects(data, output_path, mapping)
+}
+
+
+function process_map(name, data, output_path) {
+	console.log("Process map", name)
+	maps.generate_spawners(name, data, output_path)
 }
 
 
@@ -16,11 +23,11 @@ function process_json(export_path, name, output_path, mapping) {
 
 	if (json_type == "tileset") {
 		process_tileset(json_content, output_path, mapping)
-		console.log("")
 	}
 	if (json_type == "map") {
-		// Make collection for every map?
+		process_map(name, json_content, output_path)
 	}
+	console.log("")
 }
 
 

@@ -226,7 +226,9 @@ M.generate_objects = function(data, output_path, mapping) {
 
 	console.log("End generate objects. Generated: ", generated, "Skipped:", skipped)
 
-	let spawner_path = path.join(output_path, "spawner_" + data.name + ".go")
+	let spawner_folder = path.join(output_path, "spawners")
+	fs.mkdirSync(spawner_folder, { recursive: true })
+	let spawner_path = path.join(spawner_folder, "spawner_" + data.name + ".go")
 	fs.writeFileSync(spawner_path, spawner_go)
 	console.log("Add", spawner_path)
 }
