@@ -93,7 +93,7 @@ function M.pos_to_cell(x, y, map_params)
 	local j = y / (data.tile.height / 2)
 	local i = (x / data.tile.width) - 0.5 * (bit.band(j, 1))
 
-	return math.floor(i), luax.math.round(j)
+	return luax.math.round(i), luax.math.round(j)
 end
 
 

@@ -182,7 +182,7 @@ function M.load_map(tiled_data, create_object_fn)
 		astar_handler = isogrid_handler
 		grid_module = isogrid
 	end
-	if tiled_data.orientation == "grid" then
+	if tiled_data.orientation == "orthogonal" then
 		astar_handler = grid_handler
 		grid_module = grid
 	end

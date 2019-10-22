@@ -42,8 +42,8 @@ function M.path(from_x, from_y, to_x, to_y, map_handler)
 	map_handler = map_handler or app.pathfinder_default_handler
 
 	if not map_handler then
-		logger.error("No map handler for pathfinder")
-		return
+		logger:error("No map handler for pathfinder")
+		return false
 	end
 
 	return astar.find_path(map_handler, from_x, from_y, to_x, to_y)

@@ -1,0 +1,57 @@
+images {
+  image: "/hextest/tiled/images/grid/mapTile_006.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_007.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_008.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_021.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_022.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_023.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_036.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_037.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_038.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_066.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_067.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_068.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_081.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_082.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_083.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_096.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_097.png"
+}
+images {
+  image: "/hextest/tiled/images/grid/mapTile_098.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
