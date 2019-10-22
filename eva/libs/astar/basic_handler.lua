@@ -13,7 +13,7 @@ end
 
 
 function M.get_score(from_node, to_node, dest_node)
-	return luax.math.distance(from_node.x, from_node.y, dest_node.x, dest_node.y)
+	return luax.math.manhattan(from_node.x, from_node.y, to_node.x, to_node.y)
 end
 
 
@@ -22,7 +22,7 @@ function M.handle_node(map_handler, from_node, to_node, dest_node)
 		local em_cost = map_handler.get_score(from_node, to_node, dest_node)
 
 		to_node.move_cost = to_node.move_cost + from_node.move_cost
-		to_node.score = to_node.score + em_cost
+		to_node.score = to_node.move_cost + em_cost
 		to_node.parent = from_node
 
 		return to_node

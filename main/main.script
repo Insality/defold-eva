@@ -36,12 +36,12 @@ local function load_tiled_map(self, map_path)
 		local tile = eva.tiled.get_tile(layer_name, x, y)
 
 		local cost = 1
-		if not tile or tile.index == 7 then
+		if not tile then
 			cost = nil
 		end
 
 		return cost
-	end, {diagonal = false})
+	end, { diagonal = false })
 end
 
 
