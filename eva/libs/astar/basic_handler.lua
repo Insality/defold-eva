@@ -13,13 +13,13 @@ end
 
 
 function M.get_score(from_node, to_node, dest_node)
-	return luax.math.distance(from_node.x, from_node.y, to_node.x, to_node.y)
+	return luax.math.distance(from_node.x, from_node.y, dest_node.x, dest_node.y)
 end
 
 
 function M.handle_node(map_handler, from_node, to_node, dest_node)
 	if to_node and to_node.move_cost then
-		local em_cost = M.get_score(from_node, to_node, dest_node)
+		local em_cost = map_handler.get_score(from_node, to_node, dest_node)
 
 		to_node.move_cost = to_node.move_cost + from_node.move_cost
 		to_node.score = to_node.score + em_cost
@@ -36,7 +36,7 @@ function M.get_adjacent_nodes(map_handler, from_node, dest_node)
 	local nodes = {}
 	local x, y = from_node.x, from_node.y
 
-	local neighbors = map_handler.get_neighbors(map_handler, from_node.x, from_node.y)
+	local neighbors = map_handler.get_neighbors(map_handler, x, y)
 
 	for i = 1, #neighbors do
 		local offset = neighbors[i]
