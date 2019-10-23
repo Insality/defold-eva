@@ -20,6 +20,8 @@ globals = {
   "physics",
   "factory",
   "collectionfactory",
+  "collectionproxy",
+  "resource",
   "iac",
   "msg",
   "vmath",

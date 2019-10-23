@@ -1,4 +1,4 @@
-name: "main"
+name: "map_iso"
 collection_instances {
   id: "basic_map"
   collection: "/hextest/scenes/basic_map.collection"

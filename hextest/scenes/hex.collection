@@ -1,4 +1,4 @@
-name: "main"
+name: "map_hex"
 collection_instances {
   id: "map_spawner_hextest"
   collection: "/hextest/generated/map_spawners/map_spawner_hextest.collection"

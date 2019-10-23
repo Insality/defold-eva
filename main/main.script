@@ -49,7 +49,7 @@ function init(self)
 	msg.post(".", "acquire_input_focus")
 
 	--[ Camera setup example
-	eva.camera.set_camera("main:/basic_map/camera", go.get("main:/basic_map/camera#script", "viewArea"))
+	eva.camera.set_camera("/basic_map/camera", go.get("/basic_map/camera#script", "viewArea"))
 	eva.camera.set_zoom_borders(vmath.vector3(0.3, 2, 0), vmath.vector3(0.2, 2.7, 0))
 	--]]
 

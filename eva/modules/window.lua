@@ -84,6 +84,11 @@ function M.show_scene(scene_id, data)
 	local settings = get_settings(scene_id)
 	events.event(const.EVENT.SCENE_SHOW, { scene_id = scene_id })
 
+	-- TODO: If want to use live update, here we can check resources
+	-- https://defold.com/manuals/live-update/
+	-- To sure, resources is excluded, need to clean build folder?
+	-- Or distclean, dunno
+
 	-- Praise the pyramids!
 	settings.before_show_scene(function()
 		if app.window.last_scene then
