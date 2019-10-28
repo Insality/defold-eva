@@ -8,6 +8,7 @@ local tests = {
 	require("test.tests.eva_daily"),
 	require("test.tests.eva_festivals"),
 	require("test.tests.eva_quests"),
+	require("test.tests.eva_grids"),
 	require("test.tests.iso_time"),
 }
 
