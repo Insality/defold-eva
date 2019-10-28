@@ -25,11 +25,11 @@ local M = {}
 
 local quest_event_system = {
 	event = function(event, params)
-		if not app.quest_started then
+		if not app.quests_info.is_started then
 			return
 		end
 
-		if luax.table.contains(app.quest_update_events, event) then
+		if luax.table.contains(app.quests_update_events, event) then
 			M.update_quests()
 		end
 	end
@@ -253,7 +253,7 @@ end
 -- setup it before call start_quests
 -- @function eva.quests.start_quests
 function M.start_quests()
-	app.quest_started = true
+	app.quests_info.is_started = true
 	M.update_quests()
 end
 
@@ -271,7 +271,7 @@ end
 -- So add event FESTIVAL_START to update quests on this update
 -- @function eva.quests.add_update_quest_event
 function M.add_update_quest_event(event)
-	table.insert(app.quest_update_events, event)
+	table.insert(app.quests_update_events, event)
 end
 
 
@@ -285,8 +285,11 @@ end
 
 function M.on_eva_init()
 	app.quests_settings = {}
-	app.quest_update_events = {
+	app.quests_update_events = {
 		const.EVENT.TOKEN_CHANGE
+	}
+	app.quests_info = {
+		is_started = false
 	}
 	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
 	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])

@@ -105,7 +105,9 @@ end
 -- @tparam table module_settings Settings to modules. See description on eva.lua
 function M.init(settings_path, module_settings)
 	app.clear()
-	app._second_counter = 1
+	app.eva_basic = {
+		second_counter = 1
+	}
 
 	for name, component in pairs(modules) do
 		M[name] = component
@@ -138,9 +140,10 @@ end
 function M.update(dt)
 	call_each_module("on_eva_update", dt)
 
-	app._second_counter = app._second_counter - dt
-	if app._second_counter <= 0 then
-		app._second_counter = 1
+	local eva_basic = app.eva_basic
+	eva_basic.second_counter = eva_basic.second_counter - dt
+	if eva_basic.second_counter <= 0 then
+		eva_basic.second_counter = 1
 		call_each_module("on_eva_second")
 	end
 end
