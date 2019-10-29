@@ -2,18 +2,20 @@
 -- Handle the camera gestures like zoom and multitouchs
 -- @local
 
+
 local luax = require("eva.luax")
 local const = require("eva.const")
 local rendercam = require("rendercam.rendercam")
 
 local M = {}
+
+
 M.GESTURE = nil
+M.ZOOM_SPEED = 0.85
 M.SCREEN = vmath.vector3(
 	sys.get_config("display.width")/2,
 	sys.get_config("display.height")/2,
 	0)
-
-M.ZOOM_SPEED = 0.85
 
 
 local function get_distance(action)

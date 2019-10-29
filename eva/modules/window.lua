@@ -15,7 +15,6 @@ local log = require("eva.log")
 local callbacks = require("eva.modules.callbacks")
 local events = require("eva.modules.events")
 
-
 local logger = log.get_logger("eva.window")
 
 

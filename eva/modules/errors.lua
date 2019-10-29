@@ -11,7 +11,6 @@ local luax = require("eva.luax")
 
 local game = require("eva.modules.game")
 
-
 local logger = log.get_logger("eva.errors")
 
 local M = {}

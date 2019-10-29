@@ -15,7 +15,6 @@ local game = require("eva.modules.game")
 local tokens = require("eva.modules.tokens")
 local events = require("eva.modules.events")
 
-
 local logger = log.get_logger("eva.daily")
 
 local M = {}

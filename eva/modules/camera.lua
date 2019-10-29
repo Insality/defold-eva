@@ -11,7 +11,6 @@ local camera_gesture = require("eva.modules.camera.camera_gesture")
 
 local device = require("eva.modules.device")
 
-
 local M = {}
 
 

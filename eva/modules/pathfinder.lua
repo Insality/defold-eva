@@ -2,13 +2,13 @@
 -- It carry on path finding on some map structure (grid or hex)
 -- @submodule eva
 
+
 local astar = require("eva.libs.astar.astar")
 
 local log = require("eva.log")
 local app = require("eva.app")
 
 local logger = log.get_logger("eva.pathfinder")
-
 
 local M = {}
 

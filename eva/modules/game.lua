@@ -22,8 +22,8 @@ local device = require("eva.modules.device")
 
 local logger = log.get_logger("eva.game")
 
-
 local M = {}
+
 
 -- How to update the game time. See module description
 local TIME_LOCAL = "local"

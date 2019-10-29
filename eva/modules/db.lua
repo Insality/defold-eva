@@ -11,7 +11,6 @@ local log = require("eva.log")
 
 local utils = require("eva.modules.utils")
 
-
 local logger = log.get_logger("eva.db")
 
 local M = {}

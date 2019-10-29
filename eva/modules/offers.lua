@@ -16,7 +16,6 @@ local events = require("eva.modules.events")
 local tokens = require("eva.modules.tokens")
 local saver = require("eva.modules.saver")
 
-
 local logger = log.get_logger("eva.offers")
 
 local M = {}

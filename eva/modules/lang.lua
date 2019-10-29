@@ -11,8 +11,8 @@ local events = require("eva.modules.events")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
 
-
 local M = {}
+
 
 local function load_lang(lang)
 	local settings = app.settings.lang

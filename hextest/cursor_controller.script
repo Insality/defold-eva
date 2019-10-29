@@ -10,10 +10,10 @@ function on_message(self, message_id, message, sender)
 
 			local go_pos = go.get_position(message.id)
 			local px, py = eva.hexgrid.cell_to_pos(eva.hexgrid.pos_to_cell(go_pos.x, go_pos.y))
-			factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
+			factory.create("/basic_map/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
 		else
 			local px, py = eva.hexgrid.cell_to_pos(eva.hexgrid.pos_to_cell(message.x, message.y))
-			factory.create("/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
+			factory.create("/basic_map/ingame_spawner#cursor", vmath.vector3(px, py, eva.hexgrid.get_z(py, 1)))
 		end
 	end
 end

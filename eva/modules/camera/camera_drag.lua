@@ -2,12 +2,16 @@
 -- Handle camera dragging
 -- @local
 
+
 local luax = require("eva.luax")
 local const = require("eva.const")
 local rendercam = require("rendercam.rendercam")
 
 local M = {}
+
+
 M.IS_MOBILE = false
+
 
 local function start_drag(state, touch)
 	state.is_drag = true

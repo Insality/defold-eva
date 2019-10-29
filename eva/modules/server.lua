@@ -26,6 +26,7 @@ function M.login(callback)
 	server_helper.setup_playfab()
 end
 
+
 --- Send save to the server
 -- @function eva.server.send_save
 -- @tparam string json_data JSON data

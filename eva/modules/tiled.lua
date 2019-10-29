@@ -9,6 +9,7 @@
 -- 	- z_layer (int) - z_layer of the layer
 -- @submodule eva
 
+
 local log = require("eva.log")
 local app = require("eva.app")
 
@@ -16,6 +17,7 @@ local hexgrid = require("eva.modules.hexgrid")
 local isogrid = require("eva.modules.isogrid")
 local grid = require("eva.modules.grid")
 
+-- TODO: Remove it from libs
 local hexgrid_handler = require("eva.libs.astar.hexgrid_handler")
 local isogrid_handler = require("eva.libs.astar.isogrid_handler")
 local grid_handler = require("eva.libs.astar.grid_handler")
