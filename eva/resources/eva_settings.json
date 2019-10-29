@@ -81,12 +81,12 @@
 	},
 	"push": {
 		"is_disabled": false,
-		"snooze_hour_start": 21,
-		"snooze_hour_end": 9,
-		"max_per_day": 6,
-		"max_category_per_day": 2,
+		"snooze_hour_start": 24,
+		"snooze_hour_end": 4,
+		"max_per_day": 0,
+		"max_category_per_day": 0,
 		"interval_between_pushes": 7200,
-		"clear_push_in_next_seconds": 1800
+		"clear_push_in_next_seconds": 5
 	},
 	"rating": {
 		"min": 100,

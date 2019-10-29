@@ -17,6 +17,10 @@ local logger = log.get_logger("eva.push")
 local M = {}
 
 
+local function push_listener(self, payload, origin)
+	pprint(payload, origin)
+end
+
 local function push_schedule(delta_time, title, text, data)
 	if not push then
 		return game.get_session_uid()
@@ -212,6 +216,19 @@ function M.on_eva_init()
 	saver.add_save_part(const.EVA.PUSH, app[const.EVA.PUSH])
 
 	M.clear_old_pushes()
+	--[[
+	print("Try register push")
+	push.register({}, function (self, token, error)
+		if token then
+			push.set_listener(push_listener)
+			print("Token", token)
+		else
+			-- Push registration failed.
+			print(error.error)
+		end
+	end)
+	--]]
+	push.set_listener(push_listener)
 end
 
 

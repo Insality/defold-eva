@@ -12,6 +12,14 @@
 		"reward": ["test_group_1", "test_group_1", "test_group_2"],
 		"type": "reset"
 	},
+	"push": {
+		"snooze_hour_start": 21,
+		"snooze_hour_end": 9,
+		"max_per_day": 6,
+		"max_category_per_day": 2,
+		"interval_between_pushes": 7200,
+		"clear_push_in_next_seconds": 1800
+	},
 	"log": {
 		"level": "WARN"
 	}
