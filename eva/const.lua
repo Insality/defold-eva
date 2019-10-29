@@ -81,6 +81,8 @@ M.EVENT = {
 	WINDOW_CLOSE = "eva.window.window_close",
 	SCENE_SHOW = "eva.window.scene_show",
 	SCENE_CLOSE = "eva.window.scene_close",
+	PUSH_SCHEDULED = "eva.push.scheduled",
+	PUSH_CANCEL = "eva.push.cancel",
 }
 
 
@@ -102,6 +104,7 @@ M.EVA = {
 	DAILY = "eva.Daily",
 	FESTIVALS = "eva.Festivals",
 	QUESTS = "eva.Quests",
+	PUSH = "eva.Push",
 
 	-- Part of data
 	TOKEN = "eva.Token",
@@ -109,6 +112,7 @@ M.EVA = {
 	STORAGE_VALUE = "eva.StorageValue",
 	TIMER = "eva.Timer",
 	IAP_INFO = "eva.IapInfo",
+	PUSH_RECORD = "eva.PushRecord",
 }
 
 
@@ -124,6 +128,7 @@ M.STORE_URL = {
 	ANDROID_URL = "https://play.google.com/store/apps/details?id=%s&referrer=utm_source%%3D%s",
 	IOS_MARKET = "https://itunes.apple.com/app/apple-store/id%s?pt=119008561&ct=%s&mt=8",
 }
+
 
 M.ASTAR = {
 	ISO = {

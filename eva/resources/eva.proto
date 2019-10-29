@@ -124,6 +124,17 @@ message IapDetails {
 	bool is_available = 7;
 }
 
+message PushRecord {
+	int32 id = 1;
+	uint32 time = 2;
+	string category = 3;
+	bool is_triggered = 4;
+}
+
+message Push {
+	repeated PushRecord pushes = 1;
+}
+
 message IapInfo {
 	string transaction_id = 1;
 	string iap_id = 2;

@@ -141,8 +141,8 @@ end
 --- Get current time in string format
 -- @function eva.game.get_current_time_string
 -- @treturn string Time format in iso e.g. "2019-09-25T01:48:19Z"
-function M.get_current_time_string()
-	return time_string.get_ISO(M.get_time())
+function M.get_current_time_string(time)
+	return time_string.get_ISO(time or M.get_time())
 end
 
 
