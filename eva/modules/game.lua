@@ -18,6 +18,7 @@ local time_string = require("eva.libs.time_string")
 local proto = require("eva.modules.proto")
 local sound = require("eva.modules.sound")
 local saver = require("eva.modules.saver")
+local events = require("eva.modules.events")
 local device = require("eva.modules.device")
 
 local logger = log.get_logger("eva.game")
@@ -75,6 +76,7 @@ local function on_window_event(self, event, data)
 	if luax.math.is(event, window.WINDOW_EVENT_FOCUS_GAINED, window.WINDOW_EVENT_RESIZED) then
 		sync_time()
 	end
+	events.event(const.EVENT.GAME_FOCUS)
 end
 
 
@@ -138,6 +140,15 @@ function M.get_time()
 end
 
 
+--- Return unique id for local session
+-- @function eva.game.get_session_uid()
+-- @treturn number Unique id in this game session
+function M.get_session_uid()
+	app.game_data.last_uid = app.game_data.last_uid + 1
+	return app.game_data.last_uid
+end
+
+
 --- Get current time in string format
 -- @function eva.game.get_current_time_string
 -- @treturn string Time format in iso e.g. "2019-09-25T01:48:19Z"
@@ -151,6 +162,7 @@ function M.on_eva_init()
 	math.random()
 
 	app.game_data = {
+		last_uid = 0,
 		current_time = 0
 	}
 	if device.is_mobile() then

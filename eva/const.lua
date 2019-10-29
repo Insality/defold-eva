@@ -49,6 +49,7 @@ M.INPUT = {
 M.EVENT = {
 	EVENT = "eva.events.event",
 	GAME_START = "eva.game.start",
+	GAME_FOCUS = "eva.game.focus",
 	IAP_UPDATE = "eva.iaps.update",
 	IAP_START = "eva.iaps.start",
 	IAP_CANCEL = "eva.iaps.cancel",
