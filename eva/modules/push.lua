@@ -228,7 +228,9 @@ function M.on_eva_init()
 		end
 	end)
 	--]]
-	push.set_listener(push_listener)
+	if push then
+		push.set_listener(push_listener)
+	end
 end
 
 
