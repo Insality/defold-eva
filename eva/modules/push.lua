@@ -141,19 +141,19 @@ function M.schedule(seconds_after, title, text, category, payload)
 	local id = push_schedule(delta_time, title, text, payload)
 
 	if id then
-		local push_record = proto.get(const.EVA.PUSH_RECORD)
-		push_record.id = id
-		push_record.time = push_time
-		push_record.category = category or ""
+		local push_info = proto.get(const.EVA.PUSH_INFO)
+		push_info.id = id
+		push_info.time = push_time
+		push_info.category = category or ""
 
-		table.insert(app[const.EVA.PUSH].pushes, push_record)
+		table.insert(app[const.EVA.PUSH].pushes, push_info)
 		events.event(const.EVENT.PUSH_SCHEDULED, {
 			id = id,
 			time = push_time,
-			category = push_record.category
+			category = push_info.category
 		})
 
-		return push_record
+		return push_info
 	end
 end
 

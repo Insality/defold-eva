@@ -42,9 +42,19 @@ end
 
 --- Generate uuid
 -- @function eva.device.get_uuid
+-- @tparam table except list of uuid, what not need to be generated
 -- @treturn string the uuid
-function M.get_uuid()
-	return uuid()
+function M.get_uuid(except)
+	if not except then
+		return uuid()
+	else
+		while true do
+			local id = uuid()
+			if not table.luax.contains(except) then
+				return id
+			end
+		end
+	end
 end
 
 

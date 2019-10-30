@@ -1,4 +1,6 @@
 syntax = "proto3";
+import "evadata.proto";
+
 package eva;
 
 message StorageValue {
@@ -124,7 +126,7 @@ message IapDetails {
 	bool is_available = 7;
 }
 
-message PushRecord {
+message PushInfo {
 	int32 id = 1;
 	uint32 time = 2;
 	string category = 3;
@@ -132,7 +134,20 @@ message PushRecord {
 }
 
 message Push {
-	repeated PushRecord pushes = 1;
+	repeated PushInfo pushes = 1;
+}
+
+message InvoiceInfo {
+	string category = 1;
+	string title = 2;
+	string text = 3;
+	uint32 start_time = 4;
+	uint32 life_time = 5;
+	evadata.Tokens reward = 6;
+}
+
+message Invoices {
+	map<string, InvoiceInfo> invoices = 1;
 }
 
 message IapInfo {

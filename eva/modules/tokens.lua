@@ -104,11 +104,21 @@ end
 
 --- Add multiply tokens to save
 -- @function eva.tokens.add_group
-function M.add_group(token_group_id, reason)
-	local tokens = M.get_token_group(token_group_id)
+function M.add_tokens(tokens, reason)
+	if not tokens or #tokens == 0 then
+		return
+	end
+
 	for index, token in ipairs(tokens) do
 		M.add(token.token_id, token.amount, reason)
 	end
+end
+
+--- Add multiply tokens to save
+-- @function eva.tokens.add_group
+function M.add_group(token_group_id, reason)
+	local tokens = M.get_token_group(token_group_id)
+	M.add_tokens(tokens)
 end
 
 

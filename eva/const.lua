@@ -11,6 +11,7 @@ M.DEFAULT_SETTINGS_PATH = "/eva/resources/eva_settings.json"
 
 M.FPS = 60
 
+
 M.OS = {
 	ANDROID = "Android",
 	IOS = "iPhone OS",
@@ -73,7 +74,7 @@ M.EVENT = {
 	DAILY_NEW_CYCLE = "eva.daily.new_cycle",
 	FESTIVAL_START = "eva.festivals.start",
 	FESTIVAL_END = "eva.festivals.end",
-	FESTIVAL_CLOSE_TO_END = "eva.festivals.clost_to_end",
+	FESTIVAL_CLOSE_TO_END = "eva.festivals.close_to_end",
 	QUEST_START = "eva.quests.start",
 	QUEST_PROGRESS = "eva.quests.progress",
 	QUEST_TASK_COMPLETE = "eva.quests.task_complete",
@@ -84,6 +85,9 @@ M.EVENT = {
 	SCENE_CLOSE = "eva.window.scene_close",
 	PUSH_SCHEDULED = "eva.push.scheduled",
 	PUSH_CANCEL = "eva.push.cancel",
+	INVOICE_ADD = "eva.invoices.add",
+	INVOICE_EXPIRE = "eva.invoices.expire",
+	INVOICE_CONSUME = "eva.invoices.consume",
 }
 
 
@@ -106,6 +110,7 @@ M.EVA = {
 	FESTIVALS = "eva.Festivals",
 	QUESTS = "eva.Quests",
 	PUSH = "eva.Push",
+	INVOICES = "eva.Invoices",
 
 	-- Part of data
 	TOKEN = "eva.Token",
@@ -113,7 +118,8 @@ M.EVA = {
 	STORAGE_VALUE = "eva.StorageValue",
 	TIMER = "eva.Timer",
 	IAP_INFO = "eva.IapInfo",
-	PUSH_RECORD = "eva.PushRecord",
+	PUSH_INFO = "eva.PushInfo",
+	INVOICE_INFO = "eva.InvoiceInfo",
 }
 
 
