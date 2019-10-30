@@ -160,6 +160,7 @@ end
 
 --- Schedule by list
 -- Every notifications have: after, title, text, category, payload
+-- @function eva.push.schedule_list
 function M.schedule_list(notifications)
 	for i = 1, #notifications do
 		local n = notifications[i]
@@ -168,6 +169,8 @@ function M.schedule_list(notifications)
 end
 
 
+--- Unschedule the push notification
+-- @function eva.push.unschedule
 function M.unschedule(id)
 	local pushes = app[const.EVA.PUSH].pushes
 
@@ -195,6 +198,7 @@ end
 
 --- Cancel all pushes with category
 -- If category is not provided, cancel all pushes
+-- @function eva.push.unschedule_all
 function M.unschedule_all(category)
 	local pushes = app[const.EVA.PUSH].pushes
 

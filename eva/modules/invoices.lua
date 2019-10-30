@@ -103,11 +103,17 @@ function M.get_invoices(category)
 end
 
 
+--- Get invoice data by id
+-- @function eva.invoices.get_invoce
+-- @treturn eva.InvoiceInfo Invoice data
 function M.get_invoice(id)
 	return app[const.EVA.INVOICES].invoices[id]
 end
 
 
+--- Check is invoice can be consumed
+-- @function eva.invoices.can_consume
+-- @treturn bool Can consume invoice
 function M.can_consume(id)
 	local invoice = M.get_invoice(id)
 
@@ -117,6 +123,7 @@ function M.can_consume(id)
 
 	return game.get_time() >= invoice.start_time
 end
+
 
 --- Consume the invoice to the game profile
 -- @function eva.invoices.consume

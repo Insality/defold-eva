@@ -90,7 +90,7 @@ function M.add(tokens, reason)
 end
 
 
---- Add multiply tokens by token_group_od
+--- Add multiply tokens by token_group_id
 -- @function eva.tokens.add_group
 function M.add_group(token_group_id, reason)
 	local tokens = M.get_token_group(token_group_id)
@@ -98,7 +98,7 @@ function M.add_group(token_group_id, reason)
 end
 
 
--- Pay multiply tokens
+--- Pay multiply tokens
 -- @function eva.tokens.pay
 -- @tparam evadata.Tokens tokens Tokens data
 -- @tparam string reason The reason to pay

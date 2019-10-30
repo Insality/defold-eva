@@ -157,6 +157,7 @@ end
 
 --- Return current state
 -- @function eva.daily.get_current_state
+-- @treturn table Array with booleans to show picked rewards
 function M.get_current_state()
 	local data = app[const.EVA.DAILY]
 	return data.reward_state

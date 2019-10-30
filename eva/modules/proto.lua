@@ -22,7 +22,7 @@ end
 
 
 --- Encode protobuf
--- @function eva.proto.decode
+-- @function eva.proto.encode
 function M.encode(proto_type, data)
 	return pb.encode(proto_type, data)
 end

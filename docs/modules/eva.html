@@ -42,11 +42,15 @@
 <li><a href="#modules_festivals_Functions">modules.festivals Functions</a></li>
 <li><a href="#modules_game_Functions">modules.game Functions</a></li>
 <li><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></li>
+<li><a href="#modules_grid_Functions">modules.grid Functions</a></li>
 <li><a href="#modules_hexgrid_Functions">modules.hexgrid Functions</a></li>
 <li><a href="#modules_iaps_Functions">modules.iaps Functions</a></li>
+<li><a href="#modules_invoices_Functions">modules.invoices Functions</a></li>
+<li><a href="#modules_isogrid_Functions">modules.isogrid Functions</a></li>
 <li><a href="#modules_lang_Functions">modules.lang Functions</a></li>
 <li><a href="#modules_migrations_Functions">modules.migrations Functions</a></li>
 <li><a href="#modules_offers_Functions">modules.offers Functions</a></li>
+<li><a href="#modules_pathfinder_Functions">modules.pathfinder Functions</a></li>
 <li><a href="#modules_proto_Functions">modules.proto Functions</a></li>
 <li><a href="#modules_push_Functions">modules.push Functions</a></li>
 <li><a href="#modules_quests_Functions">modules.quests Functions</a></li>
@@ -58,6 +62,7 @@
 <li><a href="#modules_storage_Functions">modules.storage Functions</a></li>
 <li><a href="#modules_tiled_Functions">modules.tiled Functions</a></li>
 <li><a href="#modules_timers_Functions">modules.timers Functions</a></li>
+<li><a href="#modules_token_Functions">modules.token Functions</a></li>
 <li><a href="#modules_tokens_Functions">modules.tokens Functions</a></li>
 <li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
 <li><a href="#modules_window_Functions">modules.window Functions</a></li>
@@ -209,7 +214,7 @@
 	<td class="summary">Return device id.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.device.get_uuid">eva.device.get_uuid()</a></td>
+	<td class="name" nowrap><a href="#eva.device.get_uuid">eva.device.get_uuid(except)</a></td>
 	<td class="summary">Generate uuid</td>
 	</tr>
 	<tr>
@@ -304,6 +309,10 @@
 	<td class="summary">Get game time</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_session_uid">eva.game.get_session_uid()</a></td>
+	<td class="summary">Return unique id for local session</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.game.get_current_time_string">eva.game.get_current_time_string()</a></td>
 	<td class="summary">Get current time in string format</td>
 	</tr>
@@ -321,6 +330,46 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.gdpr.open_policy_url">eva.gdpr.open_policy_url()</a></td>
 	<td class="summary">Open the policy URL</td>
+	</tr>
+</table>
+<h2><a href="#modules_grid_Functions">modules.grid Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.get_map_params">eva.grid.get_map_params()</a></td>
+	<td class="summary">Get map params data to work with it
+ You can pass directly params in every method or set is as default
+ with eva.grid.set_default_map_params
+ Pass the map sizes to calculate correct coordinates</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.set_default_map_params">eva.grid.set_default_map_params(map_params)</a></td>
+	<td class="summary">Set default map params
+ To don`t pass it every time in transform functions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.cell_to_pos">eva.grid.cell_to_pos()</a></td>
+	<td class="summary">Transform hex to pixel position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.pos_to_cell">eva.grid.pos_to_cell()</a></td>
+	<td class="summary">Transform pixel to hex</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.get_z">eva.grid.get_z(y, z_layer)</a></td>
+	<td class="summary">Get Z position from object Y position and his z_layer</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.get_object_pos">eva.grid.get_object_pos()</a></td>
+	<td class="summary">Get object position
+ Can pass the offset to calculate it correctly (+ z coordinate)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.get_tiled_scene_pos">eva.grid.get_tiled_scene_pos()</a></td>
+	<td class="summary">Convert tiled object position to scene position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.grid.get_tile_pos">eva.grid.get_tile_pos()</a></td>
+	<td class="summary">Get tile position.</td>
 	</tr>
 </table>
 <h2><a href="#modules_hexgrid_Functions">modules.hexgrid Functions</a></h2>
@@ -355,7 +404,7 @@
  Can pass the offset to calculate it correctly (+ z coordinate)</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.hexgrid.get_scene_pos">eva.hexgrid.get_scene_pos()</a></td>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_tiled_scene_pos">eva.hexgrid.get_tiled_scene_pos()</a></td>
 	<td class="summary">Convert tiled object position to scene position</td>
 	</tr>
 	<tr>
@@ -376,6 +425,72 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.iaps.get_price">eva.iaps.get_price(iap_id)</a></td>
 	<td class="summary">Get price from iap_id</td>
+	</tr>
+</table>
+<h2><a href="#modules_invoices_Functions">modules.invoices Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.invoices.add">eva.invoices.add(category, reward, time)</a></td>
+	<td class="summary">Add invoice to game profile
+ If time is not provided, add invoice instantly
+ If time is provided, add invoice in this time
+ Invoice should be consumed to get reward</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.invoices.get_invoices">eva.invoices.get_invoices()</a></td>
+	<td class="summary">Return current list of invoices</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.invoices.get_invoce">eva.invoices.get_invoce()</a></td>
+	<td class="summary">Get invoice data by id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.invoices.can_consume">eva.invoices.can_consume()</a></td>
+	<td class="summary">Check is invoice can be consumed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.invoices.consume">eva.invoices.consume(invoice_id)</a></td>
+	<td class="summary">Consume the invoice to the game profile</td>
+	</tr>
+</table>
+<h2><a href="#modules_isogrid_Functions">modules.isogrid Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.get_map_params">eva.isogrid.get_map_params()</a></td>
+	<td class="summary">Get map params data to work with it
+ You can pass directly params in every method or set is as default
+ with eva.isogrid.set_default_map_params
+ Pass the map sizes to calculate correct coordinates</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.set_default_map_params">eva.isogrid.set_default_map_params(map_params)</a></td>
+	<td class="summary">Set default map params
+ To don`t pass it every time in transform functions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.cell_to_pos">eva.isogrid.cell_to_pos()</a></td>
+	<td class="summary">Transform hex to pixel position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.pos_to_cell">eva.isogrid.pos_to_cell()</a></td>
+	<td class="summary">Transform pixel to hex</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.get_z">eva.isogrid.get_z(y, z_layer)</a></td>
+	<td class="summary">Get Z position from object Y position and his z_layer</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.get_object_pos">eva.isogrid.get_object_pos()</a></td>
+	<td class="summary">Get object position
+ Can pass the offset to calculate it correctly (+ z coordinate)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.get_tiled_scene_pos">eva.isogrid.get_tiled_scene_pos()</a></td>
+	<td class="summary">Convert tiled object position to scene position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.isogrid.get_tile_pos">eva.isogrid.get_tile_pos()</a></td>
+	<td class="summary">Get tile position.</td>
 	</tr>
 </table>
 <h2><a href="#modules_lang_Functions">modules.lang Functions</a></h2>
@@ -447,6 +562,19 @@
 	<td class="summary">Check is offer for inapp</td>
 	</tr>
 </table>
+<h2><a href="#modules_pathfinder_Functions">modules.pathfinder Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.pathfinder.init_astar">eva.pathfinder.init_astar(map_data, get_node_fn, options.)</a></td>
+	<td class="summary">Init astar for map, init get_tile callback
+ get_node_fn - function to get tile: function(i, j)
+ should return cost of node.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#path">path(from_x, from_y, to_x, to_y[, map_handler])</a></td>
+	<td class="summary">Return path between two points for map.</td>
+	</tr>
+</table>
 <h2><a href="#modules_proto_Functions">modules.proto Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -454,7 +582,7 @@
 	<td class="summary">Get empty template from proto type</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.proto.decode">eva.proto.decode()</a></td>
+	<td class="name" nowrap><a href="#eva.proto.encode">eva.proto.encode()</a></td>
 	<td class="summary">Encode protobuf</td>
 	</tr>
 	<tr>
@@ -465,12 +593,22 @@
 <h2><a href="#modules_push_Functions">modules.push Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.push.unschedule_all">eva.push.unschedule_all()</a></td>
-	<td class="summary">Unschedule all planned local push</td>
-	</tr>
-	<tr>
 	<td class="name" nowrap><a href="#eva.push.schedule">eva.push.schedule()</a></td>
 	<td class="summary">Schedule notification</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.push.schedule_list">eva.push.schedule_list()</a></td>
+	<td class="summary">Schedule by list
+ Every notifications have: after, title, text, category, payload</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.push.unschedule">eva.push.unschedule()</a></td>
+	<td class="summary">Unschedule the push notification</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.push.unschedule_all">eva.push.unschedule_all()</a></td>
+	<td class="summary">Cancel all pushes with category
+ If category is not provided, cancel all pushes</td>
 	</tr>
 </table>
 <h2><a href="#modules_quests_Functions">modules.quests Functions</a></h2>
@@ -661,6 +799,65 @@
 	<td class="summary">Set timer pause state</td>
 	</tr>
 </table>
+<h2><a href="#modules_token_Functions">modules.token Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.add">eva.token.add()</a></td>
+	<td class="summary">Add tokens to save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.set">eva.token.set()</a></td>
+	<td class="summary">Set tokens to save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get">eva.token.get()</a></td>
+	<td class="summary">Get current token amount from save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.pay">eva.token.pay(token_id, amount, reason)</a></td>
+	<td class="summary">Try to pay tokens from save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_enough">eva.token.is_enough()</a></td>
+	<td class="summary">Check is enough to pay token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_max">eva.token.is_max()</a></td>
+	<td class="summary">Return is token is maximum</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_empty">eva.token.is_empty()</a></td>
+	<td class="summary">Return is tokens equals to 0</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.add_infinity_time">eva.token.add_infinity_time()</a></td>
+	<td class="summary">Add to tokens infinity time usage</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_infinity">eva.token.is_infinity()</a></td>
+	<td class="summary">Return is token is infinity now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_infinity_seconds">eva.token.get_infinity_seconds()</a></td>
+	<td class="summary">Get amount of seconds till end of infinity time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.sync_visual">eva.token.sync_visual()</a></td>
+	<td class="summary">Reset visual debt of tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.add_visual">eva.token.add_visual()</a></td>
+	<td class="summary">Add visual debt to token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_visual">eva.token.get_visual()</a></td>
+	<td class="summary">Get current visual debt of token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_seconds_to_restore">eva.token.get_seconds_to_restore()</a></td>
+	<td class="summary">Get current time to next restore point</td>
+	</tr>
+</table>
 <h2><a href="#modules_tokens_Functions">modules.tokens Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -668,84 +865,40 @@
 	<td class="summary">Return token group by id.</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.get_tokens">eva.tokens.get_tokens(tokens)</a></td>
+	<td class="summary">Return evadata.Tokens tokens format</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.get_lot_reward">eva.tokens.get_lot_reward(lot_id)</a></td>
-	<td class="summary">Return lot reward by id.</td>
+	<td class="summary">Return lot reward by lot_id.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.get_lot_price">eva.tokens.get_lot_price(lot_id)</a></td>
-	<td class="summary">Return lot price by id.</td>
+	<td class="summary">Return lot price by lot_id.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.add">eva.tokens.add()</a></td>
-	<td class="summary">Add tokens to save</td>
+	<td class="summary">Add multiply tokens</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.add_group">eva.tokens.add_group()</a></td>
-	<td class="summary">Add multiply tokens to save</td>
+	<td class="summary">Add multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.set">eva.tokens.set()</a></td>
-	<td class="summary">Set tokens to save</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get">eva.tokens.get()</a></td>
-	<td class="summary">Get current token amount from save</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.pay">eva.tokens.pay(token_id, amount, reason)</a></td>
-	<td class="summary">Try to pay tokens from save</td>
+	<td class="name" nowrap><a href="#eva.tokens.pay">eva.tokens.pay(tokens, reason)</a></td>
+	<td class="summary">Pay multiply tokens</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.pay_group">eva.tokens.pay_group(token_group_id, reason)</a></td>
-	<td class="summary">Pay multiply tokens to save</td>
+	<td class="summary">Pay multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_enough">eva.tokens.is_enough()</a></td>
-	<td class="summary">Check is enough to pay token</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_enough_group">eva.tokens.is_enough_group(token_group_id)</a></td>
-	<td class="summary">Check multiply tokens from token_group_id</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_enough_tokens">eva.tokens.is_enough_tokens(tokens)</a></td>
+	<td class="name" nowrap><a href="#eva.tokens.is_enough">eva.tokens.is_enough(tokens)</a></td>
 	<td class="summary">Check multiply tokens</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_max">eva.tokens.is_max()</a></td>
-	<td class="summary">Return is token is maximum</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_empty">eva.tokens.is_empty()</a></td>
-	<td class="summary">Return is tokens equals to 0</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.add_infinity_time">eva.tokens.add_infinity_time()</a></td>
-	<td class="summary">Add to tokens infinity time usage</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_infinity">eva.tokens.is_infinity()</a></td>
-	<td class="summary">Return is token is infinity now</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_infinity_seconds">eva.tokens.get_infinity_seconds()</a></td>
-	<td class="summary">Get amount of seconds till end of infinity time</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.sync_visual">eva.tokens.sync_visual()</a></td>
-	<td class="summary">Reset visual debt of tokens</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.add_visual">eva.tokens.add_visual()</a></td>
-	<td class="summary">Add visual debt to token</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_visual">eva.tokens.get_visual()</a></td>
-	<td class="summary">Get current visual debt of token</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_seconds_to_restore">eva.tokens.get_seconds_to_restore()</a></td>
-	<td class="summary">Get current time to next restore point</td>
+	<td class="name" nowrap><a href="#eva.tokens.is_enough_group">eva.tokens.is_enough_group(token_group_id)</a></td>
+	<td class="summary">Check multiply tokens by token_group_id</td>
 	</tr>
 </table>
 <h2><a href="#modules_utils_Functions">modules.utils Functions</a></h2>
@@ -1265,6 +1418,12 @@
 
 
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        Array with booleans to show picked rewards
+    </ol>
 
 
 
@@ -1298,12 +1457,19 @@
 </dd>
     <dt>
     <a name = "eva.device.get_uuid"></a>
-    <strong>eva.device.get_uuid()</strong>
+    <strong>eva.device.get_uuid(except)</strong>
     </dt>
     <dd>
     Generate uuid
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">except</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         list of uuid, what not need to be generated
+        </li>
+    </ul>
 
     <h3>Returns:</h3>
     <ol>
@@ -1728,6 +1894,26 @@
 
 </dd>
     <dt>
+    <a name = "eva.game.get_session_uid"></a>
+    <strong>eva.game.get_session_uid()</strong>
+    </dt>
+    <dd>
+    Return unique id for local session
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Unique id in this game session
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.game.get_current_time_string"></a>
     <strong>eva.game.get_current_time_string()</strong>
     </dt>
@@ -1788,6 +1974,175 @@
 
 
 
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_grid_Functions"></a>modules.grid Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.grid.get_map_params"></a>
+    <strong>eva.grid.get_map_params()</strong>
+    </dt>
+    <dd>
+    Get map params data to work with it
+ You can pass directly params in every method or set is as default
+ with eva.grid.set_default_map_params
+ Pass the map sizes to calculate correct coordinates
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_params</span></span>
+        Map params data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.set_default_map_params"></a>
+    <strong>eva.grid.set_default_map_params(map_params)</strong>
+    </dt>
+    <dd>
+    Set default map params
+ To don`t pass it every time in transform functions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.grid.get_map_params
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.cell_to_pos"></a>
+    <strong>eva.grid.cell_to_pos()</strong>
+    </dt>
+    <dd>
+    Transform hex to pixel position
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.pos_to_cell"></a>
+    <strong>eva.grid.pos_to_cell()</strong>
+    </dt>
+    <dd>
+    Transform pixel to hex
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.get_z"></a>
+    <strong>eva.grid.get_z(y, z_layer)</strong>
+    </dt>
+    <dd>
+    Get Z position from object Y position and his z_layer
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         Object Y position
+        </li>
+        <li><span class="parameter">z_layer</span>
+            <span class="types"><span class="type">number</span></span>
+         Object Z layer index
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_params</span></span>
+        Map params data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.get_object_pos"></a>
+    <strong>eva.grid.get_object_pos()</strong>
+    </dt>
+    <dd>
+    Get object position
+ Can pass the offset to calculate it correctly (+ z coordinate)
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector3</span></span>
+        Object position
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.get_tiled_scene_pos"></a>
+    <strong>eva.grid.get_tiled_scene_pos()</strong>
+    </dt>
+    <dd>
+    Convert tiled object position to scene position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number,number</span></span>
+        x,y Object scene position
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.grid.get_tile_pos"></a>
+    <strong>eva.grid.get_tile_pos()</strong>
+    </dt>
+    <dd>
+    Get tile position.  Convert from i, j to map position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector3</span></span>
+        Tile position
+    </ol>
 
 
 
@@ -1946,8 +2301,8 @@
 
 </dd>
     <dt>
-    <a name = "eva.hexgrid.get_scene_pos"></a>
-    <strong>eva.hexgrid.get_scene_pos()</strong>
+    <a name = "eva.hexgrid.get_tiled_scene_pos"></a>
+    <strong>eva.hexgrid.get_tiled_scene_pos()</strong>
     </dt>
     <dd>
     Convert tiled object position to scene position
@@ -2047,6 +2402,286 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_invoices_Functions"></a>modules.invoices Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.invoices.add"></a>
+    <strong>eva.invoices.add(category, reward, time)</strong>
+    </dt>
+    <dd>
+    Add invoice to game profile
+ If time is not provided, add invoice instantly
+ If time is provided, add invoice in this time
+ Invoice should be consumed to get reward
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">category</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Category param of the invoice
+        </li>
+        <li><span class="parameter">reward</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         Tokens reward list
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+         Game time to add invoice
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.invoices.get_invoices"></a>
+    <strong>eva.invoices.get_invoices()</strong>
+    </dt>
+    <dd>
+    Return current list of invoices
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.invoices.get_invoce"></a>
+    <strong>eva.invoices.get_invoce()</strong>
+    </dt>
+    <dd>
+    Get invoice data by id
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">eva.InvoiceInfo</span></span>
+        Invoice data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.invoices.can_consume"></a>
+    <strong>eva.invoices.can_consume()</strong>
+    </dt>
+    <dd>
+    Check is invoice can be consumed
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Can consume invoice
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.invoices.consume"></a>
+    <strong>eva.invoices.consume(invoice_id)</strong>
+    </dt>
+    <dd>
+    Consume the invoice to the game profile
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">invoice_id</span>
+            <span class="types"><span class="type">number</span></span>
+         The id of invoice
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_isogrid_Functions"></a>modules.isogrid Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.isogrid.get_map_params"></a>
+    <strong>eva.isogrid.get_map_params()</strong>
+    </dt>
+    <dd>
+    Get map params data to work with it
+ You can pass directly params in every method or set is as default
+ with eva.isogrid.set_default_map_params
+ Pass the map sizes to calculate correct coordinates
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_params</span></span>
+        Map params data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.set_default_map_params"></a>
+    <strong>eva.isogrid.set_default_map_params(map_params)</strong>
+    </dt>
+    <dd>
+    Set default map params
+ To don`t pass it every time in transform functions
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.isogrid.get_map_params
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.cell_to_pos"></a>
+    <strong>eva.isogrid.cell_to_pos()</strong>
+    </dt>
+    <dd>
+    Transform hex to pixel position
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.pos_to_cell"></a>
+    <strong>eva.isogrid.pos_to_cell()</strong>
+    </dt>
+    <dd>
+    Transform pixel to hex
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.get_z"></a>
+    <strong>eva.isogrid.get_z(y, z_layer)</strong>
+    </dt>
+    <dd>
+    Get Z position from object Y position and his z_layer
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         Object Y position
+        </li>
+        <li><span class="parameter">z_layer</span>
+            <span class="types"><span class="type">number</span></span>
+         Object Z layer index
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_params</span></span>
+        Map params data
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.get_object_pos"></a>
+    <strong>eva.isogrid.get_object_pos()</strong>
+    </dt>
+    <dd>
+    Get object position
+ Can pass the offset to calculate it correctly (+ z coordinate)
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector3</span></span>
+        Object position
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.get_tiled_scene_pos"></a>
+    <strong>eva.isogrid.get_tiled_scene_pos()</strong>
+    </dt>
+    <dd>
+    Convert tiled object position to scene position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number,number</span></span>
+        x,y Object scene position
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.isogrid.get_tile_pos"></a>
+    <strong>eva.isogrid.get_tile_pos()</strong>
+    </dt>
+    <dd>
+    Get tile position.  Convert from i, j to map position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">vector3</span></span>
+        Tile position
+    </ol>
 
 
 
@@ -2388,6 +3023,89 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_pathfinder_Functions"></a>modules.pathfinder Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.pathfinder.init_astar"></a>
+    <strong>eva.pathfinder.init_astar(map_data, get_node_fn, options.)</strong>
+    </dt>
+    <dd>
+    Init astar for map, init get_tile callback
+ get_node_fn - function to get tile: function(i, j)
+ should return cost of node.  Nil if cell is unpassable
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">map_data</span>
+            <span class="types"><span class="type">map_data</span></span>
+         Map data from eva.tiled.load_map
+        </li>
+        <li><span class="parameter">get_node_fn</span>
+            <span class="types"><span class="type">function</span></span>
+         Get node cost function from map
+        </li>
+        <li><span class="parameter">options.</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Options for map handlers:
+ - diagonal boolean, to grid and isogrid pathfinding
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">map_handler</span></span>
+        Handler for astar work
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "path"></a>
+    <strong>path(from_x, from_y, to_x, to_y[, map_handler])</strong>
+    </dt>
+    <dd>
+    Return path between two points for map.
+ Call init_astar, to make map_handler param optional
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">from_x</span>
+         Cell X from map
+        </li>
+        <li><span class="parameter">from_y</span>
+         Cell Y from map
+        </li>
+        <li><span class="parameter">to_x</span>
+         Cell X from map
+        </li>
+        <li><span class="parameter">to_y</span>
+         Cell Y from map
+        </li>
+        <li><span class="parameter">map_handler</span>
+            <span class="types"><span class="type">map_handler</span></span>
+         Map handler to handle map for astar
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+        Table of points. See eva.libs.astar.path. Nil if path is not exist
+    </ol>
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_proto_Functions"></a>modules.proto Functions</h2>
 
     <dl class="function">
@@ -2419,8 +3137,8 @@
 
 </dd>
     <dt>
-    <a name = "eva.proto.decode"></a>
-    <strong>eva.proto.decode()</strong>
+    <a name = "eva.proto.encode"></a>
+    <strong>eva.proto.encode()</strong>
     </dt>
     <dd>
     Encode protobuf
@@ -2451,11 +3169,11 @@
 
     <dl class="function">
     <dt>
-    <a name = "eva.push.unschedule_all"></a>
-    <strong>eva.push.unschedule_all()</strong>
+    <a name = "eva.push.schedule"></a>
+    <strong>eva.push.schedule()</strong>
     </dt>
     <dd>
-    Unschedule all planned local push
+    Schedule notification
 
 
 
@@ -2465,11 +3183,41 @@
 
 </dd>
     <dt>
-    <a name = "eva.push.schedule"></a>
-    <strong>eva.push.schedule()</strong>
+    <a name = "eva.push.schedule_list"></a>
+    <strong>eva.push.schedule_list()</strong>
     </dt>
     <dd>
-    Schedule notification
+    Schedule by list
+ Every notifications have: after, title, text, category, payload
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.push.unschedule"></a>
+    <strong>eva.push.unschedule()</strong>
+    </dt>
+    <dd>
+    Unschedule the push notification
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.push.unschedule_all"></a>
+    <strong>eva.push.unschedule_all()</strong>
+    </dt>
+    <dd>
+    Cancel all pushes with category
+ If category is not provided, cancel all pushes
 
 
 
@@ -3287,6 +4035,221 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_token_Functions"></a>modules.token Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.token.add"></a>
+    <strong>eva.token.add()</strong>
+    </dt>
+    <dd>
+    Add tokens to save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.set"></a>
+    <strong>eva.token.set()</strong>
+    </dt>
+    <dd>
+    Set tokens to save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get"></a>
+    <strong>eva.token.get()</strong>
+    </dt>
+    <dd>
+    Get current token amount from save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.pay"></a>
+    <strong>eva.token.pay(token_id, amount, reason)</strong>
+    </dt>
+    <dd>
+    Try to pay tokens from save
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Token id
+        </li>
+        <li><span class="parameter">amount</span>
+            <span class="types"><span class="type">number</span></span>
+         Amount to pay
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The reason to pay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.is_enough"></a>
+    <strong>eva.token.is_enough()</strong>
+    </dt>
+    <dd>
+    Check is enough to pay token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.is_max"></a>
+    <strong>eva.token.is_max()</strong>
+    </dt>
+    <dd>
+    Return is token is maximum
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.is_empty"></a>
+    <strong>eva.token.is_empty()</strong>
+    </dt>
+    <dd>
+    Return is tokens equals to 0
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.add_infinity_time"></a>
+    <strong>eva.token.add_infinity_time()</strong>
+    </dt>
+    <dd>
+    Add to tokens infinity time usage
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.is_infinity"></a>
+    <strong>eva.token.is_infinity()</strong>
+    </dt>
+    <dd>
+    Return is token is infinity now
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_infinity_seconds"></a>
+    <strong>eva.token.get_infinity_seconds()</strong>
+    </dt>
+    <dd>
+    Get amount of seconds till end of infinity time
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.sync_visual"></a>
+    <strong>eva.token.sync_visual()</strong>
+    </dt>
+    <dd>
+    Reset visual debt of tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.add_visual"></a>
+    <strong>eva.token.add_visual()</strong>
+    </dt>
+    <dd>
+    Add visual debt to token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_visual"></a>
+    <strong>eva.token.get_visual()</strong>
+    </dt>
+    <dd>
+    Get current visual debt of token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_seconds_to_restore"></a>
+    <strong>eva.token.get_seconds_to_restore()</strong>
+    </dt>
+    <dd>
+    Get current time to next restore point
+
+
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_tokens_Functions"></a>modules.tokens Functions</h2>
 
     <dl class="function">
@@ -3319,11 +4282,32 @@
 
 </dd>
     <dt>
+    <a name = "eva.tokens.get_tokens"></a>
+    <strong>eva.tokens.get_tokens(tokens)</strong>
+    </dt>
+    <dd>
+    Return evadata.Tokens tokens format
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Map with token_id = amount
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.tokens.get_lot_reward"></a>
     <strong>eva.tokens.get_lot_reward(lot_id)</strong>
     </dt>
     <dd>
-    Return lot reward by id.
+    Return lot reward by lot_id.
  It pickup data from DB
 
 
@@ -3351,7 +4335,7 @@
     <strong>eva.tokens.get_lot_price(lot_id)</strong>
     </dt>
     <dd>
-    Return lot price by id.
+    Return lot price by lot_id.
  It pickup data from DB
 
 
@@ -3379,7 +4363,7 @@
     <strong>eva.tokens.add()</strong>
     </dt>
     <dd>
-    Add tokens to save
+    Add multiply tokens
 
 
 
@@ -3393,35 +4377,7 @@
     <strong>eva.tokens.add_group()</strong>
     </dt>
     <dd>
-    Add multiply tokens to save
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.set"></a>
-    <strong>eva.tokens.set()</strong>
-    </dt>
-    <dd>
-    Set tokens to save
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get"></a>
-    <strong>eva.tokens.get()</strong>
-    </dt>
-    <dd>
-    Get current token amount from save
+    Add multiply tokens by token_group_id
 
 
 
@@ -3432,21 +4388,17 @@
 </dd>
     <dt>
     <a name = "eva.tokens.pay"></a>
-    <strong>eva.tokens.pay(token_id, amount, reason)</strong>
+    <strong>eva.tokens.pay(tokens, reason)</strong>
     </dt>
     <dd>
-    Try to pay tokens from save
+    Pay multiply tokens
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">token_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Token id
-        </li>
-        <li><span class="parameter">amount</span>
-            <span class="types"><span class="type">number</span></span>
-         Amount to pay
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         Tokens data
         </li>
         <li><span class="parameter">reason</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
@@ -3464,7 +4416,7 @@
     <strong>eva.tokens.pay_group(token_group_id, reason)</strong>
     </dt>
     <dd>
-    Pay multiply tokens to save
+    Pay multiply tokens by token_group_id
 
 
     <h3>Parameters:</h3>
@@ -3486,42 +4438,7 @@
 </dd>
     <dt>
     <a name = "eva.tokens.is_enough"></a>
-    <strong>eva.tokens.is_enough()</strong>
-    </dt>
-    <dd>
-    Check is enough to pay token
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.is_enough_group"></a>
-    <strong>eva.tokens.is_enough_group(token_group_id)</strong>
-    </dt>
-    <dd>
-    Check multiply tokens from token_group_id
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         the token group id
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.is_enough_tokens"></a>
-    <strong>eva.tokens.is_enough_tokens(tokens)</strong>
+    <strong>eva.tokens.is_enough(tokens)</strong>
     </dt>
     <dd>
     Check multiply tokens
@@ -3541,125 +4458,20 @@
 
 </dd>
     <dt>
-    <a name = "eva.tokens.is_max"></a>
-    <strong>eva.tokens.is_max()</strong>
+    <a name = "eva.tokens.is_enough_group"></a>
+    <strong>eva.tokens.is_enough_group(token_group_id)</strong>
     </dt>
     <dd>
-    Return is token is maximum
+    Check multiply tokens by token_group_id
 
 
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.is_empty"></a>
-    <strong>eva.tokens.is_empty()</strong>
-    </dt>
-    <dd>
-    Return is tokens equals to 0
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.add_infinity_time"></a>
-    <strong>eva.tokens.add_infinity_time()</strong>
-    </dt>
-    <dd>
-    Add to tokens infinity time usage
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.is_infinity"></a>
-    <strong>eva.tokens.is_infinity()</strong>
-    </dt>
-    <dd>
-    Return is token is infinity now
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_infinity_seconds"></a>
-    <strong>eva.tokens.get_infinity_seconds()</strong>
-    </dt>
-    <dd>
-    Get amount of seconds till end of infinity time
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.sync_visual"></a>
-    <strong>eva.tokens.sync_visual()</strong>
-    </dt>
-    <dd>
-    Reset visual debt of tokens
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.add_visual"></a>
-    <strong>eva.tokens.add_visual()</strong>
-    </dt>
-    <dd>
-    Add visual debt to token
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_visual"></a>
-    <strong>eva.tokens.get_visual()</strong>
-    </dt>
-    <dd>
-    Get current visual debt of token
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_seconds_to_restore"></a>
-    <strong>eva.tokens.get_seconds_to_restore()</strong>
-    </dt>
-    <dd>
-    Get current time to next restore point
-
-
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_group_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the token group id
+        </li>
+    </ul>
 
 
 
@@ -3859,7 +4671,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-10-20 13:29:54 </i>
+<i style="float:right;">Last updated 2019-10-30 23:47:05 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

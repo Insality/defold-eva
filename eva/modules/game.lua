@@ -141,7 +141,7 @@ end
 
 
 --- Return unique id for local session
--- @function eva.game.get_session_uid()
+-- @function eva.game.get_session_uid
 -- @treturn number Unique id in this game session
 function M.get_session_uid()
 	app.game_data.last_uid = app.game_data.last_uid + 1
