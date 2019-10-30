@@ -105,9 +105,11 @@
 		"max_promt_count": 5
 	},
 	"proto": {
-		"proto_paths": [
-			"/eva/resources/eva.proto",
-			"/eva/resources/evadata.proto"
-		]
+		"proto_paths": {
+			"/eva/resources/": [
+				"eva.proto",
+				"evadata.proto"
+			]
+		}
 	}
 }

@@ -39,9 +39,13 @@ function M.before_eva_init()
 	local settings = app.settings.proto
 	local proto_paths = settings.proto_paths
 
-	for _, path in ipairs(proto_paths) do
-		logger:debug("Load protofile", { path = path })
-		protoc:loadfile(path)
+	protoc.include_imports = true
+	for path, values in pairs(proto_paths) do
+		protoc:addpath(path)
+		for _, proto in ipairs(values) do
+			logger:debug("Load protofile", { path = path .. proto })
+			protoc:loadfile(proto)
+		end
 	end
 end
 
