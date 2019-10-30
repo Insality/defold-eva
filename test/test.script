@@ -10,6 +10,7 @@ local tests = {
 	require("test.tests.eva_quests"),
 	require("test.tests.eva_grids"),
 	require("test.tests.eva_push"),
+	require("test.tests.eva_invoices"),
 	require("test.tests.iso_time"),
 }
 
