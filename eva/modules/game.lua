@@ -73,10 +73,10 @@ end
 
 
 local function on_window_event(self, event, data)
-	if luax.math.is(event, window.WINDOW_EVENT_FOCUS_GAINED, window.WINDOW_EVENT_RESIZED) then
+	if event == window.WINDOW_EVENT_FOCUS_GAINED then
 		sync_time()
+		events.event(const.EVENT.GAME_FOCUS)
 	end
-	events.event(const.EVENT.GAME_FOCUS)
 end
 
 
