@@ -138,7 +138,7 @@ function M.consume(id)
 
 	local reward = invoice.reward
 	if reward then
-		tokens.add_tokens(reward.tokens)
+		tokens.add(reward)
 	end
 
 	remove_invoice(id)

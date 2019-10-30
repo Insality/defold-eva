@@ -120,6 +120,8 @@ M.EVA = {
 	IAP_INFO = "eva.IapInfo",
 	PUSH_INFO = "eva.PushInfo",
 	INVOICE_INFO = "eva.InvoiceInfo",
+
+	TOKENS_DATA = "evadata.Tokens"
 }
 
 

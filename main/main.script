@@ -123,7 +123,7 @@ function on_input(self, action_id, action)
 		-- eva.tiled.add_object("resources", x, y, 9)
 
 		-- eva.sound.play("click")
-		-- eva.tokens.add("money", 1)
+		-- eva.token.add("money", 1)
 		--[[ Timers zone
 		local slot = "smelter.slot1"
 		if eva.timers.get(slot) then

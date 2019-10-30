@@ -45,13 +45,13 @@ return function()
 		end)
 
 		it("Should return price and value", function()
-			local reward = eva.offers.get_reward(offer_fast)
+			local reward = eva.offers.get_reward(offer_fast).tokens
 
 			local first = reward[1]
 			assert(first.token_id == "energy")
 			assert(first.amount == 50)
 
-			local price = eva.offers.get_price(offer_fast)
+			local price = eva.offers.get_price(offer_fast).tokens
 			first = price[1]
 			assert(first.token_id == "money")
 			assert(first.amount == 1000)

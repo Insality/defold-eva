@@ -37,7 +37,7 @@ local quest_event_system = {
 
 
 local function is_tokens_ok(tokens_list)
-	return tokens.is_enough_tokens(tokens_list)
+	return tokens.is_enough(tokens_list)
 end
 
 
