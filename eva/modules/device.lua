@@ -5,6 +5,7 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
+local luax = require("eva.luax")
 local const = require("eva.const")
 local uuid = require("eva.libs.uuid")
 
@@ -50,7 +51,7 @@ function M.get_uuid(except)
 	else
 		while true do
 			local id = uuid()
-			if not table.luax.contains(except) then
+			if not luax.table.contains(except) then
 				return id
 			end
 		end

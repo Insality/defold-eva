@@ -25,6 +25,7 @@ M.vmath.VECTOR_ONE = vmath.vector3(1)
 M.table.empty = {}
 M.string.empty = ""
 
+
 --- math.step
 -- @function luax.math.step
 function M.math.step(current, target, step)

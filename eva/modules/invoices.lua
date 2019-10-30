@@ -22,16 +22,20 @@ local logger = log.get_logger("eva.invoices")
 local M = {}
 
 
+local function remove_invoice(id)
+	app[const.EVA.INVOICES].invoices[id] = nil
+end
+
+
 local function expire_invoice(id)
-	local invoices = app[const.EVA.INVOICES].invoices
-	local invoice = invoices[id]
+	local invoice = M.get_invoice(id)
 
 	if not invoice then
 		logger:warn("No invoice to expire", { id = id })
 		return
 	end
 
-	invoices[id] = nil
+	remove_invoice(id)
 	events.event(const.EVENT.INVOICE_EXPIRE, { id = id, category = invoice.category })
 end
 
@@ -41,10 +45,10 @@ local function update_expired_invoices()
 	local current_time = game.get_time()
 
 	for id, invoice in pairs(invoices) do
-		if invoices.life_time > 0 then
+		if invoice.life_time > 0 then
 			local end_time = invoice.start_time + invoice.life_time
 
-			if end_time > current_time then
+			if end_time < current_time then
 				expire_invoice(id)
 			end
 		end
@@ -58,25 +62,31 @@ end
 -- Invoice should be consumed to get reward
 -- @function eva.invoices.add
 -- @tparam string category Category param of the invoice
--- @tparam evadata.Tokens rewrad Tokens reward list
+-- @tparam evadata.Tokens reward Tokens reward list
 -- @tparam number time Game time to add invoice
-function M.add(category, reward, time, title, text, life_time)
+function M.add(category, reward, start_time, life_time, title, text)
 	local invoices = app[const.EVA.INVOICES].invoices
 	local current_time = game.get_time()
-	time = time or current_time
+	start_time = start_time or current_time
 
 	local invoice = proto.get(const.EVA.INVOICE_INFO)
-
 	invoice.category = category
-	invoice.start_time = time
+	invoice.start_time = start_time
 	invoice.life_time = life_time or 0
 	invoice.title = title or luax.string.empty
 	invoice.text = text or luax.string.empty
-	invoice.reward = reward or invoice.reward
+	invoice.reward = reward
 
 	local id = device.get_uuid(luax.table.list(invoices))
 	invoices[id] = invoice
-	events.event(const.EVENT.INVOICE_ADD, { category = category, start_time = time, id = id })
+
+	events.event(const.EVENT.INVOICE_ADD, {
+		category = category,
+		start_time = start_time,
+		id = id
+	})
+
+	return id
 end
 
 
@@ -88,10 +98,25 @@ function M.get_invoices(category)
 	else
 		return fun.filter(function(id, invoice)
 			return invoice.category == category
-		end, app[const.EVA.INVOICES].invoices)
+		end, app[const.EVA.INVOICES].invoices):tomap()
 	end
 end
 
+
+function M.get_invoice(id)
+	return app[const.EVA.INVOICES].invoices[id]
+end
+
+
+function M.can_consume(id)
+	local invoice = M.get_invoice(id)
+
+	if not invoice then
+		return false
+	end
+
+	return game.get_time() >= invoice.start_time
+end
 
 --- Consume the invoice to the game profile
 -- @function eva.invoices.consume
@@ -99,16 +124,24 @@ end
 function M.consume(id)
 	local invoices = app[const.EVA.INVOICES].invoices
 	local invoice = invoices[id]
+	local current_time = game.get_time()
 
 	if not invoice then
 		logger:warn("No invoice to consume", { id = id })
 		return
 	end
 
-	local reward = invoice.reward
-	tokens.add_tokens(reward.tokens)
+	if invoice.start_time > current_time then
+		logger:warn("Trying to consume not ready invoice", { id = id })
+		return
+	end
 
-	invoices[id] = nil
+	local reward = invoice.reward
+	if reward then
+		tokens.add_tokens(reward.tokens)
+	end
+
+	remove_invoice(id)
 	events.event(const.EVENT.INVOICE_CONSUME, { category = invoice.category, id = id })
 end
 
