@@ -106,7 +106,7 @@
 	},
 	"proto": {
 		"proto_paths": {
-			"/eva/resources/": [
+			"/eva/resources": [
 				"eva.proto",
 				"evadata.proto"
 			]
