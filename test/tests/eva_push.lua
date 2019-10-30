@@ -9,10 +9,8 @@ local SCHEDULE = const.EVENT.PUSH_SCHEDULED
 local CANCEL = const.EVENT.PUSH_CANCEL
 
 local events = {
-	[SCHEDULE] = function(event, params)
-	end,
-	[CANCEL] = function(event, params)
-	end,
+	[SCHEDULE] = function() end,
+	[CANCEL] = function() end
 }
 
 local function set_time(time)

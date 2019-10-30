@@ -9,14 +9,10 @@ local TASK_COMPLETE = const.EVENT.QUEST_TASK_COMPLETE
 local END = const.EVENT.QUEST_END
 
 local events = {
-	[START] = function(event, params)
-	end,
-	[PROGRESS] = function(event, params)
-	end,
-	[TASK_COMPLETE] = function(event, params)
-	end,
-	[END] = function(event, params)
-	end
+	[START] = function() end,
+	[PROGRESS] = function() end,
+	[TASK_COMPLETE] = function() end,
+	[END] = function() end
 }
 
 return function()
