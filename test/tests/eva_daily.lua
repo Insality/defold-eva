@@ -1,7 +1,7 @@
-local mock_time = require("deftest.mock.time")
-local eva = require("eva.eva")
-
 return function()
+	local eva = require("eva.eva")
+	local mock_time = require("deftest.mock.time")
+
 	describe("Eva Daily", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")

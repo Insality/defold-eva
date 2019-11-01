@@ -1,33 +1,33 @@
-local const = require("eva.const")
-local luax = require("eva.luax")
-local eva = require("eva.eva")
-local mock = require("deftest.mock.mock")
-local mock_time = require("deftest.mock.time")
-
-local ADD = const.EVENT.INVOICE_ADD
-local EXPIRE = const.EVENT.INVOICE_EXPIRE
-local CONSUME = const.EVENT.INVOICE_CONSUME
-
-local events = {
-	[ADD] = function() end,
-	[EXPIRE] = function() end,
-	[CONSUME] = function() end
-}
-
-local function set_time(time)
-	mock_time.set(time)
-	eva.update(1)
-	return time
-end
-
-local test_tokens = {
-	tokens = {
-		{ token_id = "money", amount = 10},
-		{ token_id = "exp", amount = 100}
-	}
-}
-
 return function()
+	local const = require("eva.const")
+	local luax = require("eva.luax")
+	local eva = require("eva.eva")
+	local mock = require("deftest.mock.mock")
+	local mock_time = require("deftest.mock.time")
+
+	local ADD = const.EVENT.INVOICE_ADD
+	local EXPIRE = const.EVENT.INVOICE_EXPIRE
+	local CONSUME = const.EVENT.INVOICE_CONSUME
+
+	local events = {
+		[ADD] = function() end,
+		[EXPIRE] = function() end,
+		[CONSUME] = function() end
+	}
+
+	local function set_time(time)
+		mock_time.set(time)
+		eva.update(1)
+		return time
+	end
+
+	local test_tokens = {
+		tokens = {
+			{ token_id = "money", amount = 10},
+			{ token_id = "exp", amount = 100}
+		}
+	}
+
 	describe("Eva invoices", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")

@@ -1,21 +1,21 @@
-local eva = require("eva.eva")
-local const = require("eva.const")
-local luax = require("eva.luax")
-local mock = require("deftest.mock.mock")
-
-local START = const.EVENT.QUEST_START
-local PROGRESS = const.EVENT.QUEST_PROGRESS
-local TASK_COMPLETE = const.EVENT.QUEST_TASK_COMPLETE
-local END = const.EVENT.QUEST_END
-
-local events = {
-	[START] = function() end,
-	[PROGRESS] = function() end,
-	[TASK_COMPLETE] = function() end,
-	[END] = function() end
-}
-
 return function()
+	local eva = require("eva.eva")
+	local const = require("eva.const")
+	local luax = require("eva.luax")
+	local mock = require("deftest.mock.mock")
+
+	local START = const.EVENT.QUEST_START
+	local PROGRESS = const.EVENT.QUEST_PROGRESS
+	local TASK_COMPLETE = const.EVENT.QUEST_TASK_COMPLETE
+	local END = const.EVENT.QUEST_END
+
+	local events = {
+		[START] = function() end,
+		[PROGRESS] = function() end,
+		[TASK_COMPLETE] = function() end,
+		[END] = function() end
+	}
+
 	describe("Eva Quests", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
