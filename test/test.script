@@ -12,16 +12,15 @@ local tests = {
 	require("test.tests.eva_push"),
 	require("test.tests.eva_invoices"),
 	require("test.tests.iso_time"),
+	require("test.tests.eva_luax"),
 }
 
-local function run_tests()
-	for i = 1, #tests do
-		deftest.add(tests[i])
-	end
-	deftest.run({ coverage = { enabled = true } })
-end
 
 function init(self)
 	print('[DefTest]: Init of DefTest')
-	run_tests()
+	for i = 1, #tests do
+		deftest.add(tests[i])
+	end
+
+	deftest.run({ coverage = { enabled = true } })
 end

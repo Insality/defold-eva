@@ -21,51 +21,52 @@ local const = require("eva.const")
 local logger = log.get_logger("eva")
 local M = {}
 
-
-local modules = {
-	ads = require("eva.modules.ads"),
-	callbacks = require("eva.modules.callbacks"),
-	camera = require("eva.modules.camera"),
-	daily = require("eva.modules.daily"),
-	db = require("eva.modules.db"),
-	debug = require("eva.modules.debug"),
-	device = require("eva.modules.device"),
-	errors = require("eva.modules.errors"),
-	events = require("eva.modules.events"),
-	festivals = require("eva.modules.festivals"),
-	game = require("eva.modules.game"),
-	gdpr = require("eva.modules.gdpr"),
-	generator = require("eva.modules.generator"),
-	grid = require("eva.modules.grid"),
-	hexgrid = require("eva.modules.hexgrid"),
-	iaps = require("eva.modules.iaps"),
-	invoices = require("eva.modules.invoices"),
-	isogrid = require("eva.modules.isogrid"),
-	lang = require("eva.modules.lang"),
-	loader = require("eva.modules.loader"),
-	migrations = require("eva.modules.migrations"),
-	offers = require("eva.modules.offers"),
-	pathfinder = require("eva.modules.pathfinder"),
-	proto = require("eva.modules.proto"),
-	push = require("eva.modules.push"),
-	quests = require("eva.modules.quests"),
-	random = require("eva.modules.random"),
-	rate = require("eva.modules.rate"),
-	rating = require("eva.modules.rating"),
-	render = require("eva.modules.render"),
-	resources = require("eva.modules.resources"),
-	saver = require("eva.modules.saver"),
-	server = require("eva.modules.server"),
-	social = require("eva.modules.social"),
-	sound = require("eva.modules.sound"),
-	storage = require("eva.modules.storage"),
-	tiled = require("eva.modules.tiled"),
-	timers = require("eva.modules.timers"),
-	token = require("eva.modules.token"),
-	tokens = require("eva.modules.tokens"),
-	utils = require("eva.modules.utils"),
-	window = require("eva.modules.window")
-}
+local function load_modules()
+	M.modules = {
+		ads = require("eva.modules.ads"),
+		callbacks = require("eva.modules.callbacks"),
+		camera = require("eva.modules.camera"),
+		daily = require("eva.modules.daily"),
+		db = require("eva.modules.db"),
+		debug = require("eva.modules.debug"),
+		device = require("eva.modules.device"),
+		errors = require("eva.modules.errors"),
+		events = require("eva.modules.events"),
+		festivals = require("eva.modules.festivals"),
+		game = require("eva.modules.game"),
+		gdpr = require("eva.modules.gdpr"),
+		generator = require("eva.modules.generator"),
+		grid = require("eva.modules.grid"),
+		hexgrid = require("eva.modules.hexgrid"),
+		iaps = require("eva.modules.iaps"),
+		invoices = require("eva.modules.invoices"),
+		isogrid = require("eva.modules.isogrid"),
+		lang = require("eva.modules.lang"),
+		loader = require("eva.modules.loader"),
+		migrations = require("eva.modules.migrations"),
+		offers = require("eva.modules.offers"),
+		pathfinder = require("eva.modules.pathfinder"),
+		proto = require("eva.modules.proto"),
+		push = require("eva.modules.push"),
+		quests = require("eva.modules.quests"),
+		random = require("eva.modules.random"),
+		rate = require("eva.modules.rate"),
+		rating = require("eva.modules.rating"),
+		render = require("eva.modules.render"),
+		resources = require("eva.modules.resources"),
+		saver = require("eva.modules.saver"),
+		server = require("eva.modules.server"),
+		social = require("eva.modules.social"),
+		sound = require("eva.modules.sound"),
+		storage = require("eva.modules.storage"),
+		tiled = require("eva.modules.tiled"),
+		timers = require("eva.modules.timers"),
+		token = require("eva.modules.token"),
+		tokens = require("eva.modules.tokens"),
+		utils = require("eva.modules.utils"),
+		window = require("eva.modules.window")
+	}
+end
 
 
 local function apply_module_settings(settings)
@@ -92,7 +93,7 @@ end
 
 
 local function call_each_module(func_name, ...)
-	for name, component in pairs(modules) do
+	for name, component in pairs(M.modules) do
 		local csettings = app.settings[name]
 		if not csettings or csettings and not csettings.is_disabled then
 			if component[func_name] then
@@ -113,7 +114,9 @@ function M.init(settings_path, module_settings)
 		second_counter = 1
 	}
 
-	for name, component in pairs(modules) do
+	load_modules()
+
+	for name, component in pairs(M.modules) do
 		M[name] = component
 	end
 
