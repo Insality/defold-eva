@@ -1,7 +1,7 @@
-return function()
-	local smart = require("eva.libs.smart.smart")
-	local value = require("eva.libs.smart.value")
+local smart = require("eva.libs.smart.smart")
+local value = require("eva.libs.smart.value")
 
+return function()
 	describe("Smart value test", function()
 		it("Should have set and get", function()
 			local v = smart.new()

@@ -1,7 +1,7 @@
-return function()
-	local mock_time = require("deftest.mock.time")
-	local eva = require("eva.eva")
+local mock_time = require("deftest.mock.time")
+local eva = require("eva.eva")
 
+return function()
 	describe("Eva Offers", function()
 		local offer_fast = "test_fast"
 		local offer_iap = "test_iap"

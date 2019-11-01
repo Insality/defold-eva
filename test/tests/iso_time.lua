@@ -1,6 +1,6 @@
-return function()
-	local time_string = require("eva.libs.time_string")
+local time_string = require("eva.libs.time_string")
 
+return function()
 	describe("Time string library", function()
 		it("Test delta time", function()
 			local date = time_string.parse_ISO("2019-09-10Z")

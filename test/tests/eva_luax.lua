@@ -1,6 +1,6 @@
-return function()
-	local luax = require("eva.luax")
+local luax = require("eva.luax")
 
+return function()
 	describe("Eva luax library", function()
 		it("Contains", function()
 			assert(luax.table.contains({"a", "b"}, "b"))

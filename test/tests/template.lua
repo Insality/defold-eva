@@ -1,6 +1,6 @@
-return function()
-	local eva = require("eva.eva")
+local eva = require("eva.eva")
 
+return function()
 	describe("Section", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")

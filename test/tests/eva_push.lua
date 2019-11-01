@@ -1,27 +1,27 @@
+local const = require("eva.const")
+local app = require("eva.app")
+local eva = require("eva.eva")
+local mock = require("deftest.mock.mock")
+local mock_time = require("deftest.mock.time")
+local time_string = require("eva.libs.time_string")
+
+local SCHEDULE = const.EVENT.PUSH_SCHEDULED
+local CANCEL = const.EVENT.PUSH_CANCEL
+
+local events = {
+	[SCHEDULE] = function() end,
+	[CANCEL] = function() end
+}
+
+local function set_time(time)
+	mock_time.set(time)
+	eva.update(1)
+	return time
+end
+
+local TEST_TIME = "2019-10-10T20:00:00Z"
+
 return function()
-	local const = require("eva.const")
-	local app = require("eva.app")
-	local eva = require("eva.eva")
-	local mock = require("deftest.mock.mock")
-	local mock_time = require("deftest.mock.time")
-	local time_string = require("eva.libs.time_string")
-
-	local SCHEDULE = const.EVENT.PUSH_SCHEDULED
-	local CANCEL = const.EVENT.PUSH_CANCEL
-
-	local events = {
-		[SCHEDULE] = function() end,
-		[CANCEL] = function() end
-	}
-
-	local function set_time(time)
-		mock_time.set(time)
-		eva.update(1)
-		return time
-	end
-
-	local TEST_TIME = "2019-10-10T20:00:00Z"
-
 	describe("Eva push", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")

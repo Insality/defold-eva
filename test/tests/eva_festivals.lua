@@ -1,23 +1,23 @@
-return function()
-	local mock_time = require("deftest.mock.time")
-	local mock = require("deftest.mock.mock")
-	local time_string = require("eva.libs.time_string")
-	local const = require("eva.const")
-	local eva = require("eva.eva")
-	local luax = require("eva.luax")
+local mock_time = require("deftest.mock.time")
+local mock = require("deftest.mock.mock")
+local time_string = require("eva.libs.time_string")
+local const = require("eva.const")
+local eva = require("eva.eva")
+local luax = require("eva.luax")
 
-	local function set_time(iso_time)
-		local time = time_string.parse_ISO(iso_time)
-		mock_time.set(time)
-		eva.update(1)
-		return time
+local function set_time(iso_time)
+	local time = time_string.parse_ISO(iso_time)
+	mock_time.set(time)
+	eva.update(1)
+	return time
+end
+
+local mock_cb = {
+	callback = function(event, params)
 	end
+}
 
-	local mock_cb = {
-		callback = function(event, params)
-		end
-	}
-
+return function()
 	describe("Eva Festivals", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
