@@ -14,3 +14,5 @@ node_modules/
 package-lock.json
 *.sublime-project
 *.sublime-workspace
+luacov.report.out
+luacov.stats.out
