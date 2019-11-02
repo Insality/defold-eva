@@ -70,8 +70,9 @@ message Game {
 
 message Token {
 	int32 amount = 1;
-	uint64 infinity_time_end = 2;
-	uint64 last_restore_time = 3;
+	int32 offset = 2;
+	uint64 infinity_time_end = 3;
+	uint64 last_restore_time = 4;
 }
 
 message Tokens {

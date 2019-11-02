@@ -15,14 +15,14 @@ function M.set(self, value, reason)
 		value = math.min(value, self.params.max)
 	end
 
-	local old_value = self.data_table.amount
+	local old_value = self:get()
 	local delta = value - old_value
 
 	if delta < 0 and self:is_max() and self.restore then
 		self.data_table.last_restore_time = M.get_time()
 	end
 
-	self.data_table.amount = value
+	self.data_table.amount = value - self.data_table.offset
 
 	if delta ~= 0 then
 		if self._on_change_callbacks then
@@ -37,7 +37,7 @@ end
 
 
 function M.get(self)
-	return self.data_table.amount
+	return self.data_table.amount + self.data_table.offset
 end
 
 
@@ -149,6 +149,7 @@ end
 function M.init(self, params, data_table)
 	self.data_table = data_table
 	self.params = params or {}
+	self:random_offset()
 
 	if self.params.restore and self.params.restore.timer then
 		self.restore = self.params.restore
@@ -156,9 +157,9 @@ function M.init(self, params, data_table)
 	end
 
 	if self.params.default then
-		self.data_table.amount = self.params.default
+		self.data_table.amount = self.params.default - self.data_table.offset
 	end
-	self:set(self.data_table.amount or 0)
+	self:set(self.params.default or 0)
 
 	self:sync_visual()
 end
@@ -181,6 +182,16 @@ end
 function M.get_infinity_seconds(self)
 	local infinity_time = math.max(0, self.data_table.infinity_time_end - M.get_time())
 	return math.ceil(infinity_time)
+end
+
+
+--- Offset needed for protect from memory scanning
+-- Call random offset on window.focus for more protecting
+function M.random_offset(self)
+	local prev_offset = self.data_table.offset
+	self.data_table.offset = math.random(-9999, 9999)
+	local diff = self.data_table.offset - prev_offset
+	self.data_table.amount = self.data_table.amount - diff
 end
 
 
