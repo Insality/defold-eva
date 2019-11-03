@@ -58,8 +58,8 @@ end
 
 --- Add tokens to save
 -- @function eva.token.add
-function M.add(token_id, amount, reason)
-	return get_token(token_id):add(amount, reason)
+function M.add(token_id, amount, reason, visual_later)
+	return get_token(token_id):add(amount, reason, visual_later)
 end
 
 
@@ -190,6 +190,14 @@ function M.after_eva_init()
 	for token_id, data in pairs(app[const.EVA.TOKENS].tokens) do
 		-- Link behavior and data
 		app.smart_tokens[token_id] = create_token_in_save(token_id, data)
+	end
+
+	if app.token_config then
+		for token_id, value in pairs(app.token_config.token_config) do
+			if value.restore and not app.smart_tokens[token_id] then
+				app.smart_tokens[token_id] = create_token_in_save(token_id)
+			end
+		end
 	end
 end
 

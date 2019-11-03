@@ -14,16 +14,16 @@ local tests = {
 	require("test.tests.eva_callbacks"),
 	require("test.tests.eva_rating"),
 	require("test.tests.eva_storage"),
+	require("test.tests.eva_lang"),
+	require("test.tests.eva_token"),
+	require("test.tests.eva_tokens"),
 
 	-- New tests, unimplemented
 	require("test.tests.eva_events"),
-	require("test.tests.eva_token"),
-	require("test.tests.eva_tokens"),
 	require("test.tests.eva_saver"),
-	require("test.tests.eva_window"),
-	require("test.tests.eva_migrations"),
 	require("test.tests.eva_rate"),
-	require("test.tests.eva_lang"),
+	require("test.tests.eva_migrations"),
+	require("test.tests.eva_window"),
 
 	-- Libs
 	require("test.tests.smart_value"),

@@ -46,12 +46,16 @@ function M.add(self, value, reason, is_visual_later)
 	if is_visual_later then
 		self.visual_credit = self.visual_credit + delta
 	end
+
 	return delta
 end
 
 
 function M.sync_visual(self)
+	local prev_value = self.visual_credit
 	self.visual_credit = 0
+
+	return prev_value
 end
 
 
@@ -113,7 +117,7 @@ end
 
 
 function M.check(self, value)
-	return self:get() >= value
+	return self:is_infinity() or self:get() >= value
 end
 
 
@@ -125,8 +129,7 @@ function M.pay(self, value, reason)
 	end
 
 	if self:check(value) then
-		self:add(-value, reason)
-		return true
+		return self:add(-value, reason)
 	end
 
 	return false

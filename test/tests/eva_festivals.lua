@@ -12,9 +12,12 @@ local function set_time(iso_time)
 	return time
 end
 
-local mock_cb = {
-	callback = function(event, params)
-	end
+local START = const.EVENT.FESTIVAL_START
+local END = const.EVENT.FESTIVAL_END
+
+local events = {
+	[START] = function() end,
+	[END] = function() end
 }
 
 return function()
@@ -26,10 +29,12 @@ return function()
 			-- But this way is more like game API provided, so...
 			local eva_events = {
 				event = function(event, params)
-					mock_cb.callback(event, params)
+					if events[event] then
+						events[event](event, params)
+					end
 				end
 			}
-			mock.mock(mock_cb)
+			mock.mock(events)
 			eva.events.add_event_system(eva_events)
 
 			mock_time.mock()
@@ -37,7 +42,7 @@ return function()
 
 		after(function()
 			mock_time.unmock()
-			mock.unmock(mock_cb)
+			mock.unmock(events)
 		end)
 
 		it("Should return correct start time (repeat festivals too)", function()
@@ -94,7 +99,7 @@ return function()
 			set_time("2019-10-05Z")
 			assert(not eva.festivals.is_active("event_festival"))
 			assert(not eva.festivals.is_active("weekly_festival"))
-			assert(mock_cb.callback.calls == 0)
+			assert(events[START].calls == 0)
 
 			local completed = eva.festivals.get_completed()
 			assert(not luax.table.contains(completed, "weekly_festival"))
@@ -107,31 +112,32 @@ return function()
 			set_time("2019-10-07T10:00:00Z")
 			assert(not eva.festivals.is_active("event_festival"))
 			assert(eva.festivals.is_active("weekly_festival"))
-			assert(mock_cb.callback.calls == 1)
-			assert(mock_cb.callback.params[1] == const.EVENT.FESTIVAL_START)
-			assert(mock_cb.callback.params[2].id == "weekly_festival")
+			assert(events[START].calls == 1)
+			assert(events[START].params[2].id == "weekly_festival")
 
 			set_time("2019-10-21T8:00:00Z")
 			assert(eva.festivals.is_active("event_festival"))
 			assert(not eva.festivals.is_active("weekly_festival"))
 			assert(eva.festivals.is_completed("weekly_festival"))
+			assert(events[START].calls == 2)
+			assert(events[END].calls == 1)
 
 			set_time("2019-11-10T8:00:00Z")
 			assert(not eva.festivals.is_active("event_festival"))
-			assert(eva.festivals.is_completed("event_festival"))
 			assert(not eva.festivals.is_active("weekly_festival"))
-			assert(mock_cb.callback.calls == 4)
-			assert(mock_cb.callback.params[1] == const.EVENT.FESTIVAL_END)
-			assert(mock_cb.callback.params[2].id == "event_festival")
+			assert(eva.festivals.is_completed("event_festival"))
+			assert(events[START].calls == 2)
+			assert(events[END].calls == 2)
+			assert(events[END].params[2].id == "event_festival")
 
 			set_time("2019-11-11T8:00:00Z")
 			assert(not eva.festivals.is_active("event_festival"))
 			assert(eva.festivals.is_completed("event_festival"))
 			assert(eva.festivals.is_active("weekly_festival"))
 			assert(eva.festivals.is_completed("weekly_festival"))
-			assert(mock_cb.callback.calls == 5)
-			assert(mock_cb.callback.params[1] == const.EVENT.FESTIVAL_START)
-			assert(mock_cb.callback.params[2].id == "weekly_festival")
+			assert(events[END].calls == 2)
+			assert(events[START].calls == 3)
+			assert(events[START].params[2].id == "weekly_festival")
 
 			completed = eva.festivals.get_completed()
 			assert(luax.table.contains(completed, "weekly_festival"))
@@ -146,7 +152,7 @@ return function()
 			assert(not eva.festivals.is_active("event_festival"))
 			set_time("2019-11-01Z")
 			assert(not eva.festivals.is_active("event_festival"))
-			assert(mock_cb.callback.calls == 0)
+			assert(events[START].calls == 0)
 		end)
 
 		it("Should not enable, if festival end until player is offline", function()
@@ -154,7 +160,7 @@ return function()
 			assert(not eva.festivals.is_active("event_festival"))
 			set_time("2019-11-10Z")
 			assert(not eva.festivals.is_active("event_festival"))
-			assert(mock_cb.callback.calls == 0)
+			assert(events[START].calls == 0)
 		end)
 
 		it("Should have custom logic to start festivals", function()

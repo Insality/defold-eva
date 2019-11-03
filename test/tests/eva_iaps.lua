@@ -61,7 +61,6 @@ return function()
 
 		it("Should return correct price", function()
 			assert(eva.iaps.get_price("pack1") == 0.99)
-			print(eva.iaps.get_price_string("pack1"))
 			assert(eva.iaps.get_price_string("pack1") == "$0.99")
 			assert(eva.iaps.get_price("pack2") == 4.99)
 			assert(eva.iaps.get_price_string("pack2") == "$4.99")
