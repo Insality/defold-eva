@@ -32,9 +32,12 @@ function M.call(index, ...)
 	local data = app.callbacks_data
 
 	if data.callbacks[index] then
-		data.callbacks[index](...)
+		local cb = data.callbacks[index]
 		data.callbacks[index] = nil
+		return cb(...)
 	end
+
+	return false
 end
 
 
@@ -45,7 +48,10 @@ function M.clear(index)
 	local data = app.callbacks_data
 	if data.callbacks[index] then
 		data.callbacks[index] = nil
+		return true
 	end
+
+	return false
 end
 
 
