@@ -53,6 +53,7 @@ message IapConfig {
 	float price = 2;
 	bool forever = 3;
 	string token_group_id = 4;
+	string category = 5;
 }
 
 message IapsConfig {

@@ -4,9 +4,10 @@
 
 
 local app = require("eva.app")
+local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
-local log = require("eva.log")
+local fun = require("eva.libs.fun")
 
 local device = require("eva.modules.device")
 local proto = require("eva.modules.proto")
@@ -35,8 +36,10 @@ local function load_config()
 	for iap_id, info in pairs(iaps) do
 		app.iap_products[iap_id] = {
 			is_available = false,
+			category = info.category,
 			price = info.price,
 			ident = info.ident,
+			reward_id = info.token_group_id,
 			price_string = info.price .. " $",
 			currency_code = "USD",
 			title = "",
@@ -47,8 +50,8 @@ end
 
 
 local function get_id_by_ident(ident)
-	for iap_id, v in pairs(app.iap_products) do
-		if v.ident == ident then
+	for iap_id, value in pairs(app.iap_products) do
+		if value.ident == ident then
 			return iap_id
 		end
 	end
@@ -60,7 +63,7 @@ end
 local function list_callback(self, products, error)
 	if not error then
 		local products_string = table.concat(luax.table.list(products), ", ")
-		logger:info("Get product list", { products =  products_string})
+		logger:info("Get product list", { products =  products_string })
 
 		for k, v in pairs(products) do
 			local iap_id = get_id_by_ident(k)
@@ -81,14 +84,31 @@ local function list_callback(self, products, error)
 end
 
 
-local function fake_transaction(iap_id)
+local function fake_transaction(iap_id, state)
 	return {
 		ident = iap_id,
-		state = "success (sandbox)",
+		state = state or const.IAP.STATE.PURCHASED,
 		date = game.get_current_time_string(),
 		trans_ident = device.get_uuid(),
 		is_fake = true,
 	}
+end
+
+
+local function get_fake_products()
+	local products = {}
+
+	for iap_id, value in pairs(app.iap_products) do
+		products[value.ident] = {
+			currency_code = "USD",
+			title = "Fake title",
+			description = "Fake description",
+			price_string = "$" .. value.price,
+			price = value.price
+		}
+	end
+
+	return products
 end
 
 
@@ -107,11 +127,15 @@ end
 
 
 local function consume(iap_id, transaction)
-	local item = app.iap_products[iap_id]
+	local item = M.get_iap(iap_id)
 
 	if not item then
-		logger:error("The iap_id is not exist", {iap_id = iap_id})
+		logger:error("The iap_id is not exist", { iap_id = iap_id })
 		return
+	end
+
+	if item.reward_id then
+		tokens.add_group(item.reward_id, const.REASON.IAP)
 	end
 
 	save_iap(iap_id, transaction)
@@ -120,18 +144,18 @@ local function consume(iap_id, transaction)
 		iap.finish(transaction)
 	end
 
-	events.event(const.EVENT.IAP_PURCHASE, {iap_id = iap_id, ident = item.ident})
+	events.event(const.EVENT.IAP_PURCHASE, { iap_id = iap_id, ident = item.ident })
 end
 
 
 local function iap_listener(self, transaction, error)
 	if not error then
-		if luax.math.is(transaction.state, iap.TRANS_STATE_PURCHASED, iap.TRANS_STATE_RESTORED) then
+		if luax.math.is(transaction.state, const.IAP.STATE.PURCHASED, const.IAP.STATE.RESTORED) then
 			local iap_id = get_id_by_ident(transaction.ident)
 			consume(iap_id, transaction)
 		end
 	else
-		if error.reason == iap.REASON_USER_CANCELED then
+		if error.reason == const.IAP.REASON.CANCELED then
 			events.event(const.EVENT.IAP_CANCEL, transaction and transaction.ident or "n/a")
 		else
 			logger:warn("Error while IAP processing", transaction)
@@ -156,10 +180,35 @@ function M.buy(iap_id)
 		logger:info("Start process IAP", { iap_id = iap_id })
 		iap.buy(item.ident)
 	else
-		logger:info("No IAP module, fake free transaction", { iap_id = iap_id })
-		local ident = products[iap_id].ident
-		consume(iap_id, fake_transaction(ident))
+		M.test_buy_with_fake_state(iap_id, const.IAP.STATE.PURCHASED)
 	end
+
+	return true
+end
+
+
+function M.test_buy_with_fake_state(iap_id, state, is_canceled)
+	local products = app.iap_products
+	local item = products[iap_id]
+
+	if not item then
+		logger:error("The IAP is not exist", { iap_id = iap_id })
+		return
+	end
+
+	logger:info("No IAP module, fake free transaction", { iap_id = iap_id })
+	local ident = products[iap_id].ident
+
+	local iap_error = nil
+	if is_canceled then
+		iap_error = {
+			reason = const.IAP.REASON.CANCELED
+		}
+	end
+
+	iap_listener(nil, fake_transaction(ident, state), iap_error)
+
+	return true
 end
 
 
@@ -176,11 +225,57 @@ function M.get_reward(iap_id)
 end
 
 
+function M.get_iap(iap_id)
+	return app.iap_products[iap_id]
+end
+
+
+function M.get_iaps(category)
+	if not category then
+		return app.iap_products
+	else
+		return fun.filter(function(id, iap_data)
+			return iap_data.category == category
+		end, app.iap_products):tomap()
+	end
+end
+
+
+function M.is_available(iap_id)
+	local data = M.get_iap(iap_id)
+	if not data then
+		logger:warn("No iap with id to check available", { iap_id = iap_id })
+		return false
+	end
+
+	return data.is_available
+end
+
+
 --- Get price from iap_id
 -- @function eva.iaps.get_price
 -- @tparam string iap_id the inapp id
 function M.get_price(iap_id)
 	return app.iap_products[iap_id].price
+end
+
+--- Get price_string from iap_id
+-- @function eva.iaps.get_price_string
+-- @tparam string iap_id the inapp id
+function M.get_price_string(iap_id)
+	return app.iap_products[iap_id].price_string
+end
+
+
+function M.refresh_iap_list()
+	if not iap then
+		logger:debug("No iap on current platform. Fake module")
+		list_callback(nil, get_fake_products())
+		return
+	end
+
+	iap.set_listener(iap_listener)
+	iap.list(luax.table.list(app.iap_products, "ident"), list_callback)
 end
 
 
@@ -198,13 +293,7 @@ end
 
 
 function M.after_eva_init()
-	if not iap then
-		logger:debug("No iap on current platform")
-		return
-	end
-
-	iap.set_listener(iap_listener)
-	iap.list(luax.table.list(app.iap_products, "ident"), list_callback)
+	M.refresh_iap_list()
 end
 
 

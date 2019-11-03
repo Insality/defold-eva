@@ -91,6 +91,25 @@ M.EVENT = {
 }
 
 
+M.REASON = {
+	IAP = "inapp"
+}
+
+M.IAP = {
+	STATE = {
+		PURCHASING = 0,
+		PURCHASED = 1,
+		FAILED = 2,
+		RESTORED = 3,
+		UNVERIFIED = 4,
+	},
+	REASON = {
+		UNKNOWN = 0,
+		CANCELED = 1,
+	}
+}
+
+
 M.EVA = {
 	-- Modules, equals to proto name
 	ADS = "eva.Ads",

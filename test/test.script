@@ -1,8 +1,7 @@
 local deftest = require "deftest.deftest"
 
 local tests = {
-	require("test.tests.smart_value"),
-	-- require("test.tests.eva_events"),
+	-- Eva module
 	require("test.tests.eva_offers"),
 	require("test.tests.eva_timers"),
 	require("test.tests.eva_daily"),
@@ -11,6 +10,22 @@ local tests = {
 	require("test.tests.eva_grids"),
 	require("test.tests.eva_push"),
 	require("test.tests.eva_invoices"),
+	require("test.tests.eva_iaps"),
+
+	-- New tests, unimplemented
+	require("test.tests.eva_events"),
+	require("test.tests.eva_token"),
+	require("test.tests.eva_tokens"),
+	require("test.tests.eva_saver"),
+	require("test.tests.eva_callbacks"),
+	require("test.tests.eva_window"),
+	require("test.tests.eva_migrations"),
+	require("test.tests.eva_rate"),
+	require("test.tests.eva_storage"),
+	require("test.tests.eva_lang"),
+
+	-- Libs
+	require("test.tests.smart_value"),
 	require("test.tests.iso_time"),
 	require("test.tests.eva_luax"),
 }

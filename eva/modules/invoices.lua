@@ -156,7 +156,10 @@ end
 function M.on_eva_init()
 	app[const.EVA.INVOICES] = proto.get(const.EVA.INVOICES)
 	saver.add_save_part(const.EVA.INVOICES, app[const.EVA.INVOICES])
+end
 
+
+function M.after_eva_init()
 	update_expired_invoices()
 end
 

@@ -1,9 +1,9 @@
 {
   "iaps": {
-    "pack1": { "price": 0.99, "token_group_id": "iap_1", "ident": "com.test.pack1" },
-    "pack2": { "price": 4.99, "token_group_id": "iap_2", "ident": "com.test.pack2" },
-    "starter1": { "price": 2.99, "token_group_id": "iap_2", "ident": "com.test.starter1" },
-    "no_ads": { "price": 1.99, "forever": true, "token_group_id": "no_ads", "ident": "com.test.noads" },
-    "test_iap": { "price": 0.99, "token_group_id": "test_group_1", "ident": "com.test.test" }
+    "pack1": { "price": 0.99, "token_group_id": "iap_1", "category": "money", "ident": "com.test.pack1" },
+    "pack2": { "price": 4.99, "token_group_id": "iap_2", "category": "money", "ident": "com.test.pack2" },
+    "starter1": { "price": 2.99, "token_group_id": "iap_2", "category": "packs", "ident": "com.test.starter1" },
+    "no_ads": { "price": 1.99, "forever": true, "token_group_id": "no_ads", "category": "ads", "ident": "com.test.noads" },
+    "test_iap": { "price": 0.99, "token_group_id": "test_group_1", "category": "money", "ident": "com.test.test" }
   }
 }

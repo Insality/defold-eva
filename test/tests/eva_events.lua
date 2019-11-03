@@ -17,12 +17,8 @@ return function()
 			-- Unsubscribe from event
 		end)
 
-		it("Test1", function()
+		it("Event test", function()
 			eva.events.event("Custom_event", {arg1 = 1, arg2 = 2})
 		end)
-
-		-- it("Test2", function()
-
-		-- end)
 	end)
 end
