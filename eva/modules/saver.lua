@@ -95,6 +95,9 @@ function M.save(filename)
 end
 
 
+--- Delete the save
+-- @function eva.saver.delete
+-- @tparam[opt] string filename The save filename. Can be default by settings
 function M.delete(filename)
 	local path = get_save_path(filename or app.settings.saver.save_name)
 	os.remove(path)

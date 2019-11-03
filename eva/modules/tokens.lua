@@ -15,6 +15,20 @@ local logger = log.get_logger("eva.group")
 local M = {}
 
 
+--- Return evadata.Tokens tokens format
+-- @function eva.tokens.get_tokens
+-- @tparam table tokens Map with token_id = amount
+function M.get_tokens(tokens)
+	local data = proto.get(const.EVA.TOKENS_DATA)
+
+	for token_id, amount in pairs(tokens) do
+		table.insert(data.tokens, { token_id = token_id, amount = amount })
+	end
+
+	return data
+end
+
+
 --- Return token group by id.
 -- It pickup data from DB
 -- @function eva.tokens.get_token_group
@@ -28,20 +42,6 @@ function M.get_token_group(token_group_id)
 	end
 
 	return group
-end
-
-
---- Return evadata.Tokens tokens format
--- @function eva.tokens.get_tokens
--- @tparam table tokens Map with token_id = amount
-function M.get_tokens(tokens)
-	local data = proto.get(const.EVA.TOKENS_DATA)
-
-	for token_id, amount in pairs(tokens) do
-		table.insert(data.tokens, { token_id = token_id, amount = amount })
-	end
-
-	return data
 end
 
 

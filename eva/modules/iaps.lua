@@ -225,11 +225,17 @@ function M.get_reward(iap_id)
 end
 
 
+--- Get iap info by iap_id
+-- @function eva.iaps.get_iap
+-- @tparam string iap_id the inapp id
 function M.get_iap(iap_id)
 	return app.iap_products[iap_id]
 end
 
-
+--- Get all iaps. Can be selected by category
+-- @function eva.iaps.get_iaps
+-- @tparam string category Category of iap
+-- @treturn list of iap products
 function M.get_iaps(category)
 	if not category then
 		return app.iap_products
@@ -241,6 +247,10 @@ function M.get_iaps(category)
 end
 
 
+--- Check is iap is available
+-- @function eva.iaps.is_available
+-- @tparam string iap_id the inapp id
+-- @treturn bool Is available
 function M.is_available(iap_id)
 	local data = M.get_iap(iap_id)
 	if not data then
@@ -259,6 +269,7 @@ function M.get_price(iap_id)
 	return app.iap_products[iap_id].price
 end
 
+
 --- Get price_string from iap_id
 -- @function eva.iaps.get_price_string
 -- @tparam string iap_id the inapp id
@@ -267,6 +278,10 @@ function M.get_price_string(iap_id)
 end
 
 
+--- Refresh iap list.
+-- It make request to stores to get new info
+-- Throw EVENT.IAP_UPDATE at end
+-- @function eva.iaps.refresh_iap_list
 function M.refresh_iap_list()
 	if not iap then
 		logger:debug("No iap on current platform. Fake module")

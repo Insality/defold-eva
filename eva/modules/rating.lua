@@ -16,7 +16,11 @@ local function diff(rating_a, rating_b)
 end
 
 
--- @tparam number game_koef 1 is win, 0 on loose, 0.5 is draw
+--- Call elo rating
+-- @function eva.rating.elo
+-- @tparam number rating_a Player rating
+-- @tparam number rating_b Opponent rating
+-- @tparam number game_koef Result of game. 1 is win, 0 on loose, 0.5 is draw
 function M.elo(rating_a, rating_b, game_koef, K)
 	assert(game_koef, "You should provide game_koef status")
 	local settings = app.settings.rating
