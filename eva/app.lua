@@ -9,8 +9,12 @@ local M = {}
 
 
 --- Clear the app state
-function M.clear()
-	app = {}
+function M.clear(value)
+	if not value then
+		app = {}
+	else
+		app[value] = nil
+	end
 end
 
 

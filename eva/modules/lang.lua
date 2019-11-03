@@ -17,6 +17,8 @@ local M = {}
 local function load_lang(lang)
 	local settings = app.settings.lang
 	local filename = settings.lang_paths[lang]
+
+	app.clear("lang_dict")
 	app.lang_dict = utils.load_json(filename)
 end
 

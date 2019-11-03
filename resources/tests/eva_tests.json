@@ -20,6 +20,13 @@
 		"interval_between_pushes": 7200,
 		"clear_push_in_next_seconds": 1800
 	},
+	"lang": {
+		"default": "en",
+		"lang_paths": {
+			"ru": "/resources/locales/ru.json",
+			"en": "/resources/locales/en.json"
+		}
+	},
 	"log": {
 		"level": "WARN"
 	}
