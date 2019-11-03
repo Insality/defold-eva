@@ -27,6 +27,14 @@
 			"en": "/resources/locales/en.json"
 		}
 	},
+	"rating": {
+		"min": 100,
+		"max": 8000,
+		"rating_diff": 60,
+		"easy_max": 2000,
+		"diff_constant": 600,
+		"easy_reduce_koef": 3
+	},
 	"log": {
 		"level": "WARN"
 	}
