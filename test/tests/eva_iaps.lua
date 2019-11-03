@@ -98,6 +98,13 @@ return function()
 			assert(eva.token.get("money") == 500)
 		end)
 
+		it("Should correct return iap reward", function()
+			local reward = eva.iaps.get_reward("pack1")
+
+			assert(reward.tokens[1].token_id == "money")
+			assert(reward.tokens[1].amount == 500)
+		end)
+
 		it("Should correct throw cancel event", function()
 			eva.iaps.test_buy_with_fake_state("pack1", const.IAP.STATE.PURCHASED, true)
 			assert(events[IAP_PURCHASE].calls == 0)

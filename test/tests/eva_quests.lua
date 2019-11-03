@@ -32,7 +32,7 @@ return function()
 		end)
 
 		after(function()
-			eva.saver.delete("eva_test.json")
+			eva.saver.delete()
 			mock.unmock(events)
 		end)
 
@@ -163,7 +163,7 @@ return function()
 			assert(q2_progress[1] == 150)
 			assert(q5_progress[1] == 0)
 
-			eva.saver.save("eva_test.json")
+			eva.saver.save()
 			eva.init("/resources/tests/eva_tests.json")
 			eva.quests.start_quests()
 
