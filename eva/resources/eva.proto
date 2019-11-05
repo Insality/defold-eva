@@ -110,6 +110,7 @@ message Festivals {
 
 message QuestData {
 	repeated int32 progress = 1;
+	bool is_started = 2;
 }
 
 message Quests {

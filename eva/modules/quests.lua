@@ -23,17 +23,13 @@ local logger = log.get_logger("eva.quests")
 local M = {}
 
 
-local quest_event_system = {
-	event = function(event, params)
-		if not app.quests_info.is_started then
-			return
-		end
-
-		if luax.table.contains(app.quests_update_events, event) then
-			M.update_quests()
-		end
+local function update_quests_callback()
+	if not app.quests_info.is_started then
+		return
 	end
-}
+
+	M.update_quests()
+end
 
 
 local function is_tokens_ok(tokens_list)
@@ -218,6 +214,13 @@ function M.is_active(quest_id)
 end
 
 
+function M.is_started(quest_id)
+	local quests = app[const.EVA.QUESTS]
+	local quest = quests.current[quest_id]
+	return quest and quest.is_started
+end
+
+
 function M.is_completed(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	return luax.table.contains(quests.completed, quest_id)
@@ -271,7 +274,7 @@ end
 -- So add event FESTIVAL_START to update quests on this update
 -- @function eva.quests.add_update_quest_event
 function M.add_update_quest_event(event)
-	table.insert(app.quests_update_events, event)
+	events.subscribe(event, update_quests_callback)
 end
 
 
@@ -285,15 +288,12 @@ end
 
 function M.on_eva_init()
 	app.quests_settings = {}
-	app.quests_update_events = {
-		const.EVENT.TOKEN_CHANGE
-	}
 	app.quests_info = {
 		is_started = false
 	}
 	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
 	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
-	events.add_event_system(quest_event_system)
+	M.add_update_quest_event(const.EVENT.TOKEN_CHANGE)
 end
 
 
