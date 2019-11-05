@@ -31,17 +31,10 @@ return function()
 	describe("Eva invoices", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
-			local eva_events = {
-				event = function(event, params)
-					if events[event] then
-						events[event](event, params)
-					end
-				end
-			}
-			eva.events.add_event_system(eva_events)
 			mock.mock(events)
 			mock_time.mock()
 			set_time(5000)
+			eva.events.subscribe_map(events)
 		end)
 
 		after(function()

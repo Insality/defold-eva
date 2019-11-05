@@ -26,18 +26,12 @@ return function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
 
-			local eva_events = {
-				event = function(event, params)
-					if events[event] then
-						events[event](event, params)
-					end
-				end
-			}
-			eva.events.add_event_system(eva_events)
 			mock.mock(events)
 			mock_time.mock()
 			local time = time_string.parse_ISO(TEST_TIME)
 			set_time(time)
+
+			eva.events.subscribe_map(events)
 		end)
 
 		after(function()
@@ -116,7 +110,7 @@ return function()
 			eva.update(1)
 
 			assert(events[CANCEL].calls == 1)
-			assert(events[CANCEL].params[2].id == push.id)
+			assert(events[CANCEL].params[1].id == push.id)
 		end)
 
 		it("Should mark today early pushes as triggered", function()

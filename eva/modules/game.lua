@@ -10,7 +10,6 @@
 
 local log = require("eva.log")
 local app = require("eva.app")
-local luax = require("eva.luax")
 local const = require("eva.const")
 local gui_extra_functions = require "gui_extra_functions.gui_extra_functions"
 local time_string = require("eva.libs.time_string")

@@ -137,7 +137,7 @@ end
 --- math.chance
 -- @function luax.math.chance
 function M.math.chance(percent)
-	return math.random(1, 100) <= (percent * 100)
+	return math.random() <= percent
 end
 
 
@@ -460,25 +460,6 @@ function M.string.random(length)
 end
 
 
---- gui.get_full_position
--- @function luax.gui.get_full_position
-function M.gui.get_full_position(node)
-	local p = gui.get_position(node)
-	local par = gui.get_parent(node)
-	while par do
-		local pos = gui.get_position(par)
-
-		local s = gui.get_scale(par)
-		p.x = p.x * s.x
-		p.y = p.y * s.y
-
-		p = p + pos
-		par = gui.get_parent(par)
-	end
-	return p
-end
-
-
 --- gui.set_alpha
 -- @function luax.gui.set_alpha
 function M.gui.set_alpha(node, alpha)
@@ -492,19 +473,6 @@ end
 -- @function luax.gui.get_alpha
 function M.gui.get_alpha(node, alpha)
 	return gui.get_color(node).w
-end
-
-
---- go.get_full_position
--- @function luax.go.get_full_position
-function M.go.get_full_position(node)
-	local p = go.get_position(node)
-	local par = go.get_parent(node)
-	while par do
-		p = p + go.get_position(par)
-		par = go.get_parent(par)
-	end
-	return p
 end
 
 

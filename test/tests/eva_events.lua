@@ -8,10 +8,6 @@ return function()
 		before(function()
 			-- Subscribe on event
 			eva.init("/resources/tests/eva_tests.json")
-
-			broadcast.register("Custom_event", function()
-				message_arrived = true
-			end)
 		end)
 		after(function()
 			-- Unsubscribe from event

@@ -21,17 +21,9 @@ return function()
 
 			mock_time.mock()
 			mock_time.set(0)
-
-			local eva_events = {
-				event = function(event, params)
-					if events[event] then
-						events[event](event, params)
-					end
-				end
-			}
-			eva.events.add_event_system(eva_events)
 			mock.mock(events)
 
+			eva.events.subscribe_map(events)
 		end)
 
 		after(function()

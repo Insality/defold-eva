@@ -25,17 +25,8 @@ return function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
 
-			-- Possibly, I can mock the eva.events and check events method?
-			-- But this way is more like game API provided, so...
-			local eva_events = {
-				event = function(event, params)
-					if events[event] then
-						events[event](event, params)
-					end
-				end
-			}
 			mock.mock(events)
-			eva.events.add_event_system(eva_events)
+			eva.events.subscribe_map(events)
 
 			mock_time.mock()
 		end)
@@ -113,7 +104,7 @@ return function()
 			assert(not eva.festivals.is_active("event_festival"))
 			assert(eva.festivals.is_active("weekly_festival"))
 			assert(events[START].calls == 1)
-			assert(events[START].params[2].id == "weekly_festival")
+			assert(events[START].params[1].id == "weekly_festival")
 
 			set_time("2019-10-21T8:00:00Z")
 			assert(eva.festivals.is_active("event_festival"))
@@ -128,7 +119,7 @@ return function()
 			assert(eva.festivals.is_completed("event_festival"))
 			assert(events[START].calls == 2)
 			assert(events[END].calls == 2)
-			assert(events[END].params[2].id == "event_festival")
+			assert(events[END].params[1].id == "event_festival")
 
 			set_time("2019-11-11T8:00:00Z")
 			assert(not eva.festivals.is_active("event_festival"))
@@ -137,7 +128,7 @@ return function()
 			assert(eva.festivals.is_completed("weekly_festival"))
 			assert(events[END].calls == 2)
 			assert(events[START].calls == 3)
-			assert(events[START].params[2].id == "weekly_festival")
+			assert(events[START].params[1].id == "weekly_festival")
 
 			completed = eva.festivals.get_completed()
 			assert(luax.table.contains(completed, "weekly_festival"))
