@@ -3,12 +3,14 @@ local const = require("eva.const")
 local luax = require("eva.luax")
 local mock = require("deftest.mock.mock")
 
+local REGISTER = const.EVENT.QUEST_REGISTER
 local START = const.EVENT.QUEST_START
 local PROGRESS = const.EVENT.QUEST_PROGRESS
 local TASK_COMPLETE = const.EVENT.QUEST_TASK_COMPLETE
 local END = const.EVENT.QUEST_END
 
 local events = {
+	[REGISTER] = function() end,
 	[START] = function() end,
 	[PROGRESS] = function() end,
 	[TASK_COMPLETE] = function() end,
@@ -32,9 +34,11 @@ return function()
 		it("Should correct start quests", function()
 			eva.quests.start_quests()
 			local current = eva.quests.get_current()
+			assert(events[REGISTER].calls == 3)
+			assert(events[START].calls == 1)
+			pprint(current)
 			assert(luax.table.contains(current, "quest_1"))
-			assert(luax.table.contains(current, "quest_4"))
-			assert(#current == 2)
+			assert(#current == 1)
 		end)
 
 		it("Should catch events", function()
@@ -79,12 +83,13 @@ return function()
 
 		it("Should start new quests after complete other", function()
 			eva.quests.start_quests()
-			eva.token.add("level", 2, "test")
+			eva.token.add("level", 1, "test")
 			eva.quests.quest_event("get", "money", 2000)
 			assert(events[END].calls == 1)
 			assert(events[END].params[1].quest_id == "quest_1")
 
-			assert(events[START].calls == 3)
+			assert(events[REGISTER].calls == 4)
+			assert(events[START].calls == 2)
 			assert(events[START].params[1].quest_id == "quest_2")
 			local current = eva.quests.get_current()
 			assert(luax.table.contains(current, "quest_2"))
@@ -94,10 +99,11 @@ return function()
 			eva.quests.start_quests()
 			eva.quests.quest_event("get", "money", 2000)
 			assert(events[END].calls == 1)
-			assert(events[START].calls == 2)
+			assert(events[START].calls == 1)
+			assert(events[REGISTER].calls == 3)
 
-			eva.token.add("level", 2, "test")
-			assert(events[START].calls == 3)
+			eva.token.add("level", 1, "test")
+			assert(events[START].calls == 2)
 			assert(events[START].params[1].quest_id == "quest_2")
 		end)
 
@@ -112,7 +118,7 @@ return function()
 			assert(events[PROGRESS].params[1].delta == 10)
 			assert(events[END].calls == 0)
 
-			eva.token.add("level", 3, "test")
+			eva.token.add("level", 2, "test")
 			assert(events[END].calls == 1)
 		end)
 
@@ -184,9 +190,12 @@ return function()
 			eva.quests.start_quests()
 
 			assert(events[START].calls == 0)
+			assert(events[REGISTER].calls == 2)
 			is_can_start = true
 			eva.quests.update_quests()
-			assert(events[START].calls == 2)
+			eva.quests.update_quests()
+			assert(events[START].calls == 1)
+			assert(events[REGISTER].calls == 3)
 
 			eva.quests.quest_event("get", "money", 10)
 			assert(events[PROGRESS].calls == 0)
@@ -199,6 +208,74 @@ return function()
 			is_can_end = true
 			eva.quests.update_quests()
 			assert(events[END].calls == 1)
+		end)
+
+		it("Should register offline quests", function()
+			eva.quests.start_quests()
+			assert(events[REGISTER].calls == 3)
+			eva.token.add("level", 1) -- up to 2 level
+			assert(events[REGISTER].calls == 3)
+			assert(events[END].calls == 0)
+		end)
+
+		it("Should autostart quests, what have been registered", function()
+			eva.quests.start_quests()
+			assert(events[START].calls == 1)
+			eva.token.add("level", 2) -- up to 3 level
+			assert(events[START].calls == 2)
+			assert(events[START].params[1].quest_id == "quest_4")
+		end)
+
+		it("Should manual start quests without offline mode", function()
+			eva.quests.start_quests()
+			assert(events[START].calls == 1)
+			eva.quests.start_quest("quest_8")
+			assert(events[START].calls == 2)
+
+			assert(not eva.quests.is_can_start_quest("quest_6"))
+			eva.quests.start_quest("quest_6") -- cant start, need level 2
+			assert(not eva.quests.is_can_start_quest("quest_9"))
+			eva.quests.start_quest("quest_9") -- cant start, need quest_8
+			assert(events[START].calls == 2)
+			assert(events[REGISTER].calls == 4)
+			assert(events[REGISTER].params[1].quest_id == "quest_8")
+
+			assert(events[END].calls == 0)
+			eva.quests.quest_event("get", "item", 1)
+			assert(events[END].calls == 1)
+			assert(events[START].calls == 2)
+
+			assert(eva.quests.is_can_start_quest("quest_9"))
+			eva.quests.start_quest("quest_9")
+			assert(events[START].calls == 3)
+
+			assert(not eva.quests.is_can_start_quest("quest_9"))
+			eva.quests.start_quest("quest_9") -- We should not start quest twice
+			assert(events[START].calls == 3)
+
+			eva.token.add("level", 1)
+			assert(events[START].calls == 3)
+			assert(events[END].calls == 1)
+		end)
+
+		it("Should manual start quests with offline mode", function()
+			eva.quests.start_quests()
+			assert(events[START].calls == 1)
+			eva.quests.quest_event("get", "item", 1)
+
+			assert(events[END].calls == 0)
+			assert(events[START].calls == 1)
+
+			assert(not eva.quests.is_can_start_quest("quest_6"))
+			eva.quests.start_quest("quest_6")
+			assert(events[END].calls == 0)
+			assert(events[START].calls == 1)
+
+			eva.token.add("level", 1)
+			assert(eva.quests.is_can_start_quest("quest_6"))
+			eva.quests.start_quest("quest_6")
+			assert(events[END].calls == 1)
+			assert(events[START].calls == 2)
 		end)
 	end)
 end

@@ -75,6 +75,7 @@ M.EVENT = {
 	FESTIVAL_START = "eva.festivals.start",
 	FESTIVAL_END = "eva.festivals.end",
 	FESTIVAL_CLOSE_TO_END = "eva.festivals.close_to_end",
+	QUEST_REGISTER = "eva.quests.register",
 	QUEST_START = "eva.quests.start",
 	QUEST_PROGRESS = "eva.quests.progress",
 	QUEST_TASK_COMPLETE = "eva.quests.task_complete",

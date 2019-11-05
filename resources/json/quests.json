@@ -33,6 +33,29 @@
       "required_tokens": { "tokens": [] },
       "reward": { "tokens": [] },
       "tasks": [ { "action": "get", "object": "exp", "required": 1 } ]
+    },
+    "quest_6": {
+      "catch_events_offline": true,
+      "required_tokens": { "tokens": [ { "token_id": "level", "amount": 2 } ] },
+      "reward": { "tokens": [] },
+      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
+    },
+    "quest_7": {
+      "required_quests": [ "quest_6" ],
+      "required_tokens": { "tokens": [] },
+      "reward": { "tokens": [] },
+      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
+    },
+    "quest_8": {
+      "required_tokens": { "tokens": [] },
+      "reward": { "tokens": [] },
+      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
+    },
+    "quest_9": {
+      "required_quests": [ "quest_8" ],
+      "required_tokens": { "tokens": [] },
+      "reward": { "tokens": [] },
+      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
     }
   }
 }

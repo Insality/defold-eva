@@ -88,7 +88,41 @@ local function is_tasks_completed(quest_id)
 end
 
 
-local function start_quest(quest_id)
+local function end_quest(quest_id)
+	local quests = app[const.EVA.QUESTS]
+
+	if not quests.current[quest_id] then
+		logger:warn("No quest in current list to end it", { quest_id = quest_id })
+		return
+	end
+
+	if M.is_completed(quest_id) then
+		logger:warn("Quest already completed", { quest_id = quest_id })
+		return
+	end
+
+	quests.current[quest_id] = nil
+	table.insert(quests.completed, quest_id)
+	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
+end
+
+
+local function try_end_quest(quest_id)
+	if M.is_active(quest_id) and is_tasks_completed(quest_id) then
+		local is_can_end = true
+		if app.quests_settings.check_end then
+			is_can_end = app.quests_settings.check_end(quest_id)
+		end
+
+		if is_can_end then
+			end_quest(quest_id)
+		end
+	end
+end
+
+
+--- Register quest to catch events even it not started
+local function register_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	local quests_data = app.db.Quests.quests[quest_id]
 	if quests.current[quest_id] then
@@ -101,24 +135,20 @@ local function start_quest(quest_id)
 		quests.current[quest_id].progress[i] = 0
 	end
 
-	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
+	events.event(const.EVENT.QUEST_REGISTER, { quest_id = quest_id })
 end
 
 
-local function end_quest(quest_id)
+local function start_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	if not quests.current[quest_id] then
-		logger:warn("No quest in current list to end it", { quest_id = quest_id })
-		return
-	end
-	if M.is_completed(quest_id) then
-		logger:warn("Quest already completed", { quest_id = quest_id })
-		return
+		register_quest(quest_id)
 	end
 
-	quests.current[quest_id] = nil
-	table.insert(quests.completed, quest_id)
-	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
+	quests.current[quest_id].is_active = true
+	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
+
+	try_end_quest(quest_id)
 end
 
 
@@ -127,28 +157,19 @@ local function update_quests_list()
 	local quests = app[const.EVA.QUESTS]
 
 	for quest_id, quest in pairs(quests_data) do
-		if M.is_active(quest_id) and is_tasks_completed(quest_id) then
-			local is_can_end = true
+		-- Complete quests
+		try_end_quest(quest_id)
 
-			if app.quests_settings.check_end then
-				is_can_end = app.quests_settings.check_end(quest_id)
-			end
-
-			if is_can_end then
-				end_quest(quest_id)
+		-- Register quests
+		if not quests.current[quest_id] then
+			if is_catch_offline(quest_id) then
+				register_quest(quest_id)
 			end
 		end
 
-		if not quests.current[quest_id] and (is_available(quest_id) or is_catch_offline(quest_id)) then
-			local is_can_start = true
-
-			if app.quests_settings.check_start then
-				is_can_start = app.quests_settings.check_start(quest_id)
-			end
-
-			if is_can_start then
-				start_quest(quest_id)
-			end
+		-- Start autoquests
+		if quest.autostart then
+			M.start_quest(quest_id)
 		end
 	end
 end
@@ -199,7 +220,9 @@ end
 
 
 function M.get_current()
-	return luax.table.list(app[const.EVA.QUESTS].current)
+	return fun.filter(function(quest_id, quest)
+		return quest.is_active
+	end, app[const.EVA.QUESTS].current):totable()
 end
 
 
@@ -210,14 +233,8 @@ end
 
 function M.is_active(quest_id)
 	local quests = app[const.EVA.QUESTS]
-	return quests.current[quest_id] and is_available(quest_id)
-end
-
-
-function M.is_started(quest_id)
-	local quests = app[const.EVA.QUESTS]
 	local quest = quests.current[quest_id]
-	return quest and quest.is_started
+	return quest and quest.is_active
 end
 
 
@@ -227,13 +244,29 @@ function M.is_completed(quest_id)
 end
 
 
+function M.is_can_start_quest(quest_id)
+	local is_can_start_extra = true
+	if app.quests_settings.check_start then
+		is_can_start_extra = app.quests_settings.check_start(quest_id)
+	end
+
+	return is_can_start_extra and is_available(quest_id) and not M.is_active(quest_id)
+end
+
+
+function M.start_quest(quest_id)
+	if M.is_can_start_quest(quest_id) then
+		start_quest(quest_id)
+	end
+end
+
+
 function M.quest_event(action, object, amount)
 	local current = app[const.EVA.QUESTS].current
 	local is_need_update = false
 
 	for quest_id, quest in pairs(current) do
 		local is_can_event = true
-
 		if app.quests_settings.check_event then
 			is_can_event = app.quests_settings.check_event(quest_id)
 		end
