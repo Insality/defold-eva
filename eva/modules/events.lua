@@ -26,7 +26,7 @@ function M.event(event, params)
 	local listeners = app.event_listeners[event]
 	if listeners then
 		for i = 1, #listeners do
-			listeners[i](params)
+			listeners[i](event, params)
 		end
 	end
 end

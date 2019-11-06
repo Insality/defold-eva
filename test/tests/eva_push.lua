@@ -110,7 +110,7 @@ return function()
 			eva.update(1)
 
 			assert(events[CANCEL].calls == 1)
-			assert(events[CANCEL].params[1].id == push.id)
+			assert(events[CANCEL].params[2].id == push.id)
 		end)
 
 		it("Should mark today early pushes as triggered", function()
