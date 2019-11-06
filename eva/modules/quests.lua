@@ -54,7 +54,7 @@ local function is_quests_ok(quests_list)
 end
 
 
---- All requirements is satisfied
+--- All requirements is satisfied for start quest
 local function is_available(quest_id)
 	local quests_data = app.db.Quests.quests
 	local quest = quests_data[quest_id]
@@ -88,7 +88,7 @@ local function is_tasks_completed(quest_id)
 end
 
 
-local function end_quest(quest_id)
+local function finish_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
 
 	if not quests.current[quest_id] then
@@ -104,20 +104,6 @@ local function end_quest(quest_id)
 	quests.current[quest_id] = nil
 	table.insert(quests.completed, quest_id)
 	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
-end
-
-
-local function try_end_quest(quest_id)
-	if M.is_active(quest_id) and is_tasks_completed(quest_id) then
-		local is_can_end = true
-		if app.quests_settings.check_end then
-			is_can_end = app.quests_settings.check_end(quest_id)
-		end
-
-		if is_can_end then
-			end_quest(quest_id)
-		end
-	end
 end
 
 
@@ -140,6 +126,7 @@ end
 
 
 local function start_quest(quest_id)
+	local quest_data = app.db.Quests.quests[quest_id]
 	local quests = app[const.EVA.QUESTS]
 	if not quests.current[quest_id] then
 		register_quest(quest_id)
@@ -148,7 +135,9 @@ local function start_quest(quest_id)
 	quests.current[quest_id].is_active = true
 	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
 
-	try_end_quest(quest_id)
+	if quest_data.autofinish then
+		M.complete_quest(quest_id)
+	end
 end
 
 
@@ -156,9 +145,14 @@ local function update_quests_list()
 	local quests_data = app.db.Quests.quests
 	local quests = app[const.EVA.QUESTS]
 
+	-- TODO: Optimize
+	-- TODO: Check complete only on started quests
+	-- TODO: Check start quests only what can be started (Make separate list)
 	for quest_id, quest in pairs(quests_data) do
 		-- Complete quests
-		try_end_quest(quest_id)
+		if quest.autofinish then
+			M.complete_quest(quest_id)
+		end
 
 		-- Register quests
 		if not quests.current[quest_id] then
@@ -261,6 +255,22 @@ function M.start_quest(quest_id)
 end
 
 
+function M.is_can_complete_quest(quest_id)
+	local is_can_complete_extra = true
+	if app.quests_settings.check_end then
+		is_can_complete_extra = app.quests_settings.check_end(quest_id)
+	end
+	return is_can_complete_extra and M.is_active(quest_id) and is_tasks_completed(quest_id)
+end
+
+
+function M.complete_quest(quest_id)
+	if M.is_can_complete_quest(quest_id) then
+		finish_quest(quest_id)
+	end
+end
+
+
 function M.quest_event(action, object, amount)
 	local current = app[const.EVA.QUESTS].current
 	local is_need_update = false
@@ -286,7 +296,7 @@ end
 
 --- Start eva quests system
 -- Call it to activate quests. If you has the quest custom settings
--- setup it before call start_quests
+-- you should pass it in eva.init settings
 -- @function eva.quests.start_quests
 function M.start_quests()
 	app.quests_info.is_started = true
