@@ -34,7 +34,7 @@ return function()
 		it("Should correct start quests", function()
 			eva.quests.start_quests()
 			local current = eva.quests.get_current()
-			assert(events[REGISTER].calls == 3)
+			assert(events[REGISTER].calls == 5)
 			assert(events[START].calls == 1)
 			assert(luax.table.contains(current, "quest_1"))
 			assert(#current == 1)
@@ -87,7 +87,7 @@ return function()
 			assert(events[END].calls == 1)
 			assert(events[END].params[2].quest_id == "quest_1")
 
-			assert(events[REGISTER].calls == 4)
+			assert(events[REGISTER].calls == 6)
 			assert(events[START].calls == 2)
 			assert(events[START].params[2].quest_id == "quest_2")
 			local current = eva.quests.get_current()
@@ -99,7 +99,7 @@ return function()
 			eva.quests.quest_event("get", "money", 2000)
 			assert(events[END].calls == 1)
 			assert(events[START].calls == 1)
-			assert(events[REGISTER].calls == 3)
+			assert(events[REGISTER].calls == 5)
 
 			eva.token.add("level", 1, "test")
 			assert(events[START].calls == 2)
@@ -175,13 +175,13 @@ return function()
 			local is_can_event = false
 
 			local settings = {
-				check_start = function(quest_id)
+				is_can_start = function(quest_id)
 					return is_can_start
 				end,
-				check_end = function(quest_id)
+				is_can_complete = function(quest_id)
 					return is_can_end
 				end,
-				check_event = function(quest_id)
+				is_can_event = function(quest_id)
 					return is_can_event
 				end,
 			}
@@ -189,12 +189,12 @@ return function()
 			eva.quests.start_quests()
 
 			assert(events[START].calls == 0)
-			assert(events[REGISTER].calls == 2)
+			assert(events[REGISTER].calls == 4)
 			is_can_start = true
 			eva.quests.update_quests()
 			eva.quests.update_quests()
 			assert(events[START].calls == 1)
-			assert(events[REGISTER].calls == 3)
+			assert(events[REGISTER].calls == 5)
 
 			eva.quests.quest_event("get", "money", 10)
 			assert(events[PROGRESS].calls == 0)
@@ -211,9 +211,9 @@ return function()
 
 		it("Should register offline quests", function()
 			eva.quests.start_quests()
-			assert(events[REGISTER].calls == 3)
+			assert(events[REGISTER].calls == 5)
 			eva.token.add("level", 1) -- up to 2 level
-			assert(events[REGISTER].calls == 3)
+			assert(events[REGISTER].calls == 5)
 			assert(events[END].calls == 0)
 		end)
 
@@ -236,7 +236,7 @@ return function()
 			assert(not eva.quests.is_can_start_quest("quest_9"))
 			eva.quests.start_quest("quest_9") -- cant start, need quest_8
 			assert(events[START].calls == 2)
-			assert(events[REGISTER].calls == 4)
+			assert(events[REGISTER].calls == 6)
 			assert(events[REGISTER].params[2].quest_id == "quest_8")
 
 			assert(events[END].calls == 0)
@@ -275,6 +275,50 @@ return function()
 			eva.quests.start_quest("quest_6")
 			assert(events[END].calls == 1)
 			assert(events[START].calls == 2)
+		end)
+
+		it("Should not autofinish quest without autofinish", function()
+			eva.quests.start_quests()
+			assert(events[START].calls == 1)
+			assert(events[REGISTER].calls == 5)
+			eva.quests.start_quest("quest_10")
+			assert(events[REGISTER].calls == 6)
+			assert(events[START].calls == 2)
+			assert(events[END].calls == 0)
+			assert(not eva.quests.is_can_complete_quest("quest_10"))
+			eva.quests.complete_quest("quest_10")
+			assert(events[END].calls == 0)
+
+			eva.quests.quest_event("get", "gold", 1)
+			assert(events[END].calls == 0)
+			assert(eva.quests.is_can_complete_quest("quest_10"))
+
+			eva.quests.complete_quest("quest_10")
+			assert(events[END].calls == 1)
+			assert(not eva.quests.is_can_complete_quest("quest_10"))
+
+			assert(eva.quests.is_can_start_quest("quest_11"))
+			eva.quests.start_quest("quest_11")
+			assert(events[START].calls == 3)
+
+			eva.quests.quest_event("get", "gold", 1)
+			eva.quests.complete_quest("quest_11")
+			assert(events[START].calls == 4)
+			assert(eva.quests.is_active("quest_12"))
+			assert(eva.quests.is_can_complete_quest("quest_12"))
+		end)
+
+		it("Should correct work quest without autostart and autofinish", function()
+			eva.quests.start_quests()
+			assert(events[START].calls == 1)
+			eva.token.add("gold", 100)
+			assert(events[START].calls == 2)
+			assert(events[END].calls == 0)
+			eva.quests.quest_event("get", "gold", 1)
+			assert(events[END].calls == 0)
+			assert(eva.quests.is_can_complete_quest("quest_14"))
+			eva.quests.complete_quest("quest_14")
+			assert(events[END].calls == 1)
 		end)
 	end)
 end

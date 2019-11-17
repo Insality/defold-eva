@@ -6,6 +6,13 @@
 -- You can expand the quest data and start/progress/end logic
 -- @submodule eva
 
+-- Quest stages:
+-- No registered
+-- Registered
+-- Started
+-- Can finish
+-- Finished
+
 
 local log = require("eva.log")
 local app = require("eva.app")
@@ -90,6 +97,7 @@ end
 
 local function finish_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
+	local quest_data = app.db.Quests.quests[quest_id]
 
 	if not quests.current[quest_id] then
 		logger:warn("No quest in current list to end it", { quest_id = quest_id })
@@ -104,20 +112,26 @@ local function finish_quest(quest_id)
 	quests.current[quest_id] = nil
 	table.insert(quests.completed, quest_id)
 	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
+
+	if app.quests_settings.on_quest_completed then
+		app.quests_settings.on_quest_completed(quest_id, quest_data)
+	end
+
+	M.update_quests()
 end
 
 
 --- Register quest to catch events even it not started
 local function register_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
-	local quests_data = app.db.Quests.quests[quest_id]
+	local quest_data = app.db.Quests.quests[quest_id]
 	if quests.current[quest_id] then
 		logger:warn("Quest already started", { quest_id = quest_id })
 		return
 	end
 
 	quests.current[quest_id] = proto.get("eva.QuestData")
-	for i = 1, #quests_data.tasks do
+	for i = 1, #quest_data.tasks do
 		quests.current[quest_id].progress[i] = 0
 	end
 
@@ -135,7 +149,12 @@ local function start_quest(quest_id)
 	quests.current[quest_id].is_active = true
 	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
 
+	if app.quests_settings.on_quest_start then
+		app.quests_settings.on_quest_start(quest_id, quest_data)
+	end
+
 	if quest_data.autofinish then
+		-- It will check before complete quests
 		M.complete_quest(quest_id)
 	end
 end
@@ -194,11 +213,19 @@ local function apply_event(quest_id, quest, action, object, amount)
 				task_index = i
 			})
 
+			if app.quests_settings.on_quest_progress then
+				app.quests_settings.on_quest_progress(quest_id, quest_data)
+			end
+
 			if quest.progress[i] == task_data.required then
 				events.event(const.EVENT.QUEST_TASK_COMPLETE, {
 					quest_id = quest_id,
 					task_index = i
 				})
+
+				if app.quests_settings.on_quest_task_completed then
+					app.quests_settings.on_quest_task_completed(quest_id, quest_data)
+				end
 			end
 		end
 	end
@@ -240,8 +267,8 @@ end
 
 function M.is_can_start_quest(quest_id)
 	local is_can_start_extra = true
-	if app.quests_settings.check_start then
-		is_can_start_extra = app.quests_settings.check_start(quest_id)
+	if app.quests_settings.is_can_start then
+		is_can_start_extra = app.quests_settings.is_can_start(quest_id)
 	end
 
 	return is_can_start_extra and is_available(quest_id) and not M.is_active(quest_id)
@@ -257,9 +284,10 @@ end
 
 function M.is_can_complete_quest(quest_id)
 	local is_can_complete_extra = true
-	if app.quests_settings.check_end then
-		is_can_complete_extra = app.quests_settings.check_end(quest_id)
+	if app.quests_settings.is_can_complete then
+		is_can_complete_extra = app.quests_settings.is_can_complete(quest_id)
 	end
+
 	return is_can_complete_extra and M.is_active(quest_id) and is_tasks_completed(quest_id)
 end
 
@@ -277,8 +305,8 @@ function M.quest_event(action, object, amount)
 
 	for quest_id, quest in pairs(current) do
 		local is_can_event = true
-		if app.quests_settings.check_event then
-			is_can_event = app.quests_settings.check_event(quest_id)
+		if app.quests_settings.is_can_event then
+			is_can_event = app.quests_settings.is_can_event(quest_id)
 		end
 
 		if is_can_event then
