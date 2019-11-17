@@ -74,7 +74,7 @@ end
 
 local function is_catch_offline(quest_id)
 	local quests_data = app.db.Quests.quests
-	return not M.is_completed(quest_id) and quests_data[quest_id].catch_events_offline
+	return not M.is_completed(quest_id) and quests_data[quest_id].events_offline
 end
 
 
@@ -110,7 +110,10 @@ local function finish_quest(quest_id)
 	end
 
 	quests.current[quest_id] = nil
-	table.insert(quests.completed, quest_id)
+	if not quest_data.repeatable then
+		table.insert(quests.completed, quest_id)
+	end
+
 	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
 
 	if app.quests_settings.on_quest_completed then
@@ -266,9 +269,11 @@ end
 
 
 function M.is_can_start_quest(quest_id)
+	local quest_data = app.db.Quests.quests[quest_id]
+
 	local is_can_start_extra = true
 	if app.quests_settings.is_can_start then
-		is_can_start_extra = app.quests_settings.is_can_start(quest_id)
+		is_can_start_extra = app.quests_settings.is_can_start(quest_id, quest_data)
 	end
 
 	return is_can_start_extra and is_available(quest_id) and not M.is_active(quest_id)
@@ -283,9 +288,11 @@ end
 
 
 function M.is_can_complete_quest(quest_id)
+	local quest_data = app.db.Quests.quests[quest_id]
+
 	local is_can_complete_extra = true
 	if app.quests_settings.is_can_complete then
-		is_can_complete_extra = app.quests_settings.is_can_complete(quest_id)
+		is_can_complete_extra = app.quests_settings.is_can_complete(quest_id, quest_data)
 	end
 
 	return is_can_complete_extra and M.is_active(quest_id) and is_tasks_completed(quest_id)
@@ -304,9 +311,11 @@ function M.quest_event(action, object, amount)
 	local is_need_update = false
 
 	for quest_id, quest in pairs(current) do
+		local quest_data = app.db.Quests.quests[quest_id]
+
 		local is_can_event = true
 		if app.quests_settings.is_can_event then
-			is_can_event = app.quests_settings.is_can_event(quest_id)
+			is_can_event = app.quests_settings.is_can_event(quest_id, quest_data)
 		end
 
 		if is_can_event then

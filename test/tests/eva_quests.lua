@@ -320,5 +320,29 @@ return function()
 			eva.quests.complete_quest("quest_14")
 			assert(events[END].calls == 1)
 		end)
+
+		it("Should correct work with repeatable quests (daily example)", function()
+			eva.quests.start_quests()
+			assert(events[START].calls == 1)
+
+			assert(not eva.quests.is_active("quest_daily_1"))
+			eva.quests.start_quest("quest_daily_1")
+			assert(events[START].calls == 2)
+			assert(eva.quests.is_active("quest_daily_1"))
+			assert(not eva.quests.is_can_complete_quest("quest_daily_1"))
+
+			eva.quests.quest_event("win", "game", 1)
+			assert(not eva.quests.is_can_complete_quest("quest_daily_1"))
+			eva.quests.quest_event("play", "hero", 1)
+			assert(eva.quests.is_can_complete_quest("quest_daily_1"))
+			eva.quests.complete_quest("quest_daily_1")
+			assert(not eva.quests.is_active("quest_daily_1"))
+			assert(eva.quests.is_can_start_quest("quest_daily_1"))
+			eva.quests.start_quest("quest_daily_1")
+
+			assert(events[END].calls == 1)
+			assert(events[START].calls == 3)
+
+		end)
 	end)
 end

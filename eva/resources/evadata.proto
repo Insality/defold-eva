@@ -86,8 +86,11 @@ message Quest {
 	Tokens required_tokens = 2;
 	repeated QuestTasks tasks = 3;
 	Tokens reward = 4;
-	bool catch_events_offline = 5;
-	string category = 6;
+	string category = 5;
+	bool events_offline = 6;
+	bool autostart = 7;
+	bool autofinish = 8;
+	bool repeatable = 9;
 }
 
 message Quests {
