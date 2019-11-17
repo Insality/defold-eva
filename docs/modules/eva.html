@@ -55,6 +55,7 @@
 <li><a href="#modules_push_Functions">modules.push Functions</a></li>
 <li><a href="#modules_quests_Functions">modules.quests Functions</a></li>
 <li><a href="#modules_rate_Functions">modules.rate Functions</a></li>
+<li><a href="#modules_rating_Functions">modules.rating Functions</a></li>
 <li><a href="#modules_render_Functions">modules.render Functions</a></li>
 <li><a href="#modules_saver_Functions">modules.saver Functions</a></li>
 <li><a href="#modules_server_Functions">modules.server Functions</a></li>
@@ -249,8 +250,20 @@
 	<td class="summary">Setup current game screen</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.events.add_event_system">eva.events.add_event_system(event_system)</a></td>
-	<td class="summary">Add event system</td>
+	<td class="name" nowrap><a href="#eva.events.subscribe">eva.events.subscribe(event_name, callback)</a></td>
+	<td class="summary">Subscribe the callback on event</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.events.subscribe_map">eva.events.subscribe_map(map)</a></td>
+	<td class="summary">Subscribe the pack of events by map</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.events.unsubscribe">eva.events.unsubscribe(event_name, callback)</a></td>
+	<td class="summary">Unsubscribe the event from events flow</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.events.is_subscribed">eva.events.is_subscribed(event_name, callback)</a></td>
+	<td class="summary">Check if callback is already subscribed</td>
 	</tr>
 </table>
 <h2><a href="#modules_festivals_Functions">modules.festivals Functions</a></h2>
@@ -423,8 +436,28 @@
 	<td class="summary">Get reward from iap_id</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.get_iap">eva.iaps.get_iap(iap_id)</a></td>
+	<td class="summary">Get iap info by iap_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.get_iaps">eva.iaps.get_iaps(category)</a></td>
+	<td class="summary">Get all iaps.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.is_available">eva.iaps.is_available(iap_id)</a></td>
+	<td class="summary">Check is iap is available</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.iaps.get_price">eva.iaps.get_price(iap_id)</a></td>
 	<td class="summary">Get price from iap_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.get_price_string">eva.iaps.get_price_string(iap_id)</a></td>
+	<td class="summary">Get price_string from iap_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.refresh_iap_list">eva.iaps.refresh_iap_list()</a></td>
+	<td class="summary">Refresh iap list.</td>
 	</tr>
 </table>
 <h2><a href="#modules_invoices_Functions">modules.invoices Functions</a></h2>
@@ -614,9 +647,48 @@
 <h2><a href="#modules_quests_Functions">modules.quests Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#eva.quests.get_progress">eva.quests.get_progress(quest_id)</a></td>
+	<td class="summary">Get current progress on quest</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.get_current">eva.quests.get_current()</a></td>
+	<td class="summary">Get current active quests</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.get_completed">eva.quests.get_completed()</a></td>
+	<td class="summary">Get completed quests list</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.is_active">eva.quests.is_active()</a></td>
+	<td class="summary">Check quest is active</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.is_completed">eva.quests.is_completed()</a></td>
+	<td class="summary">Check quest is completed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.is_can_start_quest">eva.quests.is_can_start_quest()</a></td>
+	<td class="summary">Check quest is can be started now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.start_quest">eva.quests.start_quest(quest_id)</a></td>
+	<td class="summary">Start quest, if it can be started</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.is_can_complete_quest">eva.quests.is_can_complete_quest()</a></td>
+	<td class="summary">Check quest is can be completed now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.complete_quest">eva.quests.complete_quest(quest_id)</a></td>
+	<td class="summary">Complete quest, if it can be completed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.quest_event">eva.quests.quest_event(action, object, amount)</a></td>
+	<td class="summary">Apply quest event to all current quests</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.quests.start_quests">eva.quests.start_quests()</a></td>
-	<td class="summary">Start eva quests system
- Call it to activate quests.</td>
+	<td class="summary">Start eva quests system.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.update_quests">eva.quests.update_quests()</a></td>
@@ -625,9 +697,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.add_update_quest_event">eva.quests.add_update_quest_event()</a></td>
-	<td class="summary">Add event, to trigger quest list update
- Example: you have a condition to start quest only if festival is enabled
- So add event FESTIVAL_START to update quests on this update</td>
+	<td class="summary">Add event, to trigger quest list update.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.set_settings">eva.quests.set_settings()</a></td>
@@ -651,6 +721,13 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.rate.open_rate">eva.rate.open_rate()</a></td>
 	<td class="summary">Open store or native rating on iOS</td>
+	</tr>
+</table>
+<h2><a href="#modules_rating_Functions">modules.rating Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.rating.elo">eva.rating.elo(rating_a, rating_b, game_koef)</a></td>
+	<td class="summary">Call elo rating</td>
 	</tr>
 </table>
 <h2><a href="#modules_render_Functions">modules.render Functions</a></h2>
@@ -677,6 +754,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.save">eva.saver.save()</a></td>
 	<td class="summary">Save the game save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.delete">eva.saver.delete([filename])</a></td>
+	<td class="summary">Delete the save</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.reset">eva.saver.reset()</a></td>
@@ -861,12 +942,12 @@
 <h2><a href="#modules_tokens_Functions">modules.tokens Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_token_group">eva.tokens.get_token_group(token_group_id)</a></td>
-	<td class="summary">Return token group by id.</td>
-	</tr>
-	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.get_tokens">eva.tokens.get_tokens(tokens)</a></td>
 	<td class="summary">Return evadata.Tokens tokens format</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tokens.get_token_group">eva.tokens.get_token_group(token_group_id)</a></td>
+	<td class="summary">Return token group by id.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.get_lot_reward">eva.tokens.get_lot_reward(lot_id)</a></td>
@@ -1611,18 +1692,93 @@
 
 </dd>
     <dt>
-    <a name = "eva.events.add_event_system"></a>
-    <strong>eva.events.add_event_system(event_system)</strong>
+    <a name = "eva.events.subscribe"></a>
+    <strong>eva.events.subscribe(event_name, callback)</strong>
     </dt>
     <dd>
-    Add event system
+    Subscribe the callback on event
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">event_system</span>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Event name
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         Event callback
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.events.subscribe_map"></a>
+    <strong>eva.events.subscribe_map(map)</strong>
+    </dt>
+    <dd>
+    Subscribe the pack of events by map
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">map</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         custom event handler
+         {Event = Callback} map
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.events.unsubscribe"></a>
+    <strong>eva.events.unsubscribe(event_name, callback)</strong>
+    </dt>
+    <dd>
+    Unsubscribe the event from events flow
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Event name
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         Event callback
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.events.is_subscribed"></a>
+    <strong>eva.events.is_subscribed(event_name, callback)</strong>
+    </dt>
+    <dd>
+    Check if callback is already subscribed
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Event name
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         Event callback
         </li>
     </ul>
 
@@ -2387,6 +2543,81 @@
 
 </dd>
     <dt>
+    <a name = "eva.iaps.get_iap"></a>
+    <strong>eva.iaps.get_iap(iap_id)</strong>
+    </dt>
+    <dd>
+    Get iap info by iap_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">iap_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the inapp id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.iaps.get_iaps"></a>
+    <strong>eva.iaps.get_iaps(category)</strong>
+    </dt>
+    <dd>
+    Get all iaps.  Can be selected by category
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">category</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Category of iap
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">list</span></span>
+        of iap products
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.iaps.is_available"></a>
+    <strong>eva.iaps.is_available(iap_id)</strong>
+    </dt>
+    <dd>
+    Check is iap is available
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">iap_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the inapp id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Is available
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.iaps.get_price"></a>
     <strong>eva.iaps.get_price(iap_id)</strong>
     </dt>
@@ -2401,6 +2632,43 @@
          the inapp id
         </li>
     </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.iaps.get_price_string"></a>
+    <strong>eva.iaps.get_price_string(iap_id)</strong>
+    </dt>
+    <dd>
+    Get price_string from iap_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">iap_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the inapp id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.iaps.refresh_iap_list"></a>
+    <strong>eva.iaps.refresh_iap_list()</strong>
+    </dt>
+    <dd>
+    Refresh iap list.
+ It make request to stores to get new info
+ Throw EVENT.IAP_UPDATE at end
+
+
 
 
 
@@ -3231,13 +3499,231 @@
 
     <dl class="function">
     <dt>
+    <a name = "eva.quests.get_progress"></a>
+    <strong>eva.quests.get_progress(quest_id)</strong>
+    </dt>
+    <dd>
+    Get current progress on quest
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">quest_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Quest id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        List of progress of quest tasks in task order
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.get_current"></a>
+    <strong>eva.quests.get_current()</strong>
+    </dt>
+    <dd>
+    Get current active quests
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        List of active quests
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.get_completed"></a>
+    <strong>eva.quests.get_completed()</strong>
+    </dt>
+    <dd>
+    Get completed quests list
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        List of active quests
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.is_active"></a>
+    <strong>eva.quests.is_active()</strong>
+    </dt>
+    <dd>
+    Check quest is active
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Quest active state
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.is_completed"></a>
+    <strong>eva.quests.is_completed()</strong>
+    </dt>
+    <dd>
+    Check quest is completed
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Quest completed state
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.is_can_start_quest"></a>
+    <strong>eva.quests.is_can_start_quest()</strong>
+    </dt>
+    <dd>
+    Check quest is can be started now
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Quest is can start state
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.start_quest"></a>
+    <strong>eva.quests.start_quest(quest_id)</strong>
+    </dt>
+    <dd>
+    Start quest, if it can be started
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">quest_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Quest id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.is_can_complete_quest"></a>
+    <strong>eva.quests.is_can_complete_quest()</strong>
+    </dt>
+    <dd>
+    Check quest is can be completed now
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Quest is can complete quest state
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.complete_quest"></a>
+    <strong>eva.quests.complete_quest(quest_id)</strong>
+    </dt>
+    <dd>
+    Complete quest, if it can be completed
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">quest_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Quest id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.quest_event"></a>
+    <strong>eva.quests.quest_event(action, object, amount)</strong>
+    </dt>
+    <dd>
+    Apply quest event to all current quests
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Type of event
+        </li>
+        <li><span class="parameter">object</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Object of event
+        </li>
+        <li><span class="parameter">amount</span>
+            <span class="types"><span class="type">number</span></span>
+         Amount of event
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.quests.start_quests"></a>
     <strong>eva.quests.start_quests()</strong>
     </dt>
     <dd>
-    Start eva quests system
- Call it to activate quests.  If you has the quest custom settings
- setup it before call start_quests
+    Start eva quests system.
+ Need to call, when game is prepared for quests
+ Call it to activate quests
 
 
 
@@ -3266,7 +3752,7 @@
     <strong>eva.quests.add_update_quest_event()</strong>
     </dt>
     <dd>
-    Add event, to trigger quest list update
+    Add event, to trigger quest list update.
  Example: you have a condition to start quest only if festival is enabled
  So add event FESTIVAL_START to update quests on this update
 
@@ -3282,8 +3768,8 @@
     <strong>eva.quests.set_settings()</strong>
     </dt>
     <dd>
-    Set game quests settings.  Setup settings before
- call eva.quest.start_quests
+    Set game quests settings.
+ Pass settings in eva.init function
 
 
 
@@ -3346,6 +3832,39 @@
     Open store or native rating on iOS
 
 
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_rating_Functions"></a>modules.rating Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.rating.elo"></a>
+    <strong>eva.rating.elo(rating_a, rating_b, game_koef)</strong>
+    </dt>
+    <dd>
+    Call elo rating
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">rating_a</span>
+            <span class="types"><span class="type">number</span></span>
+         Player rating
+        </li>
+        <li><span class="parameter">rating_b</span>
+            <span class="types"><span class="type">number</span></span>
+         Opponent rating
+        </li>
+        <li><span class="parameter">game_koef</span>
+            <span class="types"><span class="type">number</span></span>
+         Result of game. 1 is win, 0 on loose, 0.5 is draw
+        </li>
+    </ul>
 
 
 
@@ -3424,6 +3943,28 @@
     Save the game save
 
 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.delete"></a>
+    <strong>eva.saver.delete([filename])</strong>
+    </dt>
+    <dd>
+    Delete the save
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">filename</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The save filename. Can be default by settings
+         (<em>optional</em>)
+        </li>
+    </ul>
 
 
 
@@ -4254,6 +4795,27 @@
 
     <dl class="function">
     <dt>
+    <a name = "eva.tokens.get_tokens"></a>
+    <strong>eva.tokens.get_tokens(tokens)</strong>
+    </dt>
+    <dd>
+    Return evadata.Tokens tokens format
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Map with token_id = amount
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.tokens.get_token_group"></a>
     <strong>eva.tokens.get_token_group(token_group_id)</strong>
     </dt>
@@ -4276,27 +4838,6 @@
            <span class="types"><span class="type">evadata.Tokens</span></span>
         the token list
     </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_tokens"></a>
-    <strong>eva.tokens.get_tokens(tokens)</strong>
-    </dt>
-    <dd>
-    Return evadata.Tokens tokens format
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">tokens</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         Map with token_id = amount
-        </li>
-    </ul>
-
 
 
 
@@ -4671,7 +5212,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-10-30 23:47:05 </i>
+<i style="float:right;">Last updated 2019-11-18 00:47:38 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

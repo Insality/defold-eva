@@ -95,35 +95,6 @@ local function is_tasks_completed(quest_id)
 end
 
 
-local function finish_quest(quest_id)
-	local quests = app[const.EVA.QUESTS]
-	local quest_data = app.db.Quests.quests[quest_id]
-
-	if not quests.current[quest_id] then
-		logger:warn("No quest in current list to end it", { quest_id = quest_id })
-		return
-	end
-
-	if M.is_completed(quest_id) then
-		logger:warn("Quest already completed", { quest_id = quest_id })
-		return
-	end
-
-	quests.current[quest_id] = nil
-	if not quest_data.repeatable then
-		table.insert(quests.completed, quest_id)
-	end
-
-	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
-
-	if app.quests_settings.on_quest_completed then
-		app.quests_settings.on_quest_completed(quest_id, quest_data)
-	end
-
-	M.update_quests()
-end
-
-
 --- Register quest to catch events even it not started
 local function register_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
@@ -160,6 +131,35 @@ local function start_quest(quest_id)
 		-- It will check before complete quests
 		M.complete_quest(quest_id)
 	end
+end
+
+
+local function finish_quest(quest_id)
+	local quests = app[const.EVA.QUESTS]
+	local quest_data = app.db.Quests.quests[quest_id]
+
+	if not quests.current[quest_id] then
+		logger:warn("No quest in current list to end it", { quest_id = quest_id })
+		return
+	end
+
+	if M.is_completed(quest_id) then
+		logger:warn("Quest already completed", { quest_id = quest_id })
+		return
+	end
+
+	quests.current[quest_id] = nil
+	if not quest_data.repeatable then
+		table.insert(quests.completed, quest_id)
+	end
+
+	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
+
+	if app.quests_settings.on_quest_completed then
+		app.quests_settings.on_quest_completed(quest_id, quest_data)
+	end
+
+	M.update_quests()
 end
 
 
@@ -237,12 +237,19 @@ local function apply_event(quest_id, quest, action, object, amount)
 end
 
 
+--- Get current progress on quest
+-- @function eva.quests.get_progress
+-- @tparam string quest_id Quest id
+-- @treturn table List of progress of quest tasks in task order
 function M.get_progress(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	return quests.current[quest_id] and quests.current[quest_id].progress or {}
 end
 
 
+--- Get current active quests
+-- @function eva.quests.get_current
+-- @treturn table List of active quests
 function M.get_current()
 	return fun.filter(function(quest_id, quest)
 		return quest.is_active
@@ -250,11 +257,17 @@ function M.get_current()
 end
 
 
+--- Get completed quests list
+-- @function eva.quests.get_completed
+-- @treturn table List of active quests
 function M.get_completed()
 	return app[const.EVA.QUESTS].completed
 end
 
 
+--- Check quest is active
+-- @function eva.quests.is_active
+-- @treturn bool Quest active state
 function M.is_active(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	local quest = quests.current[quest_id]
@@ -262,12 +275,18 @@ function M.is_active(quest_id)
 end
 
 
+--- Check quest is completed
+-- @function eva.quests.is_completed
+-- @treturn bool Quest completed state
 function M.is_completed(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	return luax.table.contains(quests.completed, quest_id)
 end
 
 
+--- Check quest is can be started now
+-- @function eva.quests.is_can_start_quest
+-- @treturn bool Quest is can start state
 function M.is_can_start_quest(quest_id)
 	local quest_data = app.db.Quests.quests[quest_id]
 
@@ -280,6 +299,9 @@ function M.is_can_start_quest(quest_id)
 end
 
 
+--- Start quest, if it can be started
+-- @function eva.quests.start_quest
+-- @tparam string quest_id Quest id
 function M.start_quest(quest_id)
 	if M.is_can_start_quest(quest_id) then
 		start_quest(quest_id)
@@ -287,6 +309,9 @@ function M.start_quest(quest_id)
 end
 
 
+--- Check quest is can be completed now
+-- @function eva.quests.is_can_complete_quest
+-- @treturn bool Quest is can complete quest state
 function M.is_can_complete_quest(quest_id)
 	local quest_data = app.db.Quests.quests[quest_id]
 
@@ -299,6 +324,9 @@ function M.is_can_complete_quest(quest_id)
 end
 
 
+--- Complete quest, if it can be completed
+-- @function eva.quests.complete_quest
+-- @tparam string quest_id Quest id
 function M.complete_quest(quest_id)
 	if M.is_can_complete_quest(quest_id) then
 		finish_quest(quest_id)
@@ -306,6 +334,11 @@ function M.complete_quest(quest_id)
 end
 
 
+--- Apply quest event to all current quests
+-- @function eva.quests.quest_event
+-- @tparam string action Type of event
+-- @tparam string object Object of event
+-- @tparam number amount Amount of event
 function M.quest_event(action, object, amount)
 	local current = app[const.EVA.QUESTS].current
 	local is_need_update = false
@@ -331,9 +364,9 @@ function M.quest_event(action, object, amount)
 end
 
 
---- Start eva quests system
--- Call it to activate quests. If you has the quest custom settings
--- you should pass it in eva.init settings
+--- Start eva quests system.
+-- Need to call, when game is prepared for quests
+-- Call it to activate quests
 -- @function eva.quests.start_quests
 function M.start_quests()
 	app.quests_info.is_started = true
@@ -349,7 +382,7 @@ function M.update_quests()
 end
 
 
---- Add event, to trigger quest list update
+--- Add event, to trigger quest list update.
 -- Example: you have a condition to start quest only if festival is enabled
 -- So add event FESTIVAL_START to update quests on this update
 -- @function eva.quests.add_update_quest_event
@@ -358,8 +391,8 @@ function M.add_update_quest_event(event)
 end
 
 
---- Set game quests settings. Setup settings before
--- call eva.quest.start_quests
+--- Set game quests settings.
+-- Pass settings in eva.init function
 -- @function eva.quests.set_settings
 function M.set_settings(quests_settings)
 	app.quests_settings = quests_settings
