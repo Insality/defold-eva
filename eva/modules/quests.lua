@@ -9,9 +9,9 @@
 -- Quest stages:
 -- No registered
 -- Registered
--- Started
+-- Started (Auto start if autostart flag)
 -- Can finish
--- Finished
+-- Finished (Auto finish if autofinish flag)
 
 
 local log = require("eva.log")

@@ -342,7 +342,6 @@ return function()
 
 			assert(events[END].calls == 1)
 			assert(events[START].calls == 3)
-
 		end)
 	end)
 end

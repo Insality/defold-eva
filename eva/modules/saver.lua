@@ -2,6 +2,10 @@
 -- Carry on saving and loading game profile
 -- Any save contains from different parts
 -- Every part should be described via protobuf
+--
+-- If save filename in settings.json ends with .json,
+-- save file will be in json format
+--
 -- @submodule eva
 
 
