@@ -9,7 +9,7 @@
       "tasks": [ { "action": "get", "object": "money", "required": 10 } ]
     },
     "quest_2": {
-      "required_quests": "quest_1",
+      "required_quests": [ "quest_1" ],
       "category": "game",
       "autostart": true,
       "autofinish": true,
@@ -18,7 +18,7 @@
       "tasks": [ { "action": "get", "object": "money", "required": 200 } ]
     },
     "quest_3": {
-      "required_quests": "quest_2",
+      "required_quests": [ "quest_2" ],
       "category": "game",
       "autostart": true,
       "autofinish": true,
@@ -82,14 +82,14 @@
       "tasks": [ { "action": "get", "object": "gold", "required": 1 } ]
     },
     "quest_11": {
-      "required_quests": "quest_10",
+      "required_quests": [ "quest_10" ],
       "category": "board_main",
       "required_tokens": { "tokens": [] },
       "reward": { "tokens": [] },
       "tasks": [ { "action": "get", "object": "gold", "required": 1 } ]
     },
     "quest_12": {
-      "required_quests": "quest_11",
+      "required_quests": [ "quest_11" ],
       "category": "board_main",
       "events_offline": true,
       "autostart": true,

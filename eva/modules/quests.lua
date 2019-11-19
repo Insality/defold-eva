@@ -30,12 +30,21 @@ local logger = log.get_logger("eva.quests")
 local M = {}
 
 
-local function update_quests_callback()
-	if not app.quests_info.is_started then
-		return
+local function make_relative_quests_map()
+	local quests_data = app.db.Quests.quests
+	local map = {}
+
+	for quest_id, quest in pairs(quests_data) do
+		if quest.required_quests then
+			for i = 1, #quest.required_quests do
+				map[quest.required_quests[i]] = map[quest.required_quests[i]] or {}
+				table.insert(map[quest.required_quests[i]], quest_id)
+			end
+		end
 	end
 
-	M.update_quests()
+
+	return map
 end
 
 
@@ -51,13 +60,9 @@ local function is_quests_ok(quests_list)
 
 	local quests = app[const.EVA.QUESTS]
 
-	if type(quests_list) == "string" then
-		return luax.table.contains(quests.completed, quests_list)
-	else
-		return fun.all(function(quest_id)
-			return luax.table.contains(quests.completed, quest_id)
-		end, quests_list)
-	end
+	return fun.all(function(quest_id)
+		return luax.table.contains(quests.completed, quest_id)
+	end, quests_list)
 end
 
 
@@ -95,6 +100,57 @@ local function is_tasks_completed(quest_id)
 end
 
 
+local function can_be_started_quest(quest_id)
+	local quest = app.db.Quests.quests[quest_id]
+
+	local is_completed = M.is_completed(quest_id)
+	local is_active = M.is_active(quest_id)
+	local quests_ok = is_quests_ok(quest.required_quests)
+	return not is_completed and not is_active and quests_ok
+end
+
+
+local function update_can_be_started_list()
+	local quests_data = app.db.Quests.quests
+
+	app.quests_info.can_be_started = {}
+	local can_be_started = app.quests_info.can_be_started
+
+	for quest_id, quest in pairs(quests_data) do
+		if can_be_started_quest(quest_id) then
+			table.insert(can_be_started, quest_id)
+		end
+	end
+end
+
+
+local function remove_from_started_list(quest_id)
+	local can_be_started = app.quests_info.can_be_started
+
+	local index = luax.table.contains(can_be_started, quest_id)
+	if index then
+		table.remove(can_be_started, index)
+	end
+end
+
+
+local function on_complete_quest_update_started_list(quest_id)
+	local can_be_started = app.quests_info.can_be_started
+	local relative_quests = app.quests_info.quest_relative_map
+
+	if not relative_quests[quest_id] then
+		return
+	end
+
+	for i = 1, #relative_quests[quest_id] do
+		local q = relative_quests[quest_id][i]
+		if can_be_started_quest(q) and not luax.table.contains(can_be_started) then
+			table.insert(can_be_started, q)
+		end
+	end
+end
+
+
 --- Register quest to catch events even it not started
 local function register_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
@@ -122,13 +178,12 @@ local function start_quest(quest_id)
 
 	quests.current[quest_id].is_active = true
 	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
-
 	if app.quests_settings.on_quest_start then
 		app.quests_settings.on_quest_start(quest_id, quest_data)
 	end
 
+	remove_from_started_list(quest_id)
 	if quest_data.autofinish then
-		-- It will check before complete quests
 		M.complete_quest(quest_id)
 	end
 end
@@ -154,36 +209,42 @@ local function finish_quest(quest_id)
 	end
 
 	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
-
 	if app.quests_settings.on_quest_completed then
 		app.quests_settings.on_quest_completed(quest_id, quest_data)
 	end
 
+	on_complete_quest_update_started_list(quest_id)
 	M.update_quests()
+end
+
+
+local function register_offline_quests()
+	local quests_data = app.db.Quests.quests
+
+	for quest_id, quest in pairs(quests_data) do
+		if is_catch_offline(quest_id) then
+			register_quest(quest_id)
+		end
+	end
 end
 
 
 local function update_quests_list()
 	local quests_data = app.db.Quests.quests
-	local quests = app[const.EVA.QUESTS]
 
-	-- TODO: Optimize
-	-- TODO: Check complete only on started quests
-	-- TODO: Check start quests only what can be started (Make separate list)
-	for quest_id, quest in pairs(quests_data) do
+	local current = app[const.EVA.QUESTS].current
+	for quest_id, quest in pairs(current) do
 		-- Complete quests
-		if quest.autofinish then
+		if quest.is_active and quests_data[quest_id].autofinish then
 			M.complete_quest(quest_id)
 		end
+	end
 
-		-- Register quests
-		if not quests.current[quest_id] then
-			if is_catch_offline(quest_id) then
-				register_quest(quest_id)
-			end
-		end
+	local can_be_started = app.quests_info.can_be_started
+	for i = #can_be_started, 1, -1 do
+		local quest_id = can_be_started[i]
+		local quest = quests_data[quest_id]
 
-		-- Start autoquests
 		if quest.autostart then
 			M.start_quest(quest_id)
 		end
@@ -192,8 +253,7 @@ end
 
 
 local function apply_event(quest_id, quest, action, object, amount)
-	local quests_data = app.db.Quests.quests
-	local quest_data = quests_data[quest_id]
+	local quest_data = app.db.Quests.quests[quest_id]
 	local is_updated = false
 
 	for i = 1, #quest_data.tasks do
@@ -340,11 +400,12 @@ end
 -- @tparam string object Object of event
 -- @tparam number amount Amount of event
 function M.quest_event(action, object, amount)
+	local quests_data = app.db.Quests.quests
 	local current = app[const.EVA.QUESTS].current
 	local is_need_update = false
 
 	for quest_id, quest in pairs(current) do
-		local quest_data = app.db.Quests.quests[quest_id]
+		local quest_data = quests_data[quest_id]
 
 		local is_can_event = true
 		if app.quests_settings.is_can_event then
@@ -370,6 +431,9 @@ end
 -- @function eva.quests.start_quests
 function M.start_quests()
 	app.quests_info.is_started = true
+
+	update_can_be_started_list()
+	register_offline_quests()
 	M.update_quests()
 end
 
@@ -378,6 +442,10 @@ end
 -- It will start and end quests, by checking quests condition
 -- @function eva.quests.update_quests
 function M.update_quests()
+	if not app.quests_info.is_started then
+		return
+	end
+
 	update_quests_list()
 end
 
@@ -387,7 +455,7 @@ end
 -- So add event FESTIVAL_START to update quests on this update
 -- @function eva.quests.add_update_quest_event
 function M.add_update_quest_event(event)
-	events.subscribe(event, update_quests_callback)
+	events.subscribe(event, M.update_quests)
 end
 
 
@@ -402,7 +470,9 @@ end
 function M.on_eva_init()
 	app.quests_settings = {}
 	app.quests_info = {
-		is_started = false
+		is_started = false,
+		can_be_started = {},
+		quest_relative_map = make_relative_quests_map()
 	}
 	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
 	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])

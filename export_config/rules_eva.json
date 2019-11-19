@@ -113,6 +113,12 @@
 						"id": "tasks",
 						"fields": ["task1", "task2", "task3"]
 					}
+				},
+				{
+					"type": "ensure_array",
+					"config": {
+						"field": "required_quests"
+					}
 				}
 			]
 		}
