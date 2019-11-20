@@ -19,11 +19,13 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 
 local logger = log.get_logger("eva")
+
 local M = {}
 
 local function load_modules()
 	M.modules = {
 		ads = require("eva.modules.ads"),
+		cache = require("eva.modules.cache"),
 		callbacks = require("eva.modules.callbacks"),
 		camera = require("eva.modules.camera"),
 		daily = require("eva.modules.daily"),
@@ -49,6 +51,7 @@ local function load_modules()
 		proto = require("eva.modules.proto"),
 		push = require("eva.modules.push"),
 		quests = require("eva.modules.quests"),
+		queue = require("eva.modules.queue"),
 		random = require("eva.modules.random"),
 		rate = require("eva.modules.rate"),
 		rating = require("eva.modules.rating"),
@@ -63,6 +66,7 @@ local function load_modules()
 		timers = require("eva.modules.timers"),
 		token = require("eva.modules.token"),
 		tokens = require("eva.modules.tokens"),
+		truck = require("eva.modules.truck"),
 		utils = require("eva.modules.utils"),
 		window = require("eva.modules.window")
 	}

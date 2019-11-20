@@ -1,6 +1,7 @@
 --- Eva Loader module
--- Probably, need for step-by-step loading progress?
--- Send events, async steps and etc
+-- Carry logic on game loading. Describe loading steps,
+-- logging loading progress and throw loading progress
+-- status.
 -- @submodule eva
 
 

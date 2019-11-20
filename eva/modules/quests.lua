@@ -6,11 +6,11 @@
 -- You can expand the quest data and start/progress/end logic
 -- @submodule eva
 
--- Quest stages:
+-- Quests have next stages:
 -- No registered
--- Registered
+-- Registered (catch quest events, but can be finished)
 -- Started (Auto start if autostart flag)
--- Can finish
+-- Can finish (Completed all tasks)
 -- Finished (Auto finish if autofinish flag)
 
 
@@ -42,7 +42,6 @@ local function make_relative_quests_map()
 			end
 		end
 	end
-
 
 	return map
 end
