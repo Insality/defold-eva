@@ -1,4 +1,4 @@
---- Defold db module
+--- Eva database module.
 -- It carry for loading all jsons from
 -- game configs, pointed in eva settings.json.
 -- You need to point name of config and his path in

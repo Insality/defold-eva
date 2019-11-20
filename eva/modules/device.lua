@@ -123,6 +123,8 @@ function M.is_mobile()
 end
 
 
+--- Check if device is HTML5
+-- @function eva.device.is_web
 function M.is_web()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.BROWSER
