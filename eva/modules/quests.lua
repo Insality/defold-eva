@@ -234,7 +234,6 @@ local function update_quests_list()
 
 	local current = app[const.EVA.QUESTS].current
 	for quest_id, quest in pairs(current) do
-		-- Complete quests
 		if quest.is_active and quests_data[quest_id].autofinish then
 			M.complete_quest(quest_id)
 		end

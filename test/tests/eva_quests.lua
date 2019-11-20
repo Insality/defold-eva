@@ -169,7 +169,7 @@ return function()
 			assert(q5_progress[1] == 0)
 		end)
 
-		it("Should have custom logic to start and end quests", function()
+		it("Should have custom logic to start, send events, and to end quests", function()
 			local is_can_start = false
 			local is_can_end = false
 			local is_can_event = false
@@ -207,6 +207,30 @@ return function()
 			is_can_end = true
 			eva.quests.update_quests()
 			assert(events[END].calls == 1)
+		end)
+
+		it("Should have custom callbacks on main quest events", function()
+			local settings = {
+				on_quest_start = function() end,
+				on_quest_progress = function() end,
+				on_quest_task_completed = function() end,
+				on_quest_completed = function() end,
+			}
+			mock.mock(settings)
+			eva.quests.set_settings(settings)
+			eva.quests.start_quests()
+			assert(settings.on_quest_start.calls == 1)
+
+			eva.quests.quest_event("get", "exp", 90)
+			assert(settings.on_quest_progress.calls == 1)
+
+			eva.quests.quest_event("get", "exp", 20)
+			assert(settings.on_quest_progress.calls == 2)
+			assert(settings.on_quest_task_completed.calls == 1)
+
+			eva.token.add("level", 2, "test")
+			assert(settings.on_quest_start.calls == 2)
+			assert(settings.on_quest_completed.calls == 1)
 		end)
 
 		it("Should register offline quests", function()
