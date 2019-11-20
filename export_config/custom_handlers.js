@@ -13,10 +13,14 @@ function tokens(data, config) {
 			delete record[config.fields[i]]
 		}
 		if (config.id) {
-			record[config.id] = { tokens: tokens }
+			if (tokens.length > 0) {
+				record[config.id] = { tokens: tokens }
+			}
 		}
 		else {
-			data[key] = { tokens: tokens }
+			if (tokens.length > 0) {
+				data[key] = { tokens: tokens }
+			}
 		}
 	}
 

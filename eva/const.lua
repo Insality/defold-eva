@@ -93,7 +93,8 @@ M.EVENT = {
 
 
 M.REASON = {
-	IAP = "inapp"
+	IAP = "eva.reason.inapp",
+	QUESTS = "eva.reason.quests",
 }
 
 M.IAP = {

@@ -49,6 +49,10 @@ end
 
 
 local function is_tokens_ok(tokens_list)
+	if not tokens_list then
+		return true
+	end
+
 	return tokens.is_enough(tokens_list)
 end
 
@@ -207,6 +211,10 @@ local function finish_quest(quest_id)
 	quests.current[quest_id] = nil
 	if not quest_data.repeatable then
 		table.insert(quests.completed, quest_id)
+	end
+
+	if quest_data.reward then
+		tokens.add(quest_data.reward, const.REASON.QUESTS)
 	end
 
 	if app.quests_settings.on_quest_completed then

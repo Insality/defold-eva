@@ -64,6 +64,9 @@ end
 -- @tparam string category Category param of the invoice
 -- @tparam evadata.Tokens reward Tokens reward list
 -- @tparam number time Game time to add invoice
+-- @tparam[opt] number life_time Time in seconds of invoice available
+-- @tparam[opt] string title Text invoice title
+-- @tparam[opt] string text Text invoice desc
 function M.add(category, reward, start_time, life_time, title, text)
 	local invoices = app[const.EVA.INVOICES].invoices
 	local current_time = game.get_time()

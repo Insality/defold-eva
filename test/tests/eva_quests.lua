@@ -68,6 +68,13 @@ return function()
 			assert(events[END].params[2].quest_id == "quest_1")
 		end)
 
+		it("Should give rewards", function()
+			eva.quests.start_quests()
+			assert(eva.token.get("money") == 0)
+			eva.quests.quest_event("get", "money", 10)
+			assert(eva.token.get("money") == 100)
+		end)
+
 		it("Should end quests after complete tasks", function()
 			eva.quests.start_quests()
 			eva.quests.quest_event("get", "money", 2000)
