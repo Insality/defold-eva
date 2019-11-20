@@ -177,10 +177,11 @@ local function start_quest(quest_id)
 	end
 
 	quests.current[quest_id].is_active = true
-	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
+
 	if app.quests_settings.on_quest_start then
 		app.quests_settings.on_quest_start(quest_id, quest_data)
 	end
+	events.event(const.EVENT.QUEST_START, { quest_id = quest_id })
 
 	remove_from_started_list(quest_id)
 	if quest_data.autofinish then
@@ -208,10 +209,10 @@ local function finish_quest(quest_id)
 		table.insert(quests.completed, quest_id)
 	end
 
-	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
 	if app.quests_settings.on_quest_completed then
 		app.quests_settings.on_quest_completed(quest_id, quest_data)
 	end
+	events.event(const.EVENT.QUEST_END, { quest_id = quest_id })
 
 	on_complete_quest_update_started_list(quest_id)
 	M.update_quests()
@@ -268,6 +269,10 @@ local function apply_event(quest_id, quest, action, object, amount)
 
 			local delta = quest.progress[i] - prev_value
 
+			if app.quests_settings.on_quest_progress then
+				app.quests_settings.on_quest_progress(quest_id, quest_data)
+			end
+
 			events.event(const.EVENT.QUEST_PROGRESS, {
 				quest_id = quest_id,
 				delta = delta,
@@ -275,19 +280,15 @@ local function apply_event(quest_id, quest, action, object, amount)
 				task_index = i
 			})
 
-			if app.quests_settings.on_quest_progress then
-				app.quests_settings.on_quest_progress(quest_id, quest_data)
-			end
-
 			if quest.progress[i] == task_data.required then
+				if app.quests_settings.on_quest_task_completed then
+					app.quests_settings.on_quest_task_completed(quest_id, quest_data)
+				end
+
 				events.event(const.EVENT.QUEST_TASK_COMPLETE, {
 					quest_id = quest_id,
 					task_index = i
 				})
-
-				if app.quests_settings.on_quest_task_completed then
-					app.quests_settings.on_quest_task_completed(quest_id, quest_data)
-				end
 			end
 		end
 	end

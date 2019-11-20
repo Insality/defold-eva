@@ -1,9 +1,18 @@
 local M = {}
 
 
---- Called to check is need to start festival
-function M.check_start(festival_id)
+function M.is_can_start(festival_id, festival)
 	return true
+end
+
+
+function M.on_festival_start(festival_id, festival)
+
+end
+
+
+function M.on_festival_end(festival_id, festival)
+
 end
 
 

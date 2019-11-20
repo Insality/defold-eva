@@ -157,7 +157,7 @@ return function()
 		it("Should have custom logic to start festivals", function()
 			local is_need_start = false
 			local settings = {
-				check_start = function(festival_id)
+				is_can_start = function(festival_id)
 					return is_need_start
 				end
 			}
@@ -172,6 +172,34 @@ return function()
 			is_need_start = true
 			set_time("2019-10-21T8:20:00Z")
 			assert(eva.festivals.is_active("event_festival"))
+		end)
+
+		it("Should have custom callbacks on start/end festivals", function()
+			local settings = {
+				on_festival_start = function() end,
+				on_festival_end = function() end
+			}
+
+			mock.mock(settings)
+
+			eva.festivals.set_settings(settings)
+
+			set_time("2019-10-05Z")
+			assert(not eva.festivals.is_active("event_festival"))
+			assert(not eva.festivals.is_active("weekly_festival"))
+			assert(events[START].calls == 0)
+
+			set_time("2019-10-07T10:00:00Z")
+			assert(settings.on_festival_start.calls == 1)
+			assert(settings.on_festival_end.calls == 0)
+
+			set_time("2019-10-21T8:00:00Z")
+			assert(settings.on_festival_start.calls == 2)
+			assert(settings.on_festival_end.calls == 1)
+
+			set_time("2019-11-10T8:00:00Z")
+			assert(settings.on_festival_start.calls == 2)
+			assert(settings.on_festival_end.calls == 2)
 		end)
 
 		it("Should be enabled and disabled via debug, without time conditions", function()
