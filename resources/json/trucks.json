@@ -1,0 +1,7 @@
+{
+  "trucks": {
+    "foodtruck": { "lifetime": 86400, "cooldown": 3600 },
+    "merchant": { "lifetime": 1209600, "cooldown": 259200 },
+    "stranger": { "lifetime": 28800, "cooldown": 3600 }
+  }
+}

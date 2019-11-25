@@ -91,6 +91,10 @@
 			"lists": ["Festivals"]
 		},
 
+		"trucks": {
+			"lists": ["Trucks"]
+		},
+
 		"quests": {
 			"lists": ["Quests"],
 			"handlers": [

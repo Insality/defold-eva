@@ -27,6 +27,7 @@
 			"TokenConfig": "/resources/json/token_config.json",
 			"TokenLots": "/resources/json/token_lots.json",
 			"Offers": "/resources/json/offers.json",
+			"Trucks": "/resources/json/trucks.json",
 			"IapsAndroid": "/resources/json/iaps_android.json",
 			"IapsIos": "/resources/json/iaps_ios.json",
 			"Festivals": "/resources/json/festivals.json",

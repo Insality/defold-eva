@@ -152,6 +152,17 @@ message Invoices {
 	map<string, InvoiceInfo> invoices = 1;
 }
 
+message Truck {
+	bool is_enabled = 1;
+	bool is_cooldown = 2;
+	uint32 appear_time = 3;
+	uint32 leave_time = 4;
+}
+
+message Trucks {
+	map<string, Truck> trucks = 1;
+}
+
 message IapInfo {
 	string transaction_id = 1;
 	string iap_id = 2;
