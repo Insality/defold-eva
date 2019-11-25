@@ -113,7 +113,7 @@ local function can_be_started_quest(quest_id)
 end
 
 
-local function update_can_be_started_list()
+local function create_can_be_started_list()
 	local quests_data = app.db.Quests.quests
 
 	app.quests_info.can_be_started = {}
@@ -439,7 +439,7 @@ end
 function M.start_quests()
 	app.quests_info.is_started = true
 
-	update_can_be_started_list()
+	create_can_be_started_list()
 	register_offline_quests()
 	M.update_quests()
 end

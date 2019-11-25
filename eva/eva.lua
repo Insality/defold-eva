@@ -18,12 +18,14 @@ local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 
+local utils = require("eva.modules.utils")
+
 local logger = log.get_logger("eva")
 
 local M = {}
 
 local function load_modules()
-	M.modules = {
+	local modules = {
 		ads = require("eva.modules.ads"),
 		cache = require("eva.modules.cache"),
 		callbacks = require("eva.modules.callbacks"),
@@ -66,10 +68,33 @@ local function load_modules()
 		timers = require("eva.modules.timers"),
 		token = require("eva.modules.token"),
 		tokens = require("eva.modules.tokens"),
-		truck = require("eva.modules.truck"),
+		trucks = require("eva.modules.trucks"),
 		utils = require("eva.modules.utils"),
 		window = require("eva.modules.window")
 	}
+
+	M.modules_callbacks = {
+		before_eva_init = {},
+		on_eva_init = {},
+		after_eva_init = {},
+		on_eva_update = {},
+		on_eva_second = {},
+		on_message = {},
+		on_input = {},
+	}
+	for name, eva_module in pairs(modules) do
+		local settings = app.settings[name]
+
+		if not settings or settings and not settings.is_disabled then
+			M[name] = eva_module
+
+			for func_name, callbacks in pairs(M.modules_callbacks) do
+				if eva_module[func_name] then
+					table.insert(callbacks, eva_module[func_name])
+				end
+			end
+		end
+	end
 end
 
 
@@ -90,6 +115,10 @@ local function apply_module_settings(settings)
 		M.festivals.set_settings(settings.festivals_settings)
 	end
 
+	if settings.trucks_settings then
+		M.trucks.set_settings(settings.trucks_settings)
+	end
+
 	if settings.quests_settings then
 		M.quests.set_settings(settings.quests_settings)
 	end
@@ -97,13 +126,8 @@ end
 
 
 local function call_each_module(func_name, ...)
-	for name, component in pairs(M.modules) do
-		local csettings = app.settings[name]
-		if not csettings or csettings and not csettings.is_disabled then
-			if component[func_name] then
-				component[func_name](...)
-			end
-		end
+	for i = 1, #M.modules_callbacks[func_name] do
+		M.modules_callbacks[func_name][i](...)
 	end
 end
 
@@ -118,23 +142,18 @@ function M.init(settings_path, module_settings)
 		second_counter = 1
 	}
 
-	load_modules()
-
-	for name, component in pairs(M.modules) do
-		M[name] = component
-	end
-
-	apply_module_settings(module_settings)
-
-	local settings = M.utils.load_json(const.DEFAULT_SETTINGS_PATH)
+	local settings = utils.load_json(const.DEFAULT_SETTINGS_PATH)
 	if settings_path then
-		local custom_settings = M.utils.load_json(settings_path)
+		local custom_settings = utils.load_json(settings_path)
 		for key, value in pairs(custom_settings) do
 			luax.table.extend(settings[key], value)
 		end
 	end
-
 	app.settings = settings
+
+	load_modules()
+	apply_module_settings(module_settings)
+
 	log.init(app.settings.log)
 
 	call_each_module("before_eva_init")
