@@ -22,6 +22,7 @@ local M = {}
 
 local function get_truck(truck_id)
 	local trucks = app[const.EVA.TRUCKS].trucks
+	trucks[truck_id] = trucks[truck_id] or proto.get("eva.Truck")
 	return trucks[truck_id]
 end
 
@@ -46,13 +47,19 @@ local function update_trucks()
 end
 
 
-function M.is_arrived(truck_id)
-	return not get_truck(truck_id).is_cooldown
+local function get_lifetime(truck_id)
+	local truck_config = get_truck_config(truck_id)
+
+	local lifetime = truck_config.lifetime
+	if app.trucks_settings.get_truck_lifetime then
+		lifetime = app.trucks_settings.get_truck_lifetime(truck_id, truck_config)
+	end
+
+	return lifetime
 end
 
 
-function M.get_time_to_arrive(truck_id)
-	local truck = get_truck(truck_id)
+local function get_cooldown(truck_id)
 	local truck_config = get_truck_config(truck_id)
 
 	local cooldown = truck_config.cooldown
@@ -60,12 +67,27 @@ function M.get_time_to_arrive(truck_id)
 		cooldown = app.trucks_settings.get_truck_cooldown(truck_id, truck_config)
 	end
 
-	return game.get_time() - (truck.leave_time + cooldown)
+	return cooldown
+end
+
+
+function M.is_arrived(truck_id)
+	return get_truck(truck_id).is_arrived
+end
+
+
+function M.get_time_to_arrive(truck_id)
+	local truck = get_truck(truck_id)
+	return math.max(0, truck.arrive_time - game.get_time())
 end
 
 
 function M.is_can_arrive(truck_id)
 	local truck_config = get_truck_config(truck_id)
+
+	if not M.is_enabled(truck_id) then
+		return false
+	end
 
 	local is_arrived = M.is_arrived(truck_id)
 	local arrive_time = M.get_time_to_arrive(truck_id)
@@ -75,6 +97,7 @@ function M.is_can_arrive(truck_id)
 		is_can_arrive = app.trucks_settings.is_can_arrive(truck_id, truck_config)
 	end
 
+	print(is_arrived, is_can_arrive, arrive_time)
 	return not is_arrived and is_can_arrive and arrive_time <= 0
 end
 
@@ -82,8 +105,9 @@ end
 function M.arrive(truck_id)
 	local truck = get_truck(truck_id)
 	local truck_config = get_truck_config(truck_id)
-	truck.is_cooldown = false
-	truck.appear_time = game.get_time()
+	truck.is_arrived = true
+	truck.arrive_time = game.get_time()
+	truck.leave_time = truck.arrive_time + get_lifetime(truck_id)
 
 	if app.trucks_settings.on_truck_arrive then
 		app.trucks_settings.on_truck_arrive(truck_id, truck_config)
@@ -94,19 +118,16 @@ end
 
 function M.get_time_to_leave(truck_id)
 	local truck = get_truck(truck_id)
-	local truck_config = get_truck_config(truck_id)
-
-	local lifetime = truck_config.lifetime
-	if app.trucks_settings.get_truck_lifetime then
-		lifetime = app.trucks_settings.get_truck_lifetime(truck_id, truck_config)
-	end
-
-	return game.get_time() - (truck.arrive_time + lifetime)
+	return math.max(0, truck.leave_time - game.get_time())
 end
 
 
 function M.is_can_leave(truck_id)
 	local truck_config = get_truck_config(truck_id)
+
+	if not M.is_enabled(truck_id) then
+		return false
+	end
 
 	local is_arrived = M.is_arrived(truck_id)
 	local leave_time = M.get_time_to_leave(truck_id)
@@ -123,19 +144,14 @@ end
 function M.leave(truck_id)
 	local truck = get_truck(truck_id)
 	local truck_config = get_truck_config(truck_id)
-	truck.is_cooldown = true
+	truck.is_arrived = false
 	truck.leave_time = game.get_time()
+	truck.arrive_time = truck.leave_time + get_cooldown(truck_id)
 
 	if app.trucks_settings.on_truck_arrive then
 		app.trucks_settings.on_truck_arrive(truck_id, truck_config)
 	end
 	events.event(const.EVENT.TRUCK_LEAVE, { truck_id = truck_id} )
-end
-
-
-function M.set_enabled(truck_id, state)
-	local truck = get_truck(truck_id)
-	truck.is_enabled = state
 end
 
 
@@ -146,6 +162,20 @@ function M.is_enabled(truck_id, state)
 	end
 
 	return truck.is_enabled
+end
+
+
+function M.set_enabled(truck_id, state)
+	local truck = get_truck(truck_id)
+
+
+	if not truck.is_enabled then
+		truck.is_enabled = state
+		M.arrive(truck_id)
+	else
+		truck.is_enabled = state
+		M.leave(truck_id)
+	end
 end
 
 
