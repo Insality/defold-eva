@@ -93,11 +93,10 @@ function M.is_can_arrive(truck_id)
 	local arrive_time = M.get_time_to_arrive(truck_id)
 
 	local is_can_arrive = true
-	if app.trucks_settings.on_truck_arrive then
+	if app.trucks_settings.is_can_arrive then
 		is_can_arrive = app.trucks_settings.is_can_arrive(truck_id, truck_config)
 	end
 
-	print(is_arrived, is_can_arrive, arrive_time)
 	return not is_arrived and is_can_arrive and arrive_time <= 0
 end
 
@@ -133,7 +132,7 @@ function M.is_can_leave(truck_id)
 	local leave_time = M.get_time_to_leave(truck_id)
 
 	local is_can_leave = true
-	if app.trucks_settings.on_truck_arrive then
+	if app.trucks_settings.is_can_leave then
 		is_can_leave = app.trucks_settings.is_can_leave(truck_id, truck_config)
 	end
 
@@ -148,8 +147,8 @@ function M.leave(truck_id)
 	truck.leave_time = game.get_time()
 	truck.arrive_time = truck.leave_time + get_cooldown(truck_id)
 
-	if app.trucks_settings.on_truck_arrive then
-		app.trucks_settings.on_truck_arrive(truck_id, truck_config)
+	if app.trucks_settings.on_truck_leave then
+		app.trucks_settings.on_truck_leave(truck_id, truck_config)
 	end
 	events.event(const.EVENT.TRUCK_LEAVE, { truck_id = truck_id} )
 end
@@ -167,15 +166,8 @@ end
 
 function M.set_enabled(truck_id, state)
 	local truck = get_truck(truck_id)
-
-
-	if not truck.is_enabled then
-		truck.is_enabled = state
-		M.arrive(truck_id)
-	else
-		truck.is_enabled = state
-		M.leave(truck_id)
-	end
+	truck.is_enabled = state
+	update_trucks()
 end
 
 
