@@ -80,6 +80,16 @@ function M.unsubscribe(event_name, callback)
 end
 
 
+--- Unsubscribe the pack of events by map
+-- @function eva.events.unsubscribe_map
+-- @tparam table map {Event = Callback} map
+function M.unsubscribe_map(map)
+	for event_name, callback in pairs(map) do
+		M.unsubscribe(event_name, callback)
+	end
+end
+
+
 --- Check if callback is already subscribed
 -- @function eva.events.is_subscribed
 -- @tparam string event_name Event name

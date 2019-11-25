@@ -89,6 +89,9 @@ M.EVENT = {
 	INVOICE_ADD = "eva.invoices.add",
 	INVOICE_EXPIRE = "eva.invoices.expire",
 	INVOICE_CONSUME = "eva.invoices.consume",
+	TRUCK_ARRIVE = "eva.truck.arrive",
+	TRUCK_LEAVE = "eva.truck.leave",
+	TRUCK_CLOSE_TO_LEAVE = "eva.truck.close_to_leave",
 }
 
 
@@ -132,6 +135,7 @@ M.EVA = {
 	QUESTS = "eva.Quests",
 	PUSH = "eva.Push",
 	INVOICES = "eva.Invoices",
+	TRUCKS = "eva.Trucks",
 
 	-- Part of data
 	TOKEN = "eva.Token",

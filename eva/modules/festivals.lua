@@ -53,7 +53,7 @@ local function is_need_to_start(festival_id)
 	local is_current = M.is_active(festival_id)
 	local is_time_to = is_time_to_start(festival_id)
 	local is_can_start_custom = true
-	if app.festivals_settings and app.festivals_settings.is_can_start then
+	if app.festivals_settings.is_can_start then
 		is_can_start_custom = app.festivals_settings.is_can_start(festival_id, festival)
 	end
 
@@ -79,7 +79,7 @@ local function start_festival(festival_id)
 	local time = M.get_end_time(festival_id) - game.get_time()
 	timers.add(festival_slot, festival_id, time)
 
-	if app.festivals_settings and app.festivals_settings.on_festival_start then
+	if app.festivals_settings.on_festival_start then
 		app.festivals_settings.on_festival_start(festival_id, festival)
 	end
 
@@ -105,7 +105,7 @@ local function end_festival(festival_id)
 	table.remove(festival_data.current, is_current)
 	festival_data.completed[festival_id] = (festival_data.completed[festival_id] or 0) + 1
 
-	if app.festivals_settings and app.festivals_settings.on_festival_end then
+	if app.festivals_settings.on_festival_end then
 		app.festivals_settings.on_festival_end(festival_id, festival)
 	end
 
@@ -210,6 +210,7 @@ end
 
 
 function M.on_eva_init()
+	app.festivals_settings = {}
 	app.festivals_cache = {}
 	app[const.EVA.FESTIVALS] = proto.get(const.EVA.FESTIVALS)
 	saver.add_save_part(const.EVA.FESTIVALS, app[const.EVA.FESTIVALS])
