@@ -20,6 +20,14 @@ local logger = log.get_logger("eva.token")
 local M = {}
 
 
+local function update_tokens_offset()
+	local tokens = app.smart_tokens
+	for _, token in pairs(tokens) do
+		token:random_offset()
+	end
+end
+
+
 local function on_change_token(delta, reason, token_id, amount)
 	events.event(const.EVENT.TOKEN_CHANGE, {
 		delta = delta,
@@ -183,6 +191,7 @@ function M.on_eva_init()
 	saver.add_save_part(const.EVA.TOKENS, app[const.EVA.TOKENS])
 
 	smart.set_time_function(game.get_time)
+	events.subscribe(const.EVENT.GAME_FOCUS, update_tokens_offset)
 end
 
 
@@ -204,7 +213,7 @@ end
 
 function M.on_eva_update(dt)
 	local tokens = app.smart_tokens
-	for id, token in pairs(tokens) do
+	for _, token in pairs(tokens) do
 		token:update()
 	end
 end

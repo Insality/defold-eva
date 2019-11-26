@@ -201,8 +201,8 @@ function M.get_completed()
 end
 
 
---- Set game festivals settings
--- functions: check_start(festival_id)
+--- Set game festivals settings.
+-- See festivals_settings_example.lua
 -- @function eva.festivals.set_settings
 function M.set_settings(festivals_settings)
 	app.festivals_settings = festivals_settings

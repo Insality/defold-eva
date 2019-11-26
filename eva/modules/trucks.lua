@@ -75,17 +75,29 @@ local function get_cooldown(truck_id)
 end
 
 
+--- Check if truck is already arrived
+-- @function eva.trucks.is_arrived
+-- @tparam string truck_id Truck id
+-- @treturn bool Is arrived now
 function M.is_arrived(truck_id)
 	return get_truck(truck_id).is_arrived
 end
 
 
+--- Get time for next truck arrive
+-- @function eva.trucks.get_time_to_arrive
+-- @tparam string truck_id Truck id
+-- @treturn number Time in seconds
 function M.get_time_to_arrive(truck_id)
 	local truck = get_truck(truck_id)
 	return math.max(0, truck.arrive_time - game.get_time())
 end
 
 
+--- Check if truck can be arrived now
+-- @function eva.trucks.is_can_arrive
+-- @tparam string truck_id Truck id
+-- @treturn bool Is can arrive now
 function M.is_can_arrive(truck_id)
 	local truck_config = get_truck_config(truck_id)
 
@@ -105,6 +117,10 @@ function M.is_can_arrive(truck_id)
 end
 
 
+--- Arrive truck right now, even it can't be
+-- arrived now.
+-- @function eva.trucks.arrive
+-- @tparam string truck_id Truck id
 function M.arrive(truck_id)
 	local truck = get_truck(truck_id)
 	local truck_config = get_truck_config(truck_id)
@@ -119,12 +135,20 @@ function M.arrive(truck_id)
 end
 
 
+--- Get time for next truck leave
+-- @function eva.trucks.get_time_to_leave
+-- @tparam string truck_id Truck id
+-- @treturn number Time in seconds
 function M.get_time_to_leave(truck_id)
 	local truck = get_truck(truck_id)
 	return math.max(0, truck.leave_time - game.get_time())
 end
 
 
+--- Check if truck can leave now
+-- @function eva.trucks.is_can_leave
+-- @tparam string truck_id Truck id
+-- @treturn bool Is can leave now
 function M.is_can_leave(truck_id)
 	local truck_config = get_truck_config(truck_id)
 
@@ -144,6 +168,10 @@ function M.is_can_leave(truck_id)
 end
 
 
+--- Leave truck right now, even it can
+-- leave now.
+-- @function eva.trucks.leave
+-- @tparam string truck_id Truck id
 function M.leave(truck_id)
 	local truck = get_truck(truck_id)
 	local truck_config = get_truck_config(truck_id)
@@ -170,7 +198,11 @@ function M.leave(truck_id)
 end
 
 
-function M.is_enabled(truck_id, state)
+--- Check is truck enabled now
+-- @function eva.trucks.is_enabled
+-- @tparam string truck_id Truck id
+-- @treturn bool Is truck enabled
+function M.is_enabled(truck_id)
 	local truck = get_truck(truck_id)
 	if not truck then
 		return false
@@ -180,6 +212,9 @@ function M.is_enabled(truck_id, state)
 end
 
 
+--- Set truck enabled state
+-- @function eva.trucks.set_enabled
+-- @tparam string truck_id Truck id
 function M.set_enabled(truck_id, state)
 	local truck = get_truck(truck_id)
 	truck.is_enabled = state
@@ -187,6 +222,10 @@ function M.set_enabled(truck_id, state)
 end
 
 
+--- Set trucks settings with custom callbacks.
+-- See trucks_settings_example.lua
+-- @function eva.trucks.set_settings
+-- @tparam table trucks_settings Table with callbacks
 function M.set_settings(trucks_settings)
 	app.trucks_settings = trucks_settings
 end

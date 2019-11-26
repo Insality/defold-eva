@@ -65,6 +65,7 @@
 <li><a href="#modules_timers_Functions">modules.timers Functions</a></li>
 <li><a href="#modules_token_Functions">modules.token Functions</a></li>
 <li><a href="#modules_tokens_Functions">modules.tokens Functions</a></li>
+<li><a href="#modules_trucks_Functions">modules.trucks Functions</a></li>
 <li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
 <li><a href="#modules_window_Functions">modules.window Functions</a></li>
 </ul>
@@ -238,6 +239,10 @@
 	<td class="name" nowrap><a href="#eva.device.is_mobile">eva.device.is_mobile()</a></td>
 	<td class="summary">Check if device is mobile (Android or iOS)</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.device.is_web">eva.device.is_web()</a></td>
+	<td class="summary">Check if device is HTML5</td>
+	</tr>
 </table>
 <h2><a href="#modules_events_Functions">modules.events Functions</a></h2>
 <table class="function_list">
@@ -260,6 +265,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.events.unsubscribe">eva.events.unsubscribe(event_name, callback)</a></td>
 	<td class="summary">Unsubscribe the event from events flow</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.events.unsubscribe_map">eva.events.unsubscribe_map(map)</a></td>
+	<td class="summary">Unsubscribe the pack of events by map</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.events.is_subscribed">eva.events.is_subscribed(event_name, callback)</a></td>
@@ -295,8 +304,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.festivals.set_settings">eva.festivals.set_settings()</a></td>
-	<td class="summary">Set game festivals settings
- functions: check_start(festival_id)</td>
+	<td class="summary">Set game festivals settings.</td>
 	</tr>
 </table>
 <h2><a href="#modules_game_Functions">modules.game Functions</a></h2>
@@ -463,7 +471,7 @@
 <h2><a href="#modules_invoices_Functions">modules.invoices Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.invoices.add">eva.invoices.add(category, reward, time)</a></td>
+	<td class="name" nowrap><a href="#eva.invoices.add">eva.invoices.add(category, reward, time[, life_time[, title[, text]]])</a></td>
 	<td class="summary">Add invoice to game profile
  If time is not provided, add invoice instantly
  If time is provided, add invoice in this time
@@ -980,6 +988,51 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.tokens.is_enough_group">eva.tokens.is_enough_group(token_group_id)</a></td>
 	<td class="summary">Check multiply tokens by token_group_id</td>
+	</tr>
+</table>
+<h2><a href="#modules_trucks_Functions">modules.trucks Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.is_arrived">eva.trucks.is_arrived(truck_id)</a></td>
+	<td class="summary">Check if truck is already arrived</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.get_time_to_arrive">eva.trucks.get_time_to_arrive(truck_id)</a></td>
+	<td class="summary">Get time for next truck arrive</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.is_can_arrive">eva.trucks.is_can_arrive(truck_id)</a></td>
+	<td class="summary">Check if truck can be arrived now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.arrive">eva.trucks.arrive(truck_id)</a></td>
+	<td class="summary">Arrive truck right now, even it can't be
+ arrived now.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.get_time_to_leave">eva.trucks.get_time_to_leave(truck_id)</a></td>
+	<td class="summary">Get time for next truck leave</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.is_can_leave">eva.trucks.is_can_leave(truck_id)</a></td>
+	<td class="summary">Check if truck can leave now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.leave">eva.trucks.leave(truck_id)</a></td>
+	<td class="summary">Leave truck right now, even it can
+ leave now.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.is_enabled">eva.trucks.is_enabled(truck_id)</a></td>
+	<td class="summary">Check is truck enabled now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.set_enabled">eva.trucks.set_enabled(truck_id)</a></td>
+	<td class="summary">Set truck enabled state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.trucks.set_settings">eva.trucks.set_settings(trucks_settings)</a></td>
+	<td class="summary">Set trucks settings with custom callbacks.</td>
 	</tr>
 </table>
 <h2><a href="#modules_utils_Functions">modules.utils Functions</a></h2>
@@ -1640,6 +1693,20 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.device.is_web"></a>
+    <strong>eva.device.is_web()</strong>
+    </dt>
+    <dd>
+    Check if device is HTML5
+
+
+
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_events_Functions"></a>modules.events Functions</h2>
 
@@ -1754,6 +1821,27 @@
         <li><span class="parameter">callback</span>
             <span class="types"><span class="type">function</span></span>
          Event callback
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.events.unsubscribe_map"></a>
+    <strong>eva.events.unsubscribe_map(map)</strong>
+    </dt>
+    <dd>
+    Unsubscribe the pack of events by map
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">map</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         {Event = Callback} map
         </li>
     </ul>
 
@@ -1945,8 +2033,8 @@
     <strong>eva.festivals.set_settings()</strong>
     </dt>
     <dd>
-    Set game festivals settings
- functions: check_start(festival_id)
+    Set game festivals settings.
+ See festivals_settings_example.lua
 
 
 
@@ -2681,7 +2769,7 @@
     <dl class="function">
     <dt>
     <a name = "eva.invoices.add"></a>
-    <strong>eva.invoices.add(category, reward, time)</strong>
+    <strong>eva.invoices.add(category, reward, time[, life_time[, title[, text]]])</strong>
     </dt>
     <dd>
     Add invoice to game profile
@@ -2703,6 +2791,21 @@
         <li><span class="parameter">time</span>
             <span class="types"><span class="type">number</span></span>
          Game time to add invoice
+        </li>
+        <li><span class="parameter">life_time</span>
+            <span class="types"><span class="type">number</span></span>
+         Time in seconds of invoice available
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">title</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Text invoice title
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Text invoice desc
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -5020,6 +5123,259 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_trucks_Functions"></a>modules.trucks Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.trucks.is_arrived"></a>
+    <strong>eva.trucks.is_arrived(truck_id)</strong>
+    </dt>
+    <dd>
+    Check if truck is already arrived
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Is arrived now
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.get_time_to_arrive"></a>
+    <strong>eva.trucks.get_time_to_arrive(truck_id)</strong>
+    </dt>
+    <dd>
+    Get time for next truck arrive
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Time in seconds
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.is_can_arrive"></a>
+    <strong>eva.trucks.is_can_arrive(truck_id)</strong>
+    </dt>
+    <dd>
+    Check if truck can be arrived now
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Is can arrive now
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.arrive"></a>
+    <strong>eva.trucks.arrive(truck_id)</strong>
+    </dt>
+    <dd>
+    Arrive truck right now, even it can't be
+ arrived now.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.get_time_to_leave"></a>
+    <strong>eva.trucks.get_time_to_leave(truck_id)</strong>
+    </dt>
+    <dd>
+    Get time for next truck leave
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Time in seconds
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.is_can_leave"></a>
+    <strong>eva.trucks.is_can_leave(truck_id)</strong>
+    </dt>
+    <dd>
+    Check if truck can leave now
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Is can leave now
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.leave"></a>
+    <strong>eva.trucks.leave(truck_id)</strong>
+    </dt>
+    <dd>
+    Leave truck right now, even it can
+ leave now.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.is_enabled"></a>
+    <strong>eva.trucks.is_enabled(truck_id)</strong>
+    </dt>
+    <dd>
+    Check is truck enabled now
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Is truck enabled
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.set_enabled"></a>
+    <strong>eva.trucks.set_enabled(truck_id)</strong>
+    </dt>
+    <dd>
+    Set truck enabled state
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">truck_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Truck id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.trucks.set_settings"></a>
+    <strong>eva.trucks.set_settings(trucks_settings)</strong>
+    </dt>
+    <dd>
+    Set trucks settings with custom callbacks.
+ See trucks_settings_example.lua
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">trucks_settings</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Table with callbacks
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_utils_Functions"></a>modules.utils Functions</h2>
 
     <dl class="function">
@@ -5212,7 +5568,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-11-18 00:47:38 </i>
+<i style="float:right;">Last updated 2019-11-26 23:59:05 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
