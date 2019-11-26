@@ -7,7 +7,6 @@
 local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
-local broadcast = require("eva.libs.broadcast")
 local const = require("eva.const")
 
 local logger = log.get_logger("eva.events")
@@ -21,7 +20,6 @@ local M = {}
 -- @tparam[opt={}] table params params
 function M.event(event, params)
 	logger:debug("Event", {event = event, params = params})
-	broadcast.send(const.EVENT.EVENT, {event = event, params = params})
 
 	local listeners = app.event_listeners[event]
 	if listeners then
