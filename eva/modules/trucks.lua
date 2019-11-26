@@ -42,6 +42,10 @@ local function update_trucks()
 			if truck_config.autoleave and M.is_can_leave(truck_id) then
 				M.leave(truck_id)
 			end
+		else
+			if M.is_arrived(truck_id) then
+				M.leave(truck_id)
+			end
 		end
 	end
 end
@@ -143,9 +147,21 @@ end
 function M.leave(truck_id)
 	local truck = get_truck(truck_id)
 	local truck_config = get_truck_config(truck_id)
+
 	truck.is_arrived = false
+
+	local time_elapsed = game.get_time() - truck.leave_time
 	truck.leave_time = game.get_time()
-	truck.arrive_time = truck.leave_time + get_cooldown(truck_id)
+
+	local cooldown = get_cooldown(truck_id)
+	if time_elapsed > get_lifetime(truck_id) then
+		-- Decrease leave timer on elapsed time?
+		local truck_settings = app.settings.trucks
+		local min_return_time = truck_settings.min_return_timer_on_long_return
+		cooldown = math.max(min_return_time, cooldown - time_elapsed)
+	end
+
+	truck.arrive_time = truck.leave_time + cooldown
 
 	if app.trucks_settings.on_truck_leave then
 		app.trucks_settings.on_truck_leave(truck_id, truck_config)

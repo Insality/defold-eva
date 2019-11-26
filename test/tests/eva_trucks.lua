@@ -177,15 +177,34 @@ return function()
 		end)
 
 		it("Should arrive at game start with big time skip", function()
+			eva.trucks.set_enabled("foodtruck", true)
+			eva.trucks.leave("foodtruck")
+			assert(events[ARRIVE].calls == 1)
+			set_time(1000)
+			assert(eva.trucks.get_time_to_leave("foodtruck") == 50)
 
+			set_time(2000)
+			assert(events[LEAVE].calls == 2)
+			assert(not eva.trucks.is_arrived("foodtruck"))
+			assert(eva.trucks.get_time_to_arrive("foodtruck") == 60)
 		end)
 
 		it("Should arrive at set enabled", function()
-
+			eva.trucks.set_enabled("foodtruck", true)
+			assert(events[ARRIVE].calls == 1)
 		end)
 
 		it("Should leave at set disabled", function()
+			eva.trucks.set_enabled("foodtruck", true)
+			assert(eva.trucks.is_arrived("foodtruck"))
+			assert(events[ARRIVE].calls == 1)
+			assert(events[LEAVE].calls == 0)
 
+			eva.trucks.set_enabled("foodtruck", false)
+			assert(events[ARRIVE].calls == 1)
+			assert(events[LEAVE].calls == 1)
+			assert(not eva.trucks.is_enabled("foodtruck"))
+			assert(not eva.trucks.is_arrived("foodtruck"))
 		end)
 	end)
 end

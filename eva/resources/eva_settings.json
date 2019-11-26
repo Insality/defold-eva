@@ -89,6 +89,9 @@
 		"interval_between_pushes": 7200,
 		"clear_push_in_next_seconds": 5
 	},
+	"trucks": {
+		"min_return_timer_on_long_return": 60
+	},
 	"rating": {
 		"min": 100,
 		"max": 8000,
