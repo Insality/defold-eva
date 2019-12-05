@@ -83,3 +83,6 @@ max_count = 4048
 [collection]
 max_instances = 4048
 
+[test]
+report = 0
+
