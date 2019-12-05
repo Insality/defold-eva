@@ -77,7 +77,7 @@ local function list_callback(self, products, error)
 			iap_info.price = v.price
 		end
 	else
-		logger:warn("IAP udpate products error", { error = error })
+		logger:warn("IAP update products error", { error = error })
 	end
 
 	events.event(const.EVENT.IAP_UPDATE)

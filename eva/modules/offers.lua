@@ -69,6 +69,9 @@ function M.add(offer_id)
 end
 
 
+--- Remove offers from active list
+-- @function eva.offers.remove
+-- @tparam string offer_id offer id from db
 function M.remove(offer_id)
 	local offers = get_offers()
 

@@ -228,9 +228,10 @@ end
 
 local function register_offline_quests()
 	local quests_data = app.db.Quests.quests
+	local quests = app[const.EVA.QUESTS]
 
 	for quest_id, quest in pairs(quests_data) do
-		if is_catch_offline(quest_id) then
+		if is_catch_offline(quest_id) and not quests.current[quest_id] then
 			register_quest(quest_id)
 		end
 	end

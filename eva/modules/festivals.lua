@@ -201,6 +201,21 @@ function M.get_completed()
 end
 
 
+--- Start festival without check any condition
+-- @function eva.festivals.debug_start_festival
+-- @tparam string festival_id Festival id from Festivals json
+function M.debug_start_festival(festival_id)
+	start_festival(festival_id)
+end
+
+--- End festival without check any condition
+-- @function eva.festivals.debug_end_festival
+-- @tparam string festival_id Festival id from Festivals json
+function M.debug_end_festival(festival_id)
+	end_festival(festival_id)
+end
+
+
 --- Set game festivals settings.
 -- See festivals_settings_example.lua
 -- @function eva.festivals.set_settings
@@ -231,15 +246,6 @@ function M.on_eva_second()
 	end
 end
 
-
-function M.debug_start_festival(festival_id)
-	start_festival(festival_id)
-end
-
-
-function M.debug_end_festival(festival_id)
-	end_festival(festival_id)
-end
 
 
 return M

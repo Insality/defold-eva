@@ -21,6 +21,7 @@ local function push_listener(self, payload, origin)
 	pprint(payload, origin)
 end
 
+
 local function push_schedule(delta_time, title, text, data)
 	if not push then
 		return game.get_session_uid()
@@ -103,6 +104,9 @@ local function get_correct_push_time(seconds_after)
 end
 
 
+--- Clear all pushes, what already
+-- should be invoked.
+-- @function eva.push.clear_old_pushes
 function M.clear_old_pushes()
 	local pushes = app[const.EVA.PUSH].pushes
 
