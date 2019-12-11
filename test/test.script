@@ -18,12 +18,12 @@ local tests = {
 	require("test.tests.eva_token"),
 	require("test.tests.eva_tokens"),
 	require("test.tests.eva_trucks"),
+	require("test.tests.eva_migrations"),
 
 	-- New tests, unimplemented
 	require("test.tests.eva_events"),
 	require("test.tests.eva_saver"),
 	require("test.tests.eva_rate"),
-	require("test.tests.eva_migrations"),
 	require("test.tests.eva_window"),
 
 	-- Libs

@@ -116,6 +116,10 @@ end
 --- Check game on debug mode
 -- @function eva.game.is_debug
 function M.is_debug()
+	if app.game_data then
+		return app.game_data.is_debug
+	end
+
 	return sys.get_engine_info().is_debug
 end
 
@@ -162,9 +166,12 @@ function M.on_eva_init()
 
 	app.game_data = {
 		last_uid = 0,
-		current_time = 0
+		current_time = 0,
+		is_debug = sys.get_engine_info().is_debug
 	}
+
 	if device.is_mobile() then
+		-- TODO: Make custom Dimming timing?
 		window.set_dim_mode(window.DIMMING_OFF)
 	end
 

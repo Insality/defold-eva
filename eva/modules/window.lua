@@ -12,8 +12,9 @@ local const = require("eva.const")
 local monarch = require("monarch.monarch")
 local log = require("eva.log")
 
-local callbacks = require("eva.modules.callbacks")
+local queue = require("eva.modules.queue")
 local events = require("eva.modules.events")
+local callbacks = require("eva.modules.callbacks")
 
 local logger = log.get_logger("eva.window")
 

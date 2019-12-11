@@ -8,7 +8,7 @@ local app = {}
 local M = {}
 
 
---- Clear the app state
+--- Clear the app state or the app value
 function M.clear(value)
 	if not value then
 		app = {}
