@@ -109,6 +109,7 @@
 		"max_promt_count": 5
 	},
 	"proto": {
+		"default_nest_messages": true,
 		"proto_paths": {
 			"/eva/resources": [
 				"eva.proto",
