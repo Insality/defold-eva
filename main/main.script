@@ -102,16 +102,13 @@ function on_input(self, action_id, action)
 		local path = eva.pathfinder.path(i, j, 19, 19)
 		if path then
 			factory.create("/basic_map/ingame_spawner#cursor", vmath.vector3(x, y, self.map_data.grid.get_z(y, 1)))
-			for k = 1, #path.nodes do
-				local path_x = path.nodes[k].x
-				local path_y = path.nodes[k].y
-				-- print(path_x, path_y, path.nodes[k].move_cost, path.nodes[k].score)
 
-				timer.delay(0.07 * k, false, function()
+			eva.pathfinder.for_path(path, function(path_x, path_y, index)
+				timer.delay(0.07 * index, false, function()
 					local px, py = self.map_data.grid.cell_to_pos(path_x, path_y)
 					factory.create("/basic_map/ingame_spawner#cursor", vmath.vector3(px, py, self.map_data.grid.get_z(py, 1)))
 				end)
-			end
+			end)
 		end
 
 		-- eva.tiled.delete_tile("hexes", i, j)

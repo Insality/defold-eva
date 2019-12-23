@@ -24,12 +24,14 @@ local logger = log.get_logger("eva")
 
 local M = {}
 
+
 local function load_modules()
 	local modules = {
 		ads = require("eva.modules.ads"),
 		cache = require("eva.modules.cache"),
 		callbacks = require("eva.modules.callbacks"),
 		camera = require("eva.modules.camera"),
+		container = require("eva.modules.container"),
 		daily = require("eva.modules.daily"),
 		db = require("eva.modules.db"),
 		debug = require("eva.modules.debug"),
@@ -82,6 +84,7 @@ local function load_modules()
 		on_message = {},
 		on_input = {},
 	}
+
 	for name, eva_module in pairs(modules) do
 		local settings = app.settings[name]
 

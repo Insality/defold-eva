@@ -7,7 +7,6 @@
 local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
-local const = require("eva.const")
 
 local logger = log.get_logger("eva.events")
 

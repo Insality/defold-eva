@@ -57,6 +57,7 @@ function M.load(filename)
 
 	local path = get_save_path(filename)
 
+	-- TODO: make json/proto/usual format
 	if luax.string.ends(filename, ".json") then
 		logger:info("Load save from json", { path = path })
 

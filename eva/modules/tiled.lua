@@ -205,6 +205,7 @@ function M.load_map(tiled_data, create_object_fn)
 		end
 	end
 
+	app.clear("tiled_map_default")
 	app.tiled_map_default = map_data
 	return map_data
 end

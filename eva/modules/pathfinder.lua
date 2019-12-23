@@ -26,6 +26,7 @@ function M.init_astar(map_data, get_node_fn, options)
 	local handler = map_data.astar_handler
 
 	local map_handler = handler.new_handler(get_node_fn, options)
+	app.clear("pathfinder_default_handler")
 	app.pathfinder_default_handler = map_handler
 
 	return map_handler
@@ -49,6 +50,19 @@ function M.path(from_x, from_y, to_x, to_y, map_handler)
 	end
 
 	return astar.find_path(map_handler, from_x, from_y, to_x, to_y)
+end
+
+
+function M.for_path(path, callback)
+	if not path then
+		return nil
+	end
+
+	for i = 1, #path.nodes do
+		local x = path.nodes[i].x
+		local y = path.nodes[i].y
+		callback(x, y, i)
+	end
 end
 
 

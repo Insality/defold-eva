@@ -94,6 +94,7 @@ function M.show_scene(scene_id, data)
 		if app.window.last_scene then
 			monarch.back()
 		end
+
 		monarch.show(scene_id, nil, data, function()
 			settings.after_show_scene()
 
@@ -242,6 +243,7 @@ function M.on_message(window_id, message_id, message, sender)
 	if message_id == const.INPUT.CLOSE then
 		M.disappear(window_id)
 	end
+
 	if message_id == const.INPUT.CALLBACK then
 		callbacks.call(message.index, message.args)
 	end

@@ -11,6 +11,7 @@ local logger = log.get_logger("eva.proto")
 
 local M = {}
 
+
 local OPTIONAL = "optional"
 local REPEATED = "repeated"
 local MESSAGE = "message"

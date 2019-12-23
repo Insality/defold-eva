@@ -63,6 +63,7 @@ end
 -- @function eva.isogrid.set_default_map_params
 -- @tparam map_params map_params Params from eva.isogrid.get_map_params
 function M.set_default_map_params(map_params)
+	app.clear("isogrid_default")
 	app.isogrid_default = map_params
 end
 

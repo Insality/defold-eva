@@ -3,12 +3,15 @@
 -- @submodule eva
 
 
+local log = require("eva.log")
 local app = require("eva.app")
 local const = require("eva.const")
 
 local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
+
+local logger = log.get_logger("eva.gdpr")
 
 local M = {}
 
@@ -18,6 +21,8 @@ local M = {}
 function M.apply_gdpr()
 	app[const.EVA.GDPR].is_accepted = true
 	app[const.EVA.GDPR].accept_date = game.get_current_time_string()
+
+	logger:info("Apply GDPR", { date = app[const.EVA.GDPR].accept_date })
 end
 
 

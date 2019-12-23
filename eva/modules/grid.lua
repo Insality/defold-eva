@@ -63,6 +63,7 @@ end
 -- @function eva.grid.set_default_map_params
 -- @tparam map_params map_params Params from eva.grid.get_map_params
 function M.set_default_map_params(map_params)
+	app.clear("grid_default")
 	app.grid_default = map_params
 end
 
