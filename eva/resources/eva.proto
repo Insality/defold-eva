@@ -66,6 +66,7 @@ message Game {
 	repeated string game_start_dates = 4;
 	uint32 last_uptime = 5;
 	uint32 last_diff_time = 6;
+	uint64 game_uid = 7;
 }
 
 message Token {

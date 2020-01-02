@@ -8,6 +8,7 @@ local M = {
 	table = {},
 	vmath = {},
 	debug = {},
+	toboolean = function(arg) return not not arg end,
 }
 
 

@@ -152,7 +152,6 @@ end
 function M.init(self, params, data_table)
 	self.data_table = data_table
 	self.params = params or {}
-	self:random_offset()
 
 	if self.params.restore and self.params.restore.timer then
 		self.restore = self.params.restore
@@ -192,9 +191,19 @@ end
 -- Call random offset on window.focus for more protecting
 function M.random_offset(self)
 	local prev_offset = self.data_table.offset
-	self.data_table.offset = math.random(-9999, 9999)
-	local diff = self.data_table.offset - prev_offset
-	self.data_table.amount = self.data_table.amount - diff
+	self.data_table.offset = math.random(99, 9999)
+	local diff = prev_offset - self.data_table.offset
+	self.data_table.amount = self.data_table.amount + diff
+end
+
+
+--- Reset offset to 0 value. This will turn off
+-- memory protecting with value offsets
+function M.reset_offset(self)
+	local prev_offset = self.data_table.offset
+	self.data_table.offset = 0
+	local diff = prev_offset
+	self.data_table.amount = self.data_table.amount + diff
 end
 
 

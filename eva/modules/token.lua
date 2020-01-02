@@ -21,6 +21,10 @@ local M = {}
 
 
 local function update_tokens_offset()
+	if not app.settings.tokens.memory_protect then
+		return
+	end
+
 	local tokens = app.smart_tokens
 	for _, token in pairs(tokens) do
 		token:random_offset()
@@ -47,6 +51,12 @@ local function create_token_in_save(token_id, token_data)
 	local config = app.token_config.token_config[token_id] or {}
 	config.name = token_id
 	local smart_token = smart.new(config, token_data)
+
+	if app.settings.tokens.memory_protect then
+		smart_token:random_offset()
+	else
+		smart_token:reset_offset()
+	end
 
 	smart_token:on_change(on_change_token)
 	return smart_token

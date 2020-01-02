@@ -102,6 +102,8 @@ function M.on_input(action_id, action)
 
 	camera_drag.handle_drag(action_id, action, state)
 	camera_gesture.handle_gesture(action_id, action, state)
+
+	return state.is_drag or state.is_pinch
 end
 
 

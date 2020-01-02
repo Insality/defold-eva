@@ -4,6 +4,7 @@
 
 
 local app = require("eva.app")
+local luax = require("eva.luax")
 local const = require("eva.const")
 
 local utils = require("eva.modules.utils")
@@ -79,12 +80,21 @@ end
 
 --- Get translation for locale id with params
 -- @function eva.lang.txp
--- @tparam string lang_id locale id from your localization
--- @tparam string ... params for string.format for lang_id
--- @treturn string translated locale
+-- @tparam string lang_id Locale id from your localization
+-- @tparam string ... Params for string.format for lang_id
+-- @treturn string Translated locale
 function M.txp(lang_id, ...)
 	assert(lang_id, "You must provide the lang id")
 	return string.format(M.txt(lang_id), ...)
+end
+
+
+--- Check is translation with lang_id exist
+-- @function eva.lang.is_exist
+-- @tparam strng lang_id Locale id from your localization
+-- @treturn boolean Is translation exist
+function M.is_exist(lang_id)
+	return luax.toboolean(app.lang_dict[lang_id])
 end
 
 

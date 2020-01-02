@@ -23,16 +23,16 @@
 	},
 	"db": {
 		"paths": {
-			"TokenGroups": "/resources/json/token_groups.json",
-			"TokenConfig": "/resources/json/token_config.json",
-			"TokenLots": "/resources/json/token_lots.json",
-			"Offers": "/resources/json/offers.json",
-			"Trucks": "/resources/json/trucks.json",
+			"Festivals": "/resources/json/festivals.json",
 			"IapsAndroid": "/resources/json/iaps_android.json",
 			"IapsIos": "/resources/json/iaps_ios.json",
-			"Festivals": "/resources/json/festivals.json",
+			"Offers": "/resources/json/offers.json",
 			"Quests": "/resources/json/quests.json",
-			"TiledMapping": "/resources/mapping.json"
+			"TiledMapping": "/resources/mapping.json",
+			"TokenConfig": "/resources/json/token_config.json",
+			"TokenGroups": "/resources/json/token_groups.json",
+			"TokenLots": "/resources/json/token_lots.json",
+			"Trucks": "/resources/json/trucks.json"
 		}
 	}
 }

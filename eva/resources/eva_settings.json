@@ -1,19 +1,19 @@
 {
 	"server": {
 		"is_disabled": true,
-		"game_id": "F02BF"
+		"game_id": "FFFFF"
 	},
 	"sound": {
-		"repeat_threshold": 0.08,
+		"repeat_threshold": 0.05,
 		"sound_path": "main:/sounds#"
 	},
 	"game": {
-		"game_started_max_count_stats": 5,
+		"game_started_max_count_stats": 10,
 		"time_policy": "local"
 	},
 	"saver": {
-		"save_name": "eva",
-		"autosave": 4,
+		"save_name": "eva.json",
+		"autosave": 3,
 		"print_save_at_start": false
 	},
 	"gdpr": {
@@ -29,6 +29,7 @@
 		}
 	},
 	"tokens": {
+		"memory_protect": false,
 		"config_lots": "TokenLots",
 		"config_token_groups": "TokenGroups",
 		"config_token_config": "TokenConfig"
@@ -38,7 +39,6 @@
 		"level": "DEBUG"
 	},
 	"iaps": {
-		"is_disabled": false,
 		"config_android": "IapsAndroid",
 		"config_ios": "IapsIos"
 	},
@@ -54,16 +54,16 @@
 	},
 	"db": {
 		"paths": {
-			"TokenGroups": "/resources/json/token_groups.json",
-			"TokenConfig": "/resources/json/token_config.json",
-			"TokenLots": "/resources/json/token_lots.json",
-			"Offers": "/resources/json/offers.json",
-			"Trucks": "/resources/json/trucks.json",
+			"Festivals": "/resources/json/festivals.json",
 			"IapsAndroid": "/resources/json/iaps_android.json",
 			"IapsIos": "/resources/json/iaps_ios.json",
-			"Festivals": "/resources/json/festivals.json",
+			"Offers": "/resources/json/offers.json",
 			"Quests": "/resources/json/quests.json",
-			"TiledMapping": "/resources/mapping.json"
+			"TiledMapping": "/resources/mapping.json",
+			"TokenConfig": "/resources/json/token_config.json",
+			"TokenGroups": "/resources/json/token_groups.json",
+			"TokenLots": "/resources/json/token_lots.json",
+			"Trucks": "/resources/json/trucks.json"
 		}
 	},
 	"tiled": {
@@ -75,13 +75,14 @@
 		"config": "Offers"
 	},
 	"daily": {
+		"is_disabled": true,
 		"interval": 43200,
 		"wait_time": 86400,
 		"reward": ["test_group_1", "test_group_1", "test_group_1", "test_group_1", "test_group_2"],
 		"type": "wait"
 	},
 	"push": {
-		"is_disabled": false,
+		"is_disabled": true,
 		"snooze_hour_start": 24,
 		"snooze_hour_end": 4,
 		"max_per_day": 0,
@@ -90,7 +91,7 @@
 		"clear_push_in_next_seconds": 5
 	},
 	"trucks": {
-		"min_return_timer_on_long_return": 60
+		"min_return_timer_on_long_return": 0
 	},
 	"rating": {
 		"min": 100,
@@ -102,11 +103,11 @@
 	},
 	"ads": {
 		"is_disabled": true,
-		"ads_id_ios": "3173554",
-		"ads_id_android": "3173555"
+		"ads_id_ios": "999999999",
+		"ads_id_android": "999999999"
 	},
 	"rate": {
-		"max_promt_count": 5
+		"max_promt_count": 4
 	},
 	"proto": {
 		"default_nest_messages": true,

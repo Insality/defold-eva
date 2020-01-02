@@ -7,12 +7,17 @@
 		"time_policy": "local"
 	},
 	"daily": {
+		"is_disabled": false,
 		"interval": 10,
 		"wait_time": 20,
 		"reward": ["test_group_1", "test_group_1", "test_group_2"],
 		"type": "reset"
 	},
+	"trucks": {
+		"min_return_timer_on_long_return": 60
+	},
 	"push": {
+		"is_disabled": false,
 		"snooze_hour_start": 21,
 		"snooze_hour_end": 9,
 		"max_per_day": 6,

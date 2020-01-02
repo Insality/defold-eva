@@ -24,7 +24,7 @@ end
 
 local function push_schedule(delta_time, title, text, data)
 	if not push then
-		return game.get_session_uid()
+		return game.get_uid()
 	end
 
 	data = data or luax.table.empty

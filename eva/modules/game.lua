@@ -152,6 +152,15 @@ function M.get_session_uid()
 end
 
 
+--- Return unique id for player profile
+-- @function eva.game.get_uid
+-- @treturn number Unique id in player profile
+function M.get_uid()
+	app[const.EVA.GAME].game_uid = app[const.EVA.GAME].game_uid + 1
+	return app[const.EVA.GAME].game_uid
+end
+
+
 --- Get current time in string format
 -- @function eva.game.get_current_time_string
 -- @treturn string Time format in iso e.g. "2019-09-25T01:48:19Z"

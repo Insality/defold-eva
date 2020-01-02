@@ -1,5 +1,11 @@
 --- Eva debug module
 -- Make some debug stuff with eva module.
+-- ALT + 1/2/3 - load save from slot 1/2/3
+-- CTRL + 1/2/3 - save game to slot 1/2/3
+-- Q - quit game
+-- R(3) - restart game
+-- N(5) - reset profile
+-- D - toggle profiler
 -- @submodule eva
 
 
