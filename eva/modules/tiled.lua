@@ -17,10 +17,9 @@ local hexgrid = require("eva.modules.hexgrid")
 local isogrid = require("eva.modules.isogrid")
 local grid = require("eva.modules.grid")
 
--- TODO: Remove it from libs
-local hexgrid_handler = require("eva.libs.astar.hexgrid_handler")
-local isogrid_handler = require("eva.libs.astar.isogrid_handler")
-local grid_handler = require("eva.libs.astar.grid_handler")
+local hexgrid_handler = require("eva.scripts.hexgrid_handler")
+local isogrid_handler = require("eva.scripts.isogrid_handler")
+local grid_handler = require("eva.scripts.grid_handler")
 
 local logger = log.get_logger("eva.tiled")
 

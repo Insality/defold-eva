@@ -8,6 +8,7 @@ local M = {
 	table = {},
 	vmath = {},
 	debug = {},
+	func = {},
 	toboolean = function(arg) return not not arg end,
 }
 
@@ -25,7 +26,7 @@ M.vmath.VECTOR_ZERO = vmath.vector3(0)
 M.vmath.VECTOR_ONE = vmath.vector3(1)
 M.table.empty = {}
 M.string.empty = ""
-
+M.func.empty = function() end
 
 --- math.step
 -- @function luax.math.step

@@ -31,7 +31,6 @@ local function load_modules()
 		cache = require("eva.modules.cache"),
 		callbacks = require("eva.modules.callbacks"),
 		camera = require("eva.modules.camera"),
-		container = require("eva.modules.container"),
 		daily = require("eva.modules.daily"),
 		db = require("eva.modules.db"),
 		debug = require("eva.modules.debug"),

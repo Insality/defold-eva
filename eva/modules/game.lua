@@ -180,7 +180,7 @@ function M.on_eva_init()
 	}
 
 	if device.is_mobile() then
-		-- TODO: Make custom Dimming timing?
+		-- TODO: Make custom Dimming timing for specific time?
 		window.set_dim_mode(window.DIMMING_OFF)
 	end
 

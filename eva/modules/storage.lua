@@ -34,13 +34,13 @@ function M.set(id, value)
 	local storage = app[const.EVA.STORAGE].storage
 	local v = proto.get(const.EVA.STORAGE_VALUE)
 
-	if type(value) == "string" then
+	if type(value) == const.TYPE.STRING then
 		v.s_value = value
 	end
-	if type(value) == "number" then
+	if type(value) == const.TYPE.NUMBER then
 		v.i_value = value
 	end
-	if type(value) == "boolean" then
+	if type(value) == const.TYPE.BOOLEAN then
 		v.b_value = value
 	end
 

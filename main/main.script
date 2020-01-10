@@ -70,6 +70,7 @@ end
 
 function on_input(self, action_id, action)
 	eva.on_input(action_id, action)
+
 	action.x, action.y = rendercam.screen_to_world_2d(action.screen_x, action.screen_y, nil, nil, true)
 	msg.post("/basic_map/cursor", "input", { action_id = action_id, action = action })
 

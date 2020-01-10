@@ -3,6 +3,7 @@
 -- @local
 
 local luax = require("eva.luax")
+local const = require("eva.const")
 
 local app = {}
 local M = {}
@@ -20,7 +21,7 @@ end
 
 M = setmetatable(M, {
 	__newindex = function(self, key, value)
-		if type(value) ~= "table" then
+		if type(value) ~= const.TYPE.TABLE then
 			error("You can add to eva.app only tables value. Key: " .. key)
 		end
 

@@ -55,6 +55,7 @@ local function update_with_default_messages(proto_type, data)
 	end
 end
 
+
 --- Get empty template from proto type
 -- @function eva.proto.get
 -- @tparam string proto_type name of proto message e.g. 'eva.Token'

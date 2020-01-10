@@ -22,6 +22,14 @@ M.OS = {
 }
 
 
+M.TYPE = {
+	STRING = "string",
+	NUMBER = "number",
+	BOOLEAN = "boolean",
+	TABLE = "table"
+}
+
+
 M.AD = {
 	REWARDED = "rewardedVideo",
 	PAGE = "video",
