@@ -44,6 +44,7 @@ local function load_modules()
 		grid = require("eva.modules.grid"),
 		hexgrid = require("eva.modules.hexgrid"),
 		iaps = require("eva.modules.iaps"),
+		input = require("eva.modules.input"),
 		invoices = require("eva.modules.invoices"),
 		isogrid = require("eva.modules.isogrid"),
 		lang = require("eva.modules.lang"),
@@ -184,7 +185,8 @@ end
 --- Call this on main game on_input
 -- @function eva.on_input
 function M.on_input(action_id, action)
-	call_each_module("on_input", action_id, action)
+	M.input.on_input(action_id, action)
+	-- call_each_module("on_input", action_id, action)
 end
 
 

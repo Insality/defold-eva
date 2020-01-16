@@ -15,6 +15,7 @@ local const = require("eva.const")
 local festivals = require("eva.modules.festivals")
 local game = require("eva.modules.game")
 local saver = require("eva.modules.saver")
+local input = require("eva.modules.input")
 
 local M = {}
 
@@ -70,16 +71,7 @@ function M.complete_quest()
 end
 
 
-function M.on_eva_init()
-	app.debug_data = {}
-end
-
-
-function M.on_input(action_id, action)
-	if not game.is_debug() then
-		return
-	end
-
+local function on_eva_input(touch, state, action_id, action)
 	if action_id == const.INPUT.KEY_LALT then
 		if action.pressed then
 			app.debug_data.is_lalt = true
@@ -150,6 +142,19 @@ function M.on_input(action_id, action)
 		if app.debug_data.is_lctrl then
 			M.save_profile("eva_test_3.json")
 		end
+	end
+end
+
+
+function M.on_eva_init()
+	app.debug_data = {}
+end
+
+
+function M.after_eva_init()
+	if game.is_debug() then
+		local settings = app.settings.debug
+		input.register("eva.debug", on_eva_input, settings.input_priority)
 	end
 end
 

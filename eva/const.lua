@@ -55,6 +55,22 @@ M.INPUT = {
 }
 
 
+M.INPUT_TYPE = {
+	TOUCH_START = hash("touch_start"),
+	TOUCH = hash("touch"),
+	TOUCH_END = hash("touch_end"),
+	LONG_TOUCH = hash("long_touch"),
+	DOUBLE_TAP = hash("double_tap"),
+	DRAG_START = hash("drag_start"),
+	DRAG = hash("drag"),
+	DRAG_END = hash("drag_end"),
+	START_PINCH = hash("start_pinch"),
+	PINCH = hash("pinch"),
+	PINCH_END = hash("pinch_end"),
+	SWIPE = hash("swipe")
+}
+
+
 M.EVENT = {
 	EVENT = "eva.events.event",
 	GAME_START = "eva.game.start",

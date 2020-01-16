@@ -5,11 +5,10 @@
 
 
 local app = require("eva.app")
-local gesture = require("in.gesture")
 local camera_drag = require("eva.modules.camera.camera_drag")
 local camera_gesture = require("eva.modules.camera.camera_gesture")
 
-local device = require("eva.modules.device")
+local input = require("eva.modules.input")
 
 local M = {}
 
@@ -97,24 +96,20 @@ function M.set_zoom_borders(zoom_soft, zoom_hard)
 end
 
 
-function M.on_input(action_id, action)
-	local state = app.camera_state
-
-	camera_drag.handle_drag(action_id, action, state)
-	camera_gesture.handle_gesture(action_id, action, state)
-
-	return state.is_drag or state.is_pinch
+local function on_input(touch, state)
+	-- camera_drag.handle_drag(touch, state)
+	-- camera_gesture.handle_gesture(touch, state)
 end
 
 
 function M.before_eva_init()
 	app.camera_state = get_initial_state()
+end
 
+
+function M.after_eva_init()
 	local settings = app.settings.camera
-	camera_gesture.GESTURE = gesture.create({
-		multi_touch = settings.multi_touch
-	})
-	camera_drag.IS_MOBILE = device.is_mobile()
+	input.register("eva.camera", on_input, settings.input_priority)
 end
 
 

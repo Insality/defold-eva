@@ -233,7 +233,10 @@ function M.table.remove_by_dict(t, example)
 
 	if index ~= -1 then
 		table.remove(t, index)
+		return true
 	end
+
+	return false
 end
 
 

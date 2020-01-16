@@ -43,7 +43,7 @@
 		"config_ios": "IapsIos"
 	},
 	"camera": {
-		"multi_touch": true,
+		"input_priority": 3,
 		"move_lerp_speed": 0.75,
 		"move_border_lerp_speed": 0.09,
 		"zoom_lerp_speed": 0.5,
@@ -51,6 +51,9 @@
 		"friction": 0.88,
 		"friction_hold": 0.68,
 		"inertion_koef": 0.33
+	},
+	"input": {
+		"multi_touch": true
 	},
 	"db": {
 		"paths": {
@@ -80,6 +83,9 @@
 		"wait_time": 86400,
 		"reward": ["test_group_1", "test_group_1", "test_group_1", "test_group_1", "test_group_2"],
 		"type": "wait"
+	},
+	"debug": {
+		"input_priority": 4
 	},
 	"push": {
 		"is_disabled": true,

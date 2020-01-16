@@ -3,6 +3,7 @@
 -- @local
 
 
+local app = require("eva.app")
 local luax = require("eva.luax")
 local const = require("eva.const")
 local rendercam = require("rendercam.rendercam")
@@ -10,7 +11,6 @@ local rendercam = require("rendercam.rendercam")
 local M = {}
 
 
-M.GESTURE = nil
 M.ZOOM_SPEED = 0.85
 M.SCREEN = vmath.vector3(
 	sys.get_config("display.width")/2,
@@ -94,11 +94,12 @@ end
 
 
 function M.update_camera_zoom(state, dt, params)
+	local input_state = app.input.state
 	local soft = state.zoom_border_soft
 	local hard = state.zoom_border_hard
 
 	-- Soft border
-	if not state.is_pinch then
+	if not input_state.is_pinch then
 		if state.target_zoom < soft.x then
 			state.target_zoom = luax.math.lerp(state.target_zoom, soft.x, params.zoom_border_lerp_speed)
 		end
