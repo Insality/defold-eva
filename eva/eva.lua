@@ -81,8 +81,7 @@ local function load_modules()
 		after_eva_init = {},
 		on_eva_update = {},
 		on_eva_second = {},
-		on_message = {},
-		on_input = {},
+		on_eva_message = {},
 	}
 
 	for name, eva_module in pairs(modules) do
@@ -136,7 +135,7 @@ end
 
 
 --- Call this to init Eva module
--- @function eva.on_eva_init
+-- @function eva.init
 -- @tparam string settings_path path to eva_settings.json
 -- @tparam table module_settings Settings to modules. See description on eva.lua
 function M.init(settings_path, module_settings)
@@ -193,7 +192,7 @@ end
 --- Call this on main game on_message
 -- @function eva.on_message
 function M.on_message(message_id, message, sender)
-	call_each_module("on_message", message_id, message, sender)
+	call_each_module("on_eva_message", message_id, message, sender)
 end
 
 
