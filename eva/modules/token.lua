@@ -10,6 +10,7 @@ local log = require("eva.log")
 local const = require("eva.const")
 local smart = require("eva.libs.smart.smart")
 
+local db = require("eva.modules.db")
 local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
@@ -185,7 +186,7 @@ end
 
 local function load_config(config_name, db_name)
 	if db_name then
-		app[config_name] = app.db[db_name]
+		app[config_name] = db.get(db_name)
 		logger:debug("Load token config part", { name = config_name, db_name = db_name })
 	end
 end

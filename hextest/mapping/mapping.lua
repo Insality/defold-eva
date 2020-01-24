@@ -1,10 +1,10 @@
-local app = require("eva.app")
+local eva = require("eva.eva")
 
 local M = {}
 
 
 function M.make_object(prefix, group, id, position)
-	local mapping = app.db.TiledMapping
+	local mapping = eva.db.get("TiledMapping")
 
 	local object_data = mapping[group][tostring(id)]
 	local object_name = object_data.object_name

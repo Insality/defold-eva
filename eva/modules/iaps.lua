@@ -9,11 +9,12 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 local fun = require("eva.libs.fun")
 
-local device = require("eva.modules.device")
-local proto = require("eva.modules.proto")
-local events = require("eva.modules.events")
-local saver = require("eva.modules.saver")
+local db = require("eva.modules.db")
 local game = require("eva.modules.game")
+local saver = require("eva.modules.saver")
+local proto = require("eva.modules.proto")
+local device = require("eva.modules.device")
+local events = require("eva.modules.events")
 local tokens = require("eva.modules.tokens")
 
 local logger = log.get_logger("eva.iaps")
@@ -25,7 +26,7 @@ local function get_iaps_config()
 	local settings = app.settings.iaps
 	local is_ios = device.is_ios()
 	local config_name = is_ios and settings.config_ios or settings.config_android
-	return app.db[config_name].iaps
+	return db.get(config_name).iaps
 end
 
 

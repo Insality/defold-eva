@@ -12,6 +12,7 @@
 local app = require("eva.app")
 local const = require("eva.const")
 
+local db = require("eva.modules.db")
 local game = require("eva.modules.game")
 local saver = require("eva.modules.saver")
 local proto = require("eva.modules.proto")
@@ -27,13 +28,18 @@ local function get_truck(truck_id)
 end
 
 
+local function get_trucks_config()
+	return db.get("Trucks").trucks
+end
+
+
 local function get_truck_config(truck_id)
-	return app.db.Trucks.trucks[truck_id]
+	return get_trucks_config()[truck_id]
 end
 
 
 local function update_trucks()
-	local trucks = app.db.Trucks.trucks
+	local trucks = get_trucks_config()
 	for truck_id, truck_config in pairs(trucks) do
 		if M.is_enabled(truck_id) then
 			if truck_config.autoarrive and M.is_can_arrive(truck_id) then

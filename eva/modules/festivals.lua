@@ -14,6 +14,7 @@ local app = require("eva.app")
 local const = require("eva.const")
 local time_string = require("eva.libs.time_string")
 
+local db = require("eva.modules.db")
 local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local timers = require("eva.modules.timers")
@@ -30,8 +31,13 @@ local function get_timer_slot(festival_id)
 end
 
 
+local function get_config()
+	return db.get("Festivals").festivals
+end
+
+
 local function is_time_to_start(festival_id)
-	local festivals = app.db.Festivals.festivals
+	local festivals = get_config()
 	local festival = festivals[festival_id]
 	local current_time = game.get_time()
 
@@ -45,7 +51,7 @@ end
 
 
 local function is_need_to_start(festival_id)
-	local festivals = app.db.Festivals.festivals
+	local festivals = get_config()
 	local festival = festivals[festival_id]
 
 	-- Festivals with repeat time never can be fully completed
@@ -65,7 +71,7 @@ end
 
 local function start_festival(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
-	local festival = app.db.Festivals.festivals[festival_id]
+	local festival = get_config()[festival_id]
 
 	local is_current = M.is_active(festival_id)
 	if is_current then
@@ -92,7 +98,7 @@ end
 
 local function end_festival(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
-	local festival = app.db.Festivals.festivals[festival_id]
+	local festival = get_config()[festival_id]
 
 	local is_current = M.is_active(festival_id)
 	if not is_current then
@@ -142,7 +148,7 @@ end
 -- @tparam string festival_id Festival id from Festivals json
 -- @treturn number Time in seconds since epoch
 function M.get_start_time(festival_id)
-	local festivals = app.db.Festivals.festivals
+	local festivals = get_config()
 	local festival = festivals[festival_id]
 
 	if not festival then
@@ -172,7 +178,7 @@ end
 -- @tparam string festival_id Festival id from Festivals json
 -- @treturn number Time in seconds since epoch
 function M.get_end_time(festival_id)
-	local festivals = app.db.Festivals.festivals
+	local festivals = get_config()
 	local festival = festivals[festival_id]
 
 	if not festival then
@@ -233,7 +239,7 @@ end
 
 
 function M.on_eva_second()
-	local festivals = app.db.Festivals.festivals
+	local festivals = get_config()
 	for festival_id in pairs(festivals) do
 		if is_need_to_start(festival_id) then
 			start_festival(festival_id)

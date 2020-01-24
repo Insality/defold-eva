@@ -9,12 +9,13 @@ local app = require("eva.app")
 local log = require("eva.log")
 local const = require("eva.const")
 
+local db = require("eva.modules.db")
 local iaps = require("eva.modules.iaps")
+local saver = require("eva.modules.saver")
 local proto = require("eva.modules.proto")
 local timers = require("eva.modules.timers")
 local events = require("eva.modules.events")
 local tokens = require("eva.modules.tokens")
-local saver = require("eva.modules.saver")
 
 local logger = log.get_logger("eva.offers")
 
@@ -23,7 +24,7 @@ local M = {}
 
 local function get_offer_data(offer_id)
 	local config_name = app.settings.offers.config
-	return app.db[config_name].offers[offer_id]
+	return db.get(config_name).offers[offer_id]
 end
 
 

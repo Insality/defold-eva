@@ -13,9 +13,10 @@
 local log = require("eva.log")
 local app = require("eva.app")
 
+local db = require("eva.modules.db")
+local grid = require("eva.modules.grid")
 local hexgrid = require("eva.modules.hexgrid")
 local isogrid = require("eva.modules.isogrid")
-local grid = require("eva.modules.grid")
 
 local hexgrid_handler = require("eva.scripts.hexgrid_handler")
 local isogrid_handler = require("eva.scripts.isogrid_handler")
@@ -24,6 +25,11 @@ local grid_handler = require("eva.scripts.grid_handler")
 local logger = log.get_logger("eva.tiled")
 
 local M = {}
+
+
+local function get_mapping_data()
+	return db.get(app.settings.tiled.mapping_config)
+end
 
 
 local function get_layer_props(tiled_data)
@@ -48,7 +54,7 @@ end
 
 local function add_tile(map_data, name, i, j, index)
 	local settings = app.settings.tiled
-	local mapping_data = app.db[settings.mapping_config]
+	local mapping_data = get_mapping_data()
 	local object_data = mapping_data[name][tostring(index)]
 
 	local tile_layer = map_data.tiles[name]
@@ -77,7 +83,7 @@ end
 
 local function add_object(map_data, name, x, y, index)
 	local settings = app.settings.tiled
-	local mapping_data = app.db[settings.mapping_config]
+	local mapping_data = get_mapping_data()
 	local object_data = mapping_data[name][tostring(index)]
 
 	local z_layer = map_data.layer_props[name].z_layer or settings.z_layer_objects_default
@@ -125,8 +131,7 @@ end
 
 
 local function process_objects(map_data, tiled_data, index)
-	local mapping_config_name = app.settings.tiled.mapping_config
-	local mapping_data = app.db[mapping_config_name]
+	local mapping_data = get_mapping_data()
 	local layer = tiled_data.layers[index]
 	local name = layer.name
 

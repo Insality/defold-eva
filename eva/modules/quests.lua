@@ -20,6 +20,7 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 local fun = require("eva.libs.fun")
 
+local db = require("eva.modules.db")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
 local tokens = require("eva.modules.tokens")
@@ -30,8 +31,18 @@ local logger = log.get_logger("eva.quests")
 local M = {}
 
 
+local function get_config()
+	return db.get("Quests").quests
+end
+
+
+local function get_quest_config(quest_id)
+	return get_config()[quest_id]
+end
+
+
 local function make_relative_quests_map()
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 	local map = {}
 
 	for quest_id, quest in pairs(quests_data) do
@@ -71,7 +82,7 @@ end
 
 --- All requirements is satisfied for start quest
 local function is_available(quest_id)
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 	local quest = quests_data[quest_id]
 
 	return not M.is_completed(quest_id) and
@@ -81,17 +92,17 @@ end
 
 
 local function is_catch_offline(quest_id)
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 	return not M.is_completed(quest_id) and quests_data[quest_id].events_offline
 end
 
 
 local function is_tasks_completed(quest_id)
-	local quests_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 	local quests = app[const.EVA.QUESTS].current[quest_id]
 
-	for i = 1, #quests_data.tasks do
-		local required = quests_data.tasks[i].required
+	for i = 1, #quest_data.tasks do
+		local required = quest_data.tasks[i].required
 		local current = quests.progress[i]
 
 		if current < required then
@@ -104,17 +115,17 @@ end
 
 
 local function can_be_started_quest(quest_id)
-	local quest = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 
 	local is_completed = M.is_completed(quest_id)
 	local is_active = M.is_active(quest_id)
-	local quests_ok = is_quests_ok(quest.required_quests)
+	local quests_ok = is_quests_ok(quest_data.required_quests)
 	return not is_completed and not is_active and quests_ok
 end
 
 
 local function create_can_be_started_list()
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 
 	app.quests_info.can_be_started = {}
 	local can_be_started = app.quests_info.can_be_started
@@ -157,7 +168,7 @@ end
 --- Register quest to catch events even it not started
 local function register_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
-	local quest_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 	if quests.current[quest_id] then
 		logger:warn("Quest already started", { quest_id = quest_id })
 		return
@@ -173,7 +184,7 @@ end
 
 
 local function start_quest(quest_id)
-	local quest_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 	local quests = app[const.EVA.QUESTS]
 	if not quests.current[quest_id] then
 		register_quest(quest_id)
@@ -195,7 +206,7 @@ end
 
 local function finish_quest(quest_id)
 	local quests = app[const.EVA.QUESTS]
-	local quest_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 
 	if not quests.current[quest_id] then
 		logger:warn("No quest in current list to end it", { quest_id = quest_id })
@@ -227,7 +238,7 @@ end
 
 
 local function register_offline_quests()
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 	local quests = app[const.EVA.QUESTS]
 
 	for quest_id, quest in pairs(quests_data) do
@@ -239,7 +250,7 @@ end
 
 
 local function update_quests_list()
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 
 	local current = app[const.EVA.QUESTS].current
 	for quest_id, quest in pairs(current) do
@@ -261,7 +272,7 @@ end
 
 
 local function apply_event(quest_id, quest, action, object, amount)
-	local quest_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 	local is_updated = false
 
 	for i = 1, #quest_data.tasks do
@@ -356,7 +367,7 @@ end
 -- @function eva.quests.is_can_start_quest
 -- @treturn bool Quest is can start state
 function M.is_can_start_quest(quest_id)
-	local quest_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 
 	local is_can_start_extra = true
 	if app.quests_settings.is_can_start then
@@ -381,7 +392,7 @@ end
 -- @function eva.quests.is_can_complete_quest
 -- @treturn bool Quest is can complete quest state
 function M.is_can_complete_quest(quest_id)
-	local quest_data = app.db.Quests.quests[quest_id]
+	local quest_data = get_quest_config(quest_id)
 
 	local is_can_complete_extra = true
 	if app.quests_settings.is_can_complete then
@@ -408,7 +419,7 @@ end
 -- @tparam string object Object of event
 -- @tparam number amount Amount of event
 function M.quest_event(action, object, amount)
-	local quests_data = app.db.Quests.quests
+	local quests_data = get_config()
 	local current = app[const.EVA.QUESTS].current
 	local is_need_update = false
 
