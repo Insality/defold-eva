@@ -60,7 +60,7 @@ function M.parse_ISO(str)
 	local Y, MM, D = parse_date(str)
 	local h, m, s = parse_time(str)
 	local oh, om = parse_offset(str)
-	return os.time({year=Y, month=MM, day=D, hour=(h+oh), min=(m+om), sec=s})
+	return os.time({ year=Y, month=MM, day=D, hour=(h+oh), min=(m+om), sec=s })
 end
 
 

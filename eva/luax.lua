@@ -28,6 +28,7 @@ M.table.empty = {}
 M.string.empty = ""
 M.func.empty = function() end
 
+
 --- math.step
 -- @function luax.math.step
 function M.math.step(current, target, step)

@@ -18,7 +18,7 @@ local M = {}
 -- @tparam string event name of event
 -- @tparam[opt={}] table params params
 function M.event(event, params)
-	logger:debug("Event", {event = event, params = params})
+	logger:debug("Event", { event = event, params = params })
 
 	local listeners = app.event_listeners[event]
 	if listeners then

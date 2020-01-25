@@ -99,7 +99,7 @@ function M.reboot(delay, arg1, arg2)
 
 	sound.stop_all()
 	timer.delay(delay, false, function()
-		msg.post("@system:", "reboot", {arg1 = arg1, arg2 = arg2})
+		msg.post("@system:", "reboot", { arg1 = arg1, arg2 = arg2 })
 	end)
 end
 
@@ -109,7 +109,7 @@ end
 -- @tparam int code The exit code
 function M.exit(code)
 	code = code or 0
-	msg.post("@system:", "exit", {code = code})
+	msg.post("@system:", "exit", { code = code })
 end
 
 

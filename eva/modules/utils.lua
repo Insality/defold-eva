@@ -18,6 +18,7 @@ function M.after(count, callback)
 			callback()
 		end
 	end
+
 	return closure
 end
 
