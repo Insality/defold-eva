@@ -13,9 +13,9 @@ local db = require("eva.modules.db")
 local iaps = require("eva.modules.iaps")
 local saver = require("eva.modules.saver")
 local proto = require("eva.modules.proto")
+local token = require("eva.modules.token")
 local timers = require("eva.modules.timers")
 local events = require("eva.modules.events")
-local tokens = require("eva.modules.tokens")
 
 local logger = log.get_logger("eva.offers")
 
@@ -125,7 +125,7 @@ function M.get_reward(offer_id)
 	if is_iap then
 		return iaps.get_reward(offer.iap_id)
 	else
-		return tokens.get_lot_reward(offer.lot_id)
+		return token.get_lot_reward(offer.lot_id)
 	end
 end
 
@@ -142,7 +142,7 @@ function M.get_price(offer_id)
 	if is_iap then
 		return iaps.get_price(offer.iap_id)
 	else
-		return tokens.get_lot_price(offer.lot_id)
+		return token.get_lot_price(offer.lot_id)
 	end
 end
 

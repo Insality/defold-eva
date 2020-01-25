@@ -13,9 +13,9 @@ local db = require("eva.modules.db")
 local game = require("eva.modules.game")
 local saver = require("eva.modules.saver")
 local proto = require("eva.modules.proto")
+local token = require("eva.modules.token")
 local device = require("eva.modules.device")
 local events = require("eva.modules.events")
-local tokens = require("eva.modules.tokens")
 
 local logger = log.get_logger("eva.iaps")
 
@@ -136,7 +136,7 @@ local function consume(iap_id, transaction)
 	end
 
 	if item.reward_id then
-		tokens.add_group(item.reward_id, const.REASON.IAP)
+		token.add_group(item.reward_id, const.REASON.IAP)
 	end
 
 	save_iap(iap_id, transaction)
@@ -222,7 +222,7 @@ function M.get_reward(iap_id)
 		logger:error("No iap with id", { iap_id = iap_id })
 	end
 
-	return tokens.get_token_group(iap_data.token_group_id)
+	return token.get_token_group(iap_data.token_group_id)
 end
 
 

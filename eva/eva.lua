@@ -69,7 +69,6 @@ local function load_modules()
 		tiled = require("eva.modules.tiled"),
 		timers = require("eva.modules.timers"),
 		token = require("eva.modules.token"),
-		tokens = require("eva.modules.tokens"),
 		trucks = require("eva.modules.trucks"),
 		utils = require("eva.modules.utils"),
 		window = require("eva.modules.window")

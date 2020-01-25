@@ -1,7 +1,6 @@
 --- Eva token module
--- Provide API to add single token to profile
+-- Provide API to work with tokens in special container
 -- Tokens is basic item, like money, energy or items.
--- For adding group of tokens use eva.tokens
 -- @submodule eva
 
 
@@ -75,10 +74,93 @@ local function get_token(token_id)
 end
 
 
+--- Return evadata.Tokens tokens format
+-- @function eva.token.get_tokens
+-- @tparam table tokens Map with token_id = amount
+function M.get_tokens(tokens)
+	local data = proto.get(const.EVA.TOKENS_DATA)
+
+	for token_id, amount in pairs(tokens) do
+		table.insert(data.tokens, { token_id = token_id, amount = amount })
+	end
+
+	return data
+end
+
+
+--- Return token group by id.
+-- It pickup data from DB
+-- @function eva.token.get_token_group
+-- @tparam string token_group_id the token group id
+-- @treturn evadata.Tokens the token list
+function M.get_token_group(token_group_id)
+	local group = app.token_groups.token_groups[token_group_id]
+
+	if not group then
+		logger:error("No token group with id", { group_id = token_group_id })
+	end
+
+	return group
+end
+
+
+--- Return lot reward by lot_id.
+-- It pickup data from DB
+-- @function eva.token.get_lot_reward
+-- @tparam string lot_id the token lot id
+-- @treturn evadata.Tokens the token list
+function M.get_lot_reward(lot_id)
+	local lot = app.token_lots.token_lots[lot_id]
+
+	if not lot then
+		logger:error("No token lot with id", { lot_id = lot_id })
+	end
+
+	return M.get_token_group(lot.reward)
+end
+
+
+--- Return lot price by lot_id.
+-- It pickup data from DB
+-- @function eva.token.get_lot_price
+-- @tparam string lot_id the token lot id
+-- @treturn evadata.Tokens the token list
+function M.get_lot_price(lot_id)
+	local lot = app.token_lots.token_lots[lot_id]
+
+	if not lot then
+		logger:error("No token lot with id", { lot_id = lot_id })
+	end
+
+	return M.get_token_group(lot.price)
+end
+
+
 --- Add tokens to save
 -- @function eva.token.add
 function M.add(token_id, amount, reason, visual_later)
 	return get_token(token_id):add(amount, reason, visual_later)
+end
+
+
+--- Add multiply tokens
+-- @function eva.token.add
+function M.add_many(tokens, reason)
+	if not tokens or #tokens.tokens == 0 then
+		return
+	end
+
+	for index, value in ipairs(tokens.tokens) do
+		M.add(value.token_id, value.amount, reason)
+	end
+end
+
+
+--- Add multiply tokens by token_group_id
+-- @function eva.token.add_group
+function M.add_group(token_group_id, reason)
+	local tokens = M.get_token_group(token_group_id)
+	M.add_many(tokens)
 end
 
 
@@ -106,10 +188,53 @@ function M.pay(token_id, amount, reason)
 end
 
 
+--- Pay multiply tokens
+-- @function eva.token.pay
+-- @tparam evadata.Tokens tokens Tokens data
+-- @tparam string reason The reason to pay
+function M.pay_many(tokens, reason)
+	for index, value in ipairs(tokens.tokens) do
+		M.pay(value.token_id, value.amount, reason)
+	end
+end
+
+--- Pay multiply tokens by token_group_id
+-- @function eva.token.pay_group
+-- @tparam string token_group_id The token group id
+-- @tparam string reason The reason to pay
+function M.pay_group(token_group_id, reason)
+	local tokens = M.get_token_group(token_group_id)
+	M.pay_many(tokens, reason)
+end
+
+
 --- Check is enough to pay token
 -- @function eva.token.is_enough
 function M.is_enough(token_id, amount)
 	return get_token(token_id):check(amount)
+end
+
+
+--- Check multiply tokens
+-- @function eva.token.is_enough
+-- @tparam evadata.Tokens tokens list
+function M.is_enough_many(tokens)
+	local is_enough = true
+
+	for index, value in ipairs(tokens.tokens) do
+		is_enough = is_enough and M.is_enough(value.token_id, value.amount)
+	end
+
+	return is_enough
+end
+
+
+--- Check multiply tokens by token_group_id
+-- @function eva.token.is_enough_group
+-- @tparam string token_group_id the token group id
+function M.is_enough_group(token_group_id)
+	local tokens = M.get_token_group(token_group_id)
+	return M.is_enough_many(tokens)
 end
 
 
