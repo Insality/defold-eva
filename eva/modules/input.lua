@@ -186,7 +186,7 @@ local function handle_input(action_id, action)
 	state.dy = 0
 
 	handle_drag(state, action_id, action)
-	handle_gesture(state, action_id, action)
+	-- handle_gesture(state, action_id, action)
 end
 
 
@@ -217,6 +217,7 @@ end
 
 
 function M.on_input(action_id, action)
+	local g = app.input.gesture.on_input(action_id, action)
 	local stack = app.input.stack
 	local state = app.input.state
 
@@ -264,6 +265,16 @@ function M.on_input(action_id, action)
 
 	if input_action then
 		print("Input type:", input_action)
+		if g then
+			pprint(g)
+		end
+		if g then
+			for k, v in pairs(g) do
+				if v and k ~= "two_finger" then
+					pprint(k, v)
+				end
+			end
+		end
 	end
 
 	for i = 1, #stack do
@@ -288,6 +299,7 @@ function M.before_eva_init()
 	app.input = {
 		stack = {},
 		gesture = gesture.create({
+			action_id = hash("touch"),
 			multi_touch = settings.multi_touch
 		}),
 		state = {
