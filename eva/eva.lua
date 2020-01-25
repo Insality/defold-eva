@@ -71,6 +71,7 @@ local function load_modules()
 		token = require("eva.modules.token"),
 		trucks = require("eva.modules.trucks"),
 		utils = require("eva.modules.utils"),
+		wallet = require("eva.modules.wallet"),
 		window = require("eva.modules.window")
 	}
 

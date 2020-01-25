@@ -80,6 +80,10 @@ message Tokens {
 	map<string, Token> tokens = 1;
 }
 
+message Containers {
+	map<string, Tokens> containers = 1;
+}
+
 message Lot {
 	Tokens price = 1;
 	Tokens reward = 2;
