@@ -92,6 +92,9 @@ end
 
 
 local function get_token(container_id, token_id)
+	assert(container_id, "You should provide container_id")
+	assert(token_id, "You should provide token_id")
+
 	local container = get_container(container_id)
 
 	local tokens = container.tokens
@@ -353,15 +356,14 @@ function M.after_eva_init()
 		end
 	end
 
-	-- Config temporary off while containers rework
-	--[[
 	local token_config = get_token_config()
 	for token_id, value in pairs(token_config) do
-		if value.restore and not app.smart_tokens[token_id] then
-			app.smart_tokens[token_id] = create_token_in_save(container_id, token_id)
+		for container_id, container in pairs(containers) do
+			if value.restore and not container.tokens[token_id] then
+				container.tokens[token_id] = create_token_in_save(container_id, token_id)
+			end
 		end
 	end
-	--]]
 end
 
 

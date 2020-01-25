@@ -23,8 +23,8 @@ local fun = require("eva.libs.fun")
 local db = require("eva.modules.db")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
-local token = require("eva.modules.token")
 local events = require("eva.modules.events")
+local wallet = require("eva.modules.wallet")
 
 local logger = log.get_logger("eva.quests")
 
@@ -63,7 +63,7 @@ local function is_tokens_ok(tokens_list)
 		return true
 	end
 
-	return token.is_enough_many(tokens_list)
+	return wallet.is_enough_many(tokens_list)
 end
 
 
@@ -224,7 +224,7 @@ local function finish_quest(quest_id)
 	end
 
 	if quest_data.reward then
-		token.add_many(quest_data.reward, const.REASON.QUESTS)
+		wallet.add_many(quest_data.reward, const.REASON.QUESTS)
 	end
 
 	if app.quests_settings.on_quest_completed then

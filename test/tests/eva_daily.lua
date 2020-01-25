@@ -23,17 +23,17 @@ return function()
 
 
 		it("Should give actual reward", function()
-			assert(eva.token.get("money") == 0)
+			assert(eva.wallet.get("money") == 0)
 
 			eva.daily.set_active(true)
 			eva.daily.pick()
 
 			assert(eva.daily.get_time() == 10)
 			assert(eva.daily.get_wait_time() == 30)
-			assert(eva.token.get("money") == 1000)
+			assert(eva.wallet.get("money") == 1000)
 
 			eva.daily.pick()
-			assert(eva.token.get("money") == 1000)
+			assert(eva.wallet.get("money") == 1000)
 		end)
 
 
@@ -148,8 +148,8 @@ return function()
 			eva.daily.on_eva_second()
 			eva.daily.pick()
 
-			assert(eva.token.get("money") == 2000)
-			assert(eva.token.get("energy") == 50)
+			assert(eva.wallet.get("money") == 2000)
+			assert(eva.wallet.get("energy") == 50)
 
 			local state2 = eva.daily.get_current_state()
 			assert(#state2 == 0)

@@ -16,6 +16,7 @@ local proto = require("eva.modules.proto")
 local token = require("eva.modules.token")
 local device = require("eva.modules.device")
 local events = require("eva.modules.events")
+local wallet = require("eva.modules.wallet")
 
 local logger = log.get_logger("eva.iaps")
 
@@ -136,7 +137,7 @@ local function consume(iap_id, transaction)
 	end
 
 	if item.reward_id then
-		token.add_group(item.reward_id, const.REASON.IAP)
+		wallet.add_group(item.reward_id, const.REASON.IAP)
 	end
 
 	save_iap(iap_id, transaction)

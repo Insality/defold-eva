@@ -13,9 +13,9 @@ local fun = require("eva.libs.fun")
 local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
-local token = require("eva.modules.token")
 local events = require("eva.modules.events")
 local device = require("eva.modules.device")
+local wallet = require("eva.modules.wallet")
 
 local logger = log.get_logger("eva.invoices")
 
@@ -148,7 +148,7 @@ function M.consume(id)
 
 	local reward = invoice.reward
 	if reward then
-		token.add_many(reward)
+		wallet.add_many(reward)
 	end
 
 	remove_invoice(id)

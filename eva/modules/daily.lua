@@ -12,8 +12,8 @@ local log = require("eva.log")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
 local game = require("eva.modules.game")
-local token = require("eva.modules.token")
 local events = require("eva.modules.events")
+local wallet = require("eva.modules.wallet")
 
 local logger = log.get_logger("eva.daily")
 
@@ -118,7 +118,7 @@ function M.pick()
 	table.insert(data.reward_state, true)
 
 	local reward_id = settings.reward[#data.reward_state]
-	token.add_group(reward_id)
+	wallet.add_group(reward_id)
 
 	events.event(const.EVENT.DAILY_REWARD, { reward_id = reward_id, day = #data.reward_state })
 

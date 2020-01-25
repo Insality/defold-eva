@@ -9,6 +9,7 @@ local function set_time(time)
 end
 
 local CHANGE = const.EVENT.TOKEN_CHANGE
+local TEST_CONTAINER = "test_container"
 
 local events = {
 	[CHANGE] = function() end,
@@ -32,105 +33,105 @@ return function()
 		end)
 
 		it("Should have basic api get/set/add/pay", function()
-			assert(eva.token.get("money") == 0)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 0)
 
-			local delta = eva.token.add("money", 10)
+			local delta = eva.token.add(TEST_CONTAINER, "money", 10)
 			assert(delta == 10)
-			assert(eva.token.get("money") == 10)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 10)
 
-			delta = eva.token.set("money", 20)
+			delta = eva.token.set(TEST_CONTAINER, "money", 20)
 			assert(delta == 10)
-			assert(eva.token.get("money") == 20)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 20)
 
-			delta = eva.token.pay("money", 5)
+			delta = eva.token.pay(TEST_CONTAINER, "money", 5)
 			assert(delta == -5)
-			assert(eva.token.get("money") == 15)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 15)
 		end)
 
 		it("Should correct work check functions", function()
-			eva.token.add("money", 100)
-			assert(not eva.token.is_empty("money"))
-			assert(eva.token.is_empty("exp"))
+			eva.token.add(TEST_CONTAINER, "money", 100)
+			assert(not eva.token.is_empty(TEST_CONTAINER, "money"))
+			assert(eva.token.is_empty(TEST_CONTAINER, "exp"))
 
-			assert(eva.token.is_enough("money", 50))
-			assert(eva.token.is_enough("money", 100))
-			assert(not eva.token.is_enough("money", 150))
+			assert(eva.token.is_enough(TEST_CONTAINER, "money", 50))
+			assert(eva.token.is_enough(TEST_CONTAINER, "money", 100))
+			assert(not eva.token.is_enough(TEST_CONTAINER, "money", 150))
 
-			assert(not eva.token.is_max("money"))
+			assert(not eva.token.is_max(TEST_CONTAINER, "money"))
 
-			local delta = eva.token.add("level", 90)
+			local delta = eva.token.add(TEST_CONTAINER, "level", 90)
 			-- Default: 1, max: 80
 			assert(delta == 79)
-			assert(eva.token.is_max("level"))
+			assert(eva.token.is_max(TEST_CONTAINER, "level"))
 		end)
 
 		it("Should correct work with infinity values", function()
-			eva.token.add("money", 100)
-			eva.token.add_infinity_time("money", 10)
+			eva.token.add(TEST_CONTAINER, "money", 100)
+			eva.token.add_infinity_time(TEST_CONTAINER, "money", 10)
 
-			eva.token.pay("money", 50)
-			assert(eva.token.get("money") == 100)
+			eva.token.pay(TEST_CONTAINER, "money", 50)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 100)
 
-			eva.token.pay("money", 50)
-			assert(eva.token.get("money") == 100)
+			eva.token.pay(TEST_CONTAINER, "money", 50)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 100)
 
-			eva.token.set("money", 50)
-			assert(eva.token.get("money") == 50)
+			eva.token.set(TEST_CONTAINER, "money", 50)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 50)
 
-			assert(eva.token.is_infinity("money"))
-			assert(eva.token.get_infinity_seconds("money") == 10)
-			assert(not eva.token.is_infinity("level"))
-			assert(eva.token.get_infinity_seconds("level") == 0)
+			assert(eva.token.is_infinity(TEST_CONTAINER, "money"))
+			assert(eva.token.get_infinity_seconds(TEST_CONTAINER, "money") == 10)
+			assert(not eva.token.is_infinity(TEST_CONTAINER, "level"))
+			assert(eva.token.get_infinity_seconds(TEST_CONTAINER, "level") == 0)
 
-			assert(eva.token.is_enough("money", 50))
-			assert(eva.token.is_enough("money", 100))
-			assert(eva.token.is_enough("money", 150))
+			assert(eva.token.is_enough(TEST_CONTAINER, "money", 50))
+			assert(eva.token.is_enough(TEST_CONTAINER, "money", 100))
+			assert(eva.token.is_enough(TEST_CONTAINER, "money", 150))
 		end)
 
 		it("Should correct work visual api", function()
-			eva.token.add("money", 1000)
-			assert(eva.token.get("money") == 1000)
-			assert(eva.token.get_visual("money") == 1000)
+			eva.token.add(TEST_CONTAINER, "money", 1000)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 1000)
+			assert(eva.token.get_visual(TEST_CONTAINER, "money") == 1000)
 
-			eva.token.add_visual("money", -100)
-			assert(eva.token.get_visual("money") == 900)
+			eva.token.add_visual(TEST_CONTAINER, "money", -100)
+			assert(eva.token.get_visual(TEST_CONTAINER, "money") == 900)
 
-			eva.token.sync_visual("money")
-			assert(eva.token.get_visual("money") == 1000)
+			eva.token.sync_visual(TEST_CONTAINER, "money")
+			assert(eva.token.get_visual(TEST_CONTAINER, "money") == 1000)
 
-			eva.token.add("money", 100, "test", true)
-			assert(eva.token.get("money") == 1100)
-			assert(eva.token.get_visual("money") == 1000)
+			eva.token.add(TEST_CONTAINER, "money", 100, "test", true)
+			assert(eva.token.get(TEST_CONTAINER, "money") == 1100)
+			assert(eva.token.get_visual(TEST_CONTAINER, "money") == 1000)
 
-			eva.token.add_visual("money", 50)
-			assert(eva.token.get_visual("money") == 1050)
+			eva.token.add_visual(TEST_CONTAINER, "money", 50)
+			assert(eva.token.get_visual(TEST_CONTAINER, "money") == 1050)
 
-			local delta = eva.token.sync_visual("money")
-			assert(eva.token.get_visual("money") == 1100)
+			local delta = eva.token.sync_visual(TEST_CONTAINER, "money")
+			assert(eva.token.get_visual(TEST_CONTAINER, "money") == 1100)
 			assert(delta == 50)
 		end)
 
 		it("Should correct work restoring", function()
 			set_time(60)
-			assert(eva.token.get("energy") == 1)
+			assert(eva.token.get(TEST_CONTAINER, "energy") == 1)
 
 			set_time(120)
-			assert(eva.token.get("energy") == 2)
+			assert(eva.token.get(TEST_CONTAINER, "energy") == 2)
 
 			-- max 20 restore
 			set_time(60 * 40)
-			assert(eva.token.get("energy") == 22)
+			assert(eva.token.get(TEST_CONTAINER, "energy") == 22)
 		end)
 
 		it("Should throw event on token change", function()
 			assert(events[CHANGE].calls == 0)
-			assert(eva.token.get("energy" == 0))
+			assert(eva.token.get(TEST_CONTAINER, "energy" == 0))
 
 			set_time(60)
-			assert(eva.token.get("energy" == 1))
+			assert(eva.token.get(TEST_CONTAINER, "energy" == 1))
 			assert(events[CHANGE].calls == 1)
 
-			eva.token.add("money", 500)
+			eva.token.add(TEST_CONTAINER, "money", 500)
 			assert(events[CHANGE].calls == 2)
 		end)
 	end)
