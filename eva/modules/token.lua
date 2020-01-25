@@ -20,6 +20,24 @@ local logger = log.get_logger("eva.token")
 local M = {}
 
 
+local function get_token_lot_config(lot_id)
+	local config_name = app.settings.tokens.config_lots
+	return db.get(config_name).token_lots[lot_id]
+end
+
+
+local function get_token_group_config(group_id)
+	local config_name = app.settings.tokens.config_token_groups
+	return db.get(config_name).token_groups[group_id]
+end
+
+
+local function get_token_config()
+	local config_name = app.settings.tokens.config_token_config
+	return db.get(config_name).token_config
+end
+
+
 local function update_tokens_offset()
 	if not app.settings.tokens.memory_protect then
 		return
@@ -48,7 +66,7 @@ local function create_token_in_save(token_id, token_data)
 		app[const.EVA.TOKENS].tokens[token_id] = token_data
 	end
 
-	local config = app.token_config.token_config[token_id] or {}
+	local config = get_token_config()[token_id] or {}
 	config.name = token_id
 	local smart_token = smart.new(config, token_data)
 
@@ -94,7 +112,7 @@ end
 -- @tparam string token_group_id the token group id
 -- @treturn evadata.Tokens the token list
 function M.get_token_group(token_group_id)
-	local group = app.token_groups.token_groups[token_group_id]
+	local group = get_token_group_config(token_group_id)
 
 	if not group then
 		logger:error("No token group with id", { group_id = token_group_id })
@@ -110,7 +128,7 @@ end
 -- @tparam string lot_id the token lot id
 -- @treturn evadata.Tokens the token list
 function M.get_lot_reward(lot_id)
-	local lot = app.token_lots.token_lots[lot_id]
+	local lot = get_token_lot_config(lot_id)
 
 	if not lot then
 		logger:error("No token lot with id", { lot_id = lot_id })
@@ -126,7 +144,7 @@ end
 -- @tparam string lot_id the token lot id
 -- @treturn evadata.Tokens the token list
 function M.get_lot_price(lot_id)
-	local lot = app.token_lots.token_lots[lot_id]
+	local lot = get_token_lot_config(lot_id)
 
 	if not lot then
 		logger:error("No token lot with id", { lot_id = lot_id })
@@ -303,9 +321,6 @@ end
 
 function M.before_eva_init()
 	app.smart_tokens = {}
-	app.token_config = {}
-	app.token_groups = {}
-	app.token_lots = {}
 end
 
 
@@ -337,11 +352,11 @@ function M.after_eva_init()
 		app.smart_tokens[token_id] = create_token_in_save(token_id, data)
 	end
 
-	if app.token_config then
-		for token_id, value in pairs(app.token_config.token_config) do
-			if value.restore and not app.smart_tokens[token_id] then
-				app.smart_tokens[token_id] = create_token_in_save(token_id)
-			end
+
+	local token_config = get_token_config()
+	for token_id, value in pairs(token_config) do
+		if value.restore and not app.smart_tokens[token_id] then
+			app.smart_tokens[token_id] = create_token_in_save(token_id)
 		end
 	end
 end
