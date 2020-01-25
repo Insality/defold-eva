@@ -6,6 +6,7 @@ local M = {}
 
 --- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
+M.WALLET_CONTAINER = "eva.wallet"
 M.DEFAULT_SETTINGS_PATH = "/eva/resources/eva_settings.json"
 
 
@@ -150,6 +151,7 @@ M.EVA = {
 	SAVER = "eva.Saver",
 	GAME = "eva.Game",
 	TOKENS = "eva.Tokens",
+	CONTAINERS = "eva.Containers",
 	GDPR = "eva.Gdpr",
 	IAPS = "eva.Iaps",
 	TIMERS = "eva.Timers",
