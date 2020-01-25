@@ -441,6 +441,13 @@ function M.quest_event(action, object, amount)
 	if is_need_update then
 		M.update_quests()
 	end
+
+	logger:debug("Quest event process", {
+		action = action,
+		object = object,
+		amount = amount,
+		affected = is_need_update
+	})
 end
 
 

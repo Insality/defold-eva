@@ -80,8 +80,13 @@ message Tokens {
 	map<string, Token> tokens = 1;
 }
 
+message Container {
+	map<string, Token> tokens = 1;
+	string type = 2;
+}
+
 message Containers {
-	map<string, Tokens> containers = 1;
+	map<string, Container> containers = 1;
 }
 
 message Lot {

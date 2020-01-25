@@ -157,4 +157,11 @@ function M.get_seconds_to_restore(token_id)
 end
 
 
+function M.after_eva_init()
+	if not token.get_container(const.WALLET_CONTAINER) then
+		token.create_container(const.WALLET_CONTAINER, "wallet")
+	end
+end
+
+
 return M

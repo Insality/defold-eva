@@ -13,6 +13,7 @@ message TokenConfig {
 	int32 min = 3;
 	int32 max = 4;
 	TokenRestoreConfig restore = 5;
+	string container_type = 6;
 }
 
 message Token {

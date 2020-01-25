@@ -6,6 +6,7 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
+local luax = require("eva.luax")
 local const = require("eva.const")
 local smart = require("eva.libs.smart.smart")
 
@@ -62,6 +63,21 @@ local function on_change_token(delta, reason, token_id, amount)
 end
 
 
+local function get_config_for_token(container_id, token_id)
+	local token_config = get_token_config()[token_id] or {}
+
+	local config = {}
+	local container = M.get_container(container_id)
+	if not token_config.container_type or container.type == token_config.container_type then
+		luax.table.extend(config, token_config)
+	end
+
+	config.name = token_id
+
+	return config
+end
+
+
 local function create_token_in_save(container_id, token_id, token_data)
 	local container = app.smart_containers[container_id]
 
@@ -70,8 +86,7 @@ local function create_token_in_save(container_id, token_id, token_data)
 		container.tokens[token_id] = token_data
 	end
 
-	local config = get_token_config()[token_id] or {}
-	config.name = token_id
+	local config = get_config_for_token(container_id, token_id)
 	local smart_token = smart.new(config, token_data)
 
 	if app.settings.tokens.memory_protect then
@@ -85,17 +100,15 @@ local function create_token_in_save(container_id, token_id, token_data)
 end
 
 
-local function get_container(container_id)
-	app.smart_containers[container_id] = app.smart_containers[container_id] or proto.get(const.EVA.TOKENS)
-	return app.smart_containers[container_id]
-end
-
-
 local function get_token(container_id, token_id)
 	assert(container_id, "You should provide container_id")
 	assert(token_id, "You should provide token_id")
 
-	local container = get_container(container_id)
+	local container = M.get_container(container_id)
+	if not container then
+		logger:error("No container with id", { container_id = container_id, token_id = token_id })
+		return
+	end
 
 	local tokens = container.tokens
 	if not tokens[token_id] then
@@ -103,6 +116,37 @@ local function get_token(container_id, token_id)
 	end
 
 	return tokens[token_id]
+end
+
+
+function M.get_container(container_id)
+	return app.smart_containers[container_id]
+end
+
+
+function M.create_container(container_id, container_type)
+	app.smart_containers[container_id] = proto.get(const.EVA.CONTAINER)
+	app.smart_containers[container_id].type = container_type
+
+	local container = app.smart_containers[container_id]
+
+	local token_config = get_token_config()
+	for token_id, value in pairs(token_config) do
+		if not value.container_type or container.type == value.container_type then
+			if value.restore and not container.tokens[token_id] then
+				container.tokens[token_id] = create_token_in_save(container_id, token_id)
+			end
+		end
+	end
+
+	logger:debug("Create token container", { container_id = container_id, container_type = container_type })
+
+	return container
+end
+
+
+function M.delete_container(container_id)
+	app.smart_containers[container_id] = nil
 end
 
 
@@ -353,15 +397,6 @@ function M.after_eva_init()
 		for token_id, token_data in pairs(container.tokens) do
 			-- Link behavior and data
 			container[token_id] = create_token_in_save(container_id, token_id, token_data)
-		end
-	end
-
-	local token_config = get_token_config()
-	for token_id, value in pairs(token_config) do
-		for container_id, container in pairs(containers) do
-			if value.restore and not container.tokens[token_id] then
-				container.tokens[token_id] = create_token_in_save(container_id, token_id)
-			end
 		end
 	end
 end

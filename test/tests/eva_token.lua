@@ -19,11 +19,12 @@ return function()
 	describe("Eva token", function()
 		before(function()
 			eva.init("/resources/tests/eva_tests.json")
+			eva.token.create_container(TEST_CONTAINER, "wallet")
 
 			mock_time.mock()
 			mock_time.set(0)
-			mock.mock(events)
 
+			mock.mock(events)
 			eva.events.subscribe_map(events)
 		end)
 
@@ -113,6 +114,7 @@ return function()
 
 		it("Should correct work restoring", function()
 			set_time(60)
+			assert(eva.wallet.get("energy") == 1)
 			assert(eva.token.get(TEST_CONTAINER, "energy") == 1)
 
 			set_time(120)
@@ -124,14 +126,16 @@ return function()
 		end)
 
 		it("Should throw event on token change", function()
+			eva.token.delete_container(TEST_CONTAINER)
+
 			assert(events[CHANGE].calls == 0)
-			assert(eva.token.get(TEST_CONTAINER, "energy" == 0))
+			assert(eva.wallet.get("energy") == 0)
 
 			set_time(60)
-			assert(eva.token.get(TEST_CONTAINER, "energy" == 1))
+			assert(eva.wallet.get("energy") == 1)
 			assert(events[CHANGE].calls == 1)
 
-			eva.token.add(TEST_CONTAINER, "money", 500)
+			eva.wallet.add("money", 500)
 			assert(events[CHANGE].calls == 2)
 		end)
 	end)
