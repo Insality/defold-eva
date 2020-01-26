@@ -158,8 +158,8 @@ end
 
 
 function M.after_eva_init()
-	if not token.get_container(const.WALLET_CONTAINER) then
-		token.create_container(const.WALLET_CONTAINER, "wallet")
+	if not token.is_exist_container(const.WALLET_CONTAINER) then
+		token.create_container(const.WALLET_CONTAINER, const.WALLET_TYPE)
 	end
 end
 

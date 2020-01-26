@@ -39,6 +39,11 @@ local function get_token_config()
 end
 
 
+local function get_container(container_id)
+	return app.smart_containers[container_id]
+end
+
+
 local function update_tokens_offset()
 	if not app.settings.tokens.memory_protect then
 		return
@@ -67,7 +72,7 @@ local function get_config_for_token(container_id, token_id)
 	local token_config = get_token_config()[token_id] or {}
 
 	local config = {}
-	local container = M.get_container(container_id)
+	local container = get_container(container_id)
 	if not token_config.container_type or container.type == token_config.container_type then
 		luax.table.extend(config, token_config)
 	end
@@ -104,7 +109,7 @@ local function get_token(container_id, token_id)
 	assert(container_id, "You should provide container_id")
 	assert(token_id, "You should provide token_id")
 
-	local container = M.get_container(container_id)
+	local container = get_container(container_id)
 	if not container then
 		logger:error("No container with id", { container_id = container_id, token_id = token_id })
 		return
@@ -119,17 +124,8 @@ local function get_token(container_id, token_id)
 end
 
 
-function M.get_container(container_id)
-	return app.smart_containers[container_id]
-end
-
-
-function M.create_container(container_id, container_type)
-	app.smart_containers[container_id] = proto.get(const.EVA.CONTAINER)
-	app.smart_containers[container_id].type = container_type
-
+local function check_values_in_container(container_id)
 	local container = app.smart_containers[container_id]
-
 	local token_config = get_token_config()
 	for token_id, value in pairs(token_config) do
 		if not value.container_type or container.type == value.container_type then
@@ -138,15 +134,72 @@ function M.create_container(container_id, container_type)
 			end
 		end
 	end
-
-	logger:debug("Create token container", { container_id = container_id, container_type = container_type })
-
-	return container
 end
 
 
+--- Check if token container exist
+-- @function eva.token.is_exist_container
+-- @tparam string container_id Container id
+-- @treturn bool Container exist state
+function M.is_exist_container(container_id)
+	return luax.toboolean(get_container(container_id))
+end
+
+
+--- Create new token container
+-- @function eva.token.create_container
+-- @tparam string container_id Container id
+-- @tparam string container_type Container type to match from token config
+function M.create_container(container_id, container_type)
+	if M.is_exist_container(container_id) then
+		logger:warn("Container is already exist", { container_id = container_id })
+		return
+	end
+
+	app.smart_containers[container_id] = proto.get(const.EVA.CONTAINER)
+	app.smart_containers[container_id].type = container_type
+	check_values_in_container(container_id)
+
+	logger:debug("Create token container", { container_id = container_id, container_type = container_type })
+end
+
+
+--- Delete token container
+-- @function eva.token.delete_container
+-- @tparam string container_id Container id
 function M.delete_container(container_id)
 	app.smart_containers[container_id] = nil
+end
+
+
+--- Get all tokens from container
+-- @function eva.token.get_container_tokens
+-- @tparam string container_id Container id
+-- @treturn evadata.Tokens Tokens from container
+function M.get_container_tokens(container_id)
+	local tokens = {}
+
+	local container = get_container(container_id)
+	for id, token in pairs(container.tokens) do
+		tokens[id] = token:get()
+	end
+
+	return M.get_tokens(tokens)
+end
+
+
+--- Clear all tokens from container
+-- @function eva.token.clear_container
+-- @tparam string container_id Container id
+function M.clear_container(container_id)
+	if not M.is_exist_container(container_id) then
+		logger:warn("Cant clear non existint container", { container_id = container_id })
+		return
+	end
+
+	local container = get_container(container_id)
+	container.tokens = {}
+	check_values_in_container(container_id)
 end
 
 
@@ -398,6 +451,8 @@ function M.after_eva_init()
 			-- Link behavior and data
 			container[token_id] = create_token_in_save(container_id, token_id, token_data)
 		end
+
+		check_values_in_container(container_id)
 	end
 end
 

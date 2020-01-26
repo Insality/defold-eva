@@ -7,6 +7,7 @@ local M = {}
 --- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
 M.WALLET_CONTAINER = "eva.wallet"
+M.WALLET_TYPE = "wallet"
 M.DEFAULT_SETTINGS_PATH = "/eva/resources/eva_settings.json"
 
 

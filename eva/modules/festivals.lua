@@ -125,7 +125,7 @@ end
 --- Return is festival is active now
 -- @function eva.festivals.is_active
 -- @tparam string festival_id Festival id from Festivals json
--- @treturn boolean Current festival state
+-- @treturn bool Current festival state
 function M.is_active(festival_id)
 	local festival_data = app[const.EVA.FESTIVALS]
 	return luax.table.contains(festival_data.current, festival_id)

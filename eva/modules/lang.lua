@@ -92,7 +92,7 @@ end
 --- Check is translation with lang_id exist
 -- @function eva.lang.is_exist
 -- @tparam strng lang_id Locale id from your localization
--- @treturn boolean Is translation exist
+-- @treturn bool Is translation exist
 function M.is_exist(lang_id)
 	return luax.toboolean(app.lang_dict[lang_id])
 end
