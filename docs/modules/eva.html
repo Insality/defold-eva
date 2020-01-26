@@ -37,6 +37,7 @@
 <li><a href="#modules_callbacks_Functions">modules.callbacks Functions</a></li>
 <li><a href="#modules_camera_Functions">modules.camera Functions</a></li>
 <li><a href="#modules_daily_Functions">modules.daily Functions</a></li>
+<li><a href="#modules_db_Functions">modules.db Functions</a></li>
 <li><a href="#modules_device_Functions">modules.device Functions</a></li>
 <li><a href="#modules_events_Functions">modules.events Functions</a></li>
 <li><a href="#modules_festivals_Functions">modules.festivals Functions</a></li>
@@ -64,9 +65,9 @@
 <li><a href="#modules_tiled_Functions">modules.tiled Functions</a></li>
 <li><a href="#modules_timers_Functions">modules.timers Functions</a></li>
 <li><a href="#modules_token_Functions">modules.token Functions</a></li>
-<li><a href="#modules_tokens_Functions">modules.tokens Functions</a></li>
 <li><a href="#modules_trucks_Functions">modules.trucks Functions</a></li>
 <li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
+<li><a href="#modules_wallet_Functions">modules.wallet Functions</a></li>
 <li><a href="#modules_window_Functions">modules.window Functions</a></li>
 </ul>
 
@@ -77,6 +78,9 @@
   <li><strong>eva</strong></li>
   <li><a href="../modules/log.html">log</a></li>
   <li><a href="../modules/luax.html">luax</a></li>
+  <li><a href="../modules/scripts.grid_handler.html">scripts.grid_handler</a></li>
+  <li><a href="../modules/scripts.hexgrid_handler.html">scripts.hexgrid_handler</a></li>
+  <li><a href="../modules/scripts.isogrid_handler.html">scripts.isogrid_handler</a></li>
 </ul>
 
 </div>
@@ -101,7 +105,7 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#on_eva_init">on_eva_init(settings_path, module_settings)</a></td>
+	<td class="name" nowrap><a href="#init">init(settings_path, module_settings)</a></td>
 	<td class="summary">Call this to init Eva module</td>
 	</tr>
 	<tr>
@@ -209,6 +213,13 @@
 	<td class="summary">Return current state</td>
 	</tr>
 </table>
+<h2><a href="#modules_db_Functions">modules.db Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.db.get">eva.db.get(config_name)</a></td>
+	<td class="summary">Return config by config_name</td>
+	</tr>
+</table>
 <h2><a href="#modules_device_Functions">modules.device Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -303,6 +314,14 @@
 	<td class="summary">Return completed festivals</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.festivals.debug_start_festival">eva.festivals.debug_start_festival(festival_id)</a></td>
+	<td class="summary">Start festival without check any condition</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.festivals.debug_end_festival">eva.festivals.debug_end_festival(festival_id)</a></td>
+	<td class="summary">End festival without check any condition</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.festivals.set_settings">eva.festivals.set_settings()</a></td>
 	<td class="summary">Set game festivals settings.</td>
 	</tr>
@@ -332,6 +351,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.game.get_session_uid">eva.game.get_session_uid()</a></td>
 	<td class="summary">Return unique id for local session</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_uid">eva.game.get_uid()</a></td>
+	<td class="summary">Return unique id for player profile</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.game.get_current_time_string">eva.game.get_current_time_string()</a></td>
@@ -556,6 +579,10 @@
 	<td class="name" nowrap><a href="#eva.lang.txp">eva.lang.txp(lang_id, ...)</a></td>
 	<td class="summary">Get translation for locale id with params</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.lang.is_exist">eva.lang.is_exist(lang_id)</a></td>
+	<td class="summary">Check is translation with lang_id exist</td>
+	</tr>
 </table>
 <h2><a href="#modules_migrations_Functions">modules.migrations Functions</a></h2>
 <table class="function_list">
@@ -581,6 +608,10 @@
 	<td class="name" nowrap><a href="#eva.offers.add">eva.offers.add(offer_id)</a></td>
 	<td class="summary">Start new offer
  Every offer is unique.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.offers.remove">eva.offers.remove(offer_id)</a></td>
+	<td class="summary">Remove offers from active list</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.offers.get_time">eva.offers.get_time(offer_id)</a></td>
@@ -633,6 +664,11 @@
 </table>
 <h2><a href="#modules_push_Functions">modules.push Functions</a></h2>
 <table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.push.clear_old_pushes">eva.push.clear_old_pushes()</a></td>
+	<td class="summary">Clear all pushes, what already
+ should be invoked.</td>
+	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.push.schedule">eva.push.schedule()</a></td>
 	<td class="summary">Schedule notification</td>
@@ -891,8 +927,52 @@
 <h2><a href="#modules_token_Functions">modules.token Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_exist_container">eva.token.is_exist_container(container_id)</a></td>
+	<td class="summary">Check if token container exist</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.create_container">eva.token.create_container(container_id, container_type)</a></td>
+	<td class="summary">Create new token container</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.delete_container">eva.token.delete_container(container_id)</a></td>
+	<td class="summary">Delete token container</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_container_tokens">eva.token.get_container_tokens(container_id)</a></td>
+	<td class="summary">Get all tokens from container</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.clear_container">eva.token.clear_container(container_id)</a></td>
+	<td class="summary">Clear all tokens from container</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_tokens">eva.token.get_tokens(tokens)</a></td>
+	<td class="summary">Return evadata.Tokens tokens format</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_token_group">eva.token.get_token_group(token_group_id)</a></td>
+	<td class="summary">Return token group by id.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_lot_reward">eva.token.get_lot_reward(lot_id)</a></td>
+	<td class="summary">Return lot reward by lot_id.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_lot_price">eva.token.get_lot_price(lot_id)</a></td>
+	<td class="summary">Return lot price by lot_id.</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.token.add">eva.token.add()</a></td>
 	<td class="summary">Add tokens to save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.add_many">eva.token.add_many()</a></td>
+	<td class="summary">Add multiply tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.add_group">eva.token.add_group()</a></td>
+	<td class="summary">Add multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.set">eva.token.set()</a></td>
@@ -907,8 +987,24 @@
 	<td class="summary">Try to pay tokens from save</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.token.pay_many">eva.token.pay_many(tokens, reason)</a></td>
+	<td class="summary">Pay multiply tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.pay_group">eva.token.pay_group(token_group_id, reason)</a></td>
+	<td class="summary">Pay multiply tokens by token_group_id</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.token.is_enough">eva.token.is_enough()</a></td>
 	<td class="summary">Check is enough to pay token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_enough_many">eva.token.is_enough_many(tokens)</a></td>
+	<td class="summary">Check multiply tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_enough_group">eva.token.is_enough_group(token_group_id)</a></td>
+	<td class="summary">Check multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.is_max">eva.token.is_max()</a></td>
@@ -945,49 +1041,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.get_seconds_to_restore">eva.token.get_seconds_to_restore()</a></td>
 	<td class="summary">Get current time to next restore point</td>
-	</tr>
-</table>
-<h2><a href="#modules_tokens_Functions">modules.tokens Functions</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_tokens">eva.tokens.get_tokens(tokens)</a></td>
-	<td class="summary">Return evadata.Tokens tokens format</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_token_group">eva.tokens.get_token_group(token_group_id)</a></td>
-	<td class="summary">Return token group by id.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_lot_reward">eva.tokens.get_lot_reward(lot_id)</a></td>
-	<td class="summary">Return lot reward by lot_id.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.get_lot_price">eva.tokens.get_lot_price(lot_id)</a></td>
-	<td class="summary">Return lot price by lot_id.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.add">eva.tokens.add()</a></td>
-	<td class="summary">Add multiply tokens</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.add_group">eva.tokens.add_group()</a></td>
-	<td class="summary">Add multiply tokens by token_group_id</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.pay">eva.tokens.pay(tokens, reason)</a></td>
-	<td class="summary">Pay multiply tokens</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.pay_group">eva.tokens.pay_group(token_group_id, reason)</a></td>
-	<td class="summary">Pay multiply tokens by token_group_id</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_enough">eva.tokens.is_enough(tokens)</a></td>
-	<td class="summary">Check multiply tokens</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.tokens.is_enough_group">eva.tokens.is_enough_group(token_group_id)</a></td>
-	<td class="summary">Check multiply tokens by token_group_id</td>
 	</tr>
 </table>
 <h2><a href="#modules_trucks_Functions">modules.trucks Functions</a></h2>
@@ -1050,6 +1103,89 @@
 	<td class="summary">Compare two project version.</td>
 	</tr>
 </table>
+<h2><a href="#modules_wallet_Functions">modules.wallet Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.add">eva.wallet.add()</a></td>
+	<td class="summary">Add tokens to save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.add_many">eva.wallet.add_many()</a></td>
+	<td class="summary">Add multiply tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.add_group">eva.wallet.add_group()</a></td>
+	<td class="summary">Add multiply tokens by token_group_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.set">eva.wallet.set()</a></td>
+	<td class="summary">Set tokens to save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.get">eva.wallet.get()</a></td>
+	<td class="summary">Get current token amount from save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.pay">eva.wallet.pay(token_id, amount, reason)</a></td>
+	<td class="summary">Try to pay tokens from save</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.pay_many">eva.wallet.pay_many(tokens, reason)</a></td>
+	<td class="summary">Pay multiply tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.pay_group">eva.wallet.pay_group(token_group_id, reason)</a></td>
+	<td class="summary">Pay multiply tokens by token_group_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.is_enough">eva.wallet.is_enough()</a></td>
+	<td class="summary">Check is enough to pay token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.is_enough_many">eva.wallet.is_enough_many(tokens)</a></td>
+	<td class="summary">Check multiply tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.is_enough_group">eva.wallet.is_enough_group(token_group_id)</a></td>
+	<td class="summary">Check multiply tokens by token_group_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.is_max">eva.wallet.is_max()</a></td>
+	<td class="summary">Return is token is maximum</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.is_empty">eva.wallet.is_empty()</a></td>
+	<td class="summary">Return is tokens equals to 0</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.add_infinity_time">eva.wallet.add_infinity_time()</a></td>
+	<td class="summary">Add to tokens infinity time usage</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.is_infinity">eva.wallet.is_infinity()</a></td>
+	<td class="summary">Return is token is infinity now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.get_infinity_seconds">eva.wallet.get_infinity_seconds()</a></td>
+	<td class="summary">Get amount of seconds till end of infinity time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.sync_visual">eva.wallet.sync_visual()</a></td>
+	<td class="summary">Reset visual debt of tokens</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.add_visual">eva.wallet.add_visual()</a></td>
+	<td class="summary">Add visual debt to token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.get_visual">eva.wallet.get_visual()</a></td>
+	<td class="summary">Get current visual debt of token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.get_seconds_to_restore">eva.wallet.get_seconds_to_restore()</a></td>
+	<td class="summary">Get current time to next restore point</td>
+	</tr>
+</table>
 <h2><a href="#modules_window_Functions">modules.window Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -1098,8 +1234,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "on_eva_init"></a>
-    <strong>on_eva_init(settings_path, module_settings)</strong>
+    <a name = "init"></a>
+    <strong>init(settings_path, module_settings)</strong>
     </dt>
     <dd>
     Call this to init Eva module
@@ -1564,6 +1700,37 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_db_Functions"></a>modules.db Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.db.get"></a>
+    <strong>eva.db.get(config_name)</strong>
+    </dt>
+    <dd>
+    Return config by config_name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">config_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Config name from eva settings
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        Config table
+    </ol>
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_device_Functions"></a>modules.device Functions</h2>
 
     <dl class="function">
@@ -1898,7 +2065,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">boolean</span></span>
+           <span class="types"><span class="type">bool</span></span>
         Current festival state
     </ol>
 
@@ -2029,6 +2196,48 @@
 
 </dd>
     <dt>
+    <a name = "eva.festivals.debug_start_festival"></a>
+    <strong>eva.festivals.debug_start_festival(festival_id)</strong>
+    </dt>
+    <dd>
+    Start festival without check any condition
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">festival_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Festival id from Festivals json
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.festivals.debug_end_festival"></a>
+    <strong>eva.festivals.debug_end_festival(festival_id)</strong>
+    </dt>
+    <dd>
+    End festival without check any condition
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">festival_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Festival id from Festivals json
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.festivals.set_settings"></a>
     <strong>eva.festivals.set_settings()</strong>
     </dt>
@@ -2151,6 +2360,26 @@
 
            <span class="types"><span class="type">number</span></span>
         Unique id in this game session
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.get_uid"></a>
+    <strong>eva.game.get_uid()</strong>
+    </dt>
+    <dd>
+    Return unique id for player profile
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Unique id in player profile
     </ol>
 
 
@@ -3156,11 +3385,11 @@
     <ul>
         <li><span class="parameter">lang_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         locale id from your localization
+         Locale id from your localization
         </li>
         <li><span class="parameter">...</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         params for string.format for lang_id
+         Params for string.format for lang_id
         </li>
     </ul>
 
@@ -3168,7 +3397,34 @@
     <ol>
 
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-        translated locale
+        Translated locale
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.lang.is_exist"></a>
+    <strong>eva.lang.is_exist(lang_id)</strong>
+    </dt>
+    <dd>
+    Check is translation with lang_id exist
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lang_id</span>
+            <span class="types"><span class="type">strng</span></span>
+         Locale id from your localization
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Is translation exist
     </ol>
 
 
@@ -3252,6 +3508,27 @@
            <span class="types"><span class="type">eva.Offer</span></span>
         new offer
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.offers.remove"></a>
+    <strong>eva.offers.remove(offer_id)</strong>
+    </dt>
+    <dd>
+    Remove offers from active list
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">offer_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         offer id from db
+        </li>
+    </ul>
+
 
 
 
@@ -3539,6 +3816,21 @@
     <h2 class="section-header "><a name="modules_push_Functions"></a>modules.push Functions</h2>
 
     <dl class="function">
+    <dt>
+    <a name = "eva.push.clear_old_pushes"></a>
+    <strong>eva.push.clear_old_pushes()</strong>
+    </dt>
+    <dd>
+    Clear all pushes, what already
+ should be invoked.
+
+
+
+
+
+
+
+</dd>
     <dt>
     <a name = "eva.push.schedule"></a>
     <strong>eva.push.schedule()</strong>
@@ -4683,11 +4975,265 @@
 
     <dl class="function">
     <dt>
+    <a name = "eva.token.is_exist_container"></a>
+    <strong>eva.token.is_exist_container(container_id)</strong>
+    </dt>
+    <dd>
+    Check if token container exist
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Container id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Container exist state
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.create_container"></a>
+    <strong>eva.token.create_container(container_id, container_type)</strong>
+    </dt>
+    <dd>
+    Create new token container
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Container id
+        </li>
+        <li><span class="parameter">container_type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Container type to match from token config
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.delete_container"></a>
+    <strong>eva.token.delete_container(container_id)</strong>
+    </dt>
+    <dd>
+    Delete token container
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Container id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_container_tokens"></a>
+    <strong>eva.token.get_container_tokens(container_id)</strong>
+    </dt>
+    <dd>
+    Get all tokens from container
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Container id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">evadata.Tokens</span></span>
+        Tokens from container
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.clear_container"></a>
+    <strong>eva.token.clear_container(container_id)</strong>
+    </dt>
+    <dd>
+    Clear all tokens from container
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Container id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_tokens"></a>
+    <strong>eva.token.get_tokens(tokens)</strong>
+    </dt>
+    <dd>
+    Return evadata.Tokens tokens format
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Map with token_id = amount
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_token_group"></a>
+    <strong>eva.token.get_token_group(token_group_id)</strong>
+    </dt>
+    <dd>
+    Return token group by id.
+ It pickup data from DB
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_group_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the token group id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">evadata.Tokens</span></span>
+        the token list
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_lot_reward"></a>
+    <strong>eva.token.get_lot_reward(lot_id)</strong>
+    </dt>
+    <dd>
+    Return lot reward by lot_id.
+ It pickup data from DB
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lot_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the token lot id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">evadata.Tokens</span></span>
+        the token list
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_lot_price"></a>
+    <strong>eva.token.get_lot_price(lot_id)</strong>
+    </dt>
+    <dd>
+    Return lot price by lot_id.
+ It pickup data from DB
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lot_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the token lot id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">evadata.Tokens</span></span>
+        the token list
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.token.add"></a>
     <strong>eva.token.add()</strong>
     </dt>
     <dd>
     Add tokens to save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.add_many"></a>
+    <strong>eva.token.add_many()</strong>
+    </dt>
+    <dd>
+    Add multiply tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.add_group"></a>
+    <strong>eva.token.add_group()</strong>
+    </dt>
+    <dd>
+    Add multiply tokens by token_group_id
 
 
 
@@ -4754,6 +5300,56 @@
 
 </dd>
     <dt>
+    <a name = "eva.token.pay_many"></a>
+    <strong>eva.token.pay_many(tokens, reason)</strong>
+    </dt>
+    <dd>
+    Pay multiply tokens
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         Tokens data
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The reason to pay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.pay_group"></a>
+    <strong>eva.token.pay_group(token_group_id, reason)</strong>
+    </dt>
+    <dd>
+    Pay multiply tokens by token_group_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_group_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The token group id
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The reason to pay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.token.is_enough"></a>
     <strong>eva.token.is_enough()</strong>
     </dt>
@@ -4761,6 +5357,48 @@
     Check is enough to pay token
 
 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.is_enough_many"></a>
+    <strong>eva.token.is_enough_many(tokens)</strong>
+    </dt>
+    <dd>
+    Check multiply tokens
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         list
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.is_enough_group"></a>
+    <strong>eva.token.is_enough_group(token_group_id)</strong>
+    </dt>
+    <dd>
+    Check multiply tokens by token_group_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_group_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the token group id
+        </li>
+    </ul>
 
 
 
@@ -4887,235 +5525,6 @@
     Get current time to next restore point
 
 
-
-
-
-
-
-</dd>
-</dl>
-    <h2 class="section-header "><a name="modules_tokens_Functions"></a>modules.tokens Functions</h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "eva.tokens.get_tokens"></a>
-    <strong>eva.tokens.get_tokens(tokens)</strong>
-    </dt>
-    <dd>
-    Return evadata.Tokens tokens format
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">tokens</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
-         Map with token_id = amount
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_token_group"></a>
-    <strong>eva.tokens.get_token_group(token_group_id)</strong>
-    </dt>
-    <dd>
-    Return token group by id.
- It pickup data from DB
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         the token group id
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">evadata.Tokens</span></span>
-        the token list
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_lot_reward"></a>
-    <strong>eva.tokens.get_lot_reward(lot_id)</strong>
-    </dt>
-    <dd>
-    Return lot reward by lot_id.
- It pickup data from DB
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">lot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         the token lot id
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">evadata.Tokens</span></span>
-        the token list
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.get_lot_price"></a>
-    <strong>eva.tokens.get_lot_price(lot_id)</strong>
-    </dt>
-    <dd>
-    Return lot price by lot_id.
- It pickup data from DB
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">lot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         the token lot id
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">evadata.Tokens</span></span>
-        the token list
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.add"></a>
-    <strong>eva.tokens.add()</strong>
-    </dt>
-    <dd>
-    Add multiply tokens
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.add_group"></a>
-    <strong>eva.tokens.add_group()</strong>
-    </dt>
-    <dd>
-    Add multiply tokens by token_group_id
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.pay"></a>
-    <strong>eva.tokens.pay(tokens, reason)</strong>
-    </dt>
-    <dd>
-    Pay multiply tokens
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">tokens</span>
-            <span class="types"><span class="type">evadata.Tokens</span></span>
-         Tokens data
-        </li>
-        <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The reason to pay
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.pay_group"></a>
-    <strong>eva.tokens.pay_group(token_group_id, reason)</strong>
-    </dt>
-    <dd>
-    Pay multiply tokens by token_group_id
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The token group id
-        </li>
-        <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         The reason to pay
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.is_enough"></a>
-    <strong>eva.tokens.is_enough(tokens)</strong>
-    </dt>
-    <dd>
-    Check multiply tokens
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">tokens</span>
-            <span class="types"><span class="type">evadata.Tokens</span></span>
-         list
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.tokens.is_enough_group"></a>
-    <strong>eva.tokens.is_enough_group(token_group_id)</strong>
-    </dt>
-    <dd>
-    Check multiply tokens by token_group_id
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         the token group id
-        </li>
-    </ul>
 
 
 
@@ -5440,6 +5849,341 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_wallet_Functions"></a>modules.wallet Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.wallet.add"></a>
+    <strong>eva.wallet.add()</strong>
+    </dt>
+    <dd>
+    Add tokens to save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.add_many"></a>
+    <strong>eva.wallet.add_many()</strong>
+    </dt>
+    <dd>
+    Add multiply tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.add_group"></a>
+    <strong>eva.wallet.add_group()</strong>
+    </dt>
+    <dd>
+    Add multiply tokens by token_group_id
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.set"></a>
+    <strong>eva.wallet.set()</strong>
+    </dt>
+    <dd>
+    Set tokens to save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.get"></a>
+    <strong>eva.wallet.get()</strong>
+    </dt>
+    <dd>
+    Get current token amount from save
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.pay"></a>
+    <strong>eva.wallet.pay(token_id, amount, reason)</strong>
+    </dt>
+    <dd>
+    Try to pay tokens from save
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Token id
+        </li>
+        <li><span class="parameter">amount</span>
+            <span class="types"><span class="type">number</span></span>
+         Amount to pay
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The reason to pay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.pay_many"></a>
+    <strong>eva.wallet.pay_many(tokens, reason)</strong>
+    </dt>
+    <dd>
+    Pay multiply tokens
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         Tokens data
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The reason to pay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.pay_group"></a>
+    <strong>eva.wallet.pay_group(token_group_id, reason)</strong>
+    </dt>
+    <dd>
+    Pay multiply tokens by token_group_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_group_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The token group id
+        </li>
+        <li><span class="parameter">reason</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The reason to pay
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.is_enough"></a>
+    <strong>eva.wallet.is_enough()</strong>
+    </dt>
+    <dd>
+    Check is enough to pay token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.is_enough_many"></a>
+    <strong>eva.wallet.is_enough_many(tokens)</strong>
+    </dt>
+    <dd>
+    Check multiply tokens
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         list
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.is_enough_group"></a>
+    <strong>eva.wallet.is_enough_group(token_group_id)</strong>
+    </dt>
+    <dd>
+    Check multiply tokens by token_group_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_group_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         the token group id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.is_max"></a>
+    <strong>eva.wallet.is_max()</strong>
+    </dt>
+    <dd>
+    Return is token is maximum
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.is_empty"></a>
+    <strong>eva.wallet.is_empty()</strong>
+    </dt>
+    <dd>
+    Return is tokens equals to 0
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.add_infinity_time"></a>
+    <strong>eva.wallet.add_infinity_time()</strong>
+    </dt>
+    <dd>
+    Add to tokens infinity time usage
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.is_infinity"></a>
+    <strong>eva.wallet.is_infinity()</strong>
+    </dt>
+    <dd>
+    Return is token is infinity now
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.get_infinity_seconds"></a>
+    <strong>eva.wallet.get_infinity_seconds()</strong>
+    </dt>
+    <dd>
+    Get amount of seconds till end of infinity time
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.sync_visual"></a>
+    <strong>eva.wallet.sync_visual()</strong>
+    </dt>
+    <dd>
+    Reset visual debt of tokens
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.add_visual"></a>
+    <strong>eva.wallet.add_visual()</strong>
+    </dt>
+    <dd>
+    Add visual debt to token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.get_visual"></a>
+    <strong>eva.wallet.get_visual()</strong>
+    </dt>
+    <dd>
+    Get current visual debt of token
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.get_seconds_to_restore"></a>
+    <strong>eva.wallet.get_seconds_to_restore()</strong>
+    </dt>
+    <dd>
+    Get current time to next restore point
+
+
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_window_Functions"></a>modules.window Functions</h2>
 
     <dl class="function">
@@ -5568,7 +6312,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2019-11-26 23:59:05 </i>
+<i style="float:right;">Last updated 2020-01-26 22:55:02 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
