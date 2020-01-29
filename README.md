@@ -1,4 +1,5 @@
 # Defold Eva
+![](media/eva_logo.png)
 [![Build Status](https://travis-ci.org/Insality/defold-eva.svg?branch=master)](https://travis-ci.org/Insality/defold-eva)
 [![codecov](https://codecov.io/gh/Insality/defold-eva/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-eva)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/insality/defold-eva)
