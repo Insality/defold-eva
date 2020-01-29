@@ -63,7 +63,7 @@ end
 -- @function eva.invoices.add
 -- @tparam string category Category param of the invoice
 -- @tparam evadata.Tokens reward Tokens reward list
--- @tparam number time Game time to add invoice
+-- @tparam[opt] number time Game time to add invoice
 -- @tparam[opt] number life_time Time in seconds of invoice available
 -- @tparam[opt] string title Text invoice title
 -- @tparam[opt] string text Text invoice desc

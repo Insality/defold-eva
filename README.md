@@ -78,8 +78,8 @@ _TODO_
 - [errors](https://insality.github.io/defold-eva/modules/eva.html#modules_errors_Functions) - Lua errors handler
 - [events](https://insality.github.io/defold-eva/modules/eva.html#modules_events_Functions) - In-game event system
 - [festivals](https://insality.github.io/defold-eva/modules/eva.html#modules_festivals_Functions) - Single or repeatable festivals system (halloween, weekend, etc)
-- [game](https://insality.github.io/defold-eva/modules/eva.html#modules_game_Functions)
-- [gdpr](https://insality.github.io/defold-eva/modules/eva.html#modules_gdpr_Functions) - Utilitary game functions
+- [game](https://insality.github.io/defold-eva/modules/eva.html#modules_game_Functions) - Utilitary game functions
+- [gdpr](https://insality.github.io/defold-eva/modules/eva.html#modules_gdpr_Functions) - GDPR API functions
 - [generator](https://insality.github.io/defold-eva/modules/eva.html#modules_generator_Functions) - Utilitary generator functons
 - [grid](https://insality.github.io/defold-eva/modules/eva.html#modules_grid_Functions) - API to work with matrix field
 - [hexgrid](https://insality.github.io/defold-eva/modules/eva.html#modules_hexgrid_Functions) - API to work with hexagon field
