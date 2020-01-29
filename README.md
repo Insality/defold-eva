@@ -1,4 +1,5 @@
 
+
 [![](media/eva_logo.png)](https://insality.github.io/defold-eva/)
 [![Build Status](https://travis-ci.org/Insality/defold-eva.svg?branch=master)](https://travis-ci.org/Insality/defold-eva)
 [![codecov](https://codecov.io/gh/Insality/defold-eva/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-eva)
@@ -62,7 +63,23 @@ _TODO_
 _TODO_
 
 
+## Evadata format and export
+For some modules, defined specific basic structure.
+
+Proto eva data description can be [found here](https://github.com/Insality/defold-eva/blob/master/eva/resources/evadata.proto).
+
+Google document with data example can be [found here](https://docs.google.com/spreadsheets/d/1-kbuk5avCvjkAgUwKM29fHf77Uc1-jZ5TtS3EHZbY4g/edit?usp=sharing).
+
+Rules for export can be [found here](https://github.com/Insality/defold-eva/tree/master/export_config) (using [sheets-exporter](https://github.com/Insality/sheets-exporter)).
+
+
+## Tiled exporter
+For faster workflow with tiled -> defold, I have the [tiled-exporter module](https://github.com/Insality/defold-tiled-generator). It can generate map, collections, atlases and go files from TMX files. 
+
+
 ## Custom modules
+Add your custom modules or override existing one.
+
 _TODO_
 
 
