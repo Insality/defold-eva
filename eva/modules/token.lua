@@ -172,28 +172,12 @@ function M.delete_container(container_id)
 end
 
 
---- Get all tokens from container
--- @function eva.token.get_container_tokens
--- @tparam string container_id Container id
--- @treturn evadata.Tokens Tokens from container
-function M.get_container_tokens(container_id)
-	local tokens = {}
-
-	local container = get_container(container_id)
-	for id, token in pairs(container.tokens) do
-		tokens[id] = token:get()
-	end
-
-	return M.get_tokens(tokens)
-end
-
-
 --- Clear all tokens from container
 -- @function eva.token.clear_container
 -- @tparam string container_id Container id
 function M.clear_container(container_id)
 	if not M.is_exist_container(container_id) then
-		logger:warn("Cant clear non existint container", { container_id = container_id })
+		logger:warn("Cant clear non existing container", { container_id = container_id })
 		return
 	end
 
@@ -304,6 +288,22 @@ end
 -- @function eva.token.get
 function M.get(container_id, token_id, amount)
 	return get_token(container_id, token_id):get()
+end
+
+
+--- Get all tokens from container
+-- @function eva.token.get_many
+-- @tparam string container_id Container id
+-- @treturn evadata.Tokens Tokens from container
+function M.get_many(container_id)
+	local tokens = {}
+
+	local container = get_container(container_id)
+	for id, token in pairs(container.tokens) do
+		tokens[id] = token:get()
+	end
+
+	return M.get_tokens(tokens)
 end
 
 

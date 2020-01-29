@@ -16,7 +16,7 @@ return function()
 
 
 			assert(eva.wallet.get("money") == 0)
-			local tokens = eva.token.get_container_tokens(TEST_CONTAINER)
+			local tokens = eva.token.get_many(TEST_CONTAINER)
 			eva.wallet.add_many(tokens)
 			assert(eva.wallet.get("money") == 10)
 		end)
