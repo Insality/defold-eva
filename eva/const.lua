@@ -151,9 +151,6 @@ M.EVA = {
 	RATE = "eva.Rate",
 	SAVER = "eva.Saver",
 	GAME = "eva.Game",
-	TOKEN_RESTORE_CONFIG = "eva.TokenRestoreConfig",
-	CONTAINER = "eva.Container",
-	CONTAINERS = "eva.Containers",
 	GDPR = "eva.Gdpr",
 	IAPS = "eva.Iaps",
 	TIMERS = "eva.Timers",
@@ -165,6 +162,7 @@ M.EVA = {
 	PUSH = "eva.Push",
 	INVOICES = "eva.Invoices",
 	TRUCKS = "eva.Trucks",
+	CONTAINERS = "eva.Containers",
 
 	-- Part of data
 	TOKEN = "eva.Token",
@@ -174,6 +172,8 @@ M.EVA = {
 	IAP_INFO = "eva.IapInfo",
 	PUSH_INFO = "eva.PushInfo",
 	INVOICE_INFO = "eva.InvoiceInfo",
+	TOKEN_RESTORE_CONFIG = "eva.TokenRestoreConfig",
+	CONTAINER = "eva.Container",
 
 	TOKENS_DATA = "evadata.Tokens",
 }

@@ -18,10 +18,6 @@ function M.set(self, value, reason)
 	local old_value = self:get()
 	local delta = value - old_value
 
-	if delta < 0 and self:is_max() and self.restore then
-		self.data_table.last_restore_time = M.get_time()
-	end
-
 	self.data_table.amount = value - self.data_table.offset
 
 	if delta ~= 0 then
@@ -119,11 +115,6 @@ end
 function M.init(self, params, data_table)
 	self.data_table = data_table
 	self.params = params or {}
-
-	if self.params.restore and self.params.restore.timer then
-		self.restore = self.params.restore
-		self.params.restore = nil
-	end
 
 	if self.params.default then
 		self.data_table.amount = self.params.default - self.data_table.offset
