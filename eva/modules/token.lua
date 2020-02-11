@@ -187,7 +187,22 @@ function M.clear_container(container_id)
 end
 
 
---- Return evadata.Tokens tokens format
+function M.set_restore_config(container_id, token_id, ...)
+end
+
+
+function M.get_restore_config(container_id, token_id, ...)
+end
+
+function M.set_pause_restore_config(container_id, token_id, is_pause)
+end
+
+
+function M.reset_restore_config(container_id, token_id, ...)
+end
+
+
+--- Return evadata.Tokens tokens format. Used in *_tokens methods
 -- @function eva.token.get_tokens
 -- @tparam table tokens Map with token_id = amount
 function M.get_tokens(tokens)
@@ -425,9 +440,9 @@ end
 
 --- Get current time to next restore point
 -- @function eva.token.get_seconds_to_restore
-function M.get_seconds_to_restore(container_id, token_id)
-	return get_token(container_id, token_id):get_seconds_to_restore()
-end
+-- function M.get_seconds_to_restore(container_id, token_id)
+-- 	return get_token(container_id, token_id):get_seconds_to_restore()
+-- end
 
 
 function M.before_eva_init()
@@ -457,12 +472,57 @@ function M.after_eva_init()
 end
 
 
+local function restore_token_update(container_id, token_id, config)
+	local token = get_token(container_id, token_id)
+
+	local cur_time = game.get_time()
+	config.last_restore_time = math.min(config.last_restore_time, cur_time)
+	if token:is_max() then
+		config.last_restore_time = cur_time
+	end
+
+	local elapsed = cur_time - config.last_restore_time
+	if elapsed >= config.timer then
+		local amount = math.floor(elapsed / config.timer)
+		local need_to_add = amount * config.value
+
+		if config.max then
+			need_to_add = math.min(need_to_add, config.max)
+		end
+		token:add(need_to_add)
+
+		local cur_elapse_time = elapsed - (amount * config.timer)
+		config.last_restore_time = cur_time - cur_elapse_time
+	end
+end
+
+
+function M.get_seconds_to_restore(container_id, token_id)
+	local config = M.get_restore_config(container_id, token_id)
+
+	if not config then
+		logger:warn("Get seconds to restore from token without restore", {
+			container_id = container_id,
+			token_id = token_id
+		})
+		return 0
+	end
+
+	local last = config.last_restore_time
+	local skipped = game.get_time() - last
+
+	return math.max(0, config.timer - skipped)
+end
+
+
 function M.on_eva_update(dt)
 	local containers = app.smart_containers
-	for _, container in pairs(containers) do
-		local tokens = container.tokens
-		for _, token in pairs(tokens) do
-			token:update()
+	for container_id, container in pairs(containers) do
+		local restore_config = container.restore_config
+		for token_id, config in pairs(restore_config) do
+			if config.is_enabled then
+				restore_token_update(container_id, token_id, config)
+			end
 		end
 	end
 end

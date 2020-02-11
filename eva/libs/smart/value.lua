@@ -27,7 +27,7 @@ function M.set(self, value, reason)
 	if delta ~= 0 then
 		if self._on_change_callbacks then
 			for i = 1, #self._on_change_callbacks do
-				self._on_change_callbacks[i](delta, reason, self.params.name, value)
+				self._on_change_callbacks[i](self, delta, reason)
 			end
 		end
 	end
@@ -66,35 +66,6 @@ end
 
 function M.get_visual(self)
 	return self:get() - self.visual_credit
-end
-
-
-function M.get_seconds_to_restore(self)
-	local last = self.data_table.last_restore_time
-	local skipped = M.get_time() - last
-
-	return math.max(0, self.restore.timer - skipped)
-end
-
-
-local function update_timer(self)
-	local cur_time = M.get_time()
-	self.data_table.last_restore_time = math.min(self.data_table.last_restore_time, cur_time)
-
-	local elapsed = cur_time - self.data_table.last_restore_time
-	if elapsed >= self.restore.timer then
-		local restore_value = self.restore.value or 1
-		local amount = math.floor(elapsed / self.restore.timer)
-
-		local need_to_add = amount * restore_value
-		if self.restore.max then
-			need_to_add = math.min(need_to_add, self.restore.max)
-		end
-		self:add(need_to_add)
-
-		local cur_elapse_time = elapsed - (amount * self.restore.timer)
-		self.data_table.last_restore_time = cur_time - cur_elapse_time
-	end
 end
 
 
@@ -208,10 +179,6 @@ end
 
 
 function M.update(self)
-	if self.restore and self.restore.timer then
-		update_timer(self)
-	end
-
 	if self.data_table.infinity_time_end < M.get_time() then
 		self.data_table.infinity_time_end = 0
 	end
