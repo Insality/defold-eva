@@ -10,6 +10,8 @@ return function()
 		end)
 
 		it("It should not apply migrations to new profile", function()
+			eva.saver.delete("eva_test.json")
+
 			local funcs = {
 				first = function() end,
 				second = function() end

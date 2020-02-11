@@ -23,6 +23,7 @@ return function()
 		end)
 
 		after(function()
+			eva.saver.delete()
 			mock.unmock(events)
 		end)
 

@@ -66,6 +66,15 @@ return function()
 			assert(eva.token.is_max(TEST_CONTAINER, "level"))
 		end)
 
+		it("Should save token values on game save/load", function()
+			assert(eva.wallet.get("ruby") == 0)
+			eva.wallet.add("ruby", 100)
+			assert(eva.wallet.get("ruby") == 100)
+			eva.saver.save()
+			eva.init("/resources/tests/eva_tests.json")
+			assert(eva.wallet.get("ruby") == 100)
+		end)
+
 		it("Should correct work with infinity values", function()
 			eva.token.add(TEST_CONTAINER, "money", 100)
 			eva.token.add_infinity_time(TEST_CONTAINER, "money", 10)
@@ -113,8 +122,13 @@ return function()
 		end)
 
 		it("Should correct work restoring", function()
+			eva.token.set_restore_config(TEST_CONTAINER, "energy", {
+				timer = 60,
+				value = 1,
+				max = 20
+			})
 			set_time(60)
-			assert(eva.wallet.get("energy") == 1)
+			assert(eva.wallet.get("energy") == 0)
 			assert(eva.token.get(TEST_CONTAINER, "energy") == 1)
 
 			set_time(120)
@@ -126,7 +140,11 @@ return function()
 		end)
 
 		it("Should throw event on token change", function()
-			eva.token.delete_container(TEST_CONTAINER)
+			eva.wallet.set_restore_config("energy", {
+				timer = 60,
+				value = 1,
+				max = 20
+			})
 
 			assert(events[CHANGE].calls == 0)
 			assert(eva.wallet.get("energy") == 0)
@@ -137,6 +155,83 @@ return function()
 
 			eva.wallet.add("money", 500)
 			assert(events[CHANGE].calls == 2)
+		end)
+
+		it("Should have restore timer", function()
+			eva.wallet.set_restore_config("energy", {
+				timer = 5
+			})
+
+			assert(eva.wallet.get("energy") == 0)
+			set_time(5)
+			assert(eva.wallet.get("energy") == 1)
+			set_time(50)
+			assert(eva.wallet.get("energy") == 10)
+			set_time(0)
+			assert(eva.wallet.get("energy") == 10)
+			assert(eva.wallet.get_seconds_to_restore("energy") == 5)
+			set_time(4)
+			assert(eva.wallet.get_seconds_to_restore("energy") == 1)
+			set_time(3)
+			assert(eva.wallet.get_seconds_to_restore("energy") == 2)
+			set_time(0)
+			assert(eva.wallet.get_seconds_to_restore("energy") == 5)
+			set_time(4)
+			assert(eva.wallet.get("energy") == 10)
+			set_time(5)
+			assert(eva.wallet.get("energy") == 11)
+		end)
+
+
+		it("Should have advanced restore params", function()
+			eva.wallet.set_restore_config("energy", {
+				timer = 5,
+				max = 5,
+				value = 2
+			})
+
+			-- cur time = 0
+			assert(eva.wallet.get("energy") == 0)
+			set_time(5)
+			assert(eva.wallet.get("energy") == 2)
+			set_time(19)
+			-- elapsed 14 secs, need to add 2 * 2
+			assert(eva.wallet.get("energy") == 6)
+			set_time(20)
+			assert(eva.wallet.get("energy") == 8)
+			set_time(100)
+			assert(eva.wallet.get("energy") == 13)
+			-- elapsed 100 secs. want to add 16 * 2, but max restore 5, max value 15
+			set_time(200)
+			-- TODO: HACK, while now we can't setup max token value in restore config
+			eva.wallet.set("energy", 15)
+			assert(eva.wallet.get("energy") == 15)
+
+			-- time return back (hackers?)
+			set_time(0)
+			assert(eva.wallet.get("energy") == 15)
+			assert(eva.wallet.get_seconds_to_restore("energy") == 5)
+			eva.wallet.add("energy", -5)
+			set_time(5)
+			assert(eva.wallet.get("energy") == 12)
+			eva.wallet.set("energy", 0)
+			set_time(55) -- elapsed 50 secods, want to add 10 * 2, but max restore 5
+			assert(eva.wallet.get("energy") == 5)
+		end)
+
+		it("Should have correct infinity timer", function()
+			eva.wallet.set("energy", 10)
+
+			eva.wallet.add_infinity_time("energy", 10)
+
+			assert(eva.wallet.pay("energy", 5))
+			assert(eva.wallet.pay("energy", 10))
+			assert(eva.wallet.pay("energy", 15))
+
+			assert(eva.wallet.get("energy") == 10)
+
+			assert(eva.wallet.is_infinity("energy"))
+			assert(eva.wallet.get_infinity_seconds("energy") == 10)
 		end)
 	end)
 end

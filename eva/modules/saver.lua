@@ -16,6 +16,7 @@ local const = require("eva.const")
 
 local proto = require("eva.modules.proto")
 local utils = require("eva.modules.utils")
+local events = require("eva.modules.events")
 local migrations = require("eva.modules.migrations")
 
 local logger = log.get_logger("eva.saver")
@@ -145,6 +146,8 @@ function M.on_eva_init()
 	app[const.EVA.SAVER] = proto.get(const.EVA.SAVER)
 	app[const.EVA.SAVER].migration_version = migrations.get_count()
 	M.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
+
+	events.subscribe(const.EVENT.IAP_PURCHASE, function() M.save() end)
 end
 
 

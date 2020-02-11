@@ -234,6 +234,7 @@ function M.get_iap(iap_id)
 	return app.iap_products[iap_id]
 end
 
+
 --- Get all iaps. Can be selected by category
 -- @function eva.iaps.get_iaps
 -- @tparam string category Category of iap

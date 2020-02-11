@@ -96,7 +96,7 @@ function M.before_eva_init()
 	for path, values in pairs(proto_paths) do
 		protoc:addpath(path)
 		for _, proto in ipairs(values) do
-			logger:debug("Load protofile", { path = path .. proto })
+			logger:debug("Load protofile", { path = path .. "/" .. proto })
 			protoc:loadfile(proto)
 		end
 	end
