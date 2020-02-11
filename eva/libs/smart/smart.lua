@@ -21,9 +21,4 @@ function M.new(params, data_table)
 end
 
 
-function M.set_time_function(cb)
-	value.get_time = cb
-end
-
-
 return M

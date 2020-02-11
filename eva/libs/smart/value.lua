@@ -1,11 +1,6 @@
 local M = {}
 
 
-function M.get_time()
-	return socket.gettime()
-end
-
-
 function M.set(self, value, reason)
 	if self.params.min then
 		value = math.max(self.params.min, value)

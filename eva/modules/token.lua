@@ -43,6 +43,7 @@ local function get_data_containers()
 	return app[const.EVA.CONTAINERS].containers
 end
 
+
 local function get_container(container_id)
 	return app.smart_containers[container_id]
 end
@@ -139,9 +140,9 @@ function M.create_container(container_id, container_type)
 	end
 
 	local data_containers = get_data_containers()
+
 	data_containers[container_id] = proto.get(const.EVA.CONTAINER)
 	data_containers[container_id].type = container_type
-
 	app.smart_containers[container_id] = {}
 
 	logger:debug("Create token container", { container_id = container_id, container_type = container_type })
@@ -153,8 +154,8 @@ end
 -- @tparam string container_id Container id
 function M.delete_container(container_id)
 	local data_containers = get_data_containers()
-	data_containers[container_id] = nil
 
+	data_containers[container_id] = nil
 	app.smart_containers[container_id] = nil
 end
 
@@ -169,8 +170,8 @@ function M.clear_container(container_id)
 	end
 
 	local container = get_container(container_id)
-	container.tokens = {}
 
+	container.tokens = {}
 	app.smart_containers[container_id] = {}
 end
 
@@ -189,7 +190,7 @@ function M.set_restore_config(container_id, token_id, config)
 end
 
 
-function M.get_restore_config(container_id, token_id, ...)
+function M.get_restore_config(container_id, token_id)
 	return get_data_containers()[container_id].restore_config[token_id]
 end
 
@@ -488,7 +489,6 @@ function M.on_eva_init()
 	app[const.EVA.CONTAINERS] = proto.get(const.EVA.CONTAINERS)
 	saver.add_save_part(const.EVA.CONTAINERS, app[const.EVA.CONTAINERS])
 
-	smart.set_time_function(game.get_time)
 	events.subscribe(const.EVENT.GAME_FOCUS, update_tokens_offset)
 end
 
