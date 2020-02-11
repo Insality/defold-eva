@@ -9,6 +9,27 @@ local token = require("eva.modules.token")
 local M = {}
 
 
+
+function M.set_restore_config(token_id, config)
+	return token.set_restore_config(const.WALLET_CONTAINER, token_id, config)
+end
+
+
+function M.get_restore_config(token_id)
+	return token.get_restore_config(const.WALLET_CONTAINER, token_id)
+end
+
+
+function M.set_pause_restore_config(token_id, is_pause)
+	return token.set_pause_restore_config(const.WALLET_CONTAINER, token_id, is_pause)
+end
+
+
+function M.remove_restore_config(token_id)
+	return token.remove_restore_config(const.WALLET_CONTAINER, token_id)
+end
+
+
 --- Add tokens to save
 -- @function eva.wallet.add
 function M.add(token_id, amount, reason, visual_later)

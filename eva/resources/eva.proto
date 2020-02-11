@@ -83,8 +83,8 @@ message TokenRestoreConfig {
 	bool is_enabled = 1;
 	uint64 last_restore_time = 2;
 	uint32 timer = 3;
-	int32 value = 4;
-	int32 max = 5;
+	int32 value = 4 [default = 1];
+	int32 max = 5 [default = 2147483647];
 }
 
 message Container {

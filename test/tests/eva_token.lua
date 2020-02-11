@@ -113,8 +113,13 @@ return function()
 		end)
 
 		it("Should correct work restoring", function()
+			eva.token.set_restore_config(TEST_CONTAINER, "energy", {
+				timer = 60,
+				value = 1,
+				max = 20
+			})
 			set_time(60)
-			assert(eva.wallet.get("energy") == 1)
+			assert(eva.wallet.get("energy") == 0)
 			assert(eva.token.get(TEST_CONTAINER, "energy") == 1)
 
 			set_time(120)
@@ -126,7 +131,11 @@ return function()
 		end)
 
 		it("Should throw event on token change", function()
-			eva.token.delete_container(TEST_CONTAINER)
+			eva.wallet.set_restore_config("energy", {
+				timer = 60,
+				value = 1,
+				max = 20
+			})
 
 			assert(events[CHANGE].calls == 0)
 			assert(eva.wallet.get("energy") == 0)

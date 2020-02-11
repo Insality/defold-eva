@@ -151,6 +151,7 @@ M.EVA = {
 	RATE = "eva.Rate",
 	SAVER = "eva.Saver",
 	GAME = "eva.Game",
+	TOKEN_RESTORE_CONFIG = "eva.TokenRestoreConfig",
 	CONTAINER = "eva.Container",
 	CONTAINERS = "eva.Containers",
 	GDPR = "eva.Gdpr",
@@ -174,7 +175,7 @@ M.EVA = {
 	PUSH_INFO = "eva.PushInfo",
 	INVOICE_INFO = "eva.InvoiceInfo",
 
-	TOKENS_DATA = "evadata.Tokens"
+	TOKENS_DATA = "evadata.Tokens",
 }
 
 

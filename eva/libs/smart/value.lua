@@ -178,6 +178,12 @@ function M.reset_offset(self)
 end
 
 
+--- Return token_id from token.params.name
+function M.get_token_id(self)
+	return self.params.name
+end
+
+
 function M.update(self)
 	if self.data_table.infinity_time_end < M.get_time() then
 		self.data_table.infinity_time_end = 0

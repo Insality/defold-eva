@@ -58,12 +58,12 @@ local function update_tokens_offset()
 end
 
 
-local function on_change_token(delta, reason, token_id, amount)
+local function on_change_token(token, delta, reason)
 	events.event(const.EVENT.TOKEN_CHANGE, {
 		delta = delta,
-		token_id = token_id,
+		token_id = token:get_token_id(),
 		reason = reason,
-		amount = amount
+		amount = token:get()
 	})
 end
 
@@ -187,18 +187,35 @@ function M.clear_container(container_id)
 end
 
 
-function M.set_restore_config(container_id, token_id, ...)
+function M.set_restore_config(container_id, token_id, config)
+	local restore_config = get_container(container_id).restore_config
+
+	local new_config = proto.get(const.EVA.TOKEN_RESTORE_CONFIG)
+	new_config.is_enabled = true
+	new_config.last_restore_time = game.get_time()
+	new_config.timer = config.timer
+	new_config.value = config.value or new_config.value
+	new_config.max = config.max or new_config.max
+
+	restore_config[token_id] = new_config
 end
 
 
 function M.get_restore_config(container_id, token_id, ...)
+	return get_container(container_id).restore_config[token_id]
 end
+
 
 function M.set_pause_restore_config(container_id, token_id, is_pause)
+	local config = M.get_restore_config(container_id, token_id)
+	config.is_enabled = not is_pause
 end
 
 
-function M.reset_restore_config(container_id, token_id, ...)
+function M.remove_restore_config(container_id, token_id, ...)
+	local restore_config = get_container(container_id).restore_config
+	assert(restore_config[token_id], "No restore config to delete it")
+	restore_config[token_id] = nil
 end
 
 
