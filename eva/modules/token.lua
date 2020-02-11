@@ -212,7 +212,7 @@ function M.set_pause_restore_config(container_id, token_id, is_pause)
 end
 
 
-function M.remove_restore_config(container_id, token_id, ...)
+function M.remove_restore_config(container_id, token_id)
 	local restore_config = get_container(container_id).restore_config
 	assert(restore_config[token_id], "No restore config to delete it")
 	restore_config[token_id] = nil
@@ -345,6 +345,10 @@ end
 -- @tparam number amount Amount to pay
 -- @tparam string reason The reason to pay
 function M.pay(container_id, token_id, amount, reason)
+	if M.is_infinity(container_id, token_id) then
+		return true
+	end
+
 	return get_token(container_id, token_id):pay(amount, reason)
 end
 
@@ -372,6 +376,10 @@ end
 --- Check is enough to pay token
 -- @function eva.token.is_enough
 function M.is_enough(container_id, token_id, amount)
+	if M.is_infinity(container_id, token_id) then
+		return true
+	end
+
 	return get_token(container_id, token_id):check(amount)
 end
 
@@ -416,21 +424,29 @@ end
 --- Add to tokens infinity time usage
 -- @function eva.token.add_infinity_time
 function M.add_infinity_time(container_id, token_id, seconds)
-	return get_token(container_id, token_id):add_infinity_time(seconds)
+	local timers = get_container(container_id).infinity_timers
+	local cur_time = game.get_time()
+
+	timers[token_id] = math.max(timers[token_id] or cur_time, cur_time) + seconds
 end
 
 
 --- Return is token is infinity now
 -- @function eva.token.is_infinity
 function M.is_infinity(container_id, token_id)
-	return get_token(container_id, token_id):is_infinity()
+	return M.get_infinity_seconds(container_id, token_id) > 0
 end
 
 
 --- Get amount of seconds till end of infinity time
 -- @function eva.token.get_infinity_seconds
 function M.get_infinity_seconds(container_id, token_id)
-	return get_token(container_id, token_id):get_infinity_seconds()
+	local end_timer = get_container(container_id).infinity_timers[token_id]
+	if end_timer then
+		return math.ceil(end_timer - game.get_time())
+	end
+
+	return 0
 end
 
 

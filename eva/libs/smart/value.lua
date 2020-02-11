@@ -88,16 +88,12 @@ end
 
 
 function M.check(self, value)
-	return self:is_infinity() or self:get() >= value
+	return self:get() >= value
 end
 
 
 function M.pay(self, value, reason)
 	value = value or 1
-
-	if self.data_table.infinity_time_end > 0 then
-		return true
-	end
 
 	if self:check(value) then
 		return self:add(-value, reason)
@@ -138,26 +134,6 @@ function M.init(self, params, data_table)
 end
 
 
-function M.add_infinity_time(self, seconds)
-	if self.data_table.infinity_time_end == 0 then
-		self.data_table.infinity_time_end = M.get_time() + seconds
-	else
-		self.data_table.infinity_time_end = self.data_table.infinity_time_end + seconds
-	end
-end
-
-
-function M.is_infinity(self)
-	return self.data_table.infinity_time_end > 0
-end
-
-
-function M.get_infinity_seconds(self)
-	local infinity_time = math.max(0, self.data_table.infinity_time_end - M.get_time())
-	return math.ceil(infinity_time)
-end
-
-
 --- Offset needed for protect from memory scanning
 -- Call random offset on window.focus for more protecting
 function M.random_offset(self)
@@ -181,13 +157,6 @@ end
 --- Return token_id from token.params.name
 function M.get_token_id(self)
 	return self.params.name
-end
-
-
-function M.update(self)
-	if self.data_table.infinity_time_end < M.get_time() then
-		self.data_table.infinity_time_end = 0
-	end
 end
 
 

@@ -68,22 +68,5 @@ return function()
 			coins:sync_visual()
 			assert(coins:get_visual() == coins:get())
 		end)
-
-
-		it("Should have correct infinity timer", function()
-			local v = smart.new()
-			v:set(10)
-
-			v:add_infinity_time(10)
-
-			assert(v:pay(5))
-			assert(v:pay(10))
-			assert(v:pay(15))
-
-			assert(v:get() == 10)
-
-			assert(v:is_infinity())
-			assert(v:get_infinity_seconds() == 10)
-		end)
 	end)
 end

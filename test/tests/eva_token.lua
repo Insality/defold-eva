@@ -148,7 +148,7 @@ return function()
 			assert(events[CHANGE].calls == 2)
 		end)
 
-		it("Token should have restore timer", function()
+		it("Should have restore timer", function()
 			eva.wallet.set_restore_config("energy", {
 				timer = 5
 			})
@@ -174,7 +174,7 @@ return function()
 		end)
 
 
-		it("Token can have advanced restore params", function()
+		it("Should have advanced restore params", function()
 			eva.wallet.set_restore_config("energy", {
 				timer = 5,
 				max = 5,
@@ -208,6 +208,21 @@ return function()
 			eva.wallet.set("energy", 0)
 			set_time(55) -- elapsed 50 secods, want to add 10 * 2, but max restore 5
 			assert(eva.wallet.get("energy") == 5)
+		end)
+
+		it("Should have correct infinity timer", function()
+			eva.wallet.set("energy", 10)
+
+			eva.wallet.add_infinity_time("energy", 10)
+
+			assert(eva.wallet.pay("energy", 5))
+			assert(eva.wallet.pay("energy", 10))
+			assert(eva.wallet.pay("energy", 15))
+
+			assert(eva.wallet.get("energy") == 10)
+
+			assert(eva.wallet.is_infinity("energy"))
+			assert(eva.wallet.get_infinity_seconds("energy") == 10)
 		end)
 	end)
 end
