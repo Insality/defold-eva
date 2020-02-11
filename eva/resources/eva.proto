@@ -184,7 +184,7 @@ message Trucks {
 message IapInfo {
 	string transaction_id = 1;
 	string iap_id = 2;
-	string state = 3;
+	int32 state = 3;
 	string date = 4;
 	string ident = 5;
 }

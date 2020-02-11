@@ -39,8 +39,12 @@ local function get_token_config()
 end
 
 
+local function get_containers()
+	return app[const.EVA.CONTAINERS].containers
+end
+
 local function get_container(container_id)
-	return app.smart_containers[container_id]
+	return get_containers()[container_id]
 end
 
 
@@ -49,7 +53,8 @@ local function update_tokens_offset()
 		return
 	end
 
-	for _, container in pairs(app.smart_containers) do
+	local containers = get_containers()
+	for _, container in pairs(containers) do
 		local tokens = container.tokens
 		for _, token in pairs(tokens) do
 			token:random_offset()
@@ -84,11 +89,10 @@ end
 
 
 local function create_token_in_save(container_id, token_id, token_data)
-	local container = app.smart_containers[container_id]
-
+	local container_data = app[const.EVA.CONTAINERS].containers[container_id]
 	if not token_data then
 		token_data = proto.get(const.EVA.TOKEN)
-		container.tokens[token_id] = token_data
+		container_data.tokens[token_id] = token_data
 	end
 
 	local config = get_config_for_token(container_id, token_id)
@@ -124,19 +128,6 @@ local function get_token(container_id, token_id)
 end
 
 
-local function check_values_in_container(container_id)
-	local container = app.smart_containers[container_id]
-	local token_config = get_token_config()
-	for token_id, value in pairs(token_config) do
-		if not value.container_type or container.type == value.container_type then
-			if value.restore and not container.tokens[token_id] then
-				container.tokens[token_id] = create_token_in_save(container_id, token_id)
-			end
-		end
-	end
-end
-
-
 --- Check if token container exist
 -- @function eva.token.is_exist_container
 -- @tparam string container_id Container id
@@ -156,9 +147,9 @@ function M.create_container(container_id, container_type)
 		return
 	end
 
-	app.smart_containers[container_id] = proto.get(const.EVA.CONTAINER)
-	app.smart_containers[container_id].type = container_type
-	check_values_in_container(container_id)
+	local containers_data = app[const.EVA.CONTAINERS].containers
+	containers_data[container_id] = proto.get(const.EVA.CONTAINER)
+	containers_data[container_id].type = container_type
 
 	logger:debug("Create token container", { container_id = container_id, container_type = container_type })
 end
@@ -168,7 +159,7 @@ end
 -- @function eva.token.delete_container
 -- @tparam string container_id Container id
 function M.delete_container(container_id)
-	app.smart_containers[container_id] = nil
+	app[const.EVA.CONTAINERS].containers[container_id] = nil
 end
 
 
@@ -183,7 +174,6 @@ function M.clear_container(container_id)
 
 	local container = get_container(container_id)
 	container.tokens = {}
-	check_values_in_container(container_id)
 end
 
 
@@ -491,11 +481,6 @@ function M.get_seconds_to_restore(container_id, token_id)
 end
 
 
-function M.before_eva_init()
-	app.smart_containers = {}
-end
-
-
 function M.on_eva_init()
 	app[const.EVA.CONTAINERS] = proto.get(const.EVA.CONTAINERS)
 	saver.add_save_part(const.EVA.CONTAINERS, app[const.EVA.CONTAINERS])
@@ -512,8 +497,6 @@ function M.after_eva_init()
 			-- Link behavior and data
 			container[token_id] = create_token_in_save(container_id, token_id, token_data)
 		end
-
-		check_values_in_container(container_id)
 	end
 end
 
@@ -544,7 +527,7 @@ end
 
 
 function M.on_eva_update(dt)
-	local containers = app.smart_containers
+	local containers = get_containers()
 	for container_id, container in pairs(containers) do
 		local restore_config = container.restore_config
 		for token_id, config in pairs(restore_config) do
