@@ -120,6 +120,31 @@ local function get_token(container_id, token_id)
 end
 
 
+local function restore_token_update(container_id, token_id, config)
+	local token = get_token(container_id, token_id)
+
+	local cur_time = game.get_time()
+	config.last_restore_time = math.min(config.last_restore_time, cur_time)
+	if token:is_max() then
+		config.last_restore_time = cur_time
+	end
+
+	local elapsed = cur_time - config.last_restore_time
+	if elapsed >= config.timer then
+		local amount = math.floor(elapsed / config.timer)
+		local need_to_add = amount * config.value
+
+		if config.max then
+			need_to_add = math.min(need_to_add, config.max)
+		end
+		token:add(need_to_add)
+
+		local cur_elapse_time = elapsed - (amount * config.timer)
+		config.last_restore_time = cur_time - cur_elapse_time
+	end
+end
+
+
 --- Check if token container exist
 -- @function eva.token.is_exist_container
 -- @tparam string container_id Container id
@@ -504,31 +529,6 @@ function M.after_eva_init()
 			local container = containers[container_id]
 			container[token_id] = create_token_in_save(container_id, token_id, token_data)
 		end
-	end
-end
-
-
-local function restore_token_update(container_id, token_id, config)
-	local token = get_token(container_id, token_id)
-
-	local cur_time = game.get_time()
-	config.last_restore_time = math.min(config.last_restore_time, cur_time)
-	if token:is_max() then
-		config.last_restore_time = cur_time
-	end
-
-	local elapsed = cur_time - config.last_restore_time
-	if elapsed >= config.timer then
-		local amount = math.floor(elapsed / config.timer)
-		local need_to_add = amount * config.value
-
-		if config.max then
-			need_to_add = math.min(need_to_add, config.max)
-		end
-		token:add(need_to_add)
-
-		local cur_elapse_time = elapsed - (amount * config.timer)
-		config.last_restore_time = cur_time - cur_elapse_time
 	end
 end
 
