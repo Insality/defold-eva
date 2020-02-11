@@ -457,9 +457,22 @@ end
 
 --- Get current time to next restore point
 -- @function eva.token.get_seconds_to_restore
--- function M.get_seconds_to_restore(container_id, token_id)
--- 	return get_token(container_id, token_id):get_seconds_to_restore()
--- end
+function M.get_seconds_to_restore(container_id, token_id)
+	local config = M.get_restore_config(container_id, token_id)
+
+	if not config then
+		logger:warn("Get seconds to restore from token without restore", {
+			container_id = container_id,
+			token_id = token_id
+		})
+		return 0
+	end
+
+	local last = config.last_restore_time
+	local skipped = game.get_time() - last
+
+	return math.max(0, config.timer - skipped)
+end
 
 
 function M.before_eva_init()
@@ -511,24 +524,6 @@ local function restore_token_update(container_id, token_id, config)
 		local cur_elapse_time = elapsed - (amount * config.timer)
 		config.last_restore_time = cur_time - cur_elapse_time
 	end
-end
-
-
-function M.get_seconds_to_restore(container_id, token_id)
-	local config = M.get_restore_config(container_id, token_id)
-
-	if not config then
-		logger:warn("Get seconds to restore from token without restore", {
-			container_id = container_id,
-			token_id = token_id
-		})
-		return 0
-	end
-
-	local last = config.last_restore_time
-	local skipped = game.get_time() - last
-
-	return math.max(0, config.timer - skipped)
 end
 
 
