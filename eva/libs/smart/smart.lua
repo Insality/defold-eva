@@ -10,9 +10,8 @@ local M = {}
 -- max
 function M.new(params, data_table)
 	data_table = data_table or {
-		amount = 0,
-		offset = 0,
-		infinity_time_end = 0,
+		amount = nil,
+		offset = 0
 	}
 
 	local v = setmetatable({}, { __index = value })

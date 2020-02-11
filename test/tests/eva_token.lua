@@ -72,7 +72,6 @@ return function()
 			assert(eva.wallet.get("ruby") == 100)
 			eva.saver.save()
 			eva.init("/resources/tests/eva_tests.json")
-			print(eva.wallet.get("ruby"))
 			assert(eva.wallet.get("ruby") == 100)
 		end)
 

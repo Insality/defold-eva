@@ -116,11 +116,10 @@ function M.init(self, params, data_table)
 	self.data_table = data_table
 	self.params = params or {}
 
-	if self.params.default then
-		self.data_table.amount = self.params.default - self.data_table.offset
+	if not data_table.amount then
+		data_table.amount = (self.params.default or 0) - self.data_table.offset
 	end
-	self:set(self.params.default or 0)
-
+	self:set(data_table.amount)
 	self:sync_visual()
 end
 

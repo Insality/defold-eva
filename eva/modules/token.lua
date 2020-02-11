@@ -39,12 +39,12 @@ local function get_token_config()
 end
 
 
-local function get_containers()
+local function get_data_containers()
 	return app[const.EVA.CONTAINERS].containers
 end
 
 local function get_container(container_id)
-	return get_containers()[container_id]
+	return app.smart_containers[container_id]
 end
 
 
@@ -53,10 +53,9 @@ local function update_tokens_offset()
 		return
 	end
 
-	local containers = get_containers()
+	local containers = app.smart_containers
 	for _, container in pairs(containers) do
-		local tokens = container.tokens
-		for _, token in pairs(tokens) do
+		for _, token in pairs(container) do
 			token:random_offset()
 		end
 	end
@@ -74,14 +73,7 @@ end
 
 
 local function get_config_for_token(container_id, token_id)
-	local token_config = get_token_config()[token_id] or {}
-
-	local config = {}
-	local container = get_container(container_id)
-	if not token_config.container_type or container.type == token_config.container_type then
-		luax.table.extend(config, token_config)
-	end
-
+	local config = get_token_config()[token_id] or {}
 	config.name = token_id
 
 	return config
@@ -89,8 +81,8 @@ end
 
 
 local function create_token_in_save(container_id, token_id, token_data)
-	local container_data = app[const.EVA.CONTAINERS].containers[container_id]
 	if not token_data then
+		local container_data = get_data_containers()[container_id]
 		token_data = proto.get(const.EVA.TOKEN)
 		container_data.tokens[token_id] = token_data
 	end
@@ -119,12 +111,11 @@ local function get_token(container_id, token_id)
 		return
 	end
 
-	local tokens = container.tokens
-	if not tokens[token_id] then
-		tokens[token_id] = create_token_in_save(container_id, token_id)
+	if not container[token_id] then
+		container[token_id] = create_token_in_save(container_id, token_id)
 	end
 
-	return tokens[token_id]
+	return container[token_id]
 end
 
 
@@ -147,9 +138,11 @@ function M.create_container(container_id, container_type)
 		return
 	end
 
-	local containers_data = app[const.EVA.CONTAINERS].containers
-	containers_data[container_id] = proto.get(const.EVA.CONTAINER)
-	containers_data[container_id].type = container_type
+	local data_containers = get_data_containers()
+	data_containers[container_id] = proto.get(const.EVA.CONTAINER)
+	data_containers[container_id].type = container_type
+
+	app.smart_containers[container_id] = {}
 
 	logger:debug("Create token container", { container_id = container_id, container_type = container_type })
 end
@@ -159,7 +152,10 @@ end
 -- @function eva.token.delete_container
 -- @tparam string container_id Container id
 function M.delete_container(container_id)
-	app[const.EVA.CONTAINERS].containers[container_id] = nil
+	local data_containers = get_data_containers()
+	data_containers[container_id] = nil
+
+	app.smart_containers[container_id] = nil
 end
 
 
@@ -174,11 +170,13 @@ function M.clear_container(container_id)
 
 	local container = get_container(container_id)
 	container.tokens = {}
+
+	app.smart_containers[container_id] = {}
 end
 
 
 function M.set_restore_config(container_id, token_id, config)
-	local restore_config = get_container(container_id).restore_config
+	local restore_config = get_data_containers()[container_id].restore_config
 
 	local new_config = proto.get(const.EVA.TOKEN_RESTORE_CONFIG)
 	new_config.is_enabled = true
@@ -192,7 +190,7 @@ end
 
 
 function M.get_restore_config(container_id, token_id, ...)
-	return get_container(container_id).restore_config[token_id]
+	return get_data_containers()[container_id].restore_config[token_id]
 end
 
 
@@ -203,7 +201,7 @@ end
 
 
 function M.remove_restore_config(container_id, token_id)
-	local restore_config = get_container(container_id).restore_config
+	local restore_config = get_data_containers()[container_id].restore_config
 	assert(restore_config[token_id], "No restore config to delete it")
 	restore_config[token_id] = nil
 end
@@ -321,7 +319,7 @@ function M.get_many(container_id)
 	local tokens = {}
 
 	local container = get_container(container_id)
-	for id, token in pairs(container.tokens) do
+	for id, token in pairs(container) do
 		tokens[id] = token:get()
 	end
 
@@ -414,7 +412,7 @@ end
 --- Add to tokens infinity time usage
 -- @function eva.token.add_infinity_time
 function M.add_infinity_time(container_id, token_id, seconds)
-	local timers = get_container(container_id).infinity_timers
+	local timers = get_data_containers()[container_id].infinity_timers
 	local cur_time = game.get_time()
 
 	timers[token_id] = math.max(timers[token_id] or cur_time, cur_time) + seconds
@@ -431,7 +429,7 @@ end
 --- Get amount of seconds till end of infinity time
 -- @function eva.token.get_infinity_seconds
 function M.get_infinity_seconds(container_id, token_id)
-	local end_timer = get_container(container_id).infinity_timers[token_id]
+	local end_timer = get_data_containers()[container_id].infinity_timers[token_id]
 	if end_timer then
 		return math.ceil(end_timer - game.get_time())
 	end
@@ -481,6 +479,11 @@ function M.get_seconds_to_restore(container_id, token_id)
 end
 
 
+function M.before_eva_init()
+	app.smart_containers = {}
+end
+
+
 function M.on_eva_init()
 	app[const.EVA.CONTAINERS] = proto.get(const.EVA.CONTAINERS)
 	saver.add_save_part(const.EVA.CONTAINERS, app[const.EVA.CONTAINERS])
@@ -491,10 +494,14 @@ end
 
 
 function M.after_eva_init()
-	local containers = app[const.EVA.CONTAINERS].containers
-	for container_id, container in pairs(containers) do
-		for token_id, token_data in pairs(container.tokens) do
+	local containers = app.smart_containers
+	local data_containers = get_data_containers()
+	for container_id, data_container in pairs(data_containers) do
+		containers[container_id] = containers[container_id] or {}
+
+		for token_id, token_data in pairs(data_container.tokens) do
 			-- Link behavior and data
+			local container = containers[container_id]
 			container[token_id] = create_token_in_save(container_id, token_id, token_data)
 		end
 	end
@@ -527,7 +534,7 @@ end
 
 
 function M.on_eva_update(dt)
-	local containers = get_containers()
+	local containers = get_data_containers()
 	for container_id, container in pairs(containers) do
 		local restore_config = container.restore_config
 		for token_id, config in pairs(restore_config) do

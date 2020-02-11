@@ -1,5 +1,4 @@
 local smart = require("eva.libs.smart.smart")
-local value = require("eva.libs.smart.value")
 
 return function()
 	describe("Smart value test", function()
