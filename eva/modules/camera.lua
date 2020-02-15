@@ -7,7 +7,7 @@
 local app = require("eva.app")
 local const = require("eva.const")
 local camera_drag = require("eva.modules.camera.camera_drag")
-local camera_gesture = require("eva.modules.camera.camera_gesture")
+local camera_pinch = require("eva.modules.camera.camera_pinch")
 
 local input = require("eva.modules.input")
 
@@ -29,14 +29,6 @@ local function get_initial_state()
 		border_hard = vmath.vector4(0),
 		zoom_border_soft = vmath.vector3(1),
 		zoom_border_hard = vmath.vector3(1),
-
-		is_drag = false,
-		is_pinch = false,
-
-		touch_id = 0,
-		drag_pos = vmath.vector3(0),
-		pinch_distance = 0,
-		pinch_pos = vmath.vector3(0),
 	}
 end
 
@@ -101,7 +93,20 @@ local function on_input(_, input_type, input_state)
 	if input_type == const.INPUT_TYPE.DRAG then
 		camera_drag.handle_drag(input_type, input_state)
 	end
-	-- camera_gesture.handle_gesture(state)
+	if input_type == const.INPUT_TYPE.PINCH then
+		camera_drag.handle_drag(input_type, input_state)
+		camera_pinch.handle_pinch(input_type, input_state)
+	end
+
+	local camera_state = app.camera_state
+	if input_type == const.INPUT_TYPE.KEY_RELEASED or input_type == const.INPUT_TYPE.KEY_REPEATED then
+		if input_state.key_id == const.INPUT.SCROLL_UP then
+			camera_state.target_zoom = camera_state.target_zoom - 0.025
+		end
+		if input_state.key_id == const.INPUT.SCROLL_DOWN then
+			camera_state.target_zoom = camera_state.target_zoom + 0.025
+		end
+	end
 end
 
 
@@ -121,7 +126,7 @@ function M.on_eva_update(dt)
 	local settings = app.settings.camera
 
 	camera_drag.update_camera_pos(state, dt, settings)
-	camera_gesture.update_camera_zoom(state, dt, settings)
+	camera_pinch.update_camera_zoom(state, dt, settings)
 end
 
 

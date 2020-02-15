@@ -3,7 +3,6 @@
 -- other gestures
 -- @submodule eva
 
-
 local gesture = require("in.gesture")
 
 local app = require("eva.app")
@@ -12,81 +11,11 @@ local luax = require("eva.luax")
 local const = require("eva.const")
 
 local input_touch = require("eva.modules.input.input_touch")
+local input_pinch = require("eva.modules.input.input_pinch")
 
 local logger = log.get_logger("eva.input")
 
 local M = {}
-
-
-local function get_distance(action)
-	if not action.touch then
-		return 0
-	end
-
-	local t1 = action.touch[1]
-	local t2 = action.touch[2]
-
-	return luax.math.distance(t1.screen_x, t1.screen_y, t2.screen_x, t2.screen_y)
-end
-
-
-local function handle_pinch(data, state, action)
-	-- Zooming start
-	if not state.is_pinch then
-		state.is_pinch = true
-		state.pinch_distance = data.dist
-		state.pinch_pos = data.center
-	end
-
-	-- Pinch delta
-	local delta = (data.dist - state.pinch_distance) / (1000 * M.ZOOM_SPEED)
-	local delta_koef = math.sqrt(state.target_zoom)
-	delta = delta * delta_koef
-
-	-- Adjust zoom
-	state.target_zoom = state.target_zoom - delta
-	state.pinch_distance = data.dist
-
-	-- Move to zoom position
-	local move_vector = vmath.vector3(data.center.x - M.SCREEN.x, data.center.y - M.SCREEN.y, 0)
-	state.target_pos.x = state.target_pos.x + move_vector.x * delta
-	state.target_pos.y = state.target_pos.y + move_vector.y * delta
-
-	-- Move by center
-	state.target_pos.x = state.target_pos.x + (state.pinch_pos.x - data.center.x) * state.zoom
-	state.target_pos.y = state.target_pos.y + (state.pinch_pos.y - data.center.y) * state.zoom
-
-	-- Input module
-	state.pinch_pos = data.center
-end
-
-
-local function handle_gesture(state, action_id, action)
-	local g = app.input.gesture.on_input(action_id, action)
-
-	-- Handle pinch
-	if g and g.two_finger and g.two_finger.pinch then
-		g.two_finger.pinch.dist = get_distance(action)
-		state.pinch_info = g.two_finger.pinch
-		handle_pinch(g.two_finger.pinch, state)
-	end
-
-	-- Detect end pinch state
-	if action.touch and state.is_pinch then
-		local no_touch = #action.touch ~= 2
-
-		local all_released = true
-		for i = 1, #action.touch do
-			if not action.touch[i].released then
-				all_released = false
-			end
-		end
-
-		if no_touch or all_released then
-			state.is_pinch = false
-		end
-	end
-end
 
 
 --- Register the input to handle user actions
@@ -121,7 +50,7 @@ function M.unregister(name)
 end
 
 
-local function handle_modifiers(action_id, action, state)
+local function handle_modifiers(state, action_id, action)
 	if action_id == const.INPUT.KEY_LALT then
 		if action.pressed then
 			state.modifiers.lalt = true
@@ -143,20 +72,8 @@ local function handle_modifiers(action_id, action, state)
 end
 
 
-function M.on_input(action_id, action)
-	if not action_id then
-		return
-	end
-
+local function handle_gestures(state, action_id, action)
 	local g = app.input.gesture.on_input(action_id, action)
-	local stack = app.input.stack
-	local state = app.input.state
-
-	state.input_type = nil
-
-	input_touch.handle_touch(state, action_id, action)
-	-- handle_gesture(state, action_id, action)
-
 	if g then
 		state.is_double_tap = luax.toboolean(g.double_tap)
 		state.is_swipe = luax.toboolean(g.swipe)
@@ -178,13 +95,24 @@ function M.on_input(action_id, action)
 			end
 		end
 	end
+end
 
-	handle_modifiers(action_id, action, state)
 
-	-- implement list:
-	-- START_PINCH
-	-- PINCH
-	-- PINCH_END
+function M.on_input(action_id, action)
+	if not action_id then
+		return
+	end
+
+	local stack = app.input.stack
+	local state = app.input.state
+
+	state.input_type = nil
+
+	handle_modifiers(state, action_id, action)
+	input_touch.handle_touch(state, action_id, action)
+	input_pinch.handle_pinch(state, action_id, action)
+	handle_gestures(state, action_id, action)
+
 	if luax.table.contains(const.INPUT_KEYS, action_id) then
 		state.key_id = nil
 		if action.released then
@@ -268,6 +196,7 @@ function M.before_eva_init()
 			world_y = 0,
 
 			pinch_distance = 0,
+			pinch_delta = 0,
 			pinch_pos = vmath.vector3(0),
 			pinch_info = false,
 

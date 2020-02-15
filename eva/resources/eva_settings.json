@@ -55,7 +55,8 @@
 	"input": {
 		"multi_touch": true,
 		"long_touch_threshold": 0.65,
-		"drag_deadzone": 10
+		"drag_deadzone": 10,
+		"zoom_speed": 0.85
 	},
 	"db": {
 		"paths": {

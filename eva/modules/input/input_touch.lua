@@ -142,10 +142,10 @@ function M.handle_touch(state, action_id, action)
 		process_touch(state, touch)
 	end
 
-	local touch_end = find_touch(action_id, action, state.touch_id)
-	if touch_end and state.is_drag or state.is_pinch then
-		state.dx = touch_end.screen_x - state.screen_x
-		state.dy = touch_end.screen_y - state.screen_y
+	local touch_modified = find_touch(action_id, action, state.touch_id)
+	if touch_modified and state.is_drag or state.is_pinch then
+		state.dx = touch_modified.screen_x - state.screen_x
+		state.dy = touch_modified.screen_y - state.screen_y
 	end
 end
 

@@ -68,7 +68,7 @@ M.INPUT_TYPE = {
 	DRAG_START = hash("drag_start"), -- it mean touch_cancel too
 	DRAG = hash("drag"),
 	DRAG_END = hash("drag_end"),
-	START_PINCH = hash("start_pinch"),
+	PINCH_START = hash("pinch_start"),
 	PINCH = hash("pinch"),
 	PINCH_END = hash("pinch_end"),
 }
@@ -344,6 +344,10 @@ M.INPUT_KEYS = {
 	hash("key_rsuper"),
 	hash("key_menu"),
 	hash("key_back"),
+
+	-- from mouse some triggers
+	hash("mouse_wheel_down"),
+	hash("mouse_wheel_up"),
 }
 
 
