@@ -99,7 +99,7 @@ local function on_input(_, input_type, input_state)
 	end
 
 	local camera_state = app.camera_state
-	if input_type == const.INPUT_TYPE.KEY_RELEASED or input_type == const.INPUT_TYPE.KEY_REPEATED then
+	if input_type == const.INPUT_TYPE.KEY_HOLD then
 		if input_state.key_id == const.INPUT.SCROLL_UP then
 			camera_state.target_zoom = camera_state.target_zoom - 0.025
 		end

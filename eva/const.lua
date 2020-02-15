@@ -60,6 +60,7 @@ M.INPUT = {
 M.INPUT_TYPE = {
 	KEY_PRESSED = hash("key_pressed"),
 	KEY_REPEATED = hash("key_repeated"),
+	KEY_HOLD = hash("key_hold"),
 	KEY_RELEASED = hash("key_released"),
 	TOUCH_START = hash("touch_start"),
 	TOUCH = hash("touch"),

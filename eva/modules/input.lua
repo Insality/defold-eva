@@ -1,5 +1,5 @@
 --- Eva input module
--- Can priotirize input, handle drag, pinch and
+-- Register you callbacks with priority
 -- other gestures
 -- @submodule eva
 
@@ -19,6 +19,7 @@ local M = {}
 
 
 --- Register the input to handle user actions
+-- If callback return true it will stop handle next input
 -- @function eva.input.register
 -- @tparam string name Name of input system
 -- @tparam function callback The input callback
@@ -39,6 +40,9 @@ function M.register(context, name, callback, priority)
 end
 
 
+-- Unregister prev. registered input
+-- @function eva.input.unregister
+-- @tparam string name Name of input system
 function M.unregister(name)
 	local result = luax.table.remove_item(app.input.stack, {
 		name = name
@@ -115,6 +119,9 @@ function M.on_input(action_id, action)
 
 	if luax.table.contains(const.INPUT_KEYS, action_id) then
 		state.key_id = nil
+		if action.value > 0 then
+			state.input_type = const.INPUT_TYPE.KEY_HOLD
+		end
 		if action.released then
 			state.input_type = const.INPUT_TYPE.KEY_RELEASED
 		end
@@ -128,10 +135,6 @@ function M.on_input(action_id, action)
 		if state.input_type then
 			state.key_id = action_id
 		end
-	end
-
-	if state.input_type and action_id then
-		print(state.input_type)
 	end
 
 	if state.is_drag then
@@ -180,8 +183,10 @@ function M.before_eva_init()
 			is_drag = false,
 			is_pinch = false,
 
+			-- Will be true at INPUT_TYPE.TOUCH_END, if double tap
 			is_double_tap = false,
 
+			-- Will be true at TOUCH_END/DRAG_END, if was swipe
 			is_swipe = false,
 			swipe_side = false,
 			swipe = nil,
@@ -190,6 +195,8 @@ function M.before_eva_init()
 			touch_start_pos = vmath.vector3(0),
 			touch_start_time = 0,
 
+			dx = 0,
+			dy = 0,
 			screen_x = 0,
 			screen_y = 0,
 			world_x = 0,
@@ -198,10 +205,6 @@ function M.before_eva_init()
 			pinch_distance = 0,
 			pinch_delta = 0,
 			pinch_pos = vmath.vector3(0),
-			pinch_info = false,
-
-			dx = 0,
-			dy = 0,
 
 			key_id = nil,
 			modifiers = {
