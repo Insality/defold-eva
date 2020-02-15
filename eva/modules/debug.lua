@@ -71,45 +71,32 @@ function M.complete_quest()
 end
 
 
-local function on_eva_input(touch, state, action_id, action)
-	if action_id == const.INPUT.KEY_LALT then
-		if action.pressed then
-			app.debug_data.is_lalt = true
-		end
-		if action.released then
-			app.debug_data.is_lalt = nil
-		end
+local function on_eva_input(_, input_type, input_state)
+	if input_type ~= const.INPUT_TYPE.KEY_RELEASED then
+		return
 	end
 
-	if action_id == const.INPUT.KEY_LCTRL then
-		if action.pressed then
-			app.debug_data.is_lctrl = true
-		end
-		if action.released then
-			app.debug_data.is_lctrl = nil
-		end
-	end
+	local key = input_state.key_id
 
-
-	if action_id == const.INPUT.KEY_Q and action.released then
+	if key == const.INPUT.KEY_Q then
 		app.debug_data.quit_counter = (app.debug_data.quit_counter or 0) + 1
 		if app.debug_data.quit_counter == 1 then
 			M.exit_game()
 		end
 	end
 
-	if action_id == const.INPUT.KEY_D and action.released then
+	if key == const.INPUT.KEY_D then
 		M.toogle_profiler()
 	end
 
-	if action_id == const.INPUT.KEY_R and action.released then
+	if key == const.INPUT.KEY_R then
 		app.debug_data.restart_counter = (app.debug_data.restart_counter or 0) + 1
 		if app.debug_data.restart_counter == 3 then
 			M.restart_game()
 		end
 	end
 
-	if action_id == const.INPUT.KEY_N and action.released then
+	if key == const.INPUT.KEY_N then
 		app.debug_data.new_game_counter = (app.debug_data.new_game_counter or 0) + 1
 		if app.debug_data.new_game_counter == 5 then
 			saver.delete()
@@ -117,29 +104,29 @@ local function on_eva_input(touch, state, action_id, action)
 		end
 	end
 
-	if action_id == const.INPUT.KEY_1 and action.released then
-		if app.debug_data.is_lalt then
+	if key == const.INPUT.KEY_1 then
+		if input_state.modifiers.lalt then
 			M.load_profile("eva_test_1.json")
 		end
-		if app.debug_data.is_lctrl then
+		if input_state.modifiers.lctrl then
 			M.save_profile("eva_test_1.json")
 		end
 	end
 
-	if action_id == const.INPUT.KEY_2 and action.released then
-		if app.debug_data.is_lalt then
+	if key == const.INPUT.KEY_2 then
+		if input_state.modifiers.lalt then
 			M.load_profile("eva_test_2.json")
 		end
-		if app.debug_data.is_lctrl then
+		if input_state.modifiers.lctrl then
 			M.save_profile("eva_test_2.json")
 		end
 	end
 
-	if action_id == const.INPUT.KEY_3 and action.released then
-		if app.debug_data.is_lalt then
+	if key == const.INPUT.KEY_3 then
+		if input_state.modifiers.lalt then
 			M.load_profile("eva_test_3.json")
 		end
-		if app.debug_data.is_lctrl then
+		if input_state.modifiers.lctrl then
 			M.save_profile("eva_test_3.json")
 		end
 	end
@@ -154,7 +141,7 @@ end
 function M.after_eva_init()
 	if game.is_debug() then
 		local settings = app.settings.debug
-		input.register("eva.debug", on_eva_input, settings.input_priority)
+		input.register(nil, "eva.debug", on_eva_input, settings.input_priority)
 	end
 end
 
