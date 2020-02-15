@@ -11,18 +11,15 @@ local rendercam = require("rendercam.rendercam")
 local M = {}
 
 
-function M.handle_drag(touch, state)
+function M.handle_drag(input_type, input_state)
 	local camera_state = app.camera_state
 
-	-- on drag
-	if state.is_drag and not state.is_pinch then
-		local x, y = rendercam.screen_to_world_2d(state.dx, state.dy, true, nil, true)
-		camera_state.target_pos.x = camera_state.target_pos.x - x
-		camera_state.target_pos.y = camera_state.target_pos.y - y
+	local x, y = rendercam.screen_to_world_2d(input_state.dx, input_state.dy, true, nil, true)
+	camera_state.target_pos.x = camera_state.target_pos.x - x
+	camera_state.target_pos.y = camera_state.target_pos.y - y
 
-		camera_state.inertion.x = camera_state.inertion.x - x
-		camera_state.inertion.y = camera_state.inertion.y - y
-	end
+	camera_state.inertion.x = camera_state.inertion.x - x
+	camera_state.inertion.y = camera_state.inertion.y - y
 end
 
 

@@ -5,6 +5,7 @@
 
 
 local app = require("eva.app")
+local const = require("eva.const")
 local camera_drag = require("eva.modules.camera.camera_drag")
 local camera_gesture = require("eva.modules.camera.camera_gesture")
 
@@ -96,9 +97,11 @@ function M.set_zoom_borders(zoom_soft, zoom_hard)
 end
 
 
-local function on_input(touch, state)
-	-- camera_drag.handle_drag(touch, state)
-	-- camera_gesture.handle_gesture(touch, state)
+local function on_input(_, input_type, input_state)
+	if input_type == const.INPUT_TYPE.DRAG then
+		camera_drag.handle_drag(input_type, input_state)
+	end
+	-- camera_gesture.handle_gesture(state)
 end
 
 
@@ -109,7 +112,7 @@ end
 
 function M.after_eva_init()
 	local settings = app.settings.camera
-	input.register("eva.camera", on_input, settings.input_priority)
+	input.register(nil, "eva.camera", on_input, settings.input_priority)
 end
 
 
