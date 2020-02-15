@@ -53,7 +53,9 @@
 		"inertion_koef": 0.33
 	},
 	"input": {
-		"multi_touch": true
+		"multi_touch": true,
+		"long_touch_threshold": 0.65,
+		"drag_deadzone": 10
 	},
 	"db": {
 		"paths": {
