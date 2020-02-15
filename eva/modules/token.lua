@@ -377,6 +377,7 @@ function M.pay_many(container_id, tokens, reason)
 	end
 end
 
+
 --- Pay multiply tokens by token_group_id
 -- @function eva.token.pay_group
 -- @tparam string token_group_id The token group id
@@ -464,6 +465,26 @@ function M.get_infinity_seconds(container_id, token_id)
 end
 
 
+--- Get current time to next restore point
+-- @function eva.token.get_seconds_to_restore
+function M.get_seconds_to_restore(container_id, token_id)
+	local config = M.get_restore_config(container_id, token_id)
+
+	if not config then
+		logger:warn("Get seconds to restore from token without restore", {
+			container_id = container_id,
+			token_id = token_id
+		})
+		return 0
+	end
+
+	local last = config.last_restore_time
+	local skipped = game.get_time() - last
+
+	return math.max(0, config.timer - skipped)
+end
+
+
 --- Reset visual debt of tokens
 -- @function eva.token.sync_visual
 function M.sync_visual(container_id, token_id)
@@ -482,26 +503,6 @@ end
 -- @function eva.token.get_visual
 function M.get_visual(container_id, token_id)
 	return get_token(container_id, token_id):get_visual()
-end
-
-
---- Get current time to next restore point
--- @function eva.token.get_seconds_to_restore
-function M.get_seconds_to_restore(container_id, token_id)
-	local config = M.get_restore_config(container_id, token_id)
-
-	if not config then
-		logger:warn("Get seconds to restore from token without restore", {
-			container_id = container_id,
-			token_id = token_id
-		})
-		return 0
-	end
-
-	local last = config.last_restore_time
-	local skipped = game.get_time() - last
-
-	return math.max(0, config.timer - skipped)
 end
 
 
