@@ -1,0 +1,57 @@
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_006.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_007.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_008.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_021.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_022.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_023.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_036.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_037.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_038.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_066.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_067.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_068.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_081.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_082.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_083.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_096.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_097.png"
+}
+images {
+  image: "/hextest/assets/basic/grid/grid_cell/images/mapTile_098.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

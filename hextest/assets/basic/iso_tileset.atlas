@@ -1,0 +1,54 @@
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/dirt_E.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/dirt_N.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/dirt_S.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/dirt_W.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stone_E.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stone_N.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stone_S.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stone_W.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneCorner_E.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneCorner_N.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneCorner_S.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneCorner_W.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneInset_E.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneSideUneven_E.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneStep_W.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneTile_N.png"
+}
+images {
+  image: "/hextest/assets/basic/iso_tileset/iso_tile/images/stoneUneven_N.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0
