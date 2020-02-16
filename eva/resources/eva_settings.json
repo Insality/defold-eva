@@ -44,19 +44,19 @@
 	},
 	"camera": {
 		"input_priority": 3,
-		"move_lerp_speed": 0.75,
+		"move_lerp_speed": 0.81,
 		"move_border_lerp_speed": 0.09,
-		"zoom_lerp_speed": 0.5,
+		"zoom_lerp_speed": 0.6,
 		"zoom_border_lerp_speed": 0.06,
 		"friction": 0.88,
 		"friction_hold": 0.68,
-		"inertion_koef": 0.33
+		"inertion_koef": 0.37
 	},
 	"input": {
 		"multi_touch": true,
 		"long_touch_threshold": 0.65,
 		"drag_deadzone": 10,
-		"zoom_speed": 0.85
+		"zoom_speed": 2.5
 	},
 	"db": {
 		"paths": {
