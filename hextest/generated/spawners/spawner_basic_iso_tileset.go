@@ -1,7 +1,7 @@
 embedded_components {
   id: "iso_tile"
   type: "factory"
-  data: "prototype: \"/hextest/generated/objects/basic_iso_tileset/iso_tile.go\"\n"
+  data: "prototype: \"/hextest/assets/basic/iso_tileset/iso_tile/iso_tile.go\"\n"
   "load_dynamically: false\n"
   ""
   position {

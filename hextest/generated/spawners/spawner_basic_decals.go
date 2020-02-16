@@ -1,7 +1,7 @@
 embedded_components {
   id: "bush"
   type: "factory"
-  data: "prototype: \"/hextest/generated/objects/basic_decals/bush.go\"\n"
+  data: "prototype: \"/hextest/assets/basic/decals/bush/bush.go\"\n"
   "load_dynamically: false\n"
   ""
   position {
@@ -19,7 +19,7 @@ embedded_components {
 embedded_components {
   id: "cactus"
   type: "factory"
-  data: "prototype: \"/hextest/generated/objects/basic_decals/cactus.go\"\n"
+  data: "prototype: \"/hextest/assets/basic/decals/cactus/cactus.go\"\n"
   "load_dynamically: false\n"
   ""
   position {
@@ -37,7 +37,7 @@ embedded_components {
 embedded_components {
   id: "flower"
   type: "factory"
-  data: "prototype: \"/hextest/generated/objects/basic_decals/flower.go\"\n"
+  data: "prototype: \"/hextest/assets/basic/decals/flower/flower.go\"\n"
   "load_dynamically: false\n"
   ""
   position {

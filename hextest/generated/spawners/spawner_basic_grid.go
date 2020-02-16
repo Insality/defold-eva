@@ -1,7 +1,7 @@
 embedded_components {
   id: "grid_cell"
   type: "factory"
-  data: "prototype: \"/hextest/generated/objects/basic_grid/grid_cell.go\"\n"
+  data: "prototype: \"/hextest/assets/basic/grid/grid_cell/grid_cell.go\"\n"
   "load_dynamically: false\n"
   ""
   position {

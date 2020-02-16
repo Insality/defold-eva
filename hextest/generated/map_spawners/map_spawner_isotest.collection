@@ -1,7 +1,7 @@
 name: "map_spawner_isotest"
 instances {
-  id: "spawner_iso_tileset"
-  prototype: "/hextest/generated/spawners/spawner_iso_tileset.go"
+  id: "spawner_basic_iso_tileset"
+  prototype: "/hextest/generated/spawners/spawner_basic_iso_tileset.go"
   position {
     x: 0.0
     y: 0.0
@@ -20,8 +20,8 @@ instances {
   }
 }
 instances {
-  id: "spawner_resources"
-  prototype: "/hextest/generated/spawners/spawner_resources.go"
+  id: "spawner_basic_resources"
+  prototype: "/hextest/generated/spawners/spawner_basic_resources.go"
   position {
     x: 0.0
     y: 0.0

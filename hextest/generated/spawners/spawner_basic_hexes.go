@@ -1,7 +1,7 @@
 embedded_components {
   id: "hex"
   type: "factory"
-  data: "prototype: \"/hextest/generated/objects/basic_hexes/hex.go\"\n"
+  data: "prototype: \"/hextest/assets/basic/hexes/hex/hex.go\"\n"
   "load_dynamically: false\n"
   ""
   position {

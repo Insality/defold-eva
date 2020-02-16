@@ -1,11 +1,11 @@
 tiled="/Applications/Tiled.app/Contents/MacOS/Tiled"
 
-$tiled --export-tileset ./hextest/tiled/maps/resources.tsx ./resources/tiled/resources.json
-$tiled --export-tileset ./hextest/tiled/maps/decals.tsx ./resources/tiled/decals.json
-$tiled --export-tileset ./hextest/tiled/maps/hexes.tsx ./resources/tiled/hexes.json
-$tiled --export-tileset ./hextest/tiled/maps/iso_tileset.tsx ./resources/tiled/iso_tileset.json
-$tiled --export-tileset ./hextest/tiled/maps/grid.tsx ./resources/tiled/grid.json
+$tiled --export-tileset ./hextest/tiled/tilesets/basic_resources.tsx ./resources/tilesets/basic_resources.json
+$tiled --export-tileset ./hextest/tiled/tilesets/basic_decals.tsx ./resources/tilesets/basic_decals.json
+$tiled --export-tileset ./hextest/tiled/tilesets/basic_hexes.tsx ./resources/tilesets/basic_hexes.json
+$tiled --export-tileset ./hextest/tiled/tilesets/basic_iso_tileset.tsx ./resources/tilesets/basic_iso_tileset.json
+$tiled --export-tileset ./hextest/tiled/tilesets/basic_grid.tsx ./resources/tilesets/basic_grid.json
 
-$tiled --export-map ./hextest/tiled/maps/hextest.tmx ./resources/tiled/hextest.json
-$tiled --export-map ./hextest/tiled/maps/isotest.tmx ./resources/tiled/isotest.json
-$tiled --export-map ./hextest/tiled/maps/gridtest.tmx ./resources/tiled/gridtest.json
+$tiled --export-map ./hextest/tiled/maps/hextest.tmx ./resources/maps/hextest.json
+$tiled --export-map ./hextest/tiled/maps/isotest.tmx ./resources/maps/isotest.json
+$tiled --export-map ./hextest/tiled/maps/gridtest.tmx ./resources/maps/gridtest.json
