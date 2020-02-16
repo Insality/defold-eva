@@ -1,7 +1,7 @@
 name: "map_spawner_hextest"
 instances {
-  id: "spawner_hexes"
-  prototype: "/hextest/generated/spawners/spawner_hexes.go"
+  id: "spawner_basic_decals"
+  prototype: "/hextest/generated/spawners/spawner_basic_decals.go"
   position {
     x: 0.0
     y: 0.0
@@ -20,8 +20,8 @@ instances {
   }
 }
 instances {
-  id: "spawner_decals"
-  prototype: "/hextest/generated/spawners/spawner_decals.go"
+  id: "spawner_basic_hexes"
+  prototype: "/hextest/generated/spawners/spawner_basic_hexes.go"
   position {
     x: 0.0
     y: 0.0
@@ -40,8 +40,8 @@ instances {
   }
 }
 instances {
-  id: "spawner_resources"
-  prototype: "/hextest/generated/spawners/spawner_resources.go"
+  id: "spawner_basic_resources"
+  prototype: "/hextest/generated/spawners/spawner_basic_resources.go"
   position {
     x: 0.0
     y: 0.0
