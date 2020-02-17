@@ -279,17 +279,17 @@ end
 
 --- Delete tile from the map by tile pos
 -- @function eva.tiled.delete_tile
--- @tparam string name Name of tileset
+-- @tparam string layer Name of the tiled layer
 -- @tparam number i Cell x position
 -- @tparam number j Cell y position
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.delete_tile(name, i, j, map_data)
+function M.delete_tile(layer_name, i, j, map_data)
 	map_data = map_data or app.tiled_map_default
 
-	local layer = map_data.tiles[name]
+	local layer = map_data.tiles[layer_name]
 	if not layer then
-		logger.warn("No layer witn name in map_data", { name = name })
+		logger.warn("No layer witn name in map_data", { layer_name = layer_name })
 		return nil
 	end
 
