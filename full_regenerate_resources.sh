@@ -5,7 +5,7 @@ bash ./tools/tiled_export.sh
 rm -rf ./hextest/generated
 node ~/code/js/defold-tiled-generator/index.js ./resources/tilesets/ ./resources/maps/ ./hextest/generated/
 
-# rm -rf ./resources/tilesets
+rm -rf ./resources/tilesets
 rm ./resources/mapping.json
 mv ./hextest/generated/mapping.json ./resources/mapping.json
 

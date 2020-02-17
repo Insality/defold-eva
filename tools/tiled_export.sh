@@ -1,5 +1,6 @@
 tiled="/Applications/Tiled.app/Contents/MacOS/Tiled"
 
+mkdir -p ./resources/tilesets/
 $tiled --export-tileset ./hextest/tiled/tilesets/basic_resources.tsx ./resources/tilesets/basic_resources.json
 $tiled --export-tileset ./hextest/tiled/tilesets/basic_decals.tsx ./resources/tilesets/basic_decals.json
 $tiled --export-tileset ./hextest/tiled/tilesets/basic_hexes.tsx ./resources/tilesets/basic_hexes.json
