@@ -1,0 +1,27 @@
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileAutumn_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileDirt_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileGrass_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileLava_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileMagic_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileRock_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileSand_tile.png"
+}
+images {
+  image: "/hextest/assets/basic/hexes/hex/images/tileWater_tile.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

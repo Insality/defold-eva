@@ -185,7 +185,6 @@ end
 -- @function eva.on_input
 function M.on_input(action_id, action)
 	M.input.on_input(action_id, action)
-	-- call_each_module("on_input", action_id, action)
 end
 
 

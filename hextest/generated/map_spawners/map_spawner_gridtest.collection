@@ -1,7 +1,7 @@
 name: "map_spawner_gridtest"
 instances {
-  id: "spawner_grid"
-  prototype: "/hextest/generated/spawners/spawner_grid.go"
+  id: "spawner_basic_grid"
+  prototype: "/hextest/generated/spawners/spawner_basic_grid.go"
   position {
     x: 0.0
     y: 0.0
@@ -20,8 +20,8 @@ instances {
   }
 }
 instances {
-  id: "spawner_resources"
-  prototype: "/hextest/generated/spawners/spawner_resources.go"
+  id: "spawner_basic_resources"
+  prototype: "/hextest/generated/spawners/spawner_basic_resources.go"
   position {
     x: 0.0
     y: 0.0

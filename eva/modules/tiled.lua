@@ -27,8 +27,29 @@ local logger = log.get_logger("eva.tiled")
 local M = {}
 
 
-local function get_mapping_data()
-	return db.get(app.settings.tiled.mapping_config)
+local function get_spawner_name_by_index(tiled_data, gid)
+	local tilesets = tiled_data.tilesets
+
+	local name
+	for i = 1, #tilesets do
+		if gid >= tilesets[i].firstgid then
+			name = tilesets[i].name
+		end
+	end
+
+	return name
+end
+
+
+local function get_id_by_gid(tiled_data, gid)
+	local name = get_spawner_name_by_index(tiled_data, gid)
+	local tilesets = tiled_data.tilesets
+
+	for i = 1, #tilesets do
+		if name == tilesets[i].name then
+			return gid - tilesets[i].firstgid
+		end
+	end
 end
 
 
@@ -52,27 +73,28 @@ local function get_layer_props(tiled_data)
 end
 
 
-local function add_tile(map_data, name, i, j, index)
+local function add_tile(map_data, layer_name, spawner_name, i, j, index)
 	local settings = app.settings.tiled
-	local mapping_data = get_mapping_data()
-	local object_data = mapping_data[name][tostring(index)]
+	local mapping_data = M.get_mapping()
+	local object_data = mapping_data[spawner_name][tostring(index)]
 
-	local tile_layer = map_data.tiles[name]
+	local tile_layer = map_data.tiles[layer_name]
 	tile_layer[i] = tile_layer[i] or {}
 
 	if tile_layer[i][j] then
-		logger:error("Tile already exist", { name = name, i = i, j = j })
+		logger:error("Tile already exist", { layer_name = layer_name, i = i, j = j })
 		return
 	end
 
-	local z_layer = map_data.layer_props[name].z_layer or settings.z_layer_tiles_default
+	local z_layer = map_data.layer_props[layer_name].z_layer or settings.z_layer_tiles_default
 	local position = map_data.grid.get_tile_pos(i, j, z_layer)
-	local gameobject = map_data.create_object_fn(name, index, position)
+	local gameobject = map_data.create_object_fn(spawner_name, index, position)
 
 	local object_info = {
 		go = gameobject,
 		index = index,
-		layer = name,
+		layer_name = layer_name,
+		spawner_name = spawner_name,
 		properties = object_data.properties
 	}
 
@@ -81,19 +103,20 @@ local function add_tile(map_data, name, i, j, index)
 end
 
 
-local function add_object(map_data, name, x, y, index)
+local function add_object(map_data, layer_name, spawner_name, x, y, index)
 	local settings = app.settings.tiled
-	local mapping_data = get_mapping_data()
-	local object_data = mapping_data[name][tostring(index)]
+	local mapping_data = M.get_mapping()
+	local object_data = mapping_data[spawner_name][tostring(index)]
 
-	local z_layer = map_data.layer_props[name].z_layer or settings.z_layer_objects_default
+	local z_layer = map_data.layer_props[layer_name].z_layer or settings.z_layer_objects_default
 	local position = map_data.grid.get_object_pos(x, y, z_layer)
-	local gameobject = map_data.create_object_fn(name, index, position)
+	local gameobject = map_data.create_object_fn(spawner_name, index, position)
 
 	local object_info = {
 		go = gameobject,
 		index = index,
-		layer = name,
+		layer_name = layer_name,
+		spawner_name = spawner_name,
 		properties = object_data.properties
 	}
 
@@ -102,27 +125,28 @@ local function add_object(map_data, name, x, y, index)
 end
 
 
-local function process_tiles(map_data, tiled_data, index)
-	local layer = tiled_data.layers[index]
+local function process_tiles(map_data, tiled_data, layer)
 	local width = layer.width
-	local name = layer.name
+	local layer_name = layer.name
 
-	if map_data.tiles[name] then
-		logger:error("Wrong tiles layer name. Duplicate", { name = name })
+	if map_data.tiles[layer_name] then
+		logger:error("Wrong tiles layer name. Duplicate", { layer_name = layer_name })
 		return
 	end
 
-	map_data.tiles[name] = {}
-	local tile_layer = map_data.tiles[name]
+	map_data.tiles[layer_name] = {}
+	local tile_layer = map_data.tiles[layer_name]
 
 	for i = 1, #layer.data do
-		local value = layer.data[i]
+		local spawner_name = get_spawner_name_by_index(tiled_data, layer.data[i])
+		local value = get_id_by_gid(tiled_data, layer.data[i])
+
 		local cell_y = math.floor((i-1) / width)
 		local cell_x = (i-1) - (cell_y * width)
 		tile_layer[cell_x] = tile_layer[cell_x] or {}
 
-		if value > 0 then
-			add_tile(map_data, name, cell_x, cell_y, value - 1)
+		if layer.data[i] > 0 then
+			add_tile(map_data, layer_name, spawner_name, cell_x, cell_y, value)
 		else
 			tile_layer[cell_x][cell_y] = false
 		end
@@ -130,27 +154,27 @@ local function process_tiles(map_data, tiled_data, index)
 end
 
 
-local function process_objects(map_data, tiled_data, index)
-	local mapping_data = get_mapping_data()
-	local layer = tiled_data.layers[index]
-	local name = layer.name
+local function process_objects(map_data, tiled_data, layer)
+	local mapping_data = M.get_mapping()
+	local layer_name = layer.name
 
-	if map_data.tiles[name] then
-		logger:error("Wrong tiles layer name. Duplicate", { name = name })
+	if map_data.tiles[layer_name] then
+		logger:error("Wrong objects layer name. Duplicate", { layer_name = layer_name })
 		return
 	end
 
-	map_data.objects[name] = {}
+	map_data.objects[layer_name] = {}
 
 	local objects = layer.objects
 	for i = 1, #objects do
 		local object = objects[i]
-		local gid_offset = tiled_data.tilesets[index].firstgid
-		local object_id = object.gid - gid_offset
+		local gid = object.gid
+		local spawner_name = get_spawner_name_by_index(tiled_data, gid)
+		local id = get_id_by_gid(tiled_data, gid)
 		-- TODO: Take object name from GID? in one layer can be different tilesets
-		local object_data = mapping_data[name][tostring(object_id)]
+		local object_data = mapping_data[spawner_name][tostring(id)]
 
-		local is_grid_center = map_data.layer_props[name].grid_center or false
+		local is_grid_center = map_data.layer_props[layer_name].grid_center or false
 
 		-- Offset is anchor from tiled object setup
 		local offset = vmath.vector3(
@@ -159,7 +183,7 @@ local function process_objects(map_data, tiled_data, index)
 		0)
 		local scene_x, scene_y = map_data.grid.get_tiled_scene_pos(object.x, object.y, offset, is_grid_center)
 
-		add_object(map_data, name, scene_x, scene_y, object_id)
+		add_object(map_data, layer_name, spawner_name, scene_x, scene_y, id)
 	end
 end
 
@@ -199,13 +223,12 @@ function M.load_map(tiled_data, create_object_fn)
 	map_data.grid.set_default_map_params(map_params)
 
 	local map_layers = tiled_data.layers
-
 	for index = 1, #map_layers do
 		if map_layers[index].type == "tilelayer" then
-			process_tiles(map_data, tiled_data, index)
+			process_tiles(map_data, tiled_data, map_layers[index])
 		end
 		if map_layers[index].type == "objectgroup" then
-			process_objects(map_data, tiled_data, index)
+			process_objects(map_data, tiled_data, map_layers[index])
 		end
 	end
 
@@ -217,31 +240,32 @@ end
 
 --- Add tile to the map by tile index from tiled tileset
 -- @function eva.tiled.add_tile
--- @tparam string name Name of tileset
+-- @tparam string layer_name Name of tiled layer
+-- @tparam string spawner_name Name of tileset
 -- @tparam number i Cell x position
 -- @tparam number j Cell y position
 -- @tparam number index Tile index from tileset
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.add_tile(name, i, j, index, map_data)
+function M.add_tile(layer_name, spawner_name, i, j, index, map_data)
 	map_data = map_data or app.tiled_map_default
-	add_tile(map_data, name, i, j, index)
+	add_tile(map_data, layer_name, spawner_name, i, j, index)
 end
 
 
 --- Get tile from the map by tile pos
 -- @function eva.tiled.get_tile
--- @tparam string name Name of tileset
+-- @tparam string layer_name Name of tiled layer
 -- @tparam number i Cell x position
 -- @tparam number j Cell y position
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.get_tile(name, i, j, map_data)
+function M.get_tile(layer_name, i, j, map_data)
 	map_data = map_data or app.tiled_map_default
 
-	local layer = map_data.tiles[name]
+	local layer = map_data.tiles[layer_name]
 	if not layer then
-		logger.warn("No layer witn name in map_data", { name = name })
+		logger:warn("No layer witn name in map_data", { layer_name = layer_name })
 		return nil
 	end
 
@@ -255,17 +279,17 @@ end
 
 --- Delete tile from the map by tile pos
 -- @function eva.tiled.delete_tile
--- @tparam string name Name of tileset
+-- @tparam string layer Name of the tiled layer
 -- @tparam number i Cell x position
 -- @tparam number j Cell y position
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.delete_tile(name, i, j, map_data)
+function M.delete_tile(layer_name, i, j, map_data)
 	map_data = map_data or app.tiled_map_default
 
-	local layer = map_data.tiles[name]
+	local layer = map_data.tiles[layer_name]
 	if not layer then
-		logger.warn("No layer witn name in map_data", { name = name })
+		logger.warn("No layer witn name in map_data", { layer_name = layer_name })
 		return nil
 	end
 
@@ -288,15 +312,16 @@ end
 
 --- Add object to the map by object index from tiled tileset
 -- @function eva.tiled.add_object
--- @tparam string name Name of tileset
+-- @tparam string layer_name Name of tiled layer
+-- @tparam string spawner_name Name of tileset
 -- @tparam number x x position
 -- @tparam number y y position
 -- @tparam number index Object index from tileset
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.add_object(name, x, y, index, map_data)
+function M.add_object(layer_name, spawner_name, x, y, index, map_data)
 	map_data = map_data or app.tiled_map_default
-	add_object(map_data, name, x, y, index)
+	add_object(map_data, layer_name, spawner_name, x, y, index)
 end
 
 
@@ -327,6 +352,11 @@ function M.delete_object(game_object_id, map_data)
 	go.delete(object.go)
 	map_data.game_objects[object.go] = nil
 	map_data.objects[object.layer][object.go] = nil
+end
+
+
+function M.get_mapping()
+	return db.get(app.settings.tiled.mapping_config)
 end
 
 

@@ -25,6 +25,7 @@ local M = {}
 -- @tparam function callback The input callback
 -- @tparam number priority Priority of input. Lower first
 function M.register(context, name, callback, priority)
+	-- TODO: Check name is no exist
 	table.insert(app.input.stack, {
 		name = name,
 		callback = callback,
@@ -44,7 +45,7 @@ end
 -- @function eva.input.unregister
 -- @tparam string name Name of input system
 function M.unregister(name)
-	local result = luax.table.remove_item(app.input.stack, {
+	local result = luax.table.remove_by_dict(app.input.stack, {
 		name = name
 	})
 

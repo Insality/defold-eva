@@ -1,0 +1,30 @@
+images {
+  image: "/hextest/assets/basic/decals/bush/images/bushDirt.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/bush/images/bushGrass.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/cactus/images/treeCactus_1.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/cactus/images/treeCactus_2.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/cactus/images/treeCactus_3.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/flower/images/flowerGreen.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/flower/images/flowerRed.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/flower/images/flowerWhite.png"
+}
+images {
+  image: "/hextest/assets/basic/decals/flower/images/flowerYellow.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

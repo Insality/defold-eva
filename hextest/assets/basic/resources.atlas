@@ -1,0 +1,90 @@
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockDirt.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockDirt_moss1.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockDirt_moss2.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockDirt_moss3.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockStone.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockStone_moss1.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockStone_moss2.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_big/images/rockStone_moss3.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_small/images/smallRockDirt.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_small/images/smallRockGrass.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/rock_small/images/smallRockStone.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_high/images/pineAutumn_high.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_high/images/pineBlue_high.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_high/images/pineGreen_high.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_low/images/pineAutumn_low.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_low/images/pineBlue_low.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_low/images/pineGreen_low.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_medium/images/pineAutumn_mid.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_medium/images/pineBlue_mid.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_pine_medium/images/pineGreen_mid.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_high/images/treeAutumn_high.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_high/images/treeAutumn_mid.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_high/images/treeBlue_high.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_high/images/treeBlue_mid.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_high/images/treeGreen_high.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_high/images/treeGreen_mid.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_low/images/treeAutumn_low.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_low/images/treeBlue_low.png"
+}
+images {
+  image: "/hextest/assets/basic/resources/tree_round_low/images/treeGreen_low.png"
+}
+margin: 0
+extrude_borders: 2
+inner_padding: 0

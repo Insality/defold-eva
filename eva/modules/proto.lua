@@ -48,7 +48,11 @@ local function update_with_default_messages(proto_type, data)
 			if label == REPEATED then
 				for k, v in pairs(data[name]) do
 					local _, _, repeated_type = pb.field(type, VALUE)
-					data[name][k] = M.decode(repeated_type, M.encode(repeated_type, v))
+					local _, _, field_repeated_type = pb.type(repeated_type)
+
+					if field_repeated_type == MESSAGE then
+						data[name][k] = M.decode(repeated_type, M.encode(repeated_type, v))
+					end
 				end
 			end
 		end
