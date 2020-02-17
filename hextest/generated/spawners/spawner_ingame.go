@@ -1,7 +1,7 @@
 embedded_components {
-  id: "{1}"
+  id: "cursor"
   type: "factory"
-  data: "prototype: \"{2}\"\n"
+  data: "prototype: \"/hextest/assets/ingame/cursor/cursor.go\"\n"
   "load_dynamically: false\n"
   ""
   position {

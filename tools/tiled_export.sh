@@ -6,6 +6,7 @@ $tiled --export-tileset ./hextest/tiled/tilesets/basic_decals.tsx ./resources/ti
 $tiled --export-tileset ./hextest/tiled/tilesets/basic_hexes.tsx ./resources/tilesets/basic_hexes.json
 $tiled --export-tileset ./hextest/tiled/tilesets/basic_iso_tileset.tsx ./resources/tilesets/basic_iso_tileset.json
 $tiled --export-tileset ./hextest/tiled/tilesets/basic_grid.tsx ./resources/tilesets/basic_grid.json
+$tiled --export-tileset ./hextest/tiled/tilesets/ingame.tsx ./resources/tilesets/ingame.json
 
 $tiled --export-map ./hextest/tiled/maps/hextest.tmx ./resources/maps/hextest.json
 $tiled --export-map ./hextest/tiled/maps/isotest.tmx ./resources/maps/isotest.json
