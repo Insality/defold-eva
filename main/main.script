@@ -6,13 +6,13 @@ local mapping = require("hextest.mapping.mapping")
 
 local map_mapping = {
 	[hash("hex")] = {
-		"hexes", "/resources/tiled/hextest.json", "/map_spawner_hextest"
+		"hexes", "/resources/maps/hextest.json", "/map_spawner_hextest"
 	},
 	[hash("grid")] = {
-		"grid", "/resources/tiled/gridtest.json", "/map_spawner_gridtest"
+		"grid", "/resources/maps/gridtest.json", "/map_spawner_gridtest"
 	},
 	[hash("iso")] = {
-		"iso_tileset", "/resources/tiled/isotest.json", "/map_spawner_isotest"
+		"iso_tileset", "/resources/maps/isotest.json", "/map_spawner_isotest"
 	}
 }
 
@@ -23,9 +23,10 @@ local function get_spawner(prefix)
 	end
 end
 
+
 local function load_tiled_map(self, map_path)
 	local map = eva.utils.load_json(map_path)
-	local map_data = eva.tiled.load_map(map, get_spawner(map_mapping[go.get("#", "map")][3]))
+	local map_data = eva.tiled.load_map(map, get_spawner(map_mapping[self.map][3]))
 
 	self.map_data = map_data
 
