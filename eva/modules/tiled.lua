@@ -265,7 +265,7 @@ function M.get_tile(layer_name, i, j, map_data)
 
 	local layer = map_data.tiles[layer_name]
 	if not layer then
-		logger.warn("No layer witn name in map_data", { layer_name = layer_name })
+		logger:warn("No layer witn name in map_data", { layer_name = layer_name })
 		return nil
 	end
 

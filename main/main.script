@@ -141,3 +141,7 @@ end
 function on_message(self, message_id, message, sender)
 	eva.on_message(message_id, message, sender)
 end
+
+function final(self)
+	eva.input.unregister("game_example")
+end
