@@ -44,7 +44,7 @@
 	},
 	"camera": {
 		"input_priority": 3,
-		"move_lerp_speed": 0.81,
+		"move_lerp_speed": 0.87,
 		"move_border_lerp_speed": 0.09,
 		"zoom_lerp_speed": 0.6,
 		"zoom_border_lerp_speed": 0.06,

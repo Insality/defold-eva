@@ -73,7 +73,7 @@ local function get_layer_props(tiled_data)
 end
 
 
-local function add_tile(map_data, layer_name, spawner_name, i, j, index)
+local function add_tile(map_data, layer_name, spawner_name, index, i, j)
 	local settings = app.settings.tiled
 	local mapping_data = M.get_mapping()
 	local object_data = mapping_data[spawner_name][tostring(index)]
@@ -103,7 +103,7 @@ local function add_tile(map_data, layer_name, spawner_name, i, j, index)
 end
 
 
-local function add_object(map_data, layer_name, spawner_name, x, y, index)
+local function add_object(map_data, layer_name, spawner_name, index, x, y)
 	local settings = app.settings.tiled
 	local mapping_data = M.get_mapping()
 	local object_data = mapping_data[spawner_name][tostring(index)]
@@ -139,14 +139,14 @@ local function process_tiles(map_data, tiled_data, layer)
 
 	for i = 1, #layer.data do
 		local spawner_name = get_spawner_name_by_index(tiled_data, layer.data[i])
-		local value = get_id_by_gid(tiled_data, layer.data[i])
+		local object_id = get_id_by_gid(tiled_data, layer.data[i])
 
 		local cell_y = math.floor((i-1) / width)
 		local cell_x = (i-1) - (cell_y * width)
 		tile_layer[cell_x] = tile_layer[cell_x] or {}
 
 		if layer.data[i] > 0 then
-			add_tile(map_data, layer_name, spawner_name, cell_x, cell_y, value)
+			add_tile(map_data, layer_name, spawner_name, object_id, cell_x, cell_y)
 		else
 			tile_layer[cell_x][cell_y] = false
 		end
@@ -170,9 +170,9 @@ local function process_objects(map_data, tiled_data, layer)
 		local object = objects[i]
 		local gid = object.gid
 		local spawner_name = get_spawner_name_by_index(tiled_data, gid)
-		local id = get_id_by_gid(tiled_data, gid)
+		local object_id = get_id_by_gid(tiled_data, gid)
 		-- TODO: Take object name from GID? in one layer can be different tilesets
-		local object_data = mapping_data[spawner_name][tostring(id)]
+		local object_data = mapping_data[spawner_name][tostring(object_id)]
 
 		local is_grid_center = map_data.layer_props[layer_name].grid_center or false
 
@@ -183,7 +183,7 @@ local function process_objects(map_data, tiled_data, layer)
 		0)
 		local scene_x, scene_y = map_data.grid.get_tiled_scene_pos(object.x, object.y, offset, is_grid_center)
 
-		add_object(map_data, layer_name, spawner_name, scene_x, scene_y, id)
+		add_object(map_data, layer_name, spawner_name, object_id, scene_x, scene_y)
 	end
 end
 
@@ -242,14 +242,14 @@ end
 -- @function eva.tiled.add_tile
 -- @tparam string layer_name Name of tiled layer
 -- @tparam string spawner_name Name of tileset
+-- @tparam number index Tile index from tileset
 -- @tparam number i Cell x position
 -- @tparam number j Cell y position
--- @tparam number index Tile index from tileset
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.add_tile(layer_name, spawner_name, i, j, index, map_data)
+function M.add_tile(layer_name, spawner_name, index, i, j, map_data)
 	map_data = map_data or app.tiled_map_default
-	add_tile(map_data, layer_name, spawner_name, i, j, index)
+	add_tile(map_data, layer_name, spawner_name, index, i, j)
 end
 
 
@@ -314,12 +314,12 @@ end
 -- @function eva.tiled.add_object
 -- @tparam string layer_name Name of tiled layer
 -- @tparam string spawner_name Name of tileset
+-- @tparam number index Object index from tileset
 -- @tparam number x x position
 -- @tparam number y y position
--- @tparam number index Object index from tileset
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.add_object(layer_name, spawner_name, x, y, index, map_data)
+function M.add_object(layer_name, spawner_name, index, x, y, map_data)
 	map_data = map_data or app.tiled_map_default
 	add_object(map_data, layer_name, spawner_name, x, y, index)
 end
