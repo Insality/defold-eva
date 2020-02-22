@@ -1,11 +1,14 @@
 --- Defold Eva log module
 
-local luax = require("eva.luax")
+local inspect = require("eva.libs.inspect")
+
 local const = require("eva.const")
 
 local M = {}
 local _loggers = {}
 local _log = {}
+
+local INSPECT_PARAMS = { depth = 2, newline = "", indent = "" }
 
 local LEVEL = {
 	FATAL = 10,
@@ -48,7 +51,7 @@ end
 
 local function format(self, level, message, context)
 	local log_message = M.settings.format
-	local record_context = luax.table.tostring(context)
+	local record_context = inspect(context, INSPECT_PARAMS)
 
 	local caller_info = debug.getinfo(4)
 	log_message = string.gsub(log_message, "%%date", format_time(socket.gettime()))

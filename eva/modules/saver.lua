@@ -9,13 +9,14 @@
 -- @submodule eva
 
 
+local semver = require("eva.libs.semver")
+
 local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 
 local proto = require("eva.modules.proto")
-local utils = require("eva.modules.utils")
 local events = require("eva.modules.events")
 local migrations = require("eva.modules.migrations")
 
@@ -162,13 +163,10 @@ function M.after_eva_init()
 	local last_version = app[const.EVA.SAVER].last_game_version
 	local current_version = sys.get_config("project.version")
 
-	if last_version ~= "" then
-		local compare = utils.compare_versions(last_version, current_version)
-		if compare == -1 then
-			-- For some reasons, current version is lower when last one
-			-- TODO: Check this out later
-			logger:fatal("Downgrading game version", { previous = last_version, current = current_version })
-		end
+	if last_version ~= "" and semver(current_version) < semver(last_version) then
+		-- For some reasons, current version is lower when last one
+		-- TODO: Check this out later
+		logger:fatal("Downgrading game version", { previous = last_version, current = current_version })
 	end
 
 	app[const.EVA.SAVER].last_game_version = sys.get_config("project.version")
