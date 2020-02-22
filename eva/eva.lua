@@ -134,6 +134,20 @@ local function call_each_module(func_name, ...)
 end
 
 
+local function load_settings(settings_path)
+	local settings = utils.load_json(const.DEFAULT_SETTINGS_PATH)
+	if settings_path then
+		local custom_settings = utils.load_json(settings_path)
+		for key, value in pairs(custom_settings) do
+			luax.table.extend(settings[key], value)
+		end
+	end
+	app.settings = settings
+
+	assert(const.EVA_VERSION <= settings.eva.version, "Eva resources outdated, please update eva_settings, eva.proto and evadata.proto files")
+end
+
+
 --- Call this to init Eva module
 -- @function eva.init
 -- @tparam string settings_path path to eva_settings.json
@@ -144,15 +158,7 @@ function M.init(settings_path, module_settings)
 		second_counter = 1
 	}
 
-	local settings = utils.load_json(const.DEFAULT_SETTINGS_PATH)
-	if settings_path then
-		local custom_settings = utils.load_json(settings_path)
-		for key, value in pairs(custom_settings) do
-			luax.table.extend(settings[key], value)
-		end
-	end
-	app.settings = settings
-
+	load_settings(settings_path)
 	load_modules()
 	apply_module_settings(module_settings)
 
@@ -162,7 +168,7 @@ function M.init(settings_path, module_settings)
 	call_each_module("on_eva_init")
 	call_each_module("after_eva_init")
 
-	logger:debug("Eva init completed", { settings = settings_path })
+	logger:debug("Eva init completed", { settings = settings_path, version = app.settings.eva.version })
 end
 
 

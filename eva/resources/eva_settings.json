@@ -1,4 +1,7 @@
 {
+	"eva": {
+		"version": 1
+	},
 	"server": {
 		"is_disabled": true,
 		"game_id": "FFFFF"
