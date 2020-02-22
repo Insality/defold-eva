@@ -123,7 +123,7 @@ function init(self)
 	local borders = vmath.vector4(x - 1000, y - 1000, x + 1000, y + 1000)
 	eva.camera.set_borders(borders * 0.9, borders)
 
-	eva.push.schedule(10, "Game", "text", "return", {hello = "data"})
+	-- eva.push.schedule(10, "Game", "text", "return", {hello = "data"})
 	eva.input.register(self, "game_example", on_game_input, 2)
 end
 
