@@ -46,8 +46,10 @@
 <li><a href="#modules_grid_Functions">modules.grid Functions</a></li>
 <li><a href="#modules_hexgrid_Functions">modules.hexgrid Functions</a></li>
 <li><a href="#modules_iaps_Functions">modules.iaps Functions</a></li>
+<li><a href="#modules_input_Functions">modules.input Functions</a></li>
 <li><a href="#modules_invoices_Functions">modules.invoices Functions</a></li>
 <li><a href="#modules_isogrid_Functions">modules.isogrid Functions</a></li>
+<li><a href="#modules_labels_Functions">modules.labels Functions</a></li>
 <li><a href="#modules_lang_Functions">modules.lang Functions</a></li>
 <li><a href="#modules_migrations_Functions">modules.migrations Functions</a></li>
 <li><a href="#modules_offers_Functions">modules.offers Functions</a></li>
@@ -78,6 +80,8 @@
   <li><strong>eva</strong></li>
   <li><a href="../modules/log.html">log</a></li>
   <li><a href="../modules/luax.html">luax</a></li>
+  <li><a href="../modules/modules.input.input_pinch.html">modules.input.input_pinch</a></li>
+  <li><a href="../modules/modules.input.input_touch.html">modules.input.input_touch</a></li>
   <li><a href="../modules/scripts.grid_handler.html">scripts.grid_handler</a></li>
   <li><a href="../modules/scripts.hexgrid_handler.html">scripts.hexgrid_handler</a></li>
   <li><a href="../modules/scripts.isogrid_handler.html">scripts.isogrid_handler</a></li>
@@ -143,6 +147,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.set_enabled">eva.ads.set_enabled(state)</a></td>
 	<td class="summary">Set enabled ads state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.get_watched">eva.ads.get_watched(Total)</a></td>
+	<td class="summary">Get total ads watched</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.is_enabled">eva.ads.is_enabled()</a></td>
@@ -360,6 +368,10 @@
 	<td class="name" nowrap><a href="#eva.game.get_current_time_string">eva.game.get_current_time_string()</a></td>
 	<td class="summary">Get current time in string format</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_days_played">eva.game.get_days_played()</a></td>
+	<td class="summary">Get days since first game launch</td>
+	</tr>
 </table>
 <h2><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></h2>
 <table class="function_list">
@@ -490,6 +502,22 @@
 	<td class="name" nowrap><a href="#eva.iaps.refresh_iap_list">eva.iaps.refresh_iap_list()</a></td>
 	<td class="summary">Refresh iap list.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.get_ltv">eva.iaps.get_ltv()</a></td>
+	<td class="summary">Get total lifetime value (from iaps)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.iaps.get_max_pay">eva.iaps.get_max_pay()</a></td>
+	<td class="summary">Get player max payment</td>
+	</tr>
+</table>
+<h2><a href="#modules_input_Functions">modules.input Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.input.register">eva.input.register(name, callback, priority)</a></td>
+	<td class="summary">Register the input to handle user actions
+ If callback return true it will stop handle next input</td>
+	</tr>
 </table>
 <h2><a href="#modules_invoices_Functions">modules.invoices Functions</a></h2>
 <table class="function_list">
@@ -555,6 +583,13 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.isogrid.get_tile_pos">eva.isogrid.get_tile_pos()</a></td>
 	<td class="summary">Get tile position.</td>
+	</tr>
+</table>
+<h2><a href="#modules_labels_Functions">modules.labels Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.labels.is_exist">eva.labels.is_exist(label)</a></td>
+	<td class="summary">Check label is exist in player profile</td>
 	</tr>
 </table>
 <h2><a href="#modules_lang_Functions">modules.lang Functions</a></h2>
@@ -872,19 +907,19 @@
 	<td class="summary">Load map from tiled json data</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.add_tile">eva.tiled.add_tile(name, i, j, index[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.add_tile">eva.tiled.add_tile(layer_name, spawner_name, index, i, j[, map_data])</a></td>
 	<td class="summary">Add tile to the map by tile index from tiled tileset</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.get_tile">eva.tiled.get_tile(name, i, j[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.get_tile">eva.tiled.get_tile(layer_name, i, j[, map_data])</a></td>
 	<td class="summary">Get tile from the map by tile pos</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.delete_tile">eva.tiled.delete_tile(name, i, j[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.delete_tile">eva.tiled.delete_tile(layer, i, j[, map_data])</a></td>
 	<td class="summary">Delete tile from the map by tile pos</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(name, x, y, index[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(layer_name, spawner_name, index, x, y[, map_data])</a></td>
 	<td class="summary">Add object to the map by object index from tiled tileset</td>
 	</tr>
 	<tr>
@@ -944,7 +979,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.get_tokens">eva.token.get_tokens(tokens)</a></td>
-	<td class="summary">Return evadata.Tokens tokens format</td>
+	<td class="summary">Return evadata.Tokens tokens format.</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.get_token_group">eva.token.get_token_group(token_group_id)</a></td>
@@ -1027,6 +1062,10 @@
 	<td class="summary">Get amount of seconds till end of infinity time</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_seconds_to_restore">eva.token.get_seconds_to_restore()</a></td>
+	<td class="summary">Get current time to next restore point</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.token.sync_visual">eva.token.sync_visual()</a></td>
 	<td class="summary">Reset visual debt of tokens</td>
 	</tr>
@@ -1037,10 +1076,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.get_visual">eva.token.get_visual()</a></td>
 	<td class="summary">Get current visual debt of token</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.token.get_seconds_to_restore">eva.token.get_seconds_to_restore()</a></td>
-	<td class="summary">Get current time to next restore point</td>
 	</tr>
 </table>
 <h2><a href="#modules_trucks_Functions">modules.trucks Functions</a></h2>
@@ -1097,10 +1132,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.utils.load_json">eva.utils.load_json()</a></td>
 	<td class="summary">Load json from bundled resource</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.utils.compare_versions">eva.utils.compare_versions(version_a, version_b)</a></td>
-	<td class="summary">Compare two project version.</td>
 	</tr>
 </table>
 <h2><a href="#modules_wallet_Functions">modules.wallet Functions</a></h2>
@@ -1393,6 +1424,27 @@
         <li><span class="parameter">state</span>
             <span class="types"><span class="type">bool</span></span>
          ads state
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.get_watched"></a>
+    <strong>eva.ads.get_watched(Total)</strong>
+    </dt>
+    <dd>
+    Get total ads watched
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">Total</span>
+            <span class="types"><span class="type">number</span></span>
+         watched ads count
         </li>
     </ul>
 
@@ -2406,6 +2458,26 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.game.get_days_played"></a>
+    <strong>eva.game.get_days_played()</strong>
+    </dt>
+    <dd>
+    Get days since first game launch
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Days since first game launch
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_gdpr_Functions"></a>modules.gdpr Functions</h2>
 
@@ -2950,6 +3022,12 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Price of iap
+    </ol>
 
 
 
@@ -2971,6 +3049,12 @@
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+        The iap price string
+    </ol>
 
 
 
@@ -2986,6 +3070,80 @@
  Throw EVENT.IAP_UPDATE at end
 
 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.iaps.get_ltv"></a>
+    <strong>eva.iaps.get_ltv()</strong>
+    </dt>
+    <dd>
+    Get total lifetime value (from iaps)
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Player's LTV
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.iaps.get_max_pay"></a>
+    <strong>eva.iaps.get_max_pay()</strong>
+    </dt>
+    <dd>
+    Get player max payment
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Max player payment
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_input_Functions"></a>modules.input Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.input.register"></a>
+    <strong>eva.input.register(name, callback, priority)</strong>
+    </dt>
+    <dd>
+    Register the input to handle user actions
+ If callback return true it will stop handle next input
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of input system
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The input callback
+        </li>
+        <li><span class="parameter">priority</span>
+            <span class="types"><span class="type">number</span></span>
+         Priority of input. Lower first
+        </li>
+    </ul>
 
 
 
@@ -3282,6 +3440,37 @@
 
            <span class="types"><span class="type">vector3</span></span>
         Tile position
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_labels_Functions"></a>modules.labels Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.labels.is_exist"></a>
+    <strong>eva.labels.is_exist(label)</strong>
+    </dt>
+    <dd>
+    Check label is exist in player profile
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">label</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The label id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if label in player profile
     </ol>
 
 
@@ -4624,7 +4813,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.add_tile"></a>
-    <strong>eva.tiled.add_tile(name, i, j, index[, map_data])</strong>
+    <strong>eva.tiled.add_tile(layer_name, spawner_name, index, i, j[, map_data])</strong>
     </dt>
     <dd>
     Add tile to the map by tile index from tiled tileset
@@ -4632,9 +4821,17 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">name</span>
+        <li><span class="parameter">layer_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of tiled layer
+        </li>
+        <li><span class="parameter">spawner_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Name of tileset
+        </li>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         Tile index from tileset
         </li>
         <li><span class="parameter">i</span>
             <span class="types"><span class="type">number</span></span>
@@ -4643,10 +4840,6 @@
         <li><span class="parameter">j</span>
             <span class="types"><span class="type">number</span></span>
          Cell y position
-        </li>
-        <li><span class="parameter">index</span>
-            <span class="types"><span class="type">number</span></span>
-         Tile index from tileset
         </li>
         <li><span class="parameter">map_data</span>
             <span class="types"><span class="type">map_data</span></span>
@@ -4663,7 +4856,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.get_tile"></a>
-    <strong>eva.tiled.get_tile(name, i, j[, map_data])</strong>
+    <strong>eva.tiled.get_tile(layer_name, i, j[, map_data])</strong>
     </dt>
     <dd>
     Get tile from the map by tile pos
@@ -4671,9 +4864,9 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">name</span>
+        <li><span class="parameter">layer_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Name of tileset
+         Name of tiled layer
         </li>
         <li><span class="parameter">i</span>
             <span class="types"><span class="type">number</span></span>
@@ -4698,7 +4891,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.delete_tile"></a>
-    <strong>eva.tiled.delete_tile(name, i, j[, map_data])</strong>
+    <strong>eva.tiled.delete_tile(layer, i, j[, map_data])</strong>
     </dt>
     <dd>
     Delete tile from the map by tile pos
@@ -4706,9 +4899,9 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">name</span>
+        <li><span class="parameter">layer</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         Name of tileset
+         Name of the tiled layer
         </li>
         <li><span class="parameter">i</span>
             <span class="types"><span class="type">number</span></span>
@@ -4733,7 +4926,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.add_object"></a>
-    <strong>eva.tiled.add_object(name, x, y, index[, map_data])</strong>
+    <strong>eva.tiled.add_object(layer_name, spawner_name, index, x, y[, map_data])</strong>
     </dt>
     <dd>
     Add object to the map by object index from tiled tileset
@@ -4741,9 +4934,17 @@
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">name</span>
+        <li><span class="parameter">layer_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of tiled layer
+        </li>
+        <li><span class="parameter">spawner_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
          Name of tileset
+        </li>
+        <li><span class="parameter">index</span>
+            <span class="types"><span class="type">number</span></span>
+         Object index from tileset
         </li>
         <li><span class="parameter">x</span>
             <span class="types"><span class="type">number</span></span>
@@ -4752,10 +4953,6 @@
         <li><span class="parameter">y</span>
             <span class="types"><span class="type">number</span></span>
          y position
-        </li>
-        <li><span class="parameter">index</span>
-            <span class="types"><span class="type">number</span></span>
-         Object index from tileset
         </li>
         <li><span class="parameter">map_data</span>
             <span class="types"><span class="type">map_data</span></span>
@@ -5074,7 +5271,7 @@
     <strong>eva.token.get_tokens(tokens)</strong>
     </dt>
     <dd>
-    Return evadata.Tokens tokens format
+    Return evadata.Tokens tokens format.  Used in *_tokens methods
 
 
     <h3>Parameters:</h3>
@@ -5477,6 +5674,20 @@
 
 </dd>
     <dt>
+    <a name = "eva.token.get_seconds_to_restore"></a>
+    <strong>eva.token.get_seconds_to_restore()</strong>
+    </dt>
+    <dd>
+    Get current time to next restore point
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.token.sync_visual"></a>
     <strong>eva.token.sync_visual()</strong>
     </dt>
@@ -5510,20 +5721,6 @@
     </dt>
     <dd>
     Get current visual debt of token
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.token.get_seconds_to_restore"></a>
-    <strong>eva.token.get_seconds_to_restore()</strong>
-    </dt>
-    <dd>
-    Get current time to next restore point
 
 
 
@@ -5812,38 +6009,6 @@
 
 
 
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.utils.compare_versions"></a>
-    <strong>eva.utils.compare_versions(version_a, version_b)</strong>
-    </dt>
-    <dd>
-    Compare two project version.
- Version format should be in semver("x.y.z")
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">version_a</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         project version
-        </li>
-        <li><span class="parameter">version_b</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         project version
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">int</span></span>
-        -1 if version_a higher, 1 if version_b higher, 0 if they are equal
-    </ol>
 
 
 
@@ -6313,7 +6478,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-01-29 21:13:47 </i>
+<i style="float:right;">Last updated 2020-03-01 15:25:28 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
