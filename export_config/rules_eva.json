@@ -95,6 +95,27 @@
 			"lists": ["Trucks"]
 		},
 
+		"labels": {
+			"lists": ["Labels"],
+			"handlers": [
+				{
+					"type": "union_fields",
+					"config": [
+						{
+							"name": "spec_cond",
+							"union_type": "array",
+							"fields": ["spec_cond1", "spec_cond2", "spec_cond3"]
+						},
+						{
+							"name": "token_cond",
+							"union_type": "array",
+							"fields": ["token_cond1", "token_cond2", "token_cond3"]
+						}
+					]
+				}
+			]
+		},
+
 		"quests": {
 			"lists": ["Quests"],
 			"handlers": [

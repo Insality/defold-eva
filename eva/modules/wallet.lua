@@ -60,8 +60,8 @@ end
 
 --- Get current token amount from save
 -- @function eva.wallet.get
-function M.get(token_id, amount)
-	return token.get(const.WALLET_CONTAINER, token_id, amount)
+function M.get(token_id)
+	return token.get(const.WALLET_CONTAINER, token_id)
 end
 
 

@@ -47,6 +47,7 @@ local function load_modules()
 		input = require("eva.modules.input"),
 		invoices = require("eva.modules.invoices"),
 		isogrid = require("eva.modules.isogrid"),
+		labels = require("eva.modules.labels"),
 		lang = require("eva.modules.lang"),
 		loader = require("eva.modules.loader"),
 		migrations = require("eva.modules.migrations"),

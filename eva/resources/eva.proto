@@ -24,6 +24,10 @@ message Lang {
 	string lang = 1;
 }
 
+message Labels {
+	repeated string labels = 1;
+}
+
 message Saver {
 	uint32 version = 1;
 	string last_game_version = 2;
@@ -67,6 +71,7 @@ message Game {
 	uint32 last_uptime = 5;
 	uint32 last_diff_time = 6;
 	uint64 game_uid = 7;
+	uint32 first_start_time = 8;
 }
 
 message Token {

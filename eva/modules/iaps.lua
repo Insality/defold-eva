@@ -297,6 +297,22 @@ function M.refresh_iap_list()
 end
 
 
+--- Get total lifetime value (from iaps)
+-- @function eva.iaps.get_ltv
+-- @treturn number Player's LTV
+function M.get_ltv()
+	return 0
+end
+
+
+--- Get player max payment
+-- @function eva.iaps.get_max_pay
+-- @treturn number Max player payment
+function M.get_max_pay()
+	return 0
+end
+
+
 function M.before_eva_init()
 	app.iap_products = {}
 end

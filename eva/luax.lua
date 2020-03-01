@@ -9,6 +9,7 @@ local M = {
 	vmath = {},
 	debug = {},
 	func = {},
+	operators = {},
 	toboolean = function(arg) return not not arg end,
 }
 
@@ -546,6 +547,48 @@ end
 -- @function luax.vmath.distance
 function M.vmath.distance(v1, v2)
 	return math.sqrt((v2.x - v1.x)^2 + (v2.y - v1.y)^2)
+end
+
+
+--- operators.lt
+-- @function luax.operators.lt
+function M.operators.lt(x, y)
+	return x < y
+end
+
+
+--- operators.le
+-- @function luax.operators.le
+function M.operators.le(x, y)
+	return x <= y
+end
+
+
+--- operators.gt
+-- @function luax.operators.gt
+function M.operators.gt(x, y)
+	return x > y
+end
+
+
+--- operators.ge
+-- @function luax.operators.ge
+function M.operators.ge(x, y)
+	return x >= y
+end
+
+
+--- operators.eq
+-- @function luax.operators.eq
+function M.operators.eq(x, y)
+	return x == y
+end
+
+
+--- operators.neq
+-- @function luax.operators.neq
+function M.operators.neq(x, y)
+	return x ~= y
 end
 
 

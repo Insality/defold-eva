@@ -332,7 +332,7 @@ end
 
 --- Get current token amount from save
 -- @function eva.token.get
-function M.get(container_id, token_id, amount)
+function M.get(container_id, token_id)
 	return get_token(container_id, token_id):get()
 end
 

@@ -169,6 +169,17 @@ function M.get_current_time_string(time)
 end
 
 
+--- Get days since first game launch
+-- @function eva.game.get_days_played
+-- @treturn number Days since first game launch
+function M.get_days_played()
+	local first_time = app[const.EVA.GAME].first_start_time
+	local play_time = M.get_time() - first_time
+
+	return math.floor(play_time / (60 * 60 * 24))
+end
+
+
 function M.on_eva_init()
 	math.randomseed(os.time())
 	math.random()
@@ -202,6 +213,10 @@ function M.after_eva_init()
 	table.insert(game.game_start_dates, M.get_current_time_string())
 	while #game.game_start_dates > settings.game_started_max_count_stats do
 		table.remove(game.game_start_dates, 1)
+	end
+
+	if game.first_start_time == 0 then
+		game.first_start_time = M.get_time()
 	end
 end
 

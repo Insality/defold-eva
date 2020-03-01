@@ -22,7 +22,13 @@ local M = {}
 -- @treturn table Config table
 function M.get(config_name)
 	assert(config_name, "You should provide the config name")
-	return app._db[config_name]
+
+	local data = app._db[config_name]
+	if not data then
+		logger:error("The database config is not exist", { name = config_name })
+	end
+
+	return data
 end
 
 

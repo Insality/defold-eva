@@ -120,6 +120,19 @@ function M.set_enabled(state)
 end
 
 
+--- Get total ads watched
+-- @function eva.ads.get_watched
+-- @tparam number Total watched ads count
+function M.get_ads_watched()
+	local data = app[const.EVA.ADS]
+	if not data then
+		return 0
+	end
+
+	return data.page_watched + data.rewarded_watched
+end
+
+
 --- Check ads is enabled
 -- @function eva.ads.is_enabled
 -- @treturn bool is ads enabled

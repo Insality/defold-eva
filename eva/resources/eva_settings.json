@@ -25,6 +25,9 @@
 	"errors": {
 		"error_server_url": ""
 	},
+	"labels": {
+		"config": "Labels"
+	},
 	"lang": {
 		"default": "en",
 		"lang_paths": {
@@ -72,7 +75,8 @@
 			"TokenConfig": "/resources/json/token_config.json",
 			"TokenGroups": "/resources/json/token_groups.json",
 			"TokenLots": "/resources/json/token_lots.json",
-			"Trucks": "/resources/json/trucks.json"
+			"Trucks": "/resources/json/trucks.json",
+			"Labels": "/resources/json/labels.json"
 		}
 	},
 	"tiled": {

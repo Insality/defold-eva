@@ -121,6 +121,8 @@ M.EVENT = {
 	TRUCK_ARRIVE = "eva.truck.arrive",
 	TRUCK_LEAVE = "eva.truck.leave",
 	TRUCK_CLOSE_TO_LEAVE = "eva.truck.close_to_leave",
+	LABEL_ADD = "eva.labels.add",
+	LABEL_REMOVE = "eva.labels.remove",
 }
 
 
@@ -150,6 +152,7 @@ M.EVA = {
 	ADS = "eva.Ads",
 	SOUND = "eva.Sound",
 	LANG = "eva.Lang",
+	LABELS = "eva.Labels",
 	DEVICE = "eva.Device",
 	RATE = "eva.Rate",
 	SAVER = "eva.Saver",

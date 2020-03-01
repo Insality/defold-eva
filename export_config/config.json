@@ -1,23 +1,24 @@
 {
 	"sheets":[
-	{
-		"name": "eva",
-		"type": "csv_web",
-		"id": "1-kbuk5avCvjkAgUwKM29fHf77Uc1-jZ5TtS3EHZbY4g",
-		"rule": "./rules_eva.json",
-		"handlers": ["./custom_handlers.js"],
-
-		"all_handlers": [{
-			"type": "convert_array"
-		},
 		{
-			"type": "convert_boolean"
-		}],
+			"name": "eva",
+			"type": "csv_web",
+			"id": "1-kbuk5avCvjkAgUwKM29fHf77Uc1-jZ5TtS3EHZbY4g",
+			"rule": "./rules_eva.json",
+			"handlers": ["./custom_handlers.js"],
 
-		"save": [{
-			"dist": "../resources/json/",
-			"format": "json"
-		}],
-		"wrap_with_name": true
-	}]
+			"all_handlers": [{
+				"type": "convert_array"
+			},
+			{
+				"type": "convert_boolean"
+			}],
+
+			"save": [{
+				"dist": "../resources/json/",
+				"format": "json"
+			}],
+			"wrap_with_name": true
+		}
+	]
 }
