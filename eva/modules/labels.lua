@@ -126,6 +126,10 @@ function M.after_eva_init()
 end
 
 
+--- Check label is exist in player profile
+-- @function eva.labels.is_exist
+-- @tparam string label The label id
+-- @treturn bool True, if label in player profile
 function M.is_exist(label)
 	local labels = app[const.EVA.LABELS].labels
 	return luax.table.contains(labels, label)

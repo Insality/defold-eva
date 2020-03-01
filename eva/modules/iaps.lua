@@ -268,6 +268,7 @@ end
 --- Get price from iap_id
 -- @function eva.iaps.get_price
 -- @tparam string iap_id the inapp id
+-- @treturn number Price of iap
 function M.get_price(iap_id)
 	return app.iap_products[iap_id].price
 end
@@ -276,6 +277,7 @@ end
 --- Get price_string from iap_id
 -- @function eva.iaps.get_price_string
 -- @tparam string iap_id the inapp id
+-- @treturn string The iap price string
 function M.get_price_string(iap_id)
 	return app.iap_products[iap_id].price_string
 end
@@ -301,7 +303,16 @@ end
 -- @function eva.iaps.get_ltv
 -- @treturn number Player's LTV
 function M.get_ltv()
-	return 0
+	local ltv = 0
+	local purchased = app[const.EVA.IAPS].purchased_iaps
+
+	for i = 1, #purchased do
+		local info = purchased[i]
+		local price = M.get_price(info.iap_id) or 0
+		ltv = ltv + price
+	end
+
+	return ltv
 end
 
 
@@ -309,7 +320,16 @@ end
 -- @function eva.iaps.get_max_pay
 -- @treturn number Max player payment
 function M.get_max_pay()
-	return 0
+	local max_pay = 0
+	local purchased = app[const.EVA.IAPS].purchased_iaps
+
+	for i = 1, #purchased do
+		local info = purchased[i]
+		local price = M.get_price(info.iap_id) or 0
+		max_pay = math.max(max_pay, price)
+	end
+
+	return max_pay
 end
 
 
