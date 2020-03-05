@@ -41,7 +41,7 @@ function M.register(context, name, callback, priority)
 end
 
 
--- Unregister prev. registered input
+--- Unregister prev. registered input
 -- @function eva.input.unregister
 -- @tparam string name Name of input system
 function M.unregister(name)

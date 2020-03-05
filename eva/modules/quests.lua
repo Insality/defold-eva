@@ -344,6 +344,18 @@ function M.get_completed()
 end
 
 
+--- Check if there is quests in current with
+-- pointer action and object
+-- @function eva.quests.is_current_with_task
+-- @tparam string action Task action
+-- @tparam[opt] string object Task object
+-- @treturn bool True, if there is quest with similar tasks
+function M.is_current_with_task(action, object)
+	-- TODO: no implmented
+	return false
+end
+
+
 --- Check quest is active
 -- @function eva.quests.is_active
 -- @treturn bool Quest active state

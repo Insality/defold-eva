@@ -68,9 +68,7 @@ end
 -- @tparam[opt] string title Text invoice title
 -- @tparam[opt] string text Text invoice desc
 function M.add(category, reward, start_time, life_time, title, text)
-	local invoices = app[const.EVA.INVOICES].invoices
-	local current_time = game.get_time()
-	start_time = start_time or current_time
+	start_time = start_time or game.get_time()
 
 	local invoice = proto.get(const.EVA.INVOICE_INFO)
 	invoice.category = category
@@ -80,6 +78,7 @@ function M.add(category, reward, start_time, life_time, title, text)
 	invoice.text = text or luax.string.empty
 	invoice.reward = reward
 
+	local invoices = app[const.EVA.INVOICES].invoices
 	local id = device.get_uuid(luax.table.list(invoices))
 	invoices[id] = invoice
 

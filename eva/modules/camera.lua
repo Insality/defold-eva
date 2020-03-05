@@ -6,10 +6,10 @@
 
 local app = require("eva.app")
 local const = require("eva.const")
-local camera_drag = require("eva.modules.camera.camera_drag")
-local camera_pinch = require("eva.modules.camera.camera_pinch")
 
 local input = require("eva.modules.input")
+local camera_drag = require("eva.modules.camera.camera_drag")
+local camera_pinch = require("eva.modules.camera.camera_pinch")
 
 local M = {}
 

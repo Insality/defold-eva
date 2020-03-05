@@ -35,6 +35,7 @@ end
 
 --- Return path between two points for map.
 -- Call init_astar, to make map_handler param optional
+-- @function eva.pathfinder.path
 -- @param from_x Cell X from map
 -- @param from_y Cell Y from map
 -- @param to_x Cell X from map

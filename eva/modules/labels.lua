@@ -1,4 +1,4 @@
---- Eva labesl module
+--- Eva labels module
 -- Add labels to the player to separate players on groups
 -- @submodule eva
 
@@ -27,7 +27,7 @@ end
 
 local spec_values_handlers = {
 	["ltv"] = iaps.get_ltv,
-	["maxpay"] = iaps.get_max_pay,
+	["maxpay"] = iaps.get_max_payment,
 	["ads"] = ads.get_ads_watched,
 	["days"] = game.get_days_played,
 }

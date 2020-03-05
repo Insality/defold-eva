@@ -11,6 +11,17 @@ local events = {
 	[LEAVE] = function() end
 }
 
+local test_config = {
+	Trucks = {
+		trucks = {
+			foodtruck = { lifetime = 50, cooldown = 25, autoarrive = true, autoleave = true },
+			merchant = { lifetime = 100, cooldown = 50 },
+			stranger = { lifetime = 250, cooldown = 500, autoleave = true }
+		}
+	}
+
+}
+
 local function set_time(time)
 	mock_time.set(time)
 	eva.update(1)
@@ -20,7 +31,9 @@ end
 return function()
 	describe("Eva Trucks", function()
 		before(function()
-			eva.init("/resources/tests/eva_tests.json")
+			eva.init("/resources/tests/eva_tests.json", {
+				db_settings = test_config
+			})
 			mock.mock(events)
 			eva.events.subscribe_map(events)
 			mock_time.mock()

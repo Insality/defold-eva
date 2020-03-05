@@ -23,12 +23,27 @@ local M = {}
 function M.get(config_name)
 	assert(config_name, "You should provide the config name")
 
+	if app._db_custom then
+		local custom = app._db_custom[config_name]
+		if custom then
+			return custom
+		end
+	end
+
 	local data = app._db[config_name]
 	if not data then
 		logger:error("The database config is not exist", { name = config_name })
 	end
 
 	return data
+end
+
+
+--- Can override db with custom tables (useful for tests)
+-- @function eva.db.set_settings
+-- @tparam table settings Custom db settings
+function M.set_settings(settings)
+	app._db_custom = settings
 end
 
 

@@ -43,8 +43,8 @@ local function ads_callback(self, message_id, message)
 				on_rewarded_success()
 			end
 
-			if message.placementId == const.AD.PAGE then
-				data.page_watched = data.page_watched + 1
+			if message.placementId == const.AD.INTERSTITIAL then
+				data.interstitial_watched = data.interstitial_watched + 1
 			end
 		end
 	end
@@ -64,7 +64,7 @@ end
 -- @function eva.ads.is_page_ready
 -- @treturn bool is page ads ready
 function M.is_page_ready()
-	return is_ready(const.AD.PAGE)
+	return is_ready(const.AD.INTERSTITIAL)
 end
 
 
@@ -129,7 +129,7 @@ function M.get_ads_watched()
 		return 0
 	end
 
-	return data.page_watched + data.rewarded_watched
+	return data.interstitial_watched + data.rewarded_watched
 end
 
 

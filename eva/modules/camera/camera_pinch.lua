@@ -10,6 +10,7 @@ local rendercam = require("rendercam.rendercam")
 
 local M = {}
 
+
 M.SCREEN = vmath.vector3(
 	sys.get_config("display.width")/2,
 	sys.get_config("display.height")/2,

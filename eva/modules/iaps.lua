@@ -317,9 +317,9 @@ end
 
 
 --- Get player max payment
--- @function eva.iaps.get_max_pay
+-- @function eva.iaps.get_max_payment
 -- @treturn number Max player payment
-function M.get_max_pay()
+function M.get_max_payment()
 	local max_pay = 0
 	local purchased = app[const.EVA.IAPS].purchased_iaps
 

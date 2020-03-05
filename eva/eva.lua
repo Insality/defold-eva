@@ -125,6 +125,10 @@ local function apply_module_settings(settings)
 	if settings.quests_settings then
 		M.quests.set_settings(settings.quests_settings)
 	end
+
+	if settings.db_settings then
+		M.db.set_settings(settings.db_settings)
+	end
 end
 
 
