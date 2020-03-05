@@ -64,6 +64,8 @@ local function load_modules()
 		resources = require("eva.modules.resources"),
 		saver = require("eva.modules.saver"),
 		server = require("eva.modules.server"),
+		status = require("eva.modules.status"),
+		skill = require("eva.modules.skill"),
 		social = require("eva.modules.social"),
 		sound = require("eva.modules.sound"),
 		storage = require("eva.modules.storage"),
