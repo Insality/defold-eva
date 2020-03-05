@@ -35,7 +35,7 @@ M.TYPE = {
 
 M.AD = {
 	REWARDED = "rewardedVideo",
-	PAGE = "video",
+	INTERSTITIAL = "video",
 }
 
 
@@ -77,9 +77,9 @@ M.INPUT_TYPE = {
 
 
 M.EVENT = {
-	EVENT = "eva.events.event",
 	GAME_START = "eva.game.start",
 	GAME_FOCUS = "eva.game.focus",
+	NEW_SESSION = "eva.game.new_session",
 	IAP_UPDATE = "eva.iaps.update",
 	IAP_START = "eva.iaps.start",
 	IAP_CANCEL = "eva.iaps.cancel",

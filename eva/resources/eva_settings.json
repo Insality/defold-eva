@@ -12,6 +12,7 @@
 	},
 	"game": {
 		"game_started_max_count_stats": 10,
+		"session_time": 600,
 		"time_policy": "local"
 	},
 	"saver": {

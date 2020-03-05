@@ -71,9 +71,21 @@ local function select_url(url_ios, url_android)
 end
 
 
+local function check_session()
+	local game = app[const.EVA.GAME]
+	local current_time = M.get_time()
+
+	if current_time - game.session_start_time >= app.settings.game.session_time then
+		game.session_start_time = current_time
+		events.event(const.EVENT.NEW_SESSION)
+	end
+end
+
+
 local function on_window_event(self, event, data)
 	if event == window.WINDOW_EVENT_FOCUS_GAINED then
 		sync_time()
+		check_session()
 		events.event(const.EVENT.GAME_FOCUS)
 	end
 end
@@ -218,12 +230,15 @@ function M.after_eva_init()
 	if game.first_start_time == 0 then
 		game.first_start_time = M.get_time()
 	end
+
+	check_session()
 end
 
 
 function M.on_eva_update(dt)
 	app.game_data.current_time = app.game_data.current_time + dt
 	app[const.EVA.GAME].played_time = app[const.EVA.GAME].played_time + dt
+	app[const.EVA.GAME].last_play_timepoint = M.get_time()
 end
 
 

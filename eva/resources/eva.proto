@@ -58,7 +58,7 @@ message Rate {
 
 message Ads {
 	uint32 ads_loaded = 1;
-	uint32 page_watched = 2;
+	uint32 interstitial_watched = 2;
 	uint32 rewarded_watched = 3;
 	bool ads_disabled = 4;
 }
@@ -72,6 +72,8 @@ message Game {
 	uint32 last_diff_time = 6;
 	uint64 game_uid = 7;
 	uint32 first_start_time = 8;
+	uint32 session_start_time = 9;
+	uint32 last_play_timepoint = 10;
 }
 
 message Token {
@@ -134,6 +136,7 @@ message Festivals {
 message QuestData {
 	repeated int32 progress = 1;
 	bool is_active = 2;
+	uint32 start_time = 3;
 }
 
 message Quests {
