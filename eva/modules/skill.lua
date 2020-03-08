@@ -24,6 +24,7 @@ local function get_containers()
 	return app[const.EVA.SKILL_CONTAINERS].containers
 end
 
+
 --- @treturn eva.Skills
 local function get_container(container_id)
 	local container = get_containers()
@@ -51,18 +52,40 @@ local function update_skill(container_id, skill_id, current_time)
 	local skill_data = get_skill_data(container_id, skill_id)
 	local skill_info = get_skill_config(skill_id)
 
-	if skill_data.stacks < skill_info.max_stack then
-		local next_restore_time = skill_data.last_restore_time + skill_info.cooldown
-		if next_restore_time <= current_time then
-			skill_data.stacks = math.min(skill_data.stacks + skill_info.restore_amount, skill_info.max_stack)
-			skill_data.last_restore_time = next_restore_time
+	-- Update duration time
+	if skill_data.is_active and skill_data.end_duration_time <= current_time then
+		-- Skill now is active
+		-- End of skill duration
+		skill_data.is_active = false
 
+		-- Check cooldown
+		if not skill_data.is_cooldown then
+			-- No current cooldown
+			if not M.is_full_stack(container_id, skill_id) then
+				skill_data.next_restore_time = skill_data.end_duration_time + M.get_cooldown_time(skill_id)
+				skill_data.is_cooldown = true
+				events.event(const.EVENT.SKILL_COOLDOWN_START, {
+					container_id = container_id,
+					skill_id = skill_id
+				})
+			end
+		end
+	end
+
+	-- Update cooldown time
+	if skill_data.stacks < skill_info.max_stack then
+		if skill_data.is_cooldown and skill_data.next_restore_time <= current_time then
+
+			skill_data.stacks = math.min(skill_data.stacks + skill_info.restore_amount, skill_info.max_stack)
+			skill_data.is_cooldown = false
 			events.event(const.EVENT.SKILL_COOLDOWN_END, {
 				container_id = container_id,
 				skill_id = skill_id
 			})
 
 			if skill_data.stacks < skill_info.max_stack then
+				skill_data.next_restore_time = skill_data.next_restore_time + skill_info.cooldown
+				skill_data.is_cooldown = true
 				events.event(const.EVENT.SKILL_COOLDOWN_START, {
 					container_id = container_id,
 					skill_id = skill_id
@@ -75,6 +98,7 @@ local function update_skill(container_id, skill_id, current_time)
 	end
 end
 
+
 function M.use(container_id, skill_id)
 	if not M.is_can_use(container_id, skill_id) then
 		-- TODO: error
@@ -83,15 +107,11 @@ function M.use(container_id, skill_id)
 	end
 
 	local skill_data = get_skill_data(container_id, skill_id)
+	local skill_info = get_skill_config(skill_id)
+	local current_time = game.get_time()
 
-	if M.is_full_stack(container_id, skill_id) then
-		skill_data.last_restore_time = game.get_time()
-		events.event(const.EVENT.SKILL_COOLDOWN_START, {
-			container_id = container_id,
-			skill_id = skill_id
-		})
-	end
-
+	skill_data.is_active = true
+	skill_data.end_duration_time = current_time + skill_info.duration
 	skill_data.stacks = skill_data.stacks - 1
 	skill_data.last_use_time = game.get_time()
 
@@ -123,7 +143,7 @@ end
 
 --- Time between use and end_use
 function M.is_active(container_id, skill_id)
-	return false
+	return get_skill_data(container_id, skill_id).is_active
 end
 
 
@@ -133,17 +153,17 @@ end
 
 
 function M.get_active_time_left(container_id, skill_id)
-
+	return math.max(get_skill_data(container_id, skill_id).end_duration_time - game.get_time(), 0)
 end
 
 
 function M.get_active_progress(container_id, skill_id)
-
+	return 1 - (M.get_active_time_left(container_id, skill_id) / M.get_active_time(skill_id))
 end
 
 
 function M.is_on_cooldown(container_id, skill_id)
-	return not M.is_full_stack(container_id, skill_id)
+	return get_skill_data(container_id, skill_id).is_cooldown
 end
 
 
@@ -154,12 +174,11 @@ end
 
 function M.get_cooldown_time_left(container_id, skill_id)
 	local skill_data = get_skill_data(container_id, skill_id)
-	if M.is_full_stack(container_id, skill_id) then
-		return 0
-	else
-		local restore_time = skill_data.last_restore_time + M.get_cooldown_time(skill_id)
-		return math.max(restore_time - game.get_time(), 0)
+	if skill_data.is_cooldown then
+		return math.max(skill_data.next_restore_time - game.get_time(), 0)
 	end
+
+	return 0
 end
 
 
@@ -192,7 +211,8 @@ end
 
 
 function M.is_can_use(container_id, skill_id)
-	return M.get_stack_amount(container_id, skill_id) > 0
+	return M.get_stack_amount(container_id, skill_id) > 0 and
+			not M.is_active(container_id, skill_id)
 end
 
 

@@ -425,6 +425,14 @@ function M.complete_quest(quest_id)
 end
 
 
+--- Reset quets progress, only on current quests
+-- @function eva.quests.reset_progress
+-- @tparam string quest_id Quest id
+function M.reset_progress(quest_id)
+	-- TODO: implement me
+end
+
+
 --- Apply quest event to all current quests
 -- @function eva.quests.quest_event
 -- @tparam string action Type of event

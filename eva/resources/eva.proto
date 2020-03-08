@@ -205,9 +205,12 @@ message Iaps {
 
 message Skill {
 	double last_use_time = 1;
-	double last_restore_time = 2;
-	uint32 stacks = 3;
-	uint32 use_count = 4;
+	double next_restore_time = 2;
+	double end_duration_time = 3;
+	uint32 stacks = 4;
+	uint32 use_count = 5;
+	bool is_active = 6;
+	bool is_cooldown = 7;
 }
 
 // All skills info in specific container
