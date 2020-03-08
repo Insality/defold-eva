@@ -123,6 +123,10 @@ M.EVENT = {
 	TRUCK_CLOSE_TO_LEAVE = "eva.truck.close_to_leave",
 	LABEL_ADD = "eva.labels.add",
 	LABEL_REMOVE = "eva.labels.remove",
+	SKILL_USE = "eva.skill.use",
+	SKILL_USE_END = "eva.skill.end_use",
+	SKILL_COOLDOWN_START = "eva.skill.cooldown",
+	SKILL_COOLDOWN_END = "eva.skill.cooldown_end"
 }
 
 
@@ -169,6 +173,9 @@ M.EVA = {
 	INVOICES = "eva.Invoices",
 	TRUCKS = "eva.Trucks",
 	CONTAINERS = "eva.Containers",
+	SKILLS = "eva.Skills",
+	SKILL_CONTAINERS = "eva.SkillContainers",
+	STATUSES = "eva.Status",
 
 	-- Part of data
 	TOKEN = "eva.Token",
@@ -180,6 +187,7 @@ M.EVA = {
 	INVOICE_INFO = "eva.InvoiceInfo",
 	TOKEN_RESTORE_CONFIG = "eva.TokenRestoreConfig",
 	CONTAINER = "eva.Container",
+	SKILL = "eva.Skill",
 
 	TOKENS_DATA = "evadata.Tokens",
 }

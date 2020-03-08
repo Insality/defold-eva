@@ -97,3 +97,16 @@ message Quest {
 message Quests {
 	map<string, Quest> quests = 1;
 }
+
+message Skills {
+	message Skill {
+		uint32 cast_time = 1;
+		uint32 duration = 2;
+		uint32 cooldown = 3;
+		uint32 max_stack = 4 [default = 1];
+		uint32 restore_amount = 5[default = 1];
+		bool channel = 6;
+		bool manual_time = 7;
+	}
+	map<string, Skill> skills = 1;
+}

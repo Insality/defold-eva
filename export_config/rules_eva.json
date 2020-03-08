@@ -146,6 +146,14 @@
 					}
 				}
 			]
+		},
+
+		"skills": {
+			"lists": ["Skills"]
+		},
+
+		"status": {
+			"lists": ["Statuses"]
 		}
 	}
 }

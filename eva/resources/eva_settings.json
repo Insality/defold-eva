@@ -77,8 +77,16 @@
 			"TokenGroups": "/resources/json/token_groups.json",
 			"TokenLots": "/resources/json/token_lots.json",
 			"Trucks": "/resources/json/trucks.json",
-			"Labels": "/resources/json/labels.json"
+			"Labels": "/resources/json/labels.json",
+			"Skills": "/resources/json/skills.json",
+			"Status": "/resources/json/status.json"
 		}
+	},
+	"skill": {
+		"config": "Skills"
+	},
+	"status": {
+		"config": "Status"
 	},
 	"tiled": {
 		"mapping_config": "TiledMapping",

@@ -87,7 +87,7 @@ message Tokens {
 
 message TokenRestoreConfig {
 	bool is_enabled = 1;
-	uint64 last_restore_time = 2;
+	double last_restore_time = 2;
 	uint32 timer = 3;
 	int32 value = 4 [default = 1];
 	int32 max = 5 [default = 2147483647];
@@ -97,7 +97,7 @@ message Container {
 	string type = 1;
 	map<string, Token> tokens = 2;
 	map<string, TokenRestoreConfig> restore_config = 3;
-	map<string, uint64> infinity_timers = 4;
+	map<string, double> infinity_timers = 4;
 }
 
 message Containers {
@@ -200,4 +200,22 @@ message IapInfo {
 message Iaps {
 	repeated IapInfo purchased_iaps = 1;
 	repeated IapInfo invalid_iaps = 2;
+}
+
+
+message Skill {
+	double last_use_time = 1;
+	double last_restore_time = 2;
+	uint32 stacks = 3;
+	uint32 use_count = 4;
+}
+
+// All skills info in specific container
+message Skills {
+	map<string, Skill> skill_data = 1;
+}
+
+// All skills container in the world
+message SkillContainers {
+	map<string, Skills> containers = 1;
 }
