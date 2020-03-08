@@ -12,91 +12,101 @@ message TokenConfig {
 	string name = 2;
 	int32 min = 3;
 	int32 max = 4;
-	TokenRestoreConfig restore = 5;
-	string container_type = 6;
 }
 
-message Token {
-	string token_id = 1;
-	int32 amount = 2;
-}
 
 message Tokens {
+	message Token {
+		string token_id = 1;
+		int32 amount = 2;
+	}
 	repeated Token tokens = 1;
 }
+
 
 message TokenGroups {
 	map<string, Tokens> token_groups = 1;
 }
 
-message Lot {
-	string price = 1; // TokenGroup ID
-	string reward = 2; // TokenGroup ID
-}
 
 message Lots {
+	message Lot {
+		string price = 1; // TokenGroup ID
+		string reward = 2; // TokenGroup ID
+	}
 	map<string, Lot> lots = 1;
 }
 
-message Offer {
-	string category = 1;
-	uint32 time = 2;
-	string iap_id = 3;
-	string lot_id = 4;
-}
 
 message Offers {
+	message Offer {
+		string category = 1;
+		uint32 time = 2;
+		string iap_id = 3;
+		string lot_id = 4;
+	}
 	map<string, Offer> offers = 1;
 }
 
-message IapConfig {
-	string ident = 1;
-	float price = 2;
-	bool forever = 3;
-	string token_group_id = 4;
-	string category = 5;
-}
 
 message IapsConfig {
+	message IapConfig {
+		string ident = 1;
+		float price = 2;
+		bool forever = 3;
+		string token_group_id = 4;
+		string category = 5;
+	}
 	map<string, IapConfig> iaps = 1;
 }
 
-message Festival {
-	string start_date = 1;
-	uint32 duration = 2;
-	string repeat_time = 3;
-	uint32 close_time = 4;
-	string category = 5;
-}
 
 message Festivals {
+	message Festival {
+		string start_date = 1;
+		uint32 duration = 2;
+		string repeat_time = 3;
+		uint32 close_time = 4;
+		string category = 5;
+	}
 	map<string, Festival> festivals = 1;
 }
 
-message QuestTasks {
-	int32 initial = 1;
-	int32 required = 2;
-	string action = 3;
-	string object = 4;
-	string param1 = 5;
-	string param2 = 6;
+
+message Trucks {
+	message Truck {
+		uint32 lifetime = 1;
+		uint32 cooldown = 2;
+		bool autoarrive = 3;
+		bool autoleave = 4;
+	}
+	map<string, Truck> trucks = 1;
 }
 
-message Quest {
-	repeated string required_quests = 1;
-	Tokens required_tokens = 2;
-	repeated QuestTasks tasks = 3;
-	Tokens reward = 4;
-	string category = 5;
-	bool events_offline = 6;
-	bool autostart = 7;
-	bool autofinish = 8;
-	bool repeatable = 9;
-}
 
 message Quests {
+	message Quest {
+		message QuestTasks {
+			int32 initial = 1;
+			int32 required = 2;
+			string action = 3;
+			string object = 4;
+			string param1 = 5;
+			string param2 = 6;
+		}
+		repeated string required_quests = 1;
+		Tokens required_tokens = 2;
+		repeated QuestTasks tasks = 3;
+		Tokens reward = 4;
+		string category = 5;
+		bool events_offline = 6;
+		bool autostart = 7;
+		bool autofinish = 8;
+		bool repeatable = 9;
+	}
 	map<string, Quest> quests = 1;
 }
+
 
 message Skills {
 	message Skill {

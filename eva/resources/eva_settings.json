@@ -80,6 +80,18 @@
 			"Labels": "/resources/json/labels.json",
 			"Skills": "/resources/json/skills.json",
 			"Status": "/resources/json/status.json"
+		},
+		"verify": {
+			"Festivals": "evadata.Festivals",
+			"IapsAndroid": "evadata.IapsConfig",
+			"IapsIos": "evadata.IapsConfig",
+			"Offers": "evadata.Offers",
+			"Quests": "evadata.Quests",
+			"TokenConfig": "evadata.TokenConfig",
+			"TokenGroups": "evadata.TokenGroups",
+			"TokenLots": "evadata.Lots",
+			"Trucks": "evadata.Trucks",
+			"Skills": "evadata.Skills"
 		}
 	},
 	"skill": {
