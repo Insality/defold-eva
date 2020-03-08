@@ -183,13 +183,14 @@ end
 -- @function eva.update
 -- @tparam number dt delta time
 function M.update(dt)
-	call_each_module("on_eva_update", dt)
+	local current_time = M.game.get_time()
+	call_each_module("on_eva_update", dt, current_time)
 
 	local eva_basic = app.eva_basic
 	eva_basic.second_counter = eva_basic.second_counter - dt
 	if eva_basic.second_counter <= 0 then
 		eva_basic.second_counter = 1
-		call_each_module("on_eva_second")
+		call_each_module("on_eva_second", current_time)
 	end
 end
 

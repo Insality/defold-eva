@@ -19,7 +19,6 @@ local test_config = {
 			stranger = { lifetime = 250, cooldown = 500, autoleave = true }
 		}
 	}
-
 }
 
 local function set_time(time)

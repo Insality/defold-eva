@@ -92,6 +92,11 @@ function M.decode(proto_type, bytes)
 end
 
 
+function M.verify(proto_type, data)
+	return M.decode(proto_type, M.encode(proto_type, data))
+end
+
+
 function M.before_eva_init()
 	local settings = app.settings.proto
 	local proto_paths = settings.proto_paths

@@ -20,20 +20,5 @@
 	},
 	"log": {
 		"level": "DEBUG"
-	},
-	"db": {
-		"paths": {
-			"Festivals": "/resources/json/festivals.json",
-			"IapsAndroid": "/resources/json/iaps_android.json",
-			"IapsIos": "/resources/json/iaps_ios.json",
-			"Offers": "/resources/json/offers.json",
-			"Quests": "/resources/json/quests.json",
-			"TiledMapping": "/resources/mapping.json",
-			"TokenConfig": "/resources/json/token_config.json",
-			"TokenGroups": "/resources/json/token_groups.json",
-			"TokenLots": "/resources/json/token_lots.json",
-			"Trucks": "/resources/json/trucks.json",
-			"Labels": "/resources/json/labels.json"
-		}
 	}
 }

@@ -10,6 +10,7 @@ local app = require("eva.app")
 local log = require("eva.log")
 
 local utils = require("eva.modules.utils")
+local proto = require("eva.modules.proto")
 
 local logger = log.get_logger("eva.db")
 
@@ -44,6 +45,18 @@ end
 -- @tparam table settings Custom db settings
 function M.set_settings(settings)
 	app._db_custom = settings
+end
+
+
+
+function M.check_config(config_name, proto_name)
+	if app._db[config_name] then
+		app._db[config_name] = proto.verify(proto_name, app._db[config_name])
+	end
+
+	if app._db_custom[config_name] then
+		app._db_custom[config_name] = proto.verify(proto_name, app._db_custom[config_name])
+	end
 end
 
 

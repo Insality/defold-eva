@@ -138,7 +138,7 @@ end
 
 --- Get game time
 -- @function eva.game.get_time
--- @treturn number return game time in seconds
+-- @treturn number Return game time in seconds
 function M.get_time()
 	local settings = app.settings.game
 

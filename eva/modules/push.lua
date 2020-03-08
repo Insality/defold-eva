@@ -242,10 +242,9 @@ function M.on_eva_init()
 end
 
 
-function M.on_eva_second()
+function M.on_eva_second(current_time)
 	local settings = app.settings.push
 	local pushes = app[const.EVA.PUSH].pushes
-	local current_time = game.get_time()
 	local time_gap = settings.clear_push_in_next_seconds or 0
 
 	for i = #pushes, 1, -1 do
