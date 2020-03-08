@@ -82,9 +82,6 @@
 			"Status": "/resources/json/status.json"
 		},
 		"verify": {
-			"Festivals": "evadata.Festivals",
-			"IapsAndroid": "evadata.IapsConfig",
-			"IapsIos": "evadata.IapsConfig",
 			"Offers": "evadata.Offers",
 			"Quests": "evadata.Quests",
 			"TokenConfig": "evadata.TokenConfig",

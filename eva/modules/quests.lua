@@ -506,14 +506,19 @@ end
 
 
 function M.on_eva_init()
+	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
+	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
+end
+
+
+function M.after_eva_init()
 	app.quests_settings = {}
 	app.quests_info = {
 		is_started = false,
 		can_be_started = {},
 		quest_relative_map = make_relative_quests_map()
 	}
-	app[const.EVA.QUESTS] = proto.get(const.EVA.QUESTS)
-	saver.add_save_part(const.EVA.QUESTS, app[const.EVA.QUESTS])
+
 	M.add_update_quest_event(const.EVENT.TOKEN_CHANGE)
 end
 

@@ -17,6 +17,16 @@ local logger = log.get_logger("eva.db")
 local M = {}
 
 
+local function verify(config_name, data)
+	local settings = app.settings.db
+
+	if settings.verify and settings.verify[config_name] then
+		return proto.verify(settings.verify[config_name], data)
+	end
+
+	return data
+end
+
 --- Return config by config_name
 -- @function eva.db.get
 -- @tparam string config_name Config name from eva settings
@@ -48,18 +58,6 @@ function M.set_settings(settings)
 end
 
 
-
-function M.check_config(config_name, proto_name)
-	if app._db[config_name] then
-		app._db[config_name] = proto.verify(proto_name, app._db[config_name])
-	end
-
-	if app._db_custom[config_name] then
-		app._db_custom[config_name] = proto.verify(proto_name, app._db_custom[config_name])
-	end
-end
-
-
 function M.before_eva_init()
 	local settings = app.settings.db
 	app._db = {}
@@ -68,6 +66,19 @@ function M.before_eva_init()
 	for name, path in pairs(paths) do
 		logger:debug("Load JSON data", { name = name, path = path })
 		app._db[name] = utils.load_json(path)
+	end
+end
+
+
+function M.on_eva_init()
+	if app._db_custom then
+		for config_name, data in pairs(app._db_custom) do
+			app._db_custom[config_name] = verify(config_name, data)
+		end
+	end
+
+	for config_name, data in pairs(app._db) do
+		app._db[config_name] = verify(config_name, data)
 	end
 end
 

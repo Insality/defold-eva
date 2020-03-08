@@ -8,10 +8,13 @@ message TokenRestoreConfig {
 }
 
 message TokenConfig {
-	int32 default = 1;
-	string name = 2;
-	int32 min = 3;
-	int32 max = 4;
+	message TokenConfigData {
+		int32 default = 1;
+		string name = 2;
+		int32 min = 3;
+		int32 max = 4 [default = 2147483647];
+	}
+	map<string, TokenConfigData> token_config = 1;
 }
 
 
@@ -34,7 +37,7 @@ message Lots {
 		string price = 1; // TokenGroup ID
 		string reward = 2; // TokenGroup ID
 	}
-	map<string, Lot> lots = 1;
+	map<string, Lot> token_lots = 1;
 }
 
 

@@ -191,7 +191,6 @@ end
 function M.on_eva_init()
 	app[const.EVA.SKILL_CONTAINERS] = proto.get(const.EVA.SKILL_CONTAINERS)
 	saver.add_save_part(const.EVA.SKILL_CONTAINERS, app[const.EVA.SKILL_CONTAINERS])
-	db.check_config(app.settings.skill.config, "evadata.Skills")
 end
 
 
