@@ -99,6 +99,8 @@ function M.use(container_id, skill_id)
 		container_id = container_id,
 		skill_id = skill_id
 	})
+
+	update_skill(container_id, skill_id)
 end
 
 
@@ -122,6 +124,21 @@ end
 --- Time between use and end_use
 function M.is_active(container_id, skill_id)
 	return false
+end
+
+
+function M.get_active_time(skill_id)
+	return get_skill_config(skill_id).duration
+end
+
+
+function M.get_active_time_left(container_id, skill_id)
+
+end
+
+
+function M.get_active_progress(container_id, skill_id)
+
 end
 
 

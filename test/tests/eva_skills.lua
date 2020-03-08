@@ -19,8 +19,9 @@ local test_config = {
 	Skills = {
 		skills = {
 			shoot = { cooldown = 5 },
-			war_cry = { duration = 30, cooldown = 0 },
+			war_cry = { duration = 30, cooldown = 1 },
 			teleport = { cooldown = 5, max_stack = 3, restore_amount = 1 },
+			teleport_fast = { cooldown = 3, max_stack = 6, restore_amount = 2 },
 			pyroblast = { cast_time = 5, cooldown = 60 },
 			smash = {}
 		}
@@ -131,15 +132,49 @@ return function()
 		end)
 
 		it("Should have usage with no params", function()
-		end)
+			assert_true(eva.skill.is_can_use(CONTAINER, "smash"))
+			assert_equal(eva.skill.get_stack_amount(CONTAINER, "smash"), 1)
 
-		it("Should have cast time", function()
+			eva.skill.use(CONTAINER, "smash")
+			eva.skill.use(CONTAINER, "smash")
+			eva.skill.use(CONTAINER, "smash")
+
+			assert_true(eva.skill.is_can_use(CONTAINER, "smash"))
+			assert_false(eva.skill.is_on_cooldown(CONTAINER, "smash"))
+			assert_equal(events[USE].calls, 3)
 		end)
 
 		it("Should have different restore amount", function()
+			eva.skill.use(CONTAINER, "teleport_fast")
+			assert_equal(eva.skill.get_cooldown_time("teleport_fast"), 3)
+			assert_equal(eva.skill.get_cooldown_time_left(CONTAINER, "teleport_fast"), 3)
+			assert_equal(eva.skill.get_stack_amount(CONTAINER, "teleport_fast"), 5)
+			assert_true(eva.skill.is_on_cooldown(CONTAINER, "teleport_fast"))
+
+			set_time(1)
+			eva.skill.use(CONTAINER, "teleport_fast")
+			eva.skill.use(CONTAINER, "teleport_fast")
+			assert_equal(eva.skill.get_cooldown_time_left(CONTAINER, "teleport_fast"), 2)
+			assert_equal(eva.skill.get_stack_amount(CONTAINER, "teleport_fast"), 3)
+
+			set_time(3)
+			assert_equal(eva.skill.get_stack_amount(CONTAINER, "teleport_fast"), 5)
 		end)
 
 		it("Should have no cooldown, while active", function()
+			eva.skill.use(CONTAINER, "war_cry")
+			assert_true(eva.skill.is_active(CONTAINER, "war_cry"))
+			assert_false(eva.skill.is_on_cooldown(CONTAINER, "war_cry"))
+			assert_equal(eva.skill.get_stack_amount(CONTAINER, "war_cry"), 0)
+			assert_equal(eva.skill.get_cooldown_progress(CONTAINER, "war_cry"), 0)
+			assert_equal(eva.skill.get_cooldown_time("war_cry"), 30)
+			assert_equal(eva.skill.get_cooldown_time_left(CONTAINER, "war_cry"), 0)
+		end)
+
+		it("Should correct restore all skills", function()
+		end)
+
+		it("Should have cast time", function()
 		end)
 
 		it("Should have correct end use of channeling or duration skill", function()
@@ -155,9 +190,6 @@ return function()
 		end)
 
 		it("Should correct interupt usage skill", function()
-		end)
-
-		it("Should correct restore all skills", function()
 		end)
 	end)
 end
