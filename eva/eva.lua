@@ -142,7 +142,7 @@ end
 
 
 local function load_settings(settings_path)
-	local settings = utils.load_json(const.DEFAULT_SETTINGS_PATH)
+	local settings = {}
 	if settings_path then
 		local custom_settings = utils.load_json(settings_path)
 		for key, value in pairs(custom_settings) do

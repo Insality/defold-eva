@@ -10,7 +10,6 @@ M.EVA_VERSION = 1
 M.UNKNOWN_REGION = "UN"
 M.WALLET_CONTAINER = "eva.wallet"
 M.WALLET_TYPE = "wallet"
-M.DEFAULT_SETTINGS_PATH = "/eva/resources/eva_settings.json"
 
 M.FPS = 60
 
