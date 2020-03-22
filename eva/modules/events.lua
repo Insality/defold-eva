@@ -33,7 +33,7 @@ function M.event(event, params)
 				info.callback(event, params)
 			else
 				local callback_id = callbacks.create(info.callback)
-				msg.post(".", const.INPUT.CALLBACK, { index = callback_id, args = {
+				msg.post(info.context, const.INPUT.CALLBACK, { index = callback_id, args = {
 					event = event,
 					params = params
 				}})
