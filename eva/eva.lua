@@ -142,16 +142,8 @@ end
 
 
 local function load_settings(settings_path)
-	local settings = {}
-	if settings_path then
-		local custom_settings = utils.load_json(settings_path)
-		for key, value in pairs(custom_settings) do
-			luax.table.extend(settings[key], value)
-		end
-	end
-	app.settings = settings
-
-	assert(const.EVA_VERSION <= settings.eva.version, "Eva resources outdated, please update eva_settings, eva.proto and evadata.proto files")
+	app.settings = utils.load_json(settings_path)
+	assert(const.EVA_VERSION <= app.settings.eva.version, "Eva resources outdated, please update eva_settings, eva.proto and evadata.proto files")
 end
 
 
