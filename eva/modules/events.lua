@@ -1,5 +1,6 @@
 --- Eva events module
 -- Send all game events and can include different event systems
+-- If subscribe on event, you should call eva.events.on_message to
 -- like systems for analytics and game-logic
 -- @submodule eva
 
