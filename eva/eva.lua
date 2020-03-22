@@ -15,7 +15,6 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
-local luax = require("eva.luax")
 local const = require("eva.const")
 
 local utils = require("eva.modules.utils")
@@ -84,7 +83,6 @@ local function load_modules()
 		after_eva_init = {},
 		on_eva_update = {},
 		on_eva_second = {},
-		on_eva_message = {},
 	}
 
 	for name, eva_module in pairs(modules) do

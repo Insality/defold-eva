@@ -91,6 +91,9 @@
 			"Skills": "evadata.Skills"
 		}
 	},
+	"quests": {
+		"is_disabled": false,
+	},
 	"skill": {
 		"config": "Skills"
 	},

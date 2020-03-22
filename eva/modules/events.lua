@@ -6,7 +6,9 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
-local luax = require("eva.luax")
+local const = require("eva.const")
+
+local callbacks = require("eva.modules.callbacks")
 
 local logger = log.get_logger("eva.events")
 
@@ -22,8 +24,19 @@ function M.event(event, params)
 
 	local listeners = app.event_listeners[event]
 	if listeners then
+		local context = msg.url()
+
 		for i = 1, #listeners do
-			listeners[i](event, params)
+			local info = listeners[i]
+			if context == info.context then
+				info.callback(event, params)
+			else
+				local callback_id = callbacks.create(info.callback)
+				msg.post(".", const.INPUT.CALLBACK, { index = callback_id, args = {
+					event = event,
+					params = params
+				}})
+			end
 		end
 	end
 end
@@ -49,7 +62,10 @@ function M.subscribe(event_name, callback)
 		return
 	end
 
-	table.insert(app.event_listeners[event_name], callback)
+	table.insert(app.event_listeners[event_name], {
+		callback = callback,
+		context = msg.url()
+	})
 end
 
 
@@ -93,7 +109,12 @@ end
 -- @tparam function callback Event callback
 function M.is_subscribed(event_name, callback)
 	app.event_listeners[event_name] = app.event_listeners[event_name] or {}
-	return luax.table.contains(app.event_listeners[event_name], callback)
+	for i = 1, #app.event_listeners[event_name] do
+		if app.event_listeners[event_name][i].callback == callback then
+			return i
+		end
+	end
+	return false
 end
 
 
@@ -101,5 +122,11 @@ function M.before_eva_init()
 	app.event_listeners = {}
 end
 
+
+function M.on_message(self, message_id, message, sender)
+	if message_id == const.INPUT.CALLBACK then
+		callbacks.call(message.index, message.args.event, message.args.params)
+	end
+end
 
 return M
