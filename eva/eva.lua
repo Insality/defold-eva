@@ -194,11 +194,4 @@ function M.on_input(action_id, action)
 end
 
 
---- Call this on main game on_message
--- @function eva.on_message
-function M.on_message(message_id, message, sender)
-	call_each_module("on_eva_message", message_id, message, sender)
-end
-
-
 return M

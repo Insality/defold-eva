@@ -40,10 +40,6 @@ end
 function on_input(self, action_id, action)
 	eva.on_input(action_id, action)
 end
-
-function on_message(self, message_id, message, sender)
-	eva.on_message(message_id, message, sender)
-end
 ```
 
 
