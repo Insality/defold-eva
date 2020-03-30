@@ -12,6 +12,7 @@
 
 local log = require("eva.log")
 local app = require("eva.app")
+local luax = require("eva.luax")
 
 local db = require("eva.modules.db")
 local grid = require("eva.modules.grid")
@@ -103,25 +104,29 @@ local function add_tile(map_data, layer_name, spawner_name, index, i, j)
 end
 
 
-local function add_object(map_data, layer_name, spawner_name, index, x, y)
+local function add_object(map_data, layer_name, spawner_name, index, x, y, props)
 	local settings = app.settings.tiled
 	local mapping_data = M.get_mapping()
 	local object_data = mapping_data[spawner_name][tostring(index)]
 
 	local z_layer = map_data.layer_props[layer_name].z_layer or settings.z_layer_objects_default
 	local position = map_data.grid.get_object_pos(x, y, z_layer)
-	local gameobject = map_data.create_object_fn(spawner_name, index, position)
+	local object_properties = luax.table.extend({}, object_data.properties)
+	luax.table.extend(object_properties, props)
+	local gameobject = map_data.create_object_fn(spawner_name, index, position, object_properties)
 
 	local object_info = {
 		go = gameobject,
 		index = index,
 		layer_name = layer_name,
 		spawner_name = spawner_name,
-		properties = object_data.properties
+		properties = object_properties
 	}
 
 	map_data.game_objects[gameobject] = object_info
 	map_data.objects[gameobject] = object_info
+
+	return gameobject
 end
 
 
@@ -317,11 +322,12 @@ end
 -- @tparam number index Object index from tileset
 -- @tparam number x x position
 -- @tparam number y y position
+-- @tparam table props Object additional properties
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.add_object(layer_name, spawner_name, index, x, y, map_data)
+function M.add_object(layer_name, spawner_name, index, x, y, props, map_data)
 	map_data = map_data or app.tiled_map_default
-	add_object(map_data, layer_name, spawner_name, x, y, index)
+	return add_object(map_data, layer_name, spawner_name, index, x, y, props)
 end
 
 
