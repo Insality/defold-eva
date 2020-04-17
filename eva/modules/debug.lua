@@ -85,15 +85,12 @@ local function on_eva_input(_, input_type, input_state)
 		end
 	end
 
-	if key == const.INPUT.KEY_D then
+	if key == const.INPUT.KEY_P then
 		M.toogle_profiler()
 	end
 
 	if key == const.INPUT.KEY_R then
-		app.debug_data.restart_counter = (app.debug_data.restart_counter or 0) + 1
-		if app.debug_data.restart_counter == 3 then
-			M.restart_game()
-		end
+		M.restart_game()
 	end
 
 	if key == const.INPUT.KEY_N then

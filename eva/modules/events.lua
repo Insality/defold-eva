@@ -25,19 +25,13 @@ function M.event(event, params)
 
 	local listeners = app.event_listeners[event]
 	if listeners then
-		local context = msg.url()
-
 		for i = 1, #listeners do
 			local info = listeners[i]
-			if context == info.context then
-				info.callback(event, params)
-			else
-				local callback_id = callbacks.create(info.callback)
-				msg.post(info.context, const.INPUT.CALLBACK, { index = callback_id, args = {
-					event = event,
-					params = params
-				}})
-			end
+			local callback_id = callbacks.create(info.callback)
+			msg.post(info.context, const.INPUT.CALLBACK, { index = callback_id, args = {
+				event = event,
+				params = params
+			}})
 		end
 	end
 end
@@ -126,7 +120,7 @@ end
 
 function M.on_message(self, message_id, message, sender)
 	if message_id == const.INPUT.CALLBACK then
-		callbacks.call(message.index, message.args.event, message.args.params)
+		callbacks.call(message.index, self, message.args.params)
 	end
 end
 

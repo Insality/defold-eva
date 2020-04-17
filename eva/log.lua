@@ -52,6 +52,9 @@ end
 local function format(self, level, message, context)
 	local log_message = M.settings.format
 	local record_context = inspect(context, INSPECT_PARAMS)
+	if not record_context or record_context == "nil" then
+		record_context = ""
+	end
 
 	local caller_info = debug.getinfo(4)
 	log_message = string.gsub(log_message, "%%date", format_time(socket.gettime()))

@@ -13,6 +13,7 @@
 local log = require("eva.log")
 local app = require("eva.app")
 local luax = require("eva.luax")
+local const = require("eva.const")
 
 local db = require("eva.modules.db")
 local grid = require("eva.modules.grid")
@@ -48,9 +49,41 @@ local function get_id_by_gid(tiled_data, gid)
 
 	for i = 1, #tilesets do
 		if name == tilesets[i].name then
-			return gid - tilesets[i].firstgid
+			return tostring(gid - tilesets[i].firstgid)
 		end
 	end
+end
+
+
+local function get_object_properties(object)
+	if not object.properties then
+		return nil
+	end
+
+	local props = {}
+	for i = 1, #object.properties do
+		props[object.properties[i].name] = object.properties[i].value
+	end
+
+	return props
+end
+
+
+local function get_object_name(spawner, object)
+	return hash(spawner .. ":" .. object.object_name .. ":" .. object.image_name)
+end
+
+
+local function get_map_properties(tiled_data)
+	local props = {}
+
+	if tiled_data.properties then
+		for j = 1, #tiled_data.properties do
+			props[tiled_data.properties[j].name] = tiled_data.properties[j].value
+		end
+	end
+
+	return props
 end
 
 
@@ -77,7 +110,14 @@ end
 local function add_tile(map_data, layer_name, spawner_name, index, i, j)
 	local settings = app.settings.tiled
 	local mapping_data = M.get_mapping()
+	if not mapping_data[spawner_name] then
+		return
+	end
+
 	local object_data = mapping_data[spawner_name][tostring(index)]
+	if not object_data then
+		return
+	end
 
 	local tile_layer = map_data.tiles[layer_name]
 	tile_layer[i] = tile_layer[i] or {}
@@ -111,8 +151,21 @@ local function add_object(map_data, layer_name, spawner_name, index, x, y, props
 
 	local z_layer = map_data.layer_props[layer_name].z_layer or settings.z_layer_objects_default
 	local position = map_data.grid.get_object_pos(x, y, z_layer)
-	local object_properties = luax.table.extend({}, object_data.properties)
+
+	local base_props = {
+		_object_name = get_object_name(spawner_name, object_data),
+	}
+	local object_properties = luax.table.extend(base_props, object_data.properties)
 	luax.table.extend(object_properties, props)
+
+	for k, v in pairs(object_properties) do
+		if type(v) == "string" then
+			local hashed = hash(v)
+			object_properties[k] = hashed
+			app.tiled_hash_map[hashed] = v
+		end
+	end
+
 	local gameobject = map_data.create_object_fn(spawner_name, index, position, object_properties)
 
 	local object_info = {
@@ -126,7 +179,7 @@ local function add_object(map_data, layer_name, spawner_name, index, x, y, props
 	map_data.game_objects[gameobject] = object_info
 	map_data.objects[gameobject] = object_info
 
-	return gameobject
+	return object_info
 end
 
 
@@ -178,17 +231,21 @@ local function process_objects(map_data, tiled_data, layer)
 		local object_id = get_id_by_gid(tiled_data, gid)
 		-- TODO: Take object name from GID? in one layer can be different tilesets
 		local object_data = mapping_data[spawner_name][tostring(object_id)]
-
 		local is_grid_center = map_data.layer_props[layer_name].grid_center or false
 
 		-- Offset is anchor from tiled object setup
 		local offset = vmath.vector3(
 			object_data.width/2 - object_data.anchor.x,
-			object_data.height/2 - object_data.anchor.y - 2,
+			object_data.height/2 - object_data.anchor.y,
 		0)
 		local scene_x, scene_y = map_data.grid.get_tiled_scene_pos(object.x, object.y, offset, is_grid_center)
 
-		add_object(map_data, layer_name, spawner_name, object_id, scene_x, scene_y)
+		local object_info = add_object(map_data, layer_name, spawner_name, object_id, scene_x, scene_y, get_object_properties(object))
+
+		object_info.tiled = {
+			id = object.id,
+			name = object.name,
+		}
 	end
 end
 
@@ -220,6 +277,7 @@ function M.load_map(tiled_data, create_object_fn)
 		tiles = {},
 		grid = grid_module,
 		astar_handler = astar_handler,
+		map_props = get_map_properties(tiled_data),
 		layer_props = get_layer_props(tiled_data),
 		create_object_fn = create_object_fn,
 	}
@@ -239,6 +297,8 @@ function M.load_map(tiled_data, create_object_fn)
 
 	app.clear("tiled_map_default")
 	app.tiled_map_default = map_data
+
+	logger:debug("Map loaded")
 	return map_data
 end
 
@@ -325,8 +385,15 @@ end
 -- @tparam table props Object additional properties
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map.
 -- Last map by default
-function M.add_object(layer_name, spawner_name, index, x, y, props, map_data)
+function M.add_object(layer_name, object_name, x, y, props, map_data)
+	object_name = hash(object_name)
+	if not app.tiled_objects_names[object_name] then
+		logger:warn("No object name in tiled mapping", { name = object_name })
+	end
 	map_data = map_data or app.tiled_map_default
+	local spawner_name = app.tiled_objects_names[object_name].spawner
+	local index = app.tiled_objects_names[object_name].index
+
 	return add_object(map_data, layer_name, spawner_name, index, x, y, props)
 end
 
@@ -342,6 +409,61 @@ function M.get_object(game_object_id, map_data)
 end
 
 
+--- Get mapping object info by name
+function M.get_object_data(object_name)
+	object_name = hash(object_name)
+
+	local info = app.tiled_objects_names[object_name]
+	return M.get_mapping()[info.spawner][info.index]
+end
+
+
+function M.get_objects(object_name, map_data)
+	object_name = hash(object_name)
+	map_data = map_data or app.tiled_map_default
+
+	if not app.tiled_objects_names[object_name] then
+		logger:warn("No object name in tiled mapping", { name = object_name })
+	end
+	local objects = {}
+	local index = app.tiled_objects_names[object_name].index
+
+	for go_id, object in pairs(map_data.game_objects)do
+		if index then
+			if object.index == index then
+				table.insert(objects, go_id)
+			end
+		else
+			table.insert(objects, go_id)
+		end
+	end
+
+	return objects
+end
+
+
+function M.get_object_by_id(id, map_data)
+	map_data = map_data or app.tiled_map_default
+
+	for go_id, object in pairs(map_data.game_objects) do
+		if object.tiled and object.tiled.id == id then
+			return go_id
+		end
+	end
+end
+
+
+function M.get_object_properties(game_object_id, map_data)
+	map_data = map_data or app.tiled_map_default
+	return map_data.game_objects[game_object_id].properties
+end
+
+
+function M.get_map_property(key, map_data)
+	map_data = map_data or app.tiled_map_default
+	return map_data.map_props[key]
+end
+
 --- Delete object from the map by game_object id
 -- @function eva.tiled.delete_object
 -- @tparam hash game_object_id Game object id
@@ -349,20 +471,45 @@ end
 -- Last map by default
 function M.delete_object(game_object_id, map_data)
 	map_data = map_data or app.tiled_map_default
-	local object = M.get_object_by_id(game_object_id)
+	local object = M.get_object(game_object_id)
 	if not object then
 		logger:warn("No object with ID", { id = game_object_id })
 		return
 	end
 
-	go.delete(object.go)
 	map_data.game_objects[object.go] = nil
-	map_data.objects[object.layer][object.go] = nil
+	map_data.objects[object.layer_name][object.go] = nil
+	go.delete(object.go)
+end
+
+
+function M.unhash_property(hash_string)
+	return app.tiled_hash_map[hash_string]
 end
 
 
 function M.get_mapping()
 	return db.get(app.settings.tiled.mapping_config)
+end
+
+
+function M.after_eva_init()
+	local mapping = M.get_mapping()
+	app.tiled_hash_map = {}
+	app.tiled_objects_names = {}
+	for spawner, objects in pairs(mapping) do
+		for index, object in pairs(objects) do
+			local object_name = get_object_name(spawner, object)
+			if app.tiled_objects_names[object_name] then
+				logger:fatal("Tiled object mapping duplicate", { name = object_name, spawner = spawner, index = index })
+			end
+
+			app.tiled_objects_names[object_name] = {
+				index = index,
+				spawner = spawner
+			}
+		end
+	end
 end
 
 
