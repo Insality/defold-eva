@@ -1,65 +1,11 @@
 {
-	"eva": {
-		"version": 1
+	"ads": {
+		"is_disabled": true,
+		"ads_id_ios": "999999999",
+		"ads_id_android": "999999999"
 	},
 	"cache": {
 		"is_disabled": false
-	},
-	"social": {
-		"is_disabled": true
-	},
-	"server": {
-		"is_disabled": true,
-		"game_id": "FFFFF"
-	},
-	"sound": {
-		"is_disabled": false,
-		"repeat_threshold": 0.05,
-		"sound_path": "main:/sounds#"
-	},
-	"game": {
-		"game_started_max_count_stats": 10,
-		"session_time": 600,
-		"time_policy": "local"
-	},
-	"saver": {
-		"save_name": "eva.json",
-		"autosave": 3,
-		"print_save_at_start": false
-	},
-	"gdpr": {
-		"is_disabled": false,
-		"policy_url": ""
-	},
-	"errors": {
-		"is_disabled": false,
-		"error_server_url": ""
-	},
-	"labels": {
-		"is_disabled": false,
-		"config": "Labels"
-	},
-	"lang": {
-		"default": "en",
-		"lang_paths": {
-			"en": "/resources/locales/en.json",
-			"ru": "/resources/locales/ru.json"
-		}
-	},
-	"tokens": {
-		"memory_protect": false,
-		"config_lots": "TokenLots",
-		"config_token_groups": "TokenGroups",
-		"config_token_config": "TokenConfig"
-	},
-	"log": {
-		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
-		"level": "DEBUG"
-	},
-	"iaps": {
-		"is_disabled": false,
-		"config_android": "IapsAndroid",
-		"config_ios": "IapsIos"
 	},
 	"camera": {
 		"is_disabled": false,
@@ -72,12 +18,18 @@
 		"friction_hold": 0.68,
 		"inertion_koef": 0.37
 	},
-	"input": {
-		"is_disabled": false,
-		"multi_touch": true,
-		"long_touch_threshold": 0.65,
-		"drag_deadzone": 10,
-		"zoom_speed": 2.5
+	"daily": {
+		"is_disabled": true,
+		"interval": 43200,
+		"wait_time": 86400,
+		"reward": [
+			"test_group_1",
+			"test_group_1",
+			"test_group_1",
+			"test_group_1",
+			"test_group_2"
+		],
+		"type": "wait"
 	},
 	"db": {
 		"paths": {
@@ -105,12 +57,110 @@
 			"Skills": "evadata.Skills"
 		}
 	},
+	"debug": {
+		"input_priority": 4
+	},
+	"errors": {
+		"is_disabled": false,
+		"error_server_url": ""
+	},
+	"eva": {
+		"version": 1
+	},
+	"game": {
+		"game_started_max_count_stats": 10,
+		"session_time": 600,
+		"time_policy": "local"
+	},
+	"gdpr": {
+		"is_disabled": false,
+		"policy_url": ""
+	},
+	"iaps": {
+		"is_disabled": false,
+		"config_android": "IapsAndroid",
+		"config_ios": "IapsIos"
+	},
+	"input": {
+		"is_disabled": false,
+		"multi_touch": true,
+		"long_touch_threshold": 0.65,
+		"drag_deadzone": 10,
+		"zoom_speed": 2.5
+	},
+	"labels": {
+		"is_disabled": false,
+		"config": "Labels"
+	},
+	"lang": {
+		"default": "en",
+		"lang_paths": {
+			"en": "/resources/locales/en.json",
+			"ru": "/resources/locales/ru.json"
+		}
+	},
+	"log": {
+		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
+		"level": "DEBUG"
+	},
+	"offers": {
+		"is_disabled": false,
+		"config": "Offers"
+	},
+	"proto": {
+		"default_nest_messages": true,
+		"proto_paths": {
+			"/eva/resources": [
+				"eva.proto",
+				"evadata.proto"
+			]
+		}
+	},
+	"push": {
+		"is_disabled": true,
+		"snooze_hour_start": 24,
+		"snooze_hour_end": 4,
+		"max_per_day": 0,
+		"max_category_per_day": 0,
+		"interval_between_pushes": 7200,
+		"clear_push_in_next_seconds": 5
+	},
 	"quests": {
 		"is_disabled": false
+	},
+	"rate": {
+		"is_disabled": false,
+		"max_promt_count": 4
+	},
+	"rating": {
+		"is_disabled": false,
+		"min": 100,
+		"max": 8000,
+		"rating_diff": 60,
+		"easy_max": 2000,
+		"diff_constant": 600,
+		"easy_reduce_koef": 3
+	},
+	"saver": {
+		"save_name": "eva.json",
+		"autosave": 3,
+		"print_save_at_start": false
+	},
+	"server": {
+		"is_disabled": true,
+		"game_id": "FFFFF"
 	},
 	"skill": {
 		"is_disabled": false,
 		"config": "Skills"
+	},
+	"social": {
+		"is_disabled": true
+	},
+	"sound": {
+		"is_disabled": false,
+		"repeat_threshold": 0.05,
+		"sound_path": "main:/sounds#"
 	},
 	"status": {
 		"is_disabled": false,
@@ -122,58 +172,14 @@
 		"z_layer_objects_default": 3,
 		"z_layer_tiles_default": 0
 	},
-	"offers": {
-		"is_disabled": false,
-		"config": "Offers"
-	},
-	"daily": {
-		"is_disabled": true,
-		"interval": 43200,
-		"wait_time": 86400,
-		"reward": ["test_group_1", "test_group_1", "test_group_1", "test_group_1", "test_group_2"],
-		"type": "wait"
-	},
-	"debug": {
-		"input_priority": 4
-	},
-	"push": {
-		"is_disabled": true,
-		"snooze_hour_start": 24,
-		"snooze_hour_end": 4,
-		"max_per_day": 0,
-		"max_category_per_day": 0,
-		"interval_between_pushes": 7200,
-		"clear_push_in_next_seconds": 5
+	"tokens": {
+		"memory_protect": false,
+		"config_lots": "TokenLots",
+		"config_token_groups": "TokenGroups",
+		"config_token_config": "TokenConfig"
 	},
 	"trucks": {
 		"is_disabled": false,
 		"min_return_timer_on_long_return": 0
-	},
-	"rating": {
-		"is_disabled": false,
-		"min": 100,
-		"max": 8000,
-		"rating_diff": 60,
-		"easy_max": 2000,
-		"diff_constant": 600,
-		"easy_reduce_koef": 3
-	},
-	"ads": {
-		"is_disabled": true,
-		"ads_id_ios": "999999999",
-		"ads_id_android": "999999999"
-	},
-	"rate": {
-		"is_disabled": false,
-		"max_promt_count": 4
-	},
-	"proto": {
-		"default_nest_messages": true,
-		"proto_paths": {
-			"/eva/resources": [
-				"eva.proto",
-				"evadata.proto"
-			]
-		}
 	}
 }
