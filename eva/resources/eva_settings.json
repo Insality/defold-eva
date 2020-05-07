@@ -2,11 +2,18 @@
 	"eva": {
 		"version": 1
 	},
+	"cache": {
+		"is_disabled": false
+	},
+	"social": {
+		"is_disabled": true
+	},
 	"server": {
 		"is_disabled": true,
 		"game_id": "FFFFF"
 	},
 	"sound": {
+		"is_disabled": false,
 		"repeat_threshold": 0.05,
 		"sound_path": "main:/sounds#"
 	},
@@ -21,18 +28,22 @@
 		"print_save_at_start": false
 	},
 	"gdpr": {
+		"is_disabled": false,
 		"policy_url": ""
 	},
 	"errors": {
+		"is_disabled": false,
 		"error_server_url": ""
 	},
 	"labels": {
+		"is_disabled": false,
 		"config": "Labels"
 	},
 	"lang": {
 		"default": "en",
 		"lang_paths": {
-			"en": "/resources/locales/en.json"
+			"en": "/resources/locales/en.json",
+			"ru": "/resources/locales/ru.json"
 		}
 	},
 	"tokens": {
@@ -46,10 +57,12 @@
 		"level": "DEBUG"
 	},
 	"iaps": {
+		"is_disabled": false,
 		"config_android": "IapsAndroid",
 		"config_ios": "IapsIos"
 	},
 	"camera": {
+		"is_disabled": false,
 		"input_priority": 3,
 		"move_lerp_speed": 0.87,
 		"move_border_lerp_speed": 0.09,
@@ -60,6 +73,7 @@
 		"inertion_koef": 0.37
 	},
 	"input": {
+		"is_disabled": false,
 		"multi_touch": true,
 		"long_touch_threshold": 0.65,
 		"drag_deadzone": 10,
@@ -92,20 +106,24 @@
 		}
 	},
 	"quests": {
-		"is_disabled": false,
+		"is_disabled": false
 	},
 	"skill": {
+		"is_disabled": false,
 		"config": "Skills"
 	},
 	"status": {
+		"is_disabled": false,
 		"config": "Status"
 	},
 	"tiled": {
+		"is_disabled": false,
 		"mapping_config": "TiledMapping",
 		"z_layer_objects_default": 3,
 		"z_layer_tiles_default": 0
 	},
 	"offers": {
+		"is_disabled": false,
 		"config": "Offers"
 	},
 	"daily": {
@@ -128,9 +146,11 @@
 		"clear_push_in_next_seconds": 5
 	},
 	"trucks": {
+		"is_disabled": false,
 		"min_return_timer_on_long_return": 0
 	},
 	"rating": {
+		"is_disabled": false,
 		"min": 100,
 		"max": 8000,
 		"rating_diff": 60,
@@ -144,6 +164,7 @@
 		"ads_id_android": "999999999"
 	},
 	"rate": {
+		"is_disabled": false,
 		"max_promt_count": 4
 	},
 	"proto": {

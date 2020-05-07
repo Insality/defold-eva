@@ -56,6 +56,7 @@ function init(self)
 	self.text_pred = render.predicate({"text"})
 	self.model_pred = render.predicate({"model"})
 	self.particle_pred = render.predicate({"particle"})
+	self.back_particle_pred = render.predicate({"back_particle"})
 
 	self.effect_default = render.predicate({"default"})
 
@@ -87,6 +88,7 @@ local function default_render(self)
 	render.set_blend_func(render.BLEND_SRC_ALPHA, render.BLEND_ONE_MINUS_SRC_ALPHA)
 	render.disable_state(render.STATE_CULL_FACE)
 
+	render.draw(self.back_particle_pred)
 	render.draw(self.tile_pred)
 	render.draw(self.particle_pred)
 

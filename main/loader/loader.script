@@ -3,7 +3,7 @@ local window_settings = require("main.window_settings")
 local eva_migrations = require("main.test_migrations")
 
 function init(self)
-	eva.init("/resources/eva_settings.json", {
+	eva.init("/eva/resources/eva_settings.json", {
 		migrations = eva_migrations,
 		window_settings = window_settings
 	})
