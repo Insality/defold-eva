@@ -86,6 +86,7 @@ globals = {
   "it",
   "context",
   "firebase",
+  "lua_script_instance",
   "defreview",
   "pb",
   "uptime",
