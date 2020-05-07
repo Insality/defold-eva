@@ -166,13 +166,19 @@ function init(self)
 
 	timer.delay(2.5, false, hide_scene)
 
-	msg.post(".", "acquire_input_focus")
+	msg.post(".", "late_acquire_focus")
 end
-
 
 
 function final(self)
 	msg.post(".", "release_input_focus")
+end
+
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("late_acquire_focus") then
+		msg.post(".", "acquire_input_focus")
+	end
 end
 
 
