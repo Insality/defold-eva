@@ -156,7 +156,7 @@ end
 
 
 function init(self)
-	local scene_name = SCENES.DAY or get_scene_name()
+	local scene_name = get_scene_name()
 	gui.set_enabled(gui.get_node("scene_morning"), false)
 	gui.set_enabled(gui.get_node("scene_day"), false)
 	gui.set_enabled(gui.get_node("scene_evening"), false)
