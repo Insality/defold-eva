@@ -7,9 +7,6 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
-local const = require("eva.const")
-
-local callbacks = require("eva.modules.callbacks")
 
 local logger = log.get_logger("eva.events")
 
@@ -23,17 +20,17 @@ local M = {}
 function M.event(event, params)
 	logger:debug("Event", { event = event, params = params })
 
+	local current_context = lua_script_instance.Get()
 	local listeners = app.event_listeners[event]
 	if listeners then
 		for i = 1, #listeners do
 			local info = listeners[i]
-			local callback_id = callbacks.create(info.callback)
-			msg.post(info.context, const.INPUT.CALLBACK, { index = callback_id, args = {
-				event = event,
-				params = params
-			}})
+			lua_script_instance.Set(info.context)
+			pcall(info.callback, info.context, params)
 		end
 	end
+
+	lua_script_instance.Set(current_context)
 end
 
 
@@ -59,7 +56,7 @@ function M.subscribe(event_name, callback)
 
 	table.insert(app.event_listeners[event_name], {
 		callback = callback,
-		context = msg.url()
+		context = lua_script_instance.Get()
 	})
 end
 
@@ -117,11 +114,5 @@ function M.before_eva_init()
 	app.event_listeners = {}
 end
 
-
-function M.on_message(self, message_id, message, sender)
-	if message_id == const.INPUT.CALLBACK then
-		callbacks.call(message.index, self, message.args.params)
-	end
-end
 
 return M

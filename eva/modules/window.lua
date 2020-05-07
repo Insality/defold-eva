@@ -14,7 +14,6 @@ local log = require("eva.log")
 
 local queue = require("eva.modules.queue")
 local events = require("eva.modules.events")
-local callbacks = require("eva.modules.callbacks")
 
 local logger = log.get_logger("eva.window")
 
@@ -59,12 +58,15 @@ local function handle_callbacks(data)
 	end
 
 	local callbacks_wrapped = {}
-	local stored_url = msg.url()
 
 	for name, callback in pairs(data.callbacks) do
+		local callback_context = lua_script_instance.Get()
 		callbacks_wrapped[name] = function(...)
-			local index = callbacks.create(callback)
-			msg.post(stored_url, const.INPUT.CALLBACK, { index = index, args = ...})
+			local current_context = lua_script_instance.Get()
+			lua_script_instance.Set(callback_context)
+			pcall(callback, callback_context, ...)
+
+			lua_script_instance.Set(current_context)
 		end
 	end
 
@@ -242,10 +244,6 @@ end
 function M.on_message(window_id, message_id, message, sender)
 	if message_id == const.INPUT.CLOSE then
 		M.disappear(window_id)
-	end
-
-	if message_id == const.INPUT.CALLBACK then
-		callbacks.call(message.index, message.args)
 	end
 end
 

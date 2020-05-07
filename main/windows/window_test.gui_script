@@ -3,28 +3,25 @@ local id = "window_test"
 
 function init(self)
 	eva.window.appear(id)
-	-- Add initialization code here
-	-- Remove this function if not needed
 end
 
-function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
+
+local function on_accept_popup(self, custom_text)
+	custom_text = custom_text or "Default text"
+	gui.set_text(gui.get_node("cb_text"), custom_text)
 end
 
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
-end
 
 function on_message(self, message_id, message, sender)
 	eva.window.on_message(id, message_id, message, sender)
 end
 
+
 function on_input(self, action_id, action)
 	if action.released and action_id == hash("touch") then
 		eva.window.disappear(id)
 	end
+
 	if action.released then
 		if action_id == hash("key_4") then
 			eva.window.show("window_test")
@@ -36,10 +33,7 @@ function on_input(self, action_id, action)
 		if action_id == hash("key_6") then
 			eva.window.show("window_popup", {
 				callbacks = {
-					accept = function(custom_text)
-						custom_text = custom_text or "Default text"
-						gui.set_text(gui.get_node("cb_text"), custom_text)
-					end
+					accept = on_accept_popup
 				}
 			})
 		end
