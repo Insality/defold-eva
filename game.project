@@ -86,3 +86,6 @@ max_instances = 4048
 [test]
 report = 0
 
+[graphics]
+texture_profiles = /eva/system/eva.texture_profiles
+
