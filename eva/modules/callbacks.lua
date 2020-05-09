@@ -18,7 +18,10 @@ local M = {}
 function M.create(callback)
 	local data = app.callbacks_data
 	data.last_index = data.last_index + 1
-	data.callbacks[data.last_index] = callback
+	data.callbacks[data.last_index] = {
+		context = lua_script_instance.Get(),
+		callback = callback
+	}
 
 	return data.last_index
 end
@@ -32,9 +35,16 @@ function M.call(index, ...)
 	local data = app.callbacks_data
 
 	if data.callbacks[index] then
-		local cb = data.callbacks[index]
+		local callback_data = data.callbacks[index]
 		data.callbacks[index] = nil
-		return cb(...)
+
+		local current_context = lua_script_instance.Get()
+
+		lua_script_instance.Set(callback_data.context)
+		local _, result = pcall(callback_data.callback, ...)
+
+		lua_script_instance.Set(current_context)
+		return result
 	end
 
 	return false
