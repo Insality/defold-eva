@@ -54,6 +54,7 @@
 <li><a href="#modules_migrations_Functions">modules.migrations Functions</a></li>
 <li><a href="#modules_offers_Functions">modules.offers Functions</a></li>
 <li><a href="#modules_pathfinder_Functions">modules.pathfinder Functions</a></li>
+<li><a href="#modules_promocode_Functions">modules.promocode Functions</a></li>
 <li><a href="#modules_proto_Functions">modules.proto Functions</a></li>
 <li><a href="#modules_push_Functions">modules.push Functions</a></li>
 <li><a href="#modules_quests_Functions">modules.quests Functions</a></li>
@@ -62,6 +63,7 @@
 <li><a href="#modules_render_Functions">modules.render Functions</a></li>
 <li><a href="#modules_saver_Functions">modules.saver Functions</a></li>
 <li><a href="#modules_server_Functions">modules.server Functions</a></li>
+<li><a href="#modules_skill_Functions">modules.skill Functions</a></li>
 <li><a href="#modules_sound_Functions">modules.sound Functions</a></li>
 <li><a href="#modules_storage_Functions">modules.storage Functions</a></li>
 <li><a href="#modules_tiled_Functions">modules.tiled Functions</a></li>
@@ -119,10 +121,6 @@
 	<tr>
 	<td class="name" nowrap><a href="#on_input">on_input()</a></td>
 	<td class="summary">Call this on main game on_input</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#on_message">on_message()</a></td>
-	<td class="summary">Call this on main game on_message</td>
 	</tr>
 </table>
 <h2><a href="#modules_ads_Functions">modules.ads Functions</a></h2>
@@ -226,6 +224,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.db.get">eva.db.get(config_name)</a></td>
 	<td class="summary">Return config by config_name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.db.set_settings">eva.db.set_settings(settings)</a></td>
+	<td class="summary">Can override db with custom tables (useful for tests)</td>
 	</tr>
 </table>
 <h2><a href="#modules_device_Functions">modules.device Functions</a></h2>
@@ -507,7 +509,7 @@
 	<td class="summary">Get total lifetime value (from iaps)</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.iaps.get_max_pay">eva.iaps.get_max_pay()</a></td>
+	<td class="name" nowrap><a href="#eva.iaps.get_max_payment">eva.iaps.get_max_payment()</a></td>
 	<td class="summary">Get player max payment</td>
 	</tr>
 </table>
@@ -517,6 +519,10 @@
 	<td class="name" nowrap><a href="#eva.input.register">eva.input.register(name, callback, priority)</a></td>
 	<td class="summary">Register the input to handle user actions
  If callback return true it will stop handle next input</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.input.unregister">eva.input.unregister(name)</a></td>
+	<td class="summary">Unregister prev.</td>
 	</tr>
 </table>
 <h2><a href="#modules_invoices_Functions">modules.invoices Functions</a></h2>
@@ -678,8 +684,31 @@
  should return cost of node.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#path">path(from_x, from_y, to_x, to_y[, map_handler])</a></td>
+	<td class="name" nowrap><a href="#eva.pathfinder.path">eva.pathfinder.path(from_x, from_y, to_x, to_y[, map_handler])</a></td>
 	<td class="summary">Return path between two points for map.</td>
+	</tr>
+</table>
+<h2><a href="#modules_promocode_Functions">modules.promocode Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#get_applied_codes">get_applied_codes()</a></td>
+	<td class="summary">Get list of all redeemed codes</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.promocode.is_applied">eva.promocode.is_applied(code)</a></td>
+	<td class="summary">Check if promocode is already applied</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.promocode.redeem_code">eva.promocode.redeem_code(code)</a></td>
+	<td class="summary">Try redeem the code and get rewards</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.promocode.is_can_redeem">eva.promocode.is_can_redeem(code)</a></td>
+	<td class="summary">Check if promocode can be redeem</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.promocode.set_settings">eva.promocode.set_settings()</a></td>
+	<td class="summary">Set promocode settings.</td>
 	</tr>
 </table>
 <h2><a href="#modules_proto_Functions">modules.proto Functions</a></h2>
@@ -738,6 +767,11 @@
 	<td class="summary">Get completed quests list</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.quests.is_current_with_task">eva.quests.is_current_with_task(action[, object])</a></td>
+	<td class="summary">Check if there is quests in current with
+ pointer action and object</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.quests.is_active">eva.quests.is_active()</a></td>
 	<td class="summary">Check quest is active</td>
 	</tr>
@@ -760,6 +794,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.complete_quest">eva.quests.complete_quest(quest_id)</a></td>
 	<td class="summary">Complete quest, if it can be completed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.reset_progress">eva.quests.reset_progress(quest_id)</a></td>
+	<td class="summary">Reset quets progress, only on current quests</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.quest_event">eva.quests.quest_event(action, object, amount)</a></td>
@@ -858,6 +896,18 @@
 	<td class="summary">Send save to the server</td>
 	</tr>
 </table>
+<h2><a href="#modules_skill_Functions">modules.skill Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#end_use">end_use(container_id, skill_id)</a></td>
+	<td class="summary">End use of channeling spell or end effect of skill
+ with duration</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#is_active">is_active(container_id, skill_id)</a></td>
+	<td class="summary">Time between use and end_use</td>
+	</tr>
+</table>
 <h2><a href="#modules_sound_Functions">modules.sound Functions</a></h2>
 <table class="function_list">
 	<tr>
@@ -919,12 +969,16 @@
 	<td class="summary">Delete tile from the map by tile pos</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(layer_name, spawner_name, index, x, y[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(layer_name, spawner_name, index, x, y, props[, map_data])</a></td>
 	<td class="summary">Add object to the map by object index from tiled tileset</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tiled.get_object">eva.tiled.get_object(game_object_id[, map_data])</a></td>
 	<td class="summary">Get object to the map by game_object id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_object_data">get_object_data(object_name)</a></td>
+	<td class="summary">Get mapping object info by name</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tiled.delete_object">eva.tiled.delete_object(game_object_id[, map_data])</a></td>
@@ -1316,20 +1370,6 @@
     </dt>
     <dd>
     Call this on main game on_input
-
-
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "on_message"></a>
-    <strong>on_message()</strong>
-    </dt>
-    <dd>
-    Call this on main game on_message
 
 
 
@@ -1777,6 +1817,27 @@
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
         Config table
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.db.set_settings"></a>
+    <strong>eva.db.set_settings(settings)</strong>
+    </dt>
+    <dd>
+    Can override db with custom tables (useful for tests)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">settings</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Custom db settings
+        </li>
+    </ul>
+
 
 
 
@@ -2391,7 +2452,7 @@
     <ol>
 
            <span class="types"><span class="type">number</span></span>
-        return game time in seconds
+        Return game time in seconds
     </ol>
 
 
@@ -3097,8 +3158,8 @@
 
 </dd>
     <dt>
-    <a name = "eva.iaps.get_max_pay"></a>
-    <strong>eva.iaps.get_max_pay()</strong>
+    <a name = "eva.iaps.get_max_payment"></a>
+    <strong>eva.iaps.get_max_payment()</strong>
     </dt>
     <dd>
     Get player max payment
@@ -3142,6 +3203,27 @@
         <li><span class="parameter">priority</span>
             <span class="types"><span class="type">number</span></span>
          Priority of input. Lower first
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.input.unregister"></a>
+    <strong>eva.input.unregister(name)</strong>
+    </dt>
+    <dd>
+    Unregister prev.  registered input
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of input system
         </li>
     </ul>
 
@@ -3903,8 +3985,8 @@
 
 </dd>
     <dt>
-    <a name = "path"></a>
-    <strong>path(from_x, from_y, to_x, to_y[, map_handler])</strong>
+    <a name = "eva.pathfinder.path"></a>
+    <strong>eva.pathfinder.path(from_x, from_y, to_x, to_y[, map_handler])</strong>
     </dt>
     <dd>
     Return path between two points for map.
@@ -3938,6 +4020,126 @@
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
         Table of points. See eva.libs.astar.path. Nil if path is not exist
     </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_promocode_Functions"></a>modules.promocode Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "get_applied_codes"></a>
+    <strong>get_applied_codes()</strong>
+    </dt>
+    <dd>
+    Get list of all redeemed codes
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string[]</a></span>
+        List of applied codes
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.promocode.is_applied"></a>
+    <strong>eva.promocode.is_applied(code)</strong>
+    </dt>
+    <dd>
+    Check if promocode is already applied
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The promocode itself
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True if code is already redeemed
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.promocode.redeem_code"></a>
+    <strong>eva.promocode.redeem_code(code)</strong>
+    </dt>
+    <dd>
+    Try redeem the code and get rewards
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The promocode itself
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Result of success
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.promocode.is_can_redeem"></a>
+    <strong>eva.promocode.is_can_redeem(code)</strong>
+    </dt>
+    <dd>
+    Check if promocode can be redeem
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">code</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The promocode itself
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True of false
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.promocode.set_settings"></a>
+    <strong>eva.promocode.set_settings()</strong>
+    </dt>
+    <dd>
+    Set promocode settings.
+ Pass settings in eva.init function
+
+
+
 
 
 
@@ -4151,6 +4353,39 @@
 
 </dd>
     <dt>
+    <a name = "eva.quests.is_current_with_task"></a>
+    <strong>eva.quests.is_current_with_task(action[, object])</strong>
+    </dt>
+    <dd>
+    Check if there is quests in current with
+ pointer action and object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">action</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Task action
+        </li>
+        <li><span class="parameter">object</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Task object
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if there is quest with similar tasks
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.quests.is_active"></a>
     <strong>eva.quests.is_active()</strong>
     </dt>
@@ -4257,6 +4492,27 @@
     </dt>
     <dd>
     Complete quest, if it can be completed
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">quest_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Quest id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.reset_progress"></a>
+    <strong>eva.quests.reset_progress(quest_id)</strong>
+    </dt>
+    <dd>
+    Reset quets progress, only on current quests
 
 
     <h3>Parameters:</h3>
@@ -4631,6 +4887,57 @@
 
 </dd>
 </dl>
+    <h2 class="section-header "><a name="modules_skill_Functions"></a>modules.skill Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "end_use"></a>
+    <strong>end_use(container_id, skill_id)</strong>
+    </dt>
+    <dd>
+    End use of channeling spell or end effect of skill
+ with duration
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+
+        </li>
+        <li><span class="parameter">skill_id</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "is_active"></a>
+    <strong>is_active(container_id, skill_id)</strong>
+    </dt>
+    <dd>
+    Time between use and end_use
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+
+        </li>
+        <li><span class="parameter">skill_id</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
     <h2 class="section-header "><a name="modules_sound_Functions"></a>modules.sound Functions</h2>
 
     <dl class="function">
@@ -4926,7 +5233,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.add_object"></a>
-    <strong>eva.tiled.add_object(layer_name, spawner_name, index, x, y[, map_data])</strong>
+    <strong>eva.tiled.add_object(layer_name, spawner_name, index, x, y, props[, map_data])</strong>
     </dt>
     <dd>
     Add object to the map by object index from tiled tileset
@@ -4953,6 +5260,10 @@
         <li><span class="parameter">y</span>
             <span class="types"><span class="type">number</span></span>
          y position
+        </li>
+        <li><span class="parameter">props</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Object additional properties
         </li>
         <li><span class="parameter">map_data</span>
             <span class="types"><span class="type">map_data</span></span>
@@ -4986,6 +5297,26 @@
          Map_data returned by eva.tiled.load_map.
  Last map by default
          (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_object_data"></a>
+    <strong>get_object_data(object_name)</strong>
+    </dt>
+    <dd>
+    Get mapping object info by name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_name</span>
+
         </li>
     </ul>
 
@@ -6478,7 +6809,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-03-01 15:25:28 </i>
+<i style="float:right;">Last updated 2020-05-19 23:33:44 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
