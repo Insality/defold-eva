@@ -24,7 +24,7 @@ end
 
 
 --- Get list of all redeemed codes
--- @funtion eva.promocode.get_applied_codes
+-- @function eva.promocode.get_applied_codes
 -- @treturn string[] List of applied codes
 function M.get_applied_codes()
 	return app[const.EVA.PROMOCODES].applied
