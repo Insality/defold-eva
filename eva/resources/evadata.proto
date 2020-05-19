@@ -123,3 +123,13 @@ message Skills {
 	}
 	map<string, Skill> skills = 1;
 }
+
+
+message Promocodes {
+	message Promocode {
+		Tokens tokens = 1;
+		string start_date = 2;
+		string end_date = 3;
+	}
+	map<string, Promocode> promocodes = 1;
+}

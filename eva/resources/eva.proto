@@ -222,3 +222,7 @@ message Skills {
 message SkillContainers {
 	map<string, Skills> containers = 1;
 }
+
+message Promocodes {
+	repeated string applied = 1;
+}

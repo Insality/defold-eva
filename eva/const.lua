@@ -176,6 +176,7 @@ M.EVA = {
 	SKILLS = "eva.Skills",
 	SKILL_CONTAINERS = "eva.SkillContainers",
 	STATUSES = "eva.Status",
+	PROMOCODES = "eva.Promocodes",
 
 	-- Part of data
 	TOKEN = "eva.Token",

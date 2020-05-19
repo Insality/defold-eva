@@ -1,0 +1,10 @@
+{
+  "promocodes": {
+    "DEFOLD": {
+      "start_date": "2019-10-07Z",
+      "end_date": "2020-05-20Z",
+      "tokens": { "tokens": [ { "token_id": "gold", "amount": 10 } ] }
+    },
+    "AWSOME": { "tokens": { "tokens": [ { "token_id": "exp", "amount": 100 } ] } }
+  }
+}

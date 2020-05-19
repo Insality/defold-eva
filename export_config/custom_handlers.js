@@ -6,11 +6,15 @@ function tokens(data, config) {
 			if (!record[config.fields[i]]) {
 				continue
 			}
-			tokens.push({
-				token_id: record[config.fields[i]][0],
-				amount: record[config.fields[i]][1]
-			})
-			delete record[config.fields[i]]
+			let token_list = config.fields[i]
+
+			for (let j = 0; j < record[token_list].length; j += 2) {
+				tokens.push({
+					token_id: record[token_list][j],
+					amount: record[token_list][j+1]
+				})
+			}
+			delete record[token_list]
 		}
 		if (config.id) {
 			if (tokens.length > 0) {

@@ -21,6 +21,7 @@ local tests = {
 	require("test.tests.eva_trucks"),
 	require("test.tests.eva_migrations"),
 	require("test.tests.eva_skills"),
+	require("test.tests.eva_promocode"),
 
 	-- New tests, unimplemented
 	require("test.tests.eva_events"),

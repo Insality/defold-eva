@@ -52,6 +52,7 @@ local function load_modules()
 		migrations = require("eva.modules.migrations"),
 		offers = require("eva.modules.offers"),
 		pathfinder = require("eva.modules.pathfinder"),
+		promocode = require("eva.modules.promocode"),
 		proto = require("eva.modules.proto"),
 		push = require("eva.modules.push"),
 		quests = require("eva.modules.quests"),
@@ -128,6 +129,10 @@ local function apply_module_settings(settings)
 
 	if settings.db_settings then
 		M.db.set_settings(settings.db_settings)
+	end
+
+	if settings.promocode_settings then
+		M.promocode.set_settings(settings.promocode_settings)
 	end
 end
 

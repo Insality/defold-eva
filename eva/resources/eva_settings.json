@@ -45,7 +45,8 @@
 			"Trucks": "/resources/json/trucks.json",
 			"Labels": "/resources/json/labels.json",
 			"Skills": "/resources/json/skills.json",
-			"Status": "/resources/json/status.json"
+			"Status": "/resources/json/status.json",
+			"Promocodes": "/resources/json/promocodes.json"
 		},
 		"verify": {
 			"Offers": "evadata.Offers",
@@ -54,7 +55,8 @@
 			"TokenGroups": "evadata.TokenGroups",
 			"TokenLots": "evadata.Lots",
 			"Trucks": "evadata.Trucks",
-			"Skills": "evadata.Skills"
+			"Skills": "evadata.Skills",
+			"Promocodes": "evadata.Promocodes"
 		}
 	},
 	"debug": {

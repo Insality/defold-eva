@@ -154,6 +154,19 @@
 
 		"status": {
 			"lists": ["Statuses"]
+		},
+
+		"promocodes": {
+			"lists": ["Promocodes"],
+			"handlers": [
+				{
+					"type": "tokens",
+					"config": {
+						"id": "tokens",
+						"fields": ["tokens"]
+					}
+				}
+			]
 		}
 	}
 }
