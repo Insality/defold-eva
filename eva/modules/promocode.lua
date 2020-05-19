@@ -4,7 +4,6 @@
 
 
 local app = require("eva.app")
-local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 local time_string = require("eva.libs.time_string")
@@ -13,9 +12,8 @@ local db = require("eva.modules.db")
 local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
+local events = require("eva.modules.events")
 local wallet = require("eva.modules.wallet")
-
-local logger = log.get_logger("eva.promocode")
 
 local M = {}
 
@@ -25,16 +23,27 @@ local function get_config()
 end
 
 
+--- Get list of all redeemed codes
+-- @funtion eva.promocode.get_applied_codes
+-- @treturn string[] List of applied codes
 function M.get_applied_codes()
 	return app[const.EVA.PROMOCODES].applied
 end
 
 
+--- Check if promocode is already applied
+-- @function eva.promocode.is_applied
+-- @tparam string code The promocode itself
+-- @treturn bool True if code is already redeemed
 function M.is_applied(code)
 	return luax.table.contains(app[const.EVA.PROMOCODES].applied, code)
 end
 
 
+--- Try redeem the code and get rewards
+-- @function eva.promocode.redeem_code
+-- @tparam string code The promocode itself
+-- @treturn bool Result of success
 function M.redeem_code(code)
 	if M.is_can_redeem(code) then
 		wallet.add_many(get_config()[code].tokens)
@@ -43,7 +52,7 @@ function M.redeem_code(code)
 		end
 
 		table.insert(app[const.EVA.PROMOCODES].applied, code)
-		logger:info("Redeem code", { code = code })
+		events.event(const.EVENT.CODE_REDEEM, { code = code })
 		return true
 	end
 
@@ -51,6 +60,10 @@ function M.redeem_code(code)
 end
 
 
+--- Check if promocode can be redeem
+-- @function eva.promocode.is_can_redeem
+-- @tparam string code The promocode itself
+-- @treturn bool True of false
 function M.is_can_redeem(code)
 	local config = get_config()
 

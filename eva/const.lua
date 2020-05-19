@@ -126,7 +126,8 @@ M.EVENT = {
 	SKILL_USE = "eva.skill.use",
 	SKILL_USE_END = "eva.skill.end_use",
 	SKILL_COOLDOWN_START = "eva.skill.cooldown",
-	SKILL_COOLDOWN_END = "eva.skill.cooldown_end"
+	SKILL_COOLDOWN_END = "eva.skill.cooldown_end",
+	CODE_REDEEM = "eva.promocode.redeem"
 }
 
 
