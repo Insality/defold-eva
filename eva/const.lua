@@ -233,6 +233,12 @@ M.ASTAR = {
 }
 
 
+M.HEXMAP_TYPE = {
+	POINTYTOP = "pointytop",
+	FLATTOP = "flattop"
+}
+
+
 -- This is all keys from all.input_binding
 M.INPUT_KEYS = {
 	hash("key_space"),

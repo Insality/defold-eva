@@ -303,6 +303,10 @@ end
 -- @function eva.iaps.get_ltv
 -- @treturn number Player's LTV
 function M.get_ltv()
+	if not app[const.EVA.IAPS] then
+		return 0
+	end
+
 	local ltv = 0
 	local purchased = app[const.EVA.IAPS].purchased_iaps
 
@@ -320,6 +324,10 @@ end
 -- @function eva.iaps.get_max_payment
 -- @treturn number Max player payment
 function M.get_max_payment()
+	if not app[const.EVA.IAPS] then
+		return 0
+	end
+
 	local max_pay = 0
 	local purchased = app[const.EVA.IAPS].purchased_iaps
 

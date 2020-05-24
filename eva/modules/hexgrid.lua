@@ -8,7 +8,11 @@
 
 
 local app = require("eva.app")
+local log = require("eva.log")
 local luax = require("eva.luax")
+local const = require("eva.const")
+
+local logger = log.get_logger("exa.hexgrid")
 
 local M = {}
 
@@ -31,9 +35,10 @@ end
 -- @function eva.hexgrid.get_map_params
 -- @tparam number tilewidth Hexagon width
 -- @tparam number tileheight Hexagon height
--- @tparam number tileside Hexagon side height
--- @tparam number tiles_x Map width in tiles count
--- @tparam number tiles_y Map height in tiles count
+-- @tparam number tileside Hexagon side length (flat side)
+-- @tparam number width Map width in tiles count
+-- @tparam number height Map height in tiles count
+-- @tparam bool invert_y If true, zero pos will be at top, else on bot
 -- @treturn map_params Map params data
 function M.get_map_params(options)
 	local map_params = {}
@@ -41,14 +46,14 @@ function M.get_map_params(options)
 		width = options.tilewidth,
 		height = options.tileheight,
 		side = options.tileside,
-		double_side = options.tileheight + options.tileside
 	}
 	map_params.scene = {
 		invert_y = options.invert_y,
 		tiles_x = options.width,
 		tiles_y = options.height,
 		size_x = 0,
-		size_y = 0
+		size_y = 0,
+		hexmap_type = options.hexmap_type or const.HEXMAP_TYPE.POINTYTOP
 	}
 
 	local size_x, size_y = get_scene_size(map_params)
@@ -82,20 +87,38 @@ function M.set_default_map_params(map_params)
 end
 
 
---- Transform hex to pixel position
--- @function eva.hexgrid.cell_to_pos
-function M.cell_to_pos(i, j, map_params)
-	local data = map_params or app.hexgrid_default
+local function cell_to_pos_flattop(i, j, data)
+	local part_size = data.tile.width - data.tile.side
+	local two_hex_width = data.tile.width + data.tile.side
 
-	local part_size = data.tile.height - data.tile.side
-
-	local x = data.tile.width * (i + 0.5 * (bit.band(j, 1)))
-	local y = data.tile.double_side / 2 * j
+	local x = two_hex_width / 2 * i
+	local y = data.tile.height * (j + 0.5 * (bit.band(i, 1)))
 
 	-- invert
 	if data.scene.invert_y then
 		y = data.scene.size_y - y
 	end
+
+	-- add half offset
+	x = x + part_size
+	y = y + (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
+
+	return x, y
+end
+
+
+local function cell_to_pos_pointytop(i, j, data)
+	local part_size = data.tile.height - data.tile.side
+	local two_hex_height = data.tile.height + data.tile.side
+
+	local x = data.tile.width * (i + 0.5 * (bit.band(j, 1)))
+	local y = two_hex_height / 2 * j
+
+	-- invert
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
+
 	-- add half offset
 	x = x + data.tile.width/2
 	y = y + (data.scene.invert_y and -part_size or part_size)
@@ -104,27 +127,82 @@ function M.cell_to_pos(i, j, map_params)
 end
 
 
---- Transform pixel to hex
--- @function eva.hexgrid.pos_to_cell
-function M.pos_to_cell(x, y, map_params)
+--- Transform hex to pixel position
+-- @function eva.hexgrid.cell_to_pos
+function M.cell_to_pos(i, j, map_params)
+	map_params = map_params or app.hexgrid_default
+
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
+		return cell_to_pos_pointytop(i, j, map_params)
+	end
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
+		return cell_to_pos_flattop(i, j, map_params)
+	end
+
+	logger.error("Unknown hexmap type")
+end
+
+
+
+local function pos_to_cell_flattop(x, y, map_params)
 	local data = map_params or app.hexgrid_default
 
-	local part_size = (data.tile.height - data.tile.side)
+	local part_size = data.tile.width - data.tile.side
+	local two_hex_width = data.tile.width + data.tile.side
 
 	-- add half offset
-	x = x - data.tile.width/2
-	y = y - (data.scene.invert_y and -part_size or part_size)
+	x = x - part_size
+	y = y - (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
+
 	-- invert
 	if data.scene.invert_y then
 		y = data.scene.size_y - y
 	end
 
-	local j = 2 * y / data.tile.double_side
+	local i = 2 * x / two_hex_width
+	local j = y / data.tile.height - 0.5 * bit.band(i, 1)
+
+	return luax.math.round(i), luax.math.round(j)
+end
+
+
+
+local function pos_to_cell_pointytop(x, y, map_params)
+	local data = map_params or app.hexgrid_default
+
+	local part_size = data.tile.height - data.tile.side
+	local two_hex_height = data.tile.height + data.tile.side
+
+	-- add half offset
+	x = x - data.tile.width/2
+	y = y - (data.scene.invert_y and -part_size or part_size)
+
+	-- invert
+	if data.scene.invert_y then
+		y = data.scene.size_y - y
+	end
+
+	local j = 2 * y / two_hex_height
 	local i = x / data.tile.width - 0.5 * bit.band(j, 1)
 
 	return luax.math.round(i), luax.math.round(j)
 end
 
+
+--- Transform pixel to hex
+-- @function eva.hexgrid.pos_to_cell
+function M.pos_to_cell(i, j, map_params)
+	map_params = map_params or app.hexgrid_default
+
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
+		return pos_to_cell_pointytop(i, j, map_params)
+	end
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
+		return pos_to_cell_flattop(i, j, map_params)
+	end
+
+	logger.error("Unknown hexmap type")
+end
 
 --- Get Z position from object Y position and his z_layer
 -- @function eva.hexgrid.get_z
