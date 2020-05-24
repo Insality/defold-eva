@@ -9,9 +9,9 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
-local luax = require("eva.luax")
 local const = require("eva.const")
 
+local hexgrid_convert = require("eva.modules.hexgrid.hexgrid_convertations")
 local logger = log.get_logger("exa.hexgrid")
 
 local M = {}
@@ -87,122 +87,123 @@ function M.set_default_map_params(map_params)
 end
 
 
-local function cell_to_pos_flattop(i, j, data)
-	local part_size = data.tile.width - data.tile.side
-	local two_hex_width = data.tile.width + data.tile.side
-
-	local x = two_hex_width / 2 * i
-	local y = data.tile.height * (j + 0.5 * (bit.band(i, 1)))
-
-	-- invert
-	if data.scene.invert_y then
-		y = data.scene.size_y - y
-	end
-
-	-- add half offset
-	x = x + part_size
-	y = y + (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
-
-	return x, y
-end
-
-
-local function cell_to_pos_pointytop(i, j, data)
-	local part_size = data.tile.height - data.tile.side
-	local two_hex_height = data.tile.height + data.tile.side
-
-	local x = data.tile.width * (i + 0.5 * (bit.band(j, 1)))
-	local y = two_hex_height / 2 * j
-
-	-- invert
-	if data.scene.invert_y then
-		y = data.scene.size_y - y
-	end
-
-	-- add half offset
-	x = x + data.tile.width/2
-	y = y + (data.scene.invert_y and -part_size or part_size)
-
-	return x, y
-end
-
-
---- Transform hex to pixel position
+--- Transform hex to pixel position. Offset coordinates
 -- @function eva.hexgrid.cell_to_pos
+-- @tparam number i Cell i coordinate
+-- @tparam number j Cell j coordinate
+-- @tparam map_params map_params Params from eva.hexgrid.get_map_params
 function M.cell_to_pos(i, j, map_params)
 	map_params = map_params or app.hexgrid_default
 
 	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
-		return cell_to_pos_pointytop(i, j, map_params)
+		return hexgrid_convert.cell_to_pos_pointytop(i, j, map_params)
 	end
 	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
-		return cell_to_pos_flattop(i, j, map_params)
+		return hexgrid_convert.cell_to_pos_flattop(i, j, map_params)
 	end
 
 	logger.error("Unknown hexmap type")
 end
 
 
-
-local function pos_to_cell_flattop(x, y, map_params)
-	local data = map_params or app.hexgrid_default
-
-	local part_size = data.tile.width - data.tile.side
-	local two_hex_width = data.tile.width + data.tile.side
-
-	-- add half offset
-	x = x - part_size
-	y = y - (data.scene.invert_y and -data.tile.height/2 or data.tile.height/2)
-
-	-- invert
-	if data.scene.invert_y then
-		y = data.scene.size_y - y
-	end
-
-	local i = 2 * x / two_hex_width
-	local j = y / data.tile.height - 0.5 * bit.band(i, 1)
-
-	return luax.math.round(i), luax.math.round(j)
-end
-
-
-
-local function pos_to_cell_pointytop(x, y, map_params)
-	local data = map_params or app.hexgrid_default
-
-	local part_size = data.tile.height - data.tile.side
-	local two_hex_height = data.tile.height + data.tile.side
-
-	-- add half offset
-	x = x - data.tile.width/2
-	y = y - (data.scene.invert_y and -part_size or part_size)
-
-	-- invert
-	if data.scene.invert_y then
-		y = data.scene.size_y - y
-	end
-
-	local j = 2 * y / two_hex_height
-	local i = x / data.tile.width - 0.5 * bit.band(j, 1)
-
-	return luax.math.round(i), luax.math.round(j)
-end
-
-
---- Transform pixel to hex
+--- Transform pixel to hex. Offset coordinates
 -- @function eva.hexgrid.pos_to_cell
-function M.pos_to_cell(i, j, map_params)
+-- @tparam number x World x position
+-- @tparam number y World y position
+-- @tparam map_params map_params Params from eva.hexgrid.get_map_params
+function M.pos_to_cell(x, y, map_params)
 	map_params = map_params or app.hexgrid_default
 
 	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
-		return pos_to_cell_pointytop(i, j, map_params)
+		return hexgrid_convert.pos_to_cell_pointytop(x, y, map_params)
 	end
 	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
-		return pos_to_cell_flattop(i, j, map_params)
+		return hexgrid_convert.pos_to_cell_flattop(x, y, map_params)
 	end
 
 	logger.error("Unknown hexmap type")
 end
+
+
+--- Transform hex to pixel position. Offset coordinates
+-- @function eva.hexgrid.cell_cube_to_pos
+-- @tparam number i Cell i coordinate
+-- @tparam number j Cell j coordinate
+-- @tparam number k Cell k coordinate
+-- @tparam[opt] map_params map_params Params from eva.hexgrid.get_map_params
+function M.cell_cube_to_pos(i, j, k, map_params)
+	map_params = map_params or app.hexgrid_default
+
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
+		return hexgrid_convert.cell_cube_to_pos_pointytop(i, j, k, map_params)
+	end
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
+		return hexgrid_convert.cell_cube_to_pos_flattop(i, j, k, map_params)
+	end
+
+	logger.error("Unknown hexmap type")
+end
+
+
+--- Transform pixel to hex. Cube coordinates
+-- @function eva.hexgrid.pos_to_cell_cube
+-- @tparam number x World x position
+-- @tparam number y World y position
+-- @tparam map_params map_params Params from eva.hexgrid.get_map_params
+function M.pos_to_cell_cube(x, y, map_params)
+	map_params = map_params or app.hexgrid_default
+
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
+		return hexgrid_convert.pos_to_cell_cube_pointytop(x, y, map_params)
+	end
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
+		return hexgrid_convert.pos_to_cell_cube_flattop(x, y, map_params)
+	end
+
+	logger.error("Unknown hexmap type")
+end
+
+
+--- Transfrom offset coordinates to cube coordinates
+-- @function eva.hexgrid.offset_to_cube
+-- @tparam number i I coordinate
+-- @tparam number j J coordinate
+-- @tparam[opt] map_params map_params Params from eva.hexgrid.get_map_params
+function M.offset_to_cube(i, j, map_params)
+	map_params = map_params or app.hexgrid_default
+
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
+		return hexgrid_convert.offset_to_cube_pointytop(i, j, map_params)
+	end
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
+		return hexgrid_convert.offset_to_cube_flattop(i, j, map_params)
+	end
+
+	logger.error("Unknown hexmap type")
+end
+
+
+--- Transfrom cube coordinates to offset coordinates
+-- @function eva.hexgrid.offset_to_cube
+-- @tparam number i I coordinate
+-- @tparam number j J coordinate
+-- @tparam number j m coordinate
+-- @tparam[opt] map_params map_params Params from eva.hexgrid.get_map_params
+function M.cube_to_offset(i, j, k, map_params)
+	assert((i + j + k) == 0, "Wrong cube coordinates")
+
+	map_params = map_params or app.hexgrid_default
+
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.POINTYTOP then
+		return hexgrid_convert.cube_to_offset_pointytop(i, j, k, map_params)
+	end
+	if map_params.scene.hexmap_type == const.HEXMAP_TYPE.FLATTOP then
+		return hexgrid_convert.cube_to_offset_flattop(i, j, k, map_params)
+	end
+
+	logger.error("Unknown hexmap type")
+end
+
 
 --- Get Z position from object Y position and his z_layer
 -- @function eva.hexgrid.get_z
