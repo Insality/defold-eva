@@ -8,7 +8,7 @@
 
 ## Features
 
-**Eva** provides the basement for your game.
+**Eva** provides the foundation for your game.
 
 - Use *protobuf* for data and user profile validation, default values and marshaling
 - Rich utilitary API for different actions
@@ -61,6 +61,7 @@ Eva have defined workflow with tiled:
 
 Eva allows your to define new modules or rewrite existing one
 _not implemented_
+
 
 ## Modules
 
@@ -118,13 +119,23 @@ _not implemented_
 | [window](https://insality.github.io/defold-eva/modules/eva.html#modules_window_Functions) | Eva windows API | ✅ |
 
 
-## Games powered by Eva:
-_TODO_
+## Learn Eva
+
+- Eva setup
+- Exporter usage
+- Tiled exporter usage
+
+
+## Games powered by Eva
+
+_not implemented yet_
 
 
 ## License
+
 **MIT** License, [Insality](https://github.com/Insality)
 
 
 ## Issues and suggestions
+
 If you have any issues, questions or suggestions please  [create an issue](https://github.com/insality/defold-eva/issues)  or contact me:  [insality@gmail.com](mailto:insality@gmail.com)
