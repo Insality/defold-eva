@@ -98,6 +98,14 @@ function M.is_exist(lang_id)
 end
 
 
+--- Return list of available languages
+-- @function eva.lang.get_langs
+-- @treturn table List of available languages
+function M.get_langs()
+	return luax.table.list(app.settings.lang.lang_paths)
+end
+
+
 function M.on_eva_init()
 	local settings = app.settings.lang
 	local default_lang = settings.default
