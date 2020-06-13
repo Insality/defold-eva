@@ -115,7 +115,7 @@ function M.is_ios()
 end
 
 
---- Check if device is mobile (Android or iOS)
+--- Check if device is native mobile (Android or iOS)
 -- @function eva.device.is_mobile
 function M.is_mobile()
 	local system_name = sys.get_sys_info().system_name

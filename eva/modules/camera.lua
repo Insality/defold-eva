@@ -121,7 +121,11 @@ function M.after_eva_init()
 end
 
 
-function M.on_eva_update(dt)
+--- Eva camera update should be called manually
+-- Due the it uses context go.set_position
+-- @function eva.camera.update
+-- @tparam number dt Delta time
+function M.update(dt)
 	local state = app.camera_state
 	local settings = app.settings.camera
 

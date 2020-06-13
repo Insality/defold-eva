@@ -26,7 +26,8 @@ function M.event(event, params)
 		for i = 1, #listeners do
 			local info = listeners[i]
 			lua_script_instance.Set(info.context)
-			pcall(info.callback, info.context, params)
+			local context = info.callback_context or info.context
+			pcall(info.callback, context, params)
 		end
 	end
 
@@ -46,16 +47,17 @@ end
 -- @function eva.events.subscribe
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
-function M.subscribe(event_name, callback)
+function M.subscribe(event_name, callback, callback_context)
 	app.event_listeners[event_name] = app.event_listeners[event_name] or {}
 
-	if M.is_subscribed(event_name, callback) then
+	if M.is_subscribed(event_name, callback, callback_context) then
 		logger:warn("The callback is already add to events. Aborting", { event_name = event_name })
 		return
 	end
 
 	table.insert(app.event_listeners[event_name], {
 		callback = callback,
+		callback_context = callback_context,
 		context = lua_script_instance.Get()
 	})
 end
@@ -75,8 +77,8 @@ end
 -- @function eva.events.unsubscribe
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
-function M.unsubscribe(event_name, callback)
-	local index = M.is_subscribed(event_name, callback)
+function M.unsubscribe(event_name, callback, callback_context)
+	local index = M.is_subscribed(event_name, callback, callback_context)
 	if index then
 		table.remove(app.event_listeners[event_name], index)
 	else
@@ -99,10 +101,11 @@ end
 -- @function eva.events.is_subscribed
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
-function M.is_subscribed(event_name, callback)
+function M.is_subscribed(event_name, callback, callback_context)
 	app.event_listeners[event_name] = app.event_listeners[event_name] or {}
 	for i = 1, #app.event_listeners[event_name] do
-		if app.event_listeners[event_name][i].callback == callback then
+		if app.event_listeners[event_name][i].callback == callback and
+			app.event_listeners[event_name][i].callback_context == callback_context then
 			return i
 		end
 	end

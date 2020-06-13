@@ -38,7 +38,7 @@ function M.add(self, value, reason, is_visual_later)
 		self.visual_credit = self.visual_credit + delta
 	end
 
-	return delta
+	return self:get()
 end
 
 

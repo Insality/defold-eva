@@ -101,6 +101,7 @@ function M.math.clamp(a, min, max)
 	end
 end
 
+
 --- math.clamp_box
 -- @function luax.math.clamp_box
 -- @tparam vector3 pos
@@ -175,7 +176,7 @@ function M.table.get_item_from_array(array, key, value)
 		end
 	end
 
-	return {}
+	return nil
 end
 
 

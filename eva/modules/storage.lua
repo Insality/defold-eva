@@ -23,6 +23,10 @@ function M.get(id)
 	local storage = app[const.EVA.STORAGE].storage
 	local value = storage[id]
 
+	if not value then
+		return nil
+	end
+
 	return value.s_value or value.i_value or value.b_value
 end
 
