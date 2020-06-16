@@ -205,6 +205,28 @@ function M.cube_to_offset(i, j, k, map_params)
 end
 
 
+--- Rotate offset coordinate by N * 60degree
+-- @function eva.hexgrid.rotate_offset
+-- @tparam number i I coordinate
+-- @tparam number j J coordinate
+-- @tparam number j m coordinate
+-- @tparam number N Number, how much rotate on 60 degrees. Positive - rotate right, Negative - left
+---@treturn number, number, number Offset coordinate
+function M.rotate_offset(i, j, k, N)
+	while N > 0 do
+		N = N - 1
+		i, j, k = -k, -i, -j
+	end
+
+	while N < 0 do
+		N = N + 1
+		i, j, k = -j, -k, -i
+	end
+
+	return i, j, k
+end
+
+
 --- Get Z position from object Y position and his z_layer
 -- @function eva.hexgrid.get_z
 -- @tparam number y Object Y position

@@ -63,12 +63,13 @@ local function update_tokens_offset()
 end
 
 
-local function on_change_token(token, delta, reason)
+local function on_change_token(token, delta, reason, container_id)
 	events.event(const.EVENT.TOKEN_CHANGE, {
 		delta = delta,
 		token_id = token:get_token_id(),
 		reason = reason,
-		amount = token:get()
+		amount = token:get(),
+		container_id = container_id
 	})
 end
 
@@ -97,7 +98,9 @@ local function create_token_in_save(container_id, token_id, token_data)
 		smart_token:reset_offset()
 	end
 
-	smart_token:on_change(on_change_token)
+	smart_token:on_change(function(token, delta, reason)
+		on_change_token(token, delta, reason, container_id)
+	end)
 	return smart_token
 end
 
