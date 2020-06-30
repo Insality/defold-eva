@@ -1,10 +1,11 @@
----
---- Lua Fun - a high-performance functional programming library for LuaJIT
----
---- Copyright (c) 2013-2016 Roman Tsisyk <roman@tsisyk.com>
----
---- Distributed under the MIT/X11 License. See COPYING.md for more details.
----
+--
+-- Lua Fun - a high-performance functional programming library for LuaJIT
+--
+-- Copyright (c) 2013-2016 Roman Tsisyk <roman@tsisyk.com>
+--
+-- Distributed under the MIT/X11 License. See COPYING.md for more details.
+--
+-- @local
 
 local exports = {}
 local methods = {}
@@ -12,9 +13,9 @@ local methods = {}
 -- compatibility with Lua 5.1/5.2
 local unpack = rawget(table, "unpack") or unpack
 
---------------------------------------------------------------------------------
+
 -- Tools
---------------------------------------------------------------------------------
+
 
 local return_if_not_empty = function(state_x, ...)
     if state_x == nil then
@@ -70,9 +71,9 @@ local unwrap = function(self)
 end
 methods.unwrap = unwrap
 
---------------------------------------------------------------------------------
+
 -- Basic Functions
---------------------------------------------------------------------------------
+
 
 local nil_gen = function(_param, _state)
     return nil
@@ -179,9 +180,9 @@ exports.for_each = exports.each
 methods.foreach = methods.each
 exports.foreach = exports.each
 
---------------------------------------------------------------------------------
+
 -- Generators
---------------------------------------------------------------------------------
+
 
 local range_gen = function(param, state)
     local stop, step = param[1], param[2]
@@ -289,9 +290,9 @@ local rands = function(n, m)
 end
 exports.rands = rands
 
---------------------------------------------------------------------------------
+
 -- Slicing
---------------------------------------------------------------------------------
+
 
 local nth = function(n, gen_x, param_x, state_x)
     assert(n > 0, "invalid first argument to nth")
@@ -452,9 +453,9 @@ exports.split_at = exports.split
 methods.span = methods.split
 exports.span = exports.split
 
---------------------------------------------------------------------------------
+
 -- Indexing
---------------------------------------------------------------------------------
+
 
 local index = function(x, gen, param, state)
     local i = 1
@@ -501,9 +502,9 @@ exports.indices = exports.indexes
 methods.elem_indices = methods.indexes
 exports.elem_indices = exports.indexes
 
---------------------------------------------------------------------------------
+
 -- Filtering
---------------------------------------------------------------------------------
+
 
 local filter1_gen = function(fun, gen_x, param_x, state_x, a)
     while true do
@@ -570,9 +571,9 @@ end
 methods.partition = method1(partition)
 exports.partition = export1(partition)
 
---------------------------------------------------------------------------------
+
 -- Reducing
---------------------------------------------------------------------------------
+
 
 local foldl_call = function(fun, start, state, ...)
     if state == nil then
@@ -798,9 +799,9 @@ end
 methods.tomap = method0(tomap)
 exports.tomap = export0(tomap)
 
---------------------------------------------------------------------------------
+
 -- Transformations
---------------------------------------------------------------------------------
+
 
 local map_gen = function(param, state)
     local gen_x, param_x, fun = param[1], param[2], param[3]
@@ -856,9 +857,9 @@ end
 methods.intersperse = method1(intersperse)
 exports.intersperse = export1(intersperse)
 
---------------------------------------------------------------------------------
+
 -- Compositions
---------------------------------------------------------------------------------
+
 
 local function zip_gen_r(param, state, state_new, ...)
     if #state_new == #param / 2 then
@@ -977,9 +978,9 @@ end
 methods.chain = chain
 exports.chain = chain
 
---------------------------------------------------------------------------------
+
 -- Operators
---------------------------------------------------------------------------------
+
 
 local operator = {
     ----------------------------------------------------------------------------
@@ -1030,9 +1031,9 @@ methods.operator = operator
 exports.op = operator
 methods.op = operator
 
---------------------------------------------------------------------------------
+
 -- module definitions
---------------------------------------------------------------------------------
+
 
 -- a special syntax sugar to export all functions to the global table
 setmetatable(exports, {

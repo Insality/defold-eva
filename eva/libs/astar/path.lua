@@ -1,3 +1,5 @@
+-- Path data getter for astar
+
 local M = {}
 
 

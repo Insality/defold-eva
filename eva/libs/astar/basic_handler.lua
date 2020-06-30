@@ -1,4 +1,4 @@
---- Basic astar handler for reuse
+-- Basic astar handler for reuse
 
 local luax = require("eva.luax")
 local node = require("eva.libs.astar.node")
