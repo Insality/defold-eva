@@ -468,6 +468,13 @@ function M.string.random(length)
 end
 
 
+--- go.set_alpha
+-- @function luax.go.set_alpha
+function M.go.set_alpha(sprite_id, alpha)
+	go.set(sprite_id, "tint.w", alpha)
+end
+
+
 --- gui.set_alpha
 -- @function luax.gui.set_alpha
 function M.gui.set_alpha(node, alpha)
