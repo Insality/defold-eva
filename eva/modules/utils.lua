@@ -30,4 +30,35 @@ function M.load_json(filename)
 end
 
 
+--- Convert hex color to rgb color
+-- @function eva.utils.hex2rgb
+function M.hex2rgb(hex, alpha)
+	alpha = alpha or 1
+	local redColor,greenColor,blueColor = hex:match('(..)(..)(..)')
+	redColor, greenColor, blueColor = tonumber(redColor, 16)/255, tonumber(greenColor, 16)/255, tonumber(blueColor, 16)/255
+	redColor, greenColor, blueColor = math.floor(redColor*100)/100, math.floor(greenColor*100)/100, math.floor(blueColor*100)/100
+
+	if alpha > 1 then
+		alpha = alpha / 100
+	end
+
+	return redColor, greenColor, blueColor, alpha
+end
+
+
+--- Convert rgb color to hex color
+-- @function eva.utils.rgb2hex
+function M.rgb2hex(r, g, b, alpha)
+	alpha = alpha or 1
+	local redColor,greenColor,blueColor = r/255, g/255, b/255
+	redColor, greenColor, blueColor = math.floor(redColor*100)/100, math.floor(greenColor*100)/100, math.floor(blueColor*100)/100
+	
+	if alpha > 1 then
+		alpha = alpha / 100
+	end
+
+	return redColor, greenColor, blueColor, alpha
+end
+
+
 return M

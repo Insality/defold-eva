@@ -193,7 +193,7 @@ end
 --- Call this on main game on_input
 -- @function eva.on_input
 function M.on_input(action_id, action)
-	M.input.on_input(action_id, action)
+	-- M.input.on_input(action_id, action)
 end
 
 

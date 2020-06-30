@@ -90,6 +90,20 @@ function M.set_sound_gain(value)
 end
 
 
+--- Check music gain
+-- @function eva.sound.is_music_enabled
+function M.is_music_enabled(value)
+	return app[const.EVA.SOUND].music_gain > 0
+end
+
+
+--- Check sound gain
+-- @function eva.sound.is_sound_enabled
+function M.is_sound_enabled(value)
+	return app[const.EVA.SOUND].sound_gain > 0
+end
+
+
 function M.on_eva_init()
 	local is_debug = sys.get_engine_info().is_debug
 
