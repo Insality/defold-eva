@@ -1,4 +1,4 @@
---- Part of Eva Camera module
+-- Part of Eva Camera module
 -- Handle camera dragging
 -- @local
 

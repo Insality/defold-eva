@@ -1,4 +1,4 @@
---- Part of Eva Camera module
+-- Part of Eva Camera module
 -- Handle the camera gestures like zoom and multitouchs
 -- @local
 

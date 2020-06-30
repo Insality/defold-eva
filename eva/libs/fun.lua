@@ -983,9 +983,7 @@ exports.chain = chain
 
 
 local operator = {
-    ----------------------------------------------------------------------------
     -- Comparison operators
-    ----------------------------------------------------------------------------
     lt  = function(a, b) return a < b end,
     le  = function(a, b) return a <= b end,
     eq  = function(a, b) return a == b end,
@@ -993,9 +991,7 @@ local operator = {
     ge  = function(a, b) return a >= b end,
     gt  = function(a, b) return a > b end,
 
-    ----------------------------------------------------------------------------
     -- Arithmetic operators
-    ----------------------------------------------------------------------------
     add = function(a, b) return a + b end,
     div = function(a, b) return a / b end,
     floordiv = function(a, b) return math.floor(a/b) end,
@@ -1011,16 +1007,12 @@ local operator = {
     sub = function(a, b) return a - b end,
     truediv = function(a, b) return a / b end,
 
-    ----------------------------------------------------------------------------
     -- String operators
-    ----------------------------------------------------------------------------
     concat = function(a, b) return a..b end,
     len = function(a) return #a end,
     length = function(a) return #a end, -- an alias
 
-    ----------------------------------------------------------------------------
     -- Logical operators
-    ----------------------------------------------------------------------------
     land = function(a, b) return a and b end,
     lor = function(a, b) return a or b end,
     lnot = function(a) return not a end,

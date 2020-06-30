@@ -26,7 +26,7 @@
 -- 	function on_message(self, message_id, message, sender)
 -- 		flow.on_message(message_id, message, sender)
 -- 	end
---
+-- @module flow
 
 local M = {}
 
