@@ -87,8 +87,8 @@ M.EVENT = {
 	IAP_VALID = "eva.iaps.valid",
 	IAP_INVALID = "eva.iaps.invalid",
 	ADS_READY = "eva.ads.ready",
-	ADS_SHOW_REWARDED = "eva.ads.rewarded",
-	ADS_SHOW_PAGE = "eva.ads.page",
+	ADS_SHOW_REWARDED = "eva.ads.show_rewarded",
+	ADS_SHOW_PAGE = "eva.ads.show_page",
 	ADS_SUCCESS_REWARDED = "eva.ads.rewarded_success",
 	ADS_SUCCESS_PAGE = "eva.ads.page_success",
 	TOKEN_CHANGE = "eva.token.change",
@@ -379,5 +379,8 @@ M.INPUT_SWIPE = {
 	DOWN = "down",
 	LEFT = "left"
 }
+
+
+M.DAYS_IN_MONTH = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 
 return M

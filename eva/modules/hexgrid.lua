@@ -187,7 +187,7 @@ end
 -- @function eva.hexgrid.offset_to_cube
 -- @tparam number i I coordinate
 -- @tparam number j J coordinate
--- @tparam number j m coordinate
+-- @tparam number k K coordinate
 -- @tparam[opt] map_params map_params Params from eva.hexgrid.get_map_params
 function M.cube_to_offset(i, j, k, map_params)
 	assert((i + j + k) == 0, "Wrong cube coordinates")
@@ -209,7 +209,7 @@ end
 -- @function eva.hexgrid.rotate_offset
 -- @tparam number i I coordinate
 -- @tparam number j J coordinate
--- @tparam number j m coordinate
+-- @tparam number k K coordinate
 -- @tparam number N Number, how much rotate on 60 degrees. Positive - rotate right, Negative - left
 ---@treturn number, number, number Offset coordinate
 function M.rotate_offset(i, j, k, N)

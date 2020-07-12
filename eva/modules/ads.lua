@@ -27,8 +27,6 @@ local function ads_callback(self, message_id, message)
 	local data = app[const.EVA.ADS]
 
 	if message_id == unityads.TYPE_IS_READY then
-		logger:debug("Ads ready", message)
-
 		data.ads_loaded = data.ads_loaded + 1
 
 		events.event(const.EVENT.ADS_READY, { placement = message.placementId })
@@ -148,7 +146,7 @@ end
 
 
 function M.after_eva_init()
-	if M.is_enabled() then
+	if not M.is_enabled() then
 		return
 	end
 

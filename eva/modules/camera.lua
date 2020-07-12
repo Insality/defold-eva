@@ -5,6 +5,7 @@
 
 
 local app = require("eva.app")
+local luax = require("eva.luax")
 local const = require("eva.const")
 
 local input = require("eva.modules.input")
@@ -17,6 +18,8 @@ local M = {}
 local function get_initial_state()
 	return {
 		cam_id = nil,
+		is_animate = false,
+		is_control = true,
 
 		pos = vmath.vector3(0),
 		target_pos = vmath.vector3(0),
@@ -25,8 +28,8 @@ local function get_initial_state()
 
 		inertion = vmath.vector3(0),
 		camera_box = vmath.vector3(0),
-		border_soft = vmath.vector4(0),
-		border_hard = vmath.vector4(0),
+		border_soft = nil, --vector4
+		border_hard = nil, --vector4
 		zoom_border_soft = vmath.vector3(1),
 		zoom_border_hard = vmath.vector3(1),
 	}
@@ -51,6 +54,15 @@ function M.set_camera(cam_id, camera_box)
 end
 
 
+--- Enable or disable camera user control
+-- @function eva.camera.set_control
+-- @tparam bool enabled state
+function M.set_control(is_enabled)
+	local state = app.camera_state
+	state.is_control = is_enabled
+end
+
+
 --- Set the borders of the camera zone
 -- @function eva.camera.set_borders
 -- @tparam vector4 border_soft Soft zones of camera. Order is: left-top-right-bot.
@@ -70,10 +82,28 @@ end
 function M.set_position(x, y)
 	local state = app.camera_state
 	local pos = vmath.vector3(x, y, 0)
-	go.set_position(pos,state.cam_id)
+	go.set_position(pos, state.cam_id)
 
 	state.pos = pos
 	state.target_pos = vmath.vector3(state.pos)
+end
+
+
+--- Set target camera position
+-- @function eva.camera.set_target_position
+-- @tparam number x X position
+-- @tparam number y Y position
+function M.scroll_to(x, y, time)
+	time = time or 0.75
+	local state = app.camera_state
+	local pos = vmath.vector3(x, y, 0)
+	state.is_animate = true
+	state.pos = pos
+	state.target_pos = vmath.vector3(pos)
+
+	go.animate(state.cam_id, luax.go.PROP_POS, go.PLAYBACK_ONCE_FORWARD, pos, go.EASING_OUTSINE, time, 0, function()
+		state.is_animate = false
+	end)
 end
 
 
@@ -90,6 +120,12 @@ end
 
 
 local function on_input(_, input_type, input_state)
+	local camera_state = app.camera_state
+
+	if not camera_state.is_control then
+		return
+	end
+
 	if input_type == const.INPUT_TYPE.DRAG then
 		camera_drag.handle_drag(input_type, input_state)
 	end
@@ -98,7 +134,6 @@ local function on_input(_, input_type, input_state)
 		camera_pinch.handle_pinch(input_type, input_state)
 	end
 
-	local camera_state = app.camera_state
 	if input_type == const.INPUT_TYPE.KEY_HOLD then
 		if input_state.key_id == const.INPUT.SCROLL_UP then
 			camera_state.target_zoom = camera_state.target_zoom - 0.025

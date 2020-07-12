@@ -21,6 +21,7 @@ local utils = require("eva.modules.utils")
 
 local logger = log.get_logger("eva")
 
+---@class eva
 local M = {}
 
 

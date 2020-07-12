@@ -27,7 +27,10 @@ function M.event(event, params)
 			local info = listeners[i]
 			lua_script_instance.Set(info.context)
 			local context = info.callback_context or info.context
-			pcall(info.callback, context, params)
+			local ok, errors = pcall(info.callback, context, params)
+			if not ok then
+				pprint(errors)
+			end
 		end
 	end
 

@@ -10,6 +10,7 @@ local log = require("eva.log")
 local luax = require("eva.luax")
 
 local game = require("eva.modules.game")
+local device = require("eva.modules.device")
 
 local logger = log.get_logger("eva.errors")
 
@@ -29,7 +30,7 @@ local send_traceback = function(message, traceback)
 			error_message = message,
 			traceback = traceback,
 			version = sys.get_config("project.version"),
-			id = M.eva.device.get_id(),
+			id = device.get_device_id(),
 			sys_name = info.system_name,
 			sys_version = info.system_version,
 			model = info.device_model,
@@ -43,7 +44,7 @@ end
 function M.on_eva_init()
 	app.errors_sended = {}
 
-	if game.is_debug() then
+	if game.is_debug() and not device.is_web() then
 		return
 	end
 

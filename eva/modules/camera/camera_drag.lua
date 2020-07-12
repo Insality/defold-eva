@@ -1,4 +1,4 @@
--- Part of Eva Camera module
+--- Part of Eva Camera module
 -- Handle camera dragging
 -- @local
 
@@ -25,7 +25,12 @@ end
 
 function M.update_camera_pos(state, dt, params)
 	local input_state = app.input.state
+
 	if not state.cam_id then
+		return
+	end
+
+	if state.is_animate then
 		return
 	end
 
@@ -35,7 +40,7 @@ function M.update_camera_pos(state, dt, params)
 	local border_lerp = params.move_border_lerp_speed * const.FPS * dt
 
 	-- Soft border
-	if not input_state.is_drag then
+	if not input_state.is_drag and border_soft then
 		luax.math.lerp_box(target, border_soft, border_lerp, state.camera_box * state.zoom, true)
 	end
 
@@ -51,7 +56,9 @@ function M.update_camera_pos(state, dt, params)
 	end
 
 	-- Hard border
-	luax.math.clamp_box(target, state.border_hard, state.camera_box * state.zoom, true)
+	if state.border_hard then
+		luax.math.clamp_box(target, state.border_hard, state.camera_box * state.zoom, true)
+	end
 
 	-- Lerp position
 	pos.x = luax.math.lerp(pos.x, target.x, params.move_lerp_speed * const.FPS * dt)

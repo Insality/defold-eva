@@ -1,5 +1,8 @@
+go.property("notify_url", msg.url())
+
 function on_message(self, message_id, message, sender)
 	if message_id == hash("destroy_go") then
 		go.delete(".")
+		msg.post(self.notify_url, "logo_done")
 	end
 end

@@ -74,6 +74,7 @@ local function handle_callbacks(data)
 end
 
 
+-- @function eva.window.get_data
 function M.get_data(window_id)
 	return monarch.data(window_id)
 end
@@ -156,6 +157,15 @@ function M.show(window_id, window_data, in_queue)
 			events.screen(data.last_scene, get_current())
 		end)
 	end)
+end
+
+
+--- Preload window via monarch
+-- @function eva.window.preload
+-- @tparam string window_id The window id
+-- @tparam[opt] function callback The callback function
+function M.preload(window_id, callback)
+	monarch.preload(window_id, callback)
 end
 
 
