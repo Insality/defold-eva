@@ -29,9 +29,15 @@ return function()
 			assert(result == 10)
 			assert(data.fn.calls == 1)
 
+			local result2 = eva.callbacks.call(callback)
+			assert(result2 == 10)
+			assert(data.fn.calls == 2)
+
+			eva.callbacks.clear(callback)
+			
 			local another_result = eva.callbacks.call(callback)
 			assert(not another_result)
-			assert(data.fn.calls == 1)
+			assert(data.fn.calls == 2)
 		end)
 
 		it("Should correct clear callbacks", function()

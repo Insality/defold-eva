@@ -36,8 +36,6 @@ function M.call(index, ...)
 
 	if data.callbacks[index] then
 		local callback_data = data.callbacks[index]
-		-- data.callbacks[index] = nil
-
 		local current_context = lua_script_instance.Get()
 
 		lua_script_instance.Set(callback_data.context)

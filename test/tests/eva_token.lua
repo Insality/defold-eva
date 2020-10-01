@@ -36,16 +36,16 @@ return function()
 		it("Should have basic api get/set/add/pay", function()
 			assert(eva.token.get(TEST_CONTAINER, "money") == 0)
 
-			local delta = eva.token.add(TEST_CONTAINER, "money", 10)
-			assert(delta == 10)
+			local new_value = eva.token.add(TEST_CONTAINER, "money", 10)
+			assert(new_value == 10)
 			assert(eva.token.get(TEST_CONTAINER, "money") == 10)
 
-			delta = eva.token.set(TEST_CONTAINER, "money", 20)
-			assert(delta == 10)
+			new_value = eva.token.set(TEST_CONTAINER, "money", 20)
+			assert(new_value == 20)
 			assert(eva.token.get(TEST_CONTAINER, "money") == 20)
 
-			delta = eva.token.pay(TEST_CONTAINER, "money", 5)
-			assert(delta == -5)
+			new_value = eva.token.pay(TEST_CONTAINER, "money", 5)
+			assert(new_value == 15)
 			assert(eva.token.get(TEST_CONTAINER, "money") == 15)
 		end)
 
@@ -60,9 +60,9 @@ return function()
 
 			assert(not eva.token.is_max(TEST_CONTAINER, "money"))
 
-			local delta = eva.token.add(TEST_CONTAINER, "level", 90)
+			local new_value = eva.token.add(TEST_CONTAINER, "level", 90)
 			-- Default: 1, max: 80
-			assert(delta == 79)
+			assert(new_value == 80)
 			assert(eva.token.is_max(TEST_CONTAINER, "level"))
 		end)
 
