@@ -12,11 +12,11 @@ SHA1=$(curl -s http://d.defold.com/stable/info.json | sed 's/.*sha1": "\(.*\)".*
 echo "Using Defold dmengine_headless version ${SHA1}"
 
 # Create bob.jar URLs
-BOB_URL="http://d.defold.com/archive/${SHA1}/bob/bob.jar"
+BOB_URL="http://d.defold.com/archive/stable/${SHA1}/bob/bob.jar"
 
 # Download bob.jar
 echo "Downloading ${BOB_URL}"
-curl -o bob.jar ${BOB_URL}
+curl -L -o bob.jar ${BOB_URL}
 
 # Fetch libraries if DEFOLD_AUTH and DEFOLD_USER are set
 if [ -n "${DEFOLD_AUTH}" ] && [ -n "${DEFOLD_USER}" ]; then
