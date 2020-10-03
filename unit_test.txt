@@ -1,0 +1,5 @@
+[bootstrap]
+main_collection = /test/test.collectionc
+
+[test]
+report = 1
