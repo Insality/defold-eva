@@ -1,17 +1,17 @@
-name: CI
+name: Run tests
 
 on: [push]
 
 jobs:
     build_and_run:
-        name: Build and run
+        name: Build and run tests
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v1
+          - uses: actions/checkout@v2
             with:
                 lfs: true
           - uses: actions/setup-java@v1
             with:
                 java-version: '13'
           - name: Run.sh
-            run: ./.travis/run.sh
+            run: ./.github/run.sh
