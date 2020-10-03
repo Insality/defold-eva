@@ -1,5 +1,5 @@
 [![](media/eva_logo.png)](https://insality.github.io/defold-eva/)
-[![Build Status](https://travis-ci.org/Insality/defold-eva.svg?branch=master)](https://travis-ci.org/Insality/defold-eva)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/insality/defold-eva/Run%20tests)](https://travis-ci.org/Insality/defold-eva)
 [![codecov](https://codecov.io/gh/Insality/defold-eva/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-eva)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/insality/defold-eva)
 
@@ -25,7 +25,8 @@
 - Customizable modules with your own code (window, quests, trucks, etc)
 - User profile migrations
 - Eva render with customizable post-effects
-- Promocodes, invoices and pushes support
+- Invoices support: send delayed rewards, mails or time-restricted stuff to the player
+- Push support with snooze hours, push count restrictions per day
 - Included luax module with extended functions
 - Debug functional for easier development included (save slots, reset profiles, game restart, etc)
 - ~~Social and server integrations~~ (_not implemented_)
@@ -60,6 +61,7 @@ Eva have defined workflow with tiled:
 ## Custom modules
 
 Eva allows your to define new modules or rewrite existing one
+
 _not implemented_
 
 
@@ -124,6 +126,10 @@ _not implemented_
 - Eva setup
 - Exporter usage
 - Tiled exporter usage
+- Writing protobuf for user profile
+- Render setup
+- Window setup
+- Quests setup
 
 
 ## Games powered by Eva
