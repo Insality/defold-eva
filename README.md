@@ -1,5 +1,5 @@
 [![](media/eva_logo.png)](https://insality.github.io/defold-eva/)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/insality/defold-eva/Run%20tests)](https://travis-ci.org/Insality/defold-eva)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/insality/defold-eva/Run%20tests)](https://github.com/Insality/defold-eva/actions)
 [![codecov](https://codecov.io/gh/Insality/defold-eva/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-eva)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/insality/defold-eva)
 
