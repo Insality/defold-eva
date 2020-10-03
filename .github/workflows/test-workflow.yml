@@ -13,5 +13,7 @@ jobs:
           - uses: actions/setup-java@v1
             with:
                 java-version: '13'
-          - name: Run.sh
+          - name: Build && Run
             run: ./.github/run.sh
+          - name: Upload test report
+            run: bash <(curl -s https://codecov.io/bash)
