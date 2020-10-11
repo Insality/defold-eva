@@ -33,12 +33,13 @@ end
 
 
 function M.add(self, value, reason, is_visual_later)
-	local delta = self:set(self:get() + value, reason)
+	local prev_value = self:get()
+	local new_value = self:set(prev_value + value, reason)
 	if is_visual_later then
-		self.visual_credit = self.visual_credit + delta
+		self.visual_credit = self.visual_credit + (new_value - prev_value)
 	end
 
-	return self:get()
+	return new_value
 end
 
 
