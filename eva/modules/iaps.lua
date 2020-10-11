@@ -349,11 +349,11 @@ end
 function M.on_eva_init()
 	app[const.EVA.IAPS] = proto.get(const.EVA.IAPS)
 	saver.add_save_part(const.EVA.IAPS, app[const.EVA.IAPS])
+	load_config()
 end
 
 
 function M.after_eva_init()
-	load_config()
 	M.refresh_iap_list()
 end
 

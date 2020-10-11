@@ -31,6 +31,19 @@ local function get_save_path(save_name)
 end
 
 
+local function get_default_save_name()
+	-- Load via game project settings. Used in reload with filename
+	local settings = app.settings.saver
+	local filename = sys.get_config("eva.load_filename") or settings.save_name
+
+	if filename == "" then
+		filename = settings.save_name
+	end
+
+	return filename
+end
+
+
 local function apply_migrations()
 	local save_data = app[const.EVA.SAVER]
 
@@ -46,31 +59,22 @@ local function apply_migrations()
 end
 
 
---- Load the game save
+--- Load the file from save directory
 -- @function eva.saver.load
 function M.load(filename)
-	-- Load via game project settings. Used in reload with filename
-	local settings = app.settings.saver
-	filename = filename or sys.get_config("eva.load_filename") or settings.save_name
-
-	if filename == "" then
-		filename = settings.save_name
-	end
-
+	filename = filename or get_default_save_name()
 	local path = get_save_path(filename)
 
 	-- TODO: make json/proto/usual format
 	if luax.string.ends(filename, ".json") then
-		logger:info("Load save from json", { path = path })
-
 		local file = io.open(path)
 		if file then
-			local save_data = file:read("*all")
+			local file_data = file:read("*all")
 			file:close()
-			if save_data then
-				local save = cjson.decode(save_data)
-				if save then
-					return save
+			if file_data then
+				local parsed_data = cjson.decode(file_data)
+				if parsed_data then
+					return parsed_data
 				end
 			end
 		end
@@ -82,22 +86,28 @@ function M.load(filename)
 end
 
 
---- Save the game save
+--- Save the game file in save directory
 -- @function eva.saver.save
 function M.save(filename)
 	local data = app[const.EVA.SAVER]
 	data.version = data.version + 1
 
-	local settings = app.settings.saver
-	filename = filename or settings.save_name
+	filename = filename or app.settings.saver.save_name
+	M.save_data(app.save_table, filename)
+end
+
+
+--- Save the data in save directory
+-- @function eva.saver.save_data
+function M.save_data(data, filename)
 	local path = get_save_path(filename)
 
 	if filename and luax.string.ends(filename, ".json") then
 		local file = io.open(path, "w+")
-		file:write(cjson.encode(app.save_table))
+		file:write(cjson.encode(data))
 		file:close()
 	else
-		sys.save(path, app.save_table)
+		sys.save(path, data)
 	end
 end
 
@@ -139,6 +149,8 @@ end
 
 function M.before_eva_init()
 	app.save_table = M.load()
+	local path = get_save_path(get_default_save_name())
+	logger:info("Load save from json", { path = path })
 	M.can_load_save = true
 end
 

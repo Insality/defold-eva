@@ -1,6 +1,5 @@
--- Node data getter for astar
-
 local M = {}
+
 
 function M.get(x, y, move_cost, parent)
 	return {

@@ -9,7 +9,6 @@ local M = {
 	vmath = {},
 	debug = {},
 	func = {},
-	operators = {},
 	toboolean = function(arg) return not not arg end,
 }
 
@@ -333,6 +332,18 @@ function M.table.shuffle(t, seed)
 end
 
 
+--- table.copy array
+-- @function luax.table.copy
+function M.table.copy_array(orig)
+	local result = {}
+
+	for i = 1, #orig do
+		table.insert(result, orig[i])
+	end
+
+	return result
+end
+
 --- table.deepcopy
 -- @function luax.table.deepcopy
 function M.table.deepcopy(orig)
@@ -340,9 +351,9 @@ function M.table.deepcopy(orig)
 	if type(orig) == "table" then
 		copy = {}
 		for orig_key, orig_value in next, orig, nil do
-			copy[table.deepcopy(orig_key)] = table.deepcopy(orig_value)
+			copy[M.table.deepcopy(orig_key)] = M.table.deepcopy(orig_value)
 		end
-		setmetatable(copy, table.deepcopy(getmetatable(orig)))
+		setmetatable(copy, M.table.deepcopy(getmetatable(orig)))
 	else
 		copy = orig
 	end
@@ -426,6 +437,7 @@ end
 --- string.split_by_rank
 -- @function luax.string.split_by_rank
 function M.string.split_by_rank(str)
+	str = tostring(str)
 	local new_s = ""
 
 	local cur_index = str:len()
@@ -555,48 +567,6 @@ end
 -- @function luax.vmath.distance
 function M.vmath.distance(v1, v2)
 	return math.sqrt((v2.x - v1.x)^2 + (v2.y - v1.y)^2)
-end
-
-
---- operators.lt
--- @function luax.operators.lt
-function M.operators.lt(x, y)
-	return x < y
-end
-
-
---- operators.le
--- @function luax.operators.le
-function M.operators.le(x, y)
-	return x <= y
-end
-
-
---- operators.gt
--- @function luax.operators.gt
-function M.operators.gt(x, y)
-	return x > y
-end
-
-
---- operators.ge
--- @function luax.operators.ge
-function M.operators.ge(x, y)
-	return x >= y
-end
-
-
---- operators.eq
--- @function luax.operators.eq
-function M.operators.eq(x, y)
-	return x == y
-end
-
-
---- operators.neq
--- @function luax.operators.neq
-function M.operators.neq(x, y)
-	return x ~= y
 end
 
 
