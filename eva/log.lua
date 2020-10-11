@@ -1,4 +1,4 @@
---- Defold Eva log module
+-- Defold Eva log module
 
 local inspect = require("eva.libs.inspect")
 
@@ -88,31 +88,31 @@ local function log_msg(self, level, message, context)
 end
 
 
---- Log with fatal level
+-- Log with fatal level
 function _log.fatal(self, msg, context)
 	log_msg(self, LEVEL.FATAL, msg, context)
 end
 
 
---- Log with error level
+-- Log with error level
 function _log.error(self, msg, context)
 	log_msg(self, LEVEL.ERROR, msg, context)
 end
 
 
---- Log with warning level
+-- Log with warning level
 function _log.warn(self, msg, context)
 	log_msg(self, LEVEL.WARN, msg, context)
 end
 
 
---- Log with info level
+-- Log with info level
 function _log.info(self, msg, context)
 	log_msg(self, LEVEL.INFO, msg, context)
 end
 
 
---- Log with debug level
+-- Log with debug level
 function _log.debug(self, msg, context)
 	log_msg(self, LEVEL.DEBUG, msg, context)
 end

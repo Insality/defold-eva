@@ -1,5 +1,6 @@
 --- Defold-Eva const module.
--- Specify all eva constant.
+-- Specify all eva constant
+-- @module eva_const
 
 local M = {}
 
@@ -8,12 +9,18 @@ M.EVA_VERSION = 1
 
 --- Unknown region for eva.device.get_region()
 M.UNKNOWN_REGION = "UN"
+
+--- Default player container
 M.WALLET_CONTAINER = "eva.wallet"
+
+--- Default wallet container type
 M.WALLET_TYPE = "wallet"
 
+--- Game FPS constant
 M.FPS = 60
 
 
+--- Available OS values
 M.OS = {
 	ANDROID = "Android",
 	IOS = "iPhone OS",
@@ -32,12 +39,14 @@ M.TYPE = {
 }
 
 
+--- Available ads values
 M.AD = {
 	REWARDED = "rewardedVideo",
 	INTERSTITIAL = "video",
 }
 
 
+--- Eva input events
 M.INPUT = {
 	MULTITOUCH = hash("touch_multi"),
 	TOUCH = hash("touch"),
@@ -58,6 +67,7 @@ M.INPUT = {
 }
 
 
+--- Eva built-in input type
 M.INPUT_TYPE = {
 	KEY_PRESSED = hash("key_pressed"),
 	KEY_REPEATED = hash("key_repeated"),
@@ -76,8 +86,9 @@ M.INPUT_TYPE = {
 }
 
 
+--- Eva built-in game events
 M.EVENT = {
-	GAME_START = "eva.game.start",
+	GAME_START = "eva.game.start", --- Game start eva event
 	GAME_FOCUS = "eva.game.focus",
 	NEW_SESSION = "eva.game.new_session",
 	IAP_UPDATE = "eva.iaps.update",
@@ -138,6 +149,7 @@ M.REASON = {
 }
 
 
+--- Iap states
 M.IAP = {
 	STATE = {
 		PURCHASING = 0,
@@ -153,8 +165,8 @@ M.IAP = {
 }
 
 
+--- Inner eva protodata names
 M.EVA = {
-	-- Modules, equals to proto name
 	ADS = "eva.Ads",
 	SOUND = "eva.Sound",
 	LANG = "eva.Lang",
@@ -196,6 +208,7 @@ M.EVA = {
 }
 
 
+--- Available daily bonus values
 M.DAILY = {
 	SKIP = "skip",
 	WAIT = "wait",
@@ -240,7 +253,7 @@ M.HEXMAP_TYPE = {
 }
 
 
--- This is all keys from all.input_binding
+--- This is all keys from all.input_binding
 M.INPUT_KEYS = {
 	hash("key_space"),
 	hash("key_exclamationmark"),
@@ -373,6 +386,7 @@ M.INPUT_KEYS = {
 }
 
 
+--- Eva built-in input swipe directions
 M.INPUT_SWIPE = {
 	UP = "up",
 	RIGHT = "right",
@@ -381,6 +395,7 @@ M.INPUT_SWIPE = {
 }
 
 
+-- List of days in every month
 M.DAYS_IN_MONTH = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 
 return M

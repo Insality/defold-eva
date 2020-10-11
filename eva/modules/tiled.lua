@@ -410,6 +410,8 @@ end
 
 
 --- Get mapping object info by name
+-- @function eva.tiled.get_object_data
+-- @tparam string object_name The game object name
 function M.get_object_data(object_name)
 	object_name = hash(object_name)
 

@@ -99,6 +99,8 @@ local function update_skill(container_id, skill_id, current_time)
 end
 
 
+--- Use skill
+-- @function eva.skill.use
 function M.use(container_id, skill_id)
 	if not M.is_can_use(container_id, skill_id) then
 		-- TODO: error
@@ -126,6 +128,7 @@ end
 
 --- End use of channeling spell or end effect of skill
 -- with duration
+-- @function eva.skill.end_use
 function M.end_use(container_id, skill_id)
 	local skill_data = get_skill_data(container_id, skill_id)
 
@@ -136,42 +139,57 @@ function M.end_use(container_id, skill_id)
 end
 
 
+--- Skill cooldown
+-- @function eva.skill.skil_cooldown_time
 function M.skip_cooldown_time()
 
 end
 
 
 --- Time between use and end_use
+-- @function eva.skill.is_active
 function M.is_active(container_id, skill_id)
 	return get_skill_data(container_id, skill_id).is_active
 end
 
 
+--- Return skill active time (duration)
+-- @function eva.skill.get_active_time
 function M.get_active_time(skill_id)
 	return get_skill_config(skill_id).duration
 end
 
 
+--- Return skill active left time (until end of duration)
+-- @function eva.skill.get_active_time_left
 function M.get_active_time_left(container_id, skill_id)
 	return math.max(get_skill_data(container_id, skill_id).end_duration_time - game.get_time(), 0)
 end
 
 
+--- Return current skill progress time
+-- @function eva.skill.get_active_progress
 function M.get_active_progress(container_id, skill_id)
 	return 1 - (M.get_active_time_left(container_id, skill_id) / M.get_active_time(skill_id))
 end
 
 
+--- Return true if skill on the cooldown
+-- @function eva.skill.is_on_cooldown
 function M.is_on_cooldown(container_id, skill_id)
 	return get_skill_data(container_id, skill_id).is_cooldown
 end
 
 
+--- Return skill cooldown time
+-- @function eva.skill.get_cooldown_time
 function M.get_cooldown_time(skill_id)
 	return get_skill_config(skill_id).cooldown
 end
 
 
+--- Return skill cooldown time left
+-- @function eva.skill.get_cooldown_time_left
 function M.get_cooldown_time_left(container_id, skill_id)
 	local skill_data = get_skill_data(container_id, skill_id)
 	if skill_data.is_cooldown then
@@ -182,16 +200,22 @@ function M.get_cooldown_time_left(container_id, skill_id)
 end
 
 
+--- Get cooldown progress
+-- @function eva.skill.get_cooldown_progress
 function M.get_cooldown_progress(container_id, skill_id)
 	return 1 - (M.get_cooldown_time_left(container_id, skill_id) / M.get_cooldown_time(skill_id))
 end
 
 
+--- Get current skill stack amount
+-- @function eva.skill.get_stack_amount
 function M.get_stack_amount(container_id, skill_id)
 	return get_skill_data(container_id, skill_id).stacks
 end
 
 
+--- Add amount to skill stacks
+-- @function eva.skill.add_stack
 function M.add_stack(container_id, skill_id, amount)
 	local skill_data = get_skill_data(container_id, skill_id)
 	local skill_info = get_skill_config(skill_id)
@@ -199,23 +223,31 @@ function M.add_stack(container_id, skill_id, amount)
 end
 
 
+--- Return true if skill on full stack
+-- @function eva.skill.is_full_stack
 function M.is_full_stack(container_id, skill_id)
 	local skill_info = get_skill_config(skill_id)
 	return M.get_stack_amount(container_id, skill_id) == skill_info.max_stack
 end
 
 
+--- Return true if skill is empty now
+-- @function eva.skill.is_empty_stack
 function M.is_empty_stack(container_id, skill_id)
 	return M.get_stack_amount(container_id, skill_id) == 0
 end
 
 
+--- Return true if skill can be used now
+-- @function eva.skill.is_can_use
 function M.is_can_use(container_id, skill_id)
 	return M.get_stack_amount(container_id, skill_id) > 0 and
 			not M.is_active(container_id, skill_id)
 end
 
 
+--- Restore all skills in containers
+-- @function eva.skill.restore_all
 function M.restore_all(container_id)
 	local container = get_container(container_id)
 	for skill_id, skill_data in pairs(container.skill_data) do
