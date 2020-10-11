@@ -22,10 +22,27 @@ function M.after(count, callback)
 end
 
 
+--- Save json in bundled resource (desktop only)
+-- @function eva.utils.save_json
+function M.save_json(lua_table, filepath)
+	local file, errors = io.open(filepath, "w+")
+	if not file then
+		pprint(errors)
+	end
+	file:write(cjson.encode(lua_table))
+	file:close()
+end
+
+
 --- Load json from bundled resource
 -- @function eva.utils.load_json
-function M.load_json(filename)
-	return cjson.decode(sys.load_resource(filename))
+function M.load_json(filepath)
+	local resource, is_error = sys.load_resource(filepath)
+	if is_error then
+		return nil
+	end
+
+	return cjson.decode(resource)
 end
 
 

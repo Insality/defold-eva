@@ -64,9 +64,12 @@ local function handle_callbacks(data)
 		callbacks_wrapped[name] = function(...)
 			local current_context = lua_script_instance.Get()
 			lua_script_instance.Set(callback_context)
-			pcall(callback, callback_context, ...)
-
+			local ok, result = pcall(callback, callback_context, ...)
 			lua_script_instance.Set(current_context)
+
+			if not ok then
+				pprint(result)
+			end
 		end
 	end
 
@@ -76,7 +79,7 @@ end
 
 -- @function eva.window.get_data
 function M.get_data(window_id)
-	return monarch.data(window_id)
+	return monarch.data(window_id) or {}
 end
 
 

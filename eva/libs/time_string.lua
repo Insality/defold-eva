@@ -6,7 +6,6 @@
 -- Delta format:
 -- format: 1Y 10M 2W 1D 12h 30m
 -- example: 1Y, 1h 30m, 10D
----@module time_string
 
 local M = {}
 

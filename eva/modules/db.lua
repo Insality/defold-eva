@@ -65,7 +65,14 @@ function M.before_eva_init()
 
 	for name, path in pairs(paths) do
 		logger:debug("Load JSON data", { name = name, path = path })
-		app._db[name] = utils.load_json(path)
+		local ok, result = pcall(utils.load_json, path)
+
+		if ok then
+			app._db[name] = result
+		else
+			logger:fatal("Error on loading json file", { name = name, traceback = result})
+			error(result)
+		end
 	end
 end
 

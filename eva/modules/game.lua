@@ -84,7 +84,6 @@ end
 
 local function on_window_event(self, event, data)
 	events.event(const.EVENT.WINDOW_EVENT, { event = event, data = data })
-
 	if event == window.WINDOW_EVENT_FOCUS_GAINED then
 		sync_time()
 		check_session()
@@ -194,6 +193,14 @@ function M.get_days_played()
 end
 
 
+--- Return true, if game launched first time
+-- @function eva.game.is_first_launch
+-- @treturn bool True, if game first time launch
+function M.is_first_launch()
+	return app[const.EVA.GAME].game_start_count == 1
+end
+
+
 function M.on_eva_init()
 	math.randomseed(os.time())
 	math.random()
@@ -214,8 +221,6 @@ function M.on_eva_init()
 	app[const.EVA.GAME] = proto.get(const.EVA.GAME)
 	saver.add_save_part(const.EVA.GAME, app[const.EVA.GAME])
 	sync_time()
-
-	window.set_listener(on_window_event)
 end
 
 
@@ -234,6 +239,7 @@ function M.after_eva_init()
 	end
 
 	check_session()
+	window.set_listener(on_window_event)
 end
 
 

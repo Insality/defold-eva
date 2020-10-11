@@ -1,4 +1,4 @@
--- Input pinch logic
+--- Input pinch logic
 
 
 local app = require("eva.app")

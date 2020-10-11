@@ -1,4 +1,4 @@
--- Convertation utils for hexgrids
+--- Convertation utils for hexgrids
 
 local app  = require("eva.app")
 local luax = require("eva.luax")
