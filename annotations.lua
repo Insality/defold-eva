@@ -1,3 +1,6 @@
+-- luacheck: ignore
+
+
 ---@class eva
 ---@field ads eva.ads Submodule
 ---@field callbacks eva.callbacks Submodule
@@ -39,378 +42,1348 @@
 ---@field utils eva.utils Submodule
 ---@field wallet eva.wallet Submodule
 ---@field window eva.window Submodule
----@field init fun(settings_path:string, module_settings:table) Call this to init Eva module
----@field on_input fun() Call this on main game on_input
----@field update fun(dt:number) Call this on main update loop
+local eva = {}
+
+--- Call this to init Eva module
+---@param settings_path string path to eva_settings.json
+---@param module_settings table Settings to modules. See description on eva.lua
+function eva.init(settings_path, module_settings) end
+
+--- Call this on main game on_input
+function eva.on_input() end
+
+--- Call this on main update loop
+---@param dt number delta time
+function eva.update(dt) end
+
 
 ---@class eva.ads
----@field get_watched fun(Total:number) Get total ads watched
----@field is_enabled fun():bool Check ads is enabled
----@field is_page_ready fun():bool Check is page ads ready.
----@field is_rewarded_ready fun():bool Check is rewarded ads ready.
----@field set_enabled fun(state:bool) Set enabled ads state
----@field show_page fun() Start show page ads
----@field show_rewarded fun() Start show rewarded ads  On success it will throw ADS_SUCCESS_REWARDED event
+local eva__ads = {}
+
+--- Get total ads watched
+---@param Total number watched ads count
+function eva__ads.get_watched(Total) end
+
+--- Check ads is enabled
+---@return bool is ads enabled
+function eva__ads.is_enabled() end
+
+--- Check is page ads ready.
+---@return bool is page ads ready
+function eva__ads.is_page_ready() end
+
+--- Check is rewarded ads ready.
+---@return bool is rewarded ads ready
+function eva__ads.is_rewarded_ready() end
+
+--- Set enabled ads state
+---@param state bool ads state
+function eva__ads.set_enabled(state) end
+
+--- Start show page ads
+function eva__ads.show_page() end
+
+--- Start show rewarded ads  On success it will throw ADS_SUCCESS_REWARDED event
+function eva__ads.show_rewarded() end
+
 
 ---@class eva.callbacks
----@field call fun(index:number, ...:args) Call wrapped callback
----@field clear fun(index:number) Clear callback
----@field create fun(callback:function):number Wrap callback  It return index for callback, You can call it now  via eva.callbacks.call(index, ...)
+local eva__callbacks = {}
+
+--- Call wrapped callback
+---@param index number Index of wrapped callback
+---@param ... args Args of calling callback
+function eva__callbacks.call(index, ...) end
+
+--- Clear callback
+---@param index number Index of wrapped callback
+function eva__callbacks.clear(index) end
+
+--- Wrap callback  It return index for callback, You can call it now  via eva.callbacks.call(index, ...)
+---@param callback function Callback to wrap
+---@return number index New index of wrapped callback
+function eva__callbacks.create(callback) end
+
 
 ---@class eva.camera
----@field set_borders fun(border_soft:vector4, border_hard:vector4) Set the borders of the camera zone
----@field set_camera fun(cam_id:string, camera_box:vector3) Set the camera game object and size of the camera
----@field set_control fun(enabled:bool) Enable or disable camera user control
----@field set_position fun(x:number, y:number) Set the camera position
----@field set_target_position fun(x:number, y:number) Set target camera position
----@field set_zoom_borders fun(zoom_soft:vector3, zoom_hard:vector3) Set the camera game object and size of the camera
----@field update fun(dt:number) Eva camera update should be called manually  Due the it uses context go.set_position
+local eva__camera = {}
+
+--- Set the borders of the camera zone
+---@param border_soft vector4 Soft zones of camera. Order is: left-top-right-bot.
+---@param border_hard vector4 Hard zones of camera. Order is: left-top-right-bot.
+function eva__camera.set_borders(border_soft, border_hard) end
+
+--- Set the camera game object and size of the camera
+---@param cam_id string url of camera game object
+---@param camera_box vector3 size of the camera at zoom=1
+function eva__camera.set_camera(cam_id, camera_box) end
+
+--- Enable or disable camera user control
+---@param enabled bool state
+function eva__camera.set_control(enabled) end
+
+--- Set the camera position
+---@param x number X position
+---@param y number Y position
+function eva__camera.set_position(x, y) end
+
+--- Set target camera position
+---@param x number X position
+---@param y number Y position
+function eva__camera.set_target_position(x, y) end
+
+--- Set the camera game object and size of the camera
+---@param zoom_soft vector3 Setup zoom soft values. vector3(min_value, max_value, 0)
+---@param zoom_hard vector3 Setup zoom hard values. vector3(min_value, max_value, 0)
+function eva__camera.set_zoom_borders(zoom_soft, zoom_hard) end
+
+--- Eva camera update should be called manually  Due the it uses context go.set_position
+---@param dt number Delta time
+function eva__camera.update(dt) end
+
 
 ---@class eva.daily
----@field get_current_state fun():table Return current state
----@field get_time fun() Return time until you can pickup prize
----@field get_wait_time fun() Return time until you can lose the unpicked reward
----@field is_active fun() Return is active now daily system
----@field pick fun() Pick current prize
----@field set_active fun() Set active daily system  It will reset last pick time
+local eva__daily = {}
+
+--- Return current state
+---@return table Array with booleans to show picked rewards
+function eva__daily.get_current_state() end
+
+--- Return time until you can pickup prize
+function eva__daily.get_time() end
+
+--- Return time until you can lose the unpicked reward
+function eva__daily.get_wait_time() end
+
+--- Return is active now daily system
+function eva__daily.is_active() end
+
+--- Pick current prize
+function eva__daily.pick() end
+
+--- Set active daily system  It will reset last pick time
+function eva__daily.set_active() end
+
 
 ---@class eva.db
----@field get fun(config_name:string):table Return config by config_name
----@field set_settings fun(settings:table) Can override db with custom tables (useful for tests)
+local eva__db = {}
+
+--- Return config by config_name
+---@param config_name string Config name from eva settings
+---@return table Config table
+function eva__db.get(config_name) end
+
+--- Can override db with custom tables (useful for tests)
+---@param settings table Custom db settings
+function eva__db.set_settings(settings) end
+
 
 ---@class eva.device
----@field get_device_id fun():string Return device id.
----@field get_device_info fun() Return device_info
----@field get_region fun():string Return device region.
----@field get_uuid fun(except:table):string Generate uuid
----@field is_android fun() Check if device on android
----@field is_ios fun() Check if device on iOS
----@field is_mobile fun() Check if device is native mobile (Android or iOS)
----@field is_web fun() Check if device is HTML5
+local eva__device = {}
+
+--- Return device id.
+---@return string device_id
+function eva__device.get_device_id() end
+
+--- Return device_info
+function eva__device.get_device_info() end
+
+--- Return device region.
+---@return string region
+function eva__device.get_region() end
+
+--- Generate uuid
+---@param except table list of uuid, what not need to be generated
+---@return string the uuid
+function eva__device.get_uuid(except) end
+
+--- Check if device on android
+function eva__device.is_android() end
+
+--- Check if device on iOS
+function eva__device.is_ios() end
+
+--- Check if device is native mobile (Android or iOS)
+function eva__device.is_mobile() end
+
+--- Check if device is HTML5
+function eva__device.is_web() end
+
 
 ---@class eva.events
----@field event fun(event:string, params:table) Throws the game event
----@field is_subscribed fun(event_name:string, callback:function) Check if callback is already subscribed
----@field screen fun(screen_id:string) Setup current game screen
----@field subscribe fun(event_name:string, callback:function) Subscribe the callback on event
----@field subscribe_map fun(map:table) Subscribe the pack of events by map
----@field unsubscribe fun(event_name:string, callback:function) Unsubscribe the event from events flow
----@field unsubscribe_map fun(map:table) Unsubscribe the pack of events by map
+local eva__events = {}
+
+--- Throws the game event
+---@param event string name of event
+---@param params table params
+function eva__events.event(event, params) end
+
+--- Check if callback is already subscribed
+---@param event_name string Event name
+---@param callback function Event callback
+function eva__events.is_subscribed(event_name, callback) end
+
+--- Setup current game screen
+---@param screen_id string screen id
+function eva__events.screen(screen_id) end
+
+--- Subscribe the callback on event
+---@param event_name string Event name
+---@param callback function Event callback
+function eva__events.subscribe(event_name, callback) end
+
+--- Subscribe the pack of events by map
+---@param map table {Event = Callback} map
+function eva__events.subscribe_map(map) end
+
+--- Unsubscribe the event from events flow
+---@param event_name string Event name
+---@param callback function Event callback
+function eva__events.unsubscribe(event_name, callback) end
+
+--- Unsubscribe the pack of events by map
+---@param map table {Event = Callback} map
+function eva__events.unsubscribe_map(map) end
+
 
 ---@class eva.festivals
----@field debug_end_festival fun(festival_id:string) End festival without check any condition
----@field debug_start_festival fun(festival_id:string) Start festival without check any condition
----@field get_completed fun():table Return completed festivals
----@field get_current fun():table Return current festivals
----@field get_end_time fun(festival_id:string):number Return next end time for festival_id
----@field get_start_time fun(festival_id:string):number Return next start time for festival_id
----@field is_active fun(festival_id:string):bool Return is festival is active now
----@field is_completed fun(festival_id:string):number Return is festival is completed  Return true for repeated festivals, is they are completed now
----@field set_settings fun() Set game festivals settings.
+local eva__festivals = {}
+
+--- End festival without check any condition
+---@param festival_id string Festival id from Festivals json
+function eva__festivals.debug_end_festival(festival_id) end
+
+--- Start festival without check any condition
+---@param festival_id string Festival id from Festivals json
+function eva__festivals.debug_start_festival(festival_id) end
+
+--- Return completed festivals
+---@return table array of completed festivals
+function eva__festivals.get_completed() end
+
+--- Return current festivals
+---@return table array of current festivals
+function eva__festivals.get_current() end
+
+--- Return next end time for festival_id
+---@param festival_id string Festival id from Festivals json
+---@return number Time in seconds since epoch
+function eva__festivals.get_end_time(festival_id) end
+
+--- Return next start time for festival_id
+---@param festival_id string Festival id from Festivals json
+---@return number Time in seconds since epoch
+function eva__festivals.get_start_time(festival_id) end
+
+--- Return is festival is active now
+---@param festival_id string Festival id from Festivals json
+---@return bool Current festival state
+function eva__festivals.is_active(festival_id) end
+
+--- Return is festival is completed  Return true for repeated festivals, is they are completed now
+---@param festival_id string Festival id from Festivals json
+---@return number Festival completed counter (For repeat festivals can be > 1)
+function eva__festivals.is_completed(festival_id) end
+
+--- Set game festivals settings.
+function eva__festivals.set_settings() end
+
 
 ---@class eva.game
----@field exit fun(code:int) Exit from the game
----@field get_current_time_string fun():string Get current time in string format
----@field get_days_played fun():number Get days since first game launch
----@field get_session_uid fun():number Return unique id for local session
----@field get_time fun():number Get game time
----@field get_uid fun():number Return unique id for player profile
----@field is_debug fun() Check game on debug mode
----@field is_first_launch fun():bool Return true, if game launched first time
----@field open_store_page fun() Open store page in store application
----@field reboot fun(delay:number) Reboot the game
+local eva__game = {}
+
+--- Exit from the game
+---@param code int The exit code
+function eva__game.exit(code) end
+
+--- Get current time in string format
+---@return string Time format in iso e.g. "2019-09-25T01:48:19Z"
+function eva__game.get_current_time_string() end
+
+--- Get days since first game launch
+---@return number Days since first game launch
+function eva__game.get_days_played() end
+
+--- Return unique id for local session
+---@return number Unique id in this game session
+function eva__game.get_session_uid() end
+
+--- Get game time
+---@return number Return game time in seconds
+function eva__game.get_time() end
+
+--- Return unique id for player profile
+---@return number Unique id in player profile
+function eva__game.get_uid() end
+
+--- Check game on debug mode
+function eva__game.is_debug() end
+
+--- Return true, if game launched first time
+---@return bool True, if game first time launch
+function eva__game.is_first_launch() end
+
+--- Open store page in store application
+function eva__game.open_store_page() end
+
+--- Reboot the game
+---@param delay number Delay before reboot, in seconds
+function eva__game.reboot(delay) end
+
 
 ---@class eva.gdpr
----@field apply_gdpr fun() Apply the GDPR to the game profile
----@field is_accepted fun() Return if GDPR is accepted
----@field open_policy_url fun() Open the policy URL
+local eva__gdpr = {}
+
+--- Apply the GDPR to the game profile
+function eva__gdpr.apply_gdpr() end
+
+--- Return if GDPR is accepted
+function eva__gdpr.is_accepted() end
+
+--- Open the policy URL
+function eva__gdpr.open_policy_url() end
+
 
 ---@class eva.grid
----@field cell_to_pos fun() Transform hex to pixel position
----@field get_map_params fun():map_params Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.grid.set_default_map_params  Pass the map sizes to calculate correct coordinates
----@field get_object_pos fun():vector3 Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
----@field get_tile_pos fun():vector3 Get tile position.
----@field get_tiled_scene_pos fun():number,number Convert tiled object position to scene position
----@field get_z fun(y:number, z_layer:number):map_params Get Z position from object Y position and his z_layer
----@field pos_to_cell fun() Transform pixel to hex
----@field set_default_map_params fun(map_params:map_params) Set default map params  To don`t pass it every time in transform functions
+local eva__grid = {}
+
+--- Transform hex to pixel position
+function eva__grid.cell_to_pos() end
+
+--- Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.grid.set_default_map_params  Pass the map sizes to calculate correct coordinates
+---@return map_params Map params data
+function eva__grid.get_map_params() end
+
+--- Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
+---@return vector3 Object position
+function eva__grid.get_object_pos() end
+
+--- Get tile position.
+---@return vector3 Tile position
+function eva__grid.get_tile_pos() end
+
+--- Convert tiled object position to scene position
+---@return number,number x,y Object scene position
+function eva__grid.get_tiled_scene_pos() end
+
+--- Get Z position from object Y position and his z_layer
+---@param y number Object Y position
+---@param z_layer number Object Z layer index
+---@return map_params Map params data
+function eva__grid.get_z(y, z_layer) end
+
+--- Transform pixel to hex
+function eva__grid.pos_to_cell() end
+
+--- Set default map params  To don`t pass it every time in transform functions
+---@param map_params map_params Params from eva.grid.get_map_params
+function eva__grid.set_default_map_params(map_params) end
+
 
 ---@class eva.hexgrid
----@field cell_cube_to_pos fun(i:number, j:number, k:number, map_params:map_params) Transform hex to pixel position.
----@field cell_to_pos fun(i:number, j:number, map_params:map_params) Transform hex to pixel position.
----@field get_map_params fun(tilewidth:number, tileheight:number, tileside:number, width:number, height:number, invert_y:bool):map_params Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.hexgrid.set_default_map_params  Pass the map sizes to calculate correct coordinates
----@field get_object_pos fun():vector3 Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
----@field get_tile_pos fun():vector3 Get tile position.
----@field get_tiled_scene_pos fun():number,number Convert tiled object position to scene position
----@field get_z fun(y:number, z_layer:number):map_params Get Z position from object Y position and his z_layer
----@field offset_to_cube fun(i:number, j:number, k:number, map_params:map_params) Transfrom cube coordinates to offset coordinates
----@field offset_to_cube fun(i:number, j:number, map_params:map_params) Transfrom offset coordinates to cube coordinates
----@field pos_to_cell fun(x:number, y:number, map_params:map_params) Transform pixel to hex.
----@field pos_to_cell_cube fun(x:number, y:number, map_params:map_params) Transform pixel to hex.
----@field rotate_offset fun(i:number, j:number, k:number, N:number):number, Rotate offset coordinate by N * 60degree
----@field set_default_map_params fun(map_params:map_params) Set default map params  To dont pass it every time in transform functions
+local eva__hexgrid = {}
+
+--- Transform hex to pixel position.
+---@param i number Cell i coordinate
+---@param j number Cell j coordinate
+---@param k number Cell k coordinate
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.cell_cube_to_pos(i, j, k, map_params) end
+
+--- Transform hex to pixel position.
+---@param i number Cell i coordinate
+---@param j number Cell j coordinate
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.cell_to_pos(i, j, map_params) end
+
+--- Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.hexgrid.set_default_map_params  Pass the map sizes to calculate correct coordinates
+---@param tilewidth number Hexagon width
+---@param tileheight number Hexagon height
+---@param tileside number Hexagon side length (flat side)
+---@param width number Map width in tiles count
+---@param height number Map height in tiles count
+---@param invert_y bool If true, zero pos will be at top, else on bot
+---@return map_params Map params data
+function eva__hexgrid.get_map_params(tilewidth, tileheight, tileside, width, height, invert_y) end
+
+--- Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
+---@return vector3 Object position
+function eva__hexgrid.get_object_pos() end
+
+--- Get tile position.
+---@return vector3 Tile position
+function eva__hexgrid.get_tile_pos() end
+
+--- Convert tiled object position to scene position
+---@return number,number x,y Object scene position
+function eva__hexgrid.get_tiled_scene_pos() end
+
+--- Get Z position from object Y position and his z_layer
+---@param y number Object Y position
+---@param z_layer number Object Z layer index
+---@return map_params Map params data
+function eva__hexgrid.get_z(y, z_layer) end
+
+--- Transfrom cube coordinates to offset coordinates
+---@param i number I coordinate
+---@param j number J coordinate
+---@param k number K coordinate
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.offset_to_cube(i, j, k, map_params) end
+
+--- Transfrom offset coordinates to cube coordinates
+---@param i number I coordinate
+---@param j number J coordinate
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.offset_to_cube(i, j, map_params) end
+
+--- Transform pixel to hex.
+---@param x number World x position
+---@param y number World y position
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.pos_to_cell(x, y, map_params) end
+
+--- Transform pixel to hex.
+---@param x number World x position
+---@param y number World y position
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.pos_to_cell_cube(x, y, map_params) end
+
+--- Rotate offset coordinate by N * 60degree
+---@param i number I coordinate
+---@param j number J coordinate
+---@param k number K coordinate
+---@param N number Number, how much rotate on 60 degrees. Positive - rotate right, Negative - left
+---@return number, number, number Offset coordinate
+function eva__hexgrid.rotate_offset(i, j, k, N) end
+
+--- Set default map params  To dont pass it every time in transform functions
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.set_default_map_params(map_params) end
+
 
 ---@class eva.iaps
----@field buy fun(iap_id:string) Buy the inapp
----@field get_iap fun(iap_id:string) Get iap info by iap_id
----@field get_iaps fun(category:string):list Get all iaps.
----@field get_ltv fun():number Get total lifetime value (from iaps)
----@field get_max_payment fun():number Get player max payment
----@field get_price fun(iap_id:string):number Get price from iap_id
----@field get_price_string fun(iap_id:string):string Get price_string from iap_id
----@field get_reward fun(iap_id:string) Get reward from iap_id
----@field is_available fun(iap_id:string):bool Check is iap is available
----@field refresh_iap_list fun() Refresh iap list.
+local eva__iaps = {}
+
+--- Buy the inapp
+---@param iap_id string In-game inapp ID from iaps settings
+function eva__iaps.buy(iap_id) end
+
+--- Get iap info by iap_id
+---@param iap_id string the inapp id
+function eva__iaps.get_iap(iap_id) end
+
+--- Get all iaps.
+---@param category string Category of iap
+---@return list of iap products
+function eva__iaps.get_iaps(category) end
+
+--- Get total lifetime value (from iaps)
+---@return number Player's LTV
+function eva__iaps.get_ltv() end
+
+--- Get player max payment
+---@return number Max player payment
+function eva__iaps.get_max_payment() end
+
+--- Get price from iap_id
+---@param iap_id string the inapp id
+---@return number Price of iap
+function eva__iaps.get_price(iap_id) end
+
+--- Get price_string from iap_id
+---@param iap_id string the inapp id
+---@return string The iap price string
+function eva__iaps.get_price_string(iap_id) end
+
+--- Get reward from iap_id
+---@param iap_id string the inapp id
+function eva__iaps.get_reward(iap_id) end
+
+--- Check is iap is available
+---@param iap_id string the inapp id
+---@return bool Is available
+function eva__iaps.is_available(iap_id) end
+
+--- Refresh iap list.
+function eva__iaps.refresh_iap_list() end
+
 
 ---@class eva.input
----@field register fun(name:string, callback:function, priority:number) Register the input to handle user actions  If callback return true it will stop handle next input
----@field unregister fun(name:string) Unregister prev.
+local eva__input = {}
+
+--- Register the input to handle user actions  If callback return true it will stop handle next input
+---@param name string Name of input system
+---@param callback function The input callback
+---@param priority number Priority of input. Lower first
+function eva__input.register(name, callback, priority) end
+
+--- Unregister prev.
+---@param name string Name of input system
+function eva__input.unregister(name) end
+
 
 ---@class eva.invoices
----@field add fun(category:string, reward:evadata.Tokens, time:number, life_time:number, title:string, text:string) Add invoice to game profile  If time is not provided, add invoice instantly  If time is provided, add invoice in this time  Invoice should be consumed to get reward
----@field can_consume fun():bool Check is invoice can be consumed
----@field consume fun(invoice_id:number) Consume the invoice to the game profile
----@field get_invoce fun():eva.InvoiceInfo Get invoice data by id
----@field get_invoices fun() Return current list of invoices
+local eva__invoices = {}
+
+--- Add invoice to game profile  If time is not provided, add invoice instantly  If time is provided, add invoice in this time  Invoice should be consumed to get reward
+---@param category string Category param of the invoice
+---@param reward evadata.Tokens Tokens reward list
+---@param time number Game time to add invoice
+---@param life_time number Time in seconds of invoice available
+---@param title string Text invoice title
+---@param text string Text invoice desc
+function eva__invoices.add(category, reward, time, life_time, title, text) end
+
+--- Check is invoice can be consumed
+---@return bool Can consume invoice
+function eva__invoices.can_consume() end
+
+--- Consume the invoice to the game profile
+---@param invoice_id number The id of invoice
+function eva__invoices.consume(invoice_id) end
+
+--- Get invoice data by id
+---@return eva.InvoiceInfo Invoice data
+function eva__invoices.get_invoce() end
+
+--- Return current list of invoices
+function eva__invoices.get_invoices() end
+
 
 ---@class eva.isogrid
----@field cell_to_pos fun() Transform hex to pixel position
----@field get_map_params fun():map_params Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.isogrid.set_default_map_params  Pass the map sizes to calculate correct coordinates
----@field get_object_pos fun():vector3 Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
----@field get_tile_pos fun():vector3 Get tile position.
----@field get_tiled_scene_pos fun():number,number Convert tiled object position to scene position
----@field get_z fun(y:number, z_layer:number):map_params Get Z position from object Y position and his z_layer
----@field pos_to_cell fun() Transform pixel to hex
----@field set_default_map_params fun(map_params:map_params) Set default map params  To don`t pass it every time in transform functions
+local eva__isogrid = {}
+
+--- Transform hex to pixel position
+function eva__isogrid.cell_to_pos() end
+
+--- Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.isogrid.set_default_map_params  Pass the map sizes to calculate correct coordinates
+---@return map_params Map params data
+function eva__isogrid.get_map_params() end
+
+--- Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
+---@return vector3 Object position
+function eva__isogrid.get_object_pos() end
+
+--- Get tile position.
+---@return vector3 Tile position
+function eva__isogrid.get_tile_pos() end
+
+--- Convert tiled object position to scene position
+---@return number,number x,y Object scene position
+function eva__isogrid.get_tiled_scene_pos() end
+
+--- Get Z position from object Y position and his z_layer
+---@param y number Object Y position
+---@param z_layer number Object Z layer index
+---@return map_params Map params data
+function eva__isogrid.get_z(y, z_layer) end
+
+--- Transform pixel to hex
+function eva__isogrid.pos_to_cell() end
+
+--- Set default map params  To don`t pass it every time in transform functions
+---@param map_params map_params Params from eva.isogrid.get_map_params
+function eva__isogrid.set_default_map_params(map_params) end
+
 
 ---@class eva.labels
----@field is_exist fun(label:string):bool Check label is exist in player profile
+local eva__labels = {}
+
+--- Check label is exist in player profile
+---@param label string The label id
+---@return bool True, if label in player profile
+function eva__labels.is_exist(label) end
+
 
 ---@class eva.lang
----@field get_lang fun():string Get current language
----@field get_langs fun():table Return list of available languages
----@field is_exist fun(lang_id:strng):bool Check is translation with lang_id exist
----@field set_lang fun(lang:string) Set current language
----@field time_format fun() Return localized time format from seconds
----@field txp fun(lang_id:string, ...:string):string Get translation for locale id with params
----@field txt fun(lang_id:string):string Get translation for locale id
+local eva__lang = {}
+
+--- Get current language
+---@return string return current language code
+function eva__lang.get_lang() end
+
+--- Return list of available languages
+---@return table List of available languages
+function eva__lang.get_langs() end
+
+--- Check is translation with lang_id exist
+---@param lang_id strng Locale id from your localization
+---@return bool Is translation exist
+function eva__lang.is_exist(lang_id) end
+
+--- Set current language
+---@param lang string current language code from eva-settings
+function eva__lang.set_lang(lang) end
+
+--- Return localized time format from seconds
+function eva__lang.time_format() end
+
+--- Get translation for locale id with params
+---@param lang_id string Locale id from your localization
+---@param ... string Params for string.format for lang_id
+---@return string Translated locale
+function eva__lang.txp(lang_id, ...) end
+
+--- Get translation for locale id
+---@param lang_id string locale id from your localization
+---@return string translated locale
+function eva__lang.txt(lang_id) end
+
 
 ---@class eva.migrations
----@field apply fun() Apply the migrations
----@field get_count fun() Return amount of migrations
----@field set_migrations fun() Add migration to the eva system  Pass the migrations list in eva.init  You should directly point the migration version  in migration list (array from 1 to N)
+local eva__migrations = {}
+
+--- Apply the migrations
+function eva__migrations.apply() end
+
+--- Return amount of migrations
+function eva__migrations.get_count() end
+
+--- Add migration to the eva system  Pass the migrations list in eva.init  You should directly point the migration version  in migration list (array from 1 to N)
+function eva__migrations.set_migrations() end
+
 
 ---@class eva.offers
----@field add fun(offer_id:string):eva.Offer Start new offer  Every offer is unique.
----@field get_price fun(offer_id:string):evadata.Tokens Get token group of offer price.
----@field get_reward fun(offer_id:string):evadata.Tokens Get token group of offer reward.
----@field get_time fun(offer_id:string):number Return time till offer end.
----@field is_active fun(offer_id:string):bool Check is offer active not
----@field is_iap fun(offer_id:string):bool Check is offer for inapp
----@field remove fun(offer_id:string) Remove offers from active list
+local eva__offers = {}
+
+--- Start new offer  Every offer is unique.
+---@param offer_id string offer id from db
+---@return eva.Offer new offer
+function eva__offers.add(offer_id) end
+
+--- Get token group of offer price.
+---@param offer_id string offer id from db
+---@return evadata.Tokens token list
+function eva__offers.get_price(offer_id) end
+
+--- Get token group of offer reward.
+---@param offer_id string offer id from db
+---@return evadata.Tokens token list
+function eva__offers.get_reward(offer_id) end
+
+--- Return time till offer end.
+---@param offer_id string offer id from db
+---@return number time in seconds
+function eva__offers.get_time(offer_id) end
+
+--- Check is offer active not
+---@param offer_id string offer id from db
+---@return bool is offer active
+function eva__offers.is_active(offer_id) end
+
+--- Check is offer for inapp
+---@param offer_id string offer id from db
+---@return bool is offer inapp
+function eva__offers.is_iap(offer_id) end
+
+--- Remove offers from active list
+---@param offer_id string offer id from db
+function eva__offers.remove(offer_id) end
+
 
 ---@class eva.pathfinder
----@field init_astar fun(map_data:map_data, get_node_fn:function, options.:table):map_handler Init astar for map, init get_tile callback  get_node_fn - function to get tile: function(i, j)  should return cost of node.
----@field path fun(from_x:unknown, from_y:unknown, to_x:unknown, to_y:unknown, map_handler:map_handler):table|nil Return path between two points for map.
+local eva__pathfinder = {}
+
+--- Init astar for map, init get_tile callback  get_node_fn - function to get tile: function(i, j)  should return cost of node.
+---@param map_data map_data Map data from eva.tiled.load_map
+---@param get_node_fn function Get node cost function from map
+---@param options table Options for map handlers:  - diagonal boolean, to grid and isogrid pathfinding
+---@return map_handler Handler for astar work
+function eva__pathfinder.init_astar(map_data, get_node_fn, options) end
+
+--- Return path between two points for map.
+---@param from_x unknown Cell X from map
+---@param from_y unknown Cell Y from map
+---@param to_x unknown Cell X from map
+---@param to_y unknown Cell Y from map
+---@param map_handler map_handler Map handler to handle map for astar
+---@return table|nil Table of points. See eva.libs.astar.path. Nil if path is not exist
+function eva__pathfinder.path(from_x, from_y, to_x, to_y, map_handler) end
+
 
 ---@class eva.promocode
----@field get_applied_codes fun():string[] Get list of all redeemed codes
----@field is_applied fun(code:string):bool Check if promocode is already applied
----@field is_can_redeem fun(code:string):bool Check if promocode can be redeem
----@field redeem_code fun(code:string):bool Try redeem the code and get rewards
----@field set_settings fun() Set promocode settings.
+local eva__promocode = {}
+
+--- Get list of all redeemed codes
+---@return string[] List of applied codes
+function eva__promocode.get_applied_codes() end
+
+--- Check if promocode is already applied
+---@param code string The promocode itself
+---@return bool True if code is already redeemed
+function eva__promocode.is_applied(code) end
+
+--- Check if promocode can be redeem
+---@param code string The promocode itself
+---@return bool True of false
+function eva__promocode.is_can_redeem(code) end
+
+--- Try redeem the code and get rewards
+---@param code string The promocode itself
+---@return bool Result of success
+function eva__promocode.redeem_code(code) end
+
+--- Set promocode settings.
+function eva__promocode.set_settings() end
+
 
 ---@class eva.proto
----@field decode fun() Decode protobuf
----@field encode fun() Encode protobuf
----@field get fun(proto_type:string):table Get empty template from proto type
+local eva__proto = {}
+
+--- Decode protobuf
+function eva__proto.decode() end
+
+--- Encode protobuf
+function eva__proto.encode() end
+
+--- Get empty template from proto type
+---@param proto_type string name of proto message e.g. 'eva.Token'
+---@return table empty table with default values from proto
+function eva__proto.get(proto_type) end
+
 
 ---@class eva.push
----@field clear_old_pushes fun() Clear all pushes, what already  should be invoked.
----@field schedule fun() Schedule notification
----@field schedule_list fun() Schedule by list  Every notifications have: after, title, text, category, payload
----@field unschedule fun() Unschedule the push notification
----@field unschedule_all fun() Cancel all pushes with category  If category is not provided, cancel all pushes
+local eva__push = {}
+
+--- Clear all pushes, what already  should be invoked.
+function eva__push.clear_old_pushes() end
+
+--- Schedule notification
+function eva__push.schedule() end
+
+--- Schedule by list  Every notifications have: after, title, text, category, payload
+function eva__push.schedule_list() end
+
+--- Unschedule the push notification
+function eva__push.unschedule() end
+
+--- Cancel all pushes with category  If category is not provided, cancel all pushes
+function eva__push.unschedule_all() end
+
 
 ---@class eva.quests
----@field add_update_quest_event fun() Add event, to trigger quest list update.
----@field complete_quest fun(quest_id:string) Complete quest, if it can be completed
----@field get_completed fun():table Get completed quests list
----@field get_current fun():table Get current active quests
----@field get_progress fun(quest_id:string):table Get current progress on quest
----@field is_active fun():bool Check quest is active
----@field is_can_complete_quest fun():bool Check quest is can be completed now
----@field is_can_start_quest fun():bool Check quest is can be started now
----@field is_completed fun():bool Check quest is completed
----@field is_current_with_task fun(action:string, object:string):bool Check if there is quests in current with  pointer action and object
----@field quest_event fun(action:string, object:string, amount:number) Apply quest event to all current quests
----@field reset_progress fun(quest_id:string) Reset quets progress, only on current quests
----@field set_settings fun() Set game quests settings.
----@field start_quest fun(quest_id:string) Start quest, if it can be started
----@field start_quests fun() Start eva quests system.
----@field update_quests fun() Update quests list  It will start and end quests, by checking quests condition
+local eva__quests = {}
+
+--- Add event, to trigger quest list update.
+function eva__quests.add_update_quest_event() end
+
+--- Complete quest, if it can be completed
+---@param quest_id string Quest id
+function eva__quests.complete_quest(quest_id) end
+
+--- Get completed quests list
+---@return table List of active quests
+function eva__quests.get_completed() end
+
+--- Get current active quests
+---@return table List of active quests
+function eva__quests.get_current() end
+
+--- Get current progress on quest
+---@param quest_id string Quest id
+---@return table List of progress of quest tasks in task order
+function eva__quests.get_progress(quest_id) end
+
+--- Check quest is active
+---@return bool Quest active state
+function eva__quests.is_active() end
+
+--- Check quest is can be completed now
+---@return bool Quest is can complete quest state
+function eva__quests.is_can_complete_quest() end
+
+--- Check quest is can be started now
+---@return bool Quest is can start state
+function eva__quests.is_can_start_quest() end
+
+--- Check quest is completed
+---@return bool Quest completed state
+function eva__quests.is_completed() end
+
+--- Check if there is quests in current with  pointer action and object
+---@param action string Task action
+---@param object string Task object
+---@return bool True, if there is quest with similar tasks
+function eva__quests.is_current_with_task(action, object) end
+
+--- Apply quest event to all current quests
+---@param action string Type of event
+---@param object string Object of event
+---@param amount number Amount of event
+function eva__quests.quest_event(action, object, amount) end
+
+--- Reset quets progress, only on current quests
+---@param quest_id string Quest id
+function eva__quests.reset_progress(quest_id) end
+
+--- Set game quests settings.
+function eva__quests.set_settings() end
+
+--- Start quest, if it can be started
+---@param quest_id string Quest id
+function eva__quests.start_quest(quest_id) end
+
+--- Start eva quests system.
+function eva__quests.start_quests() end
+
+--- Update quests list  It will start and end quests, by checking quests condition
+function eva__quests.update_quests() end
+
 
 ---@class eva.rate
----@field open_rate fun() Open store or native rating on iOS
----@field promt_rate fun() Try to promt rate game to the player
----@field set_accepted fun() Set rate as accepted.
----@field set_never_show fun() Set never promt rate again
+local eva__rate = {}
+
+--- Open store or native rating on iOS
+function eva__rate.open_rate() end
+
+--- Try to promt rate game to the player
+function eva__rate.promt_rate() end
+
+--- Set rate as accepted.
+function eva__rate.set_accepted() end
+
+--- Set never promt rate again
+function eva__rate.set_never_show() end
+
 
 ---@class eva.rating
----@field elo fun(rating_a:number, rating_b:number, game_koef:number) Call elo rating
+local eva__rating = {}
+
+--- Call elo rating
+---@param rating_a number Player rating
+---@param rating_b number Opponent rating
+---@param game_koef number Result of game. 1 is win, 0 on loose, 0.5 is draw
+function eva__rating.elo(rating_a, rating_b, game_koef) end
+
 
 ---@class eva.render
----@field set_blur fun() Change render
----@field set_light fun() Change render
----@field set_vignette fun() Change render
+local eva__render = {}
+
+--- Change render
+function eva__render.set_blur() end
+
+--- Change render
+function eva__render.set_light() end
+
+--- Change render
+function eva__render.set_vignette() end
+
 
 ---@class eva.saver
----@field add_save_part fun() Add save part to the save table
----@field delete fun(filename:string) Delete the save
----@field load fun() Load the file from save directory
----@field reset fun() Reset the game profile
----@field save fun() Save the game file in save directory
----@field save_data fun() Save the data in save directory
+local eva__saver = {}
+
+--- Add save part to the save table
+function eva__saver.add_save_part() end
+
+--- Delete the save
+---@param filename string The save filename. Can be default by settings
+function eva__saver.delete(filename) end
+
+--- Load the file from save directory
+function eva__saver.load() end
+
+--- Reset the game profile
+function eva__saver.reset() end
+
+--- Save the game file in save directory
+function eva__saver.save() end
+
+--- Save the data in save directory
+function eva__saver.save_data() end
+
 
 ---@class eva.server
----@field login fun(callback:function) Login at playfab server
----@field send_save fun(json_data:string) Send save to the server
+local eva__server = {}
+
+--- Login at playfab server
+---@param callback function Callback after login
+function eva__server.login(callback) end
+
+--- Send save to the server
+---@param json_data string JSON data
+function eva__server.send_save(json_data) end
+
 
 ---@class eva.skill
----@field add_stack fun() Add amount to skill stacks
----@field end_use fun() End use of channeling spell or end effect of skill  with duration
----@field get_active_progress fun() Return current skill progress time
----@field get_active_time fun() Return skill active time (duration)
----@field get_active_time_left fun() Return skill active left time (until end of duration)
----@field get_cooldown_progress fun() Get cooldown progress
----@field get_cooldown_time fun() Return skill cooldown time
----@field get_cooldown_time_left fun() Return skill cooldown time left
----@field get_stack_amount fun() Get current skill stack amount
----@field is_active fun() Time between use and end_use
----@field is_can_use fun() Return true if skill can be used now
----@field is_empty_stack fun() Return true if skill is empty now
----@field is_full_stack fun() Return true if skill on full stack
----@field is_on_cooldown fun() Return true if skill on the cooldown
----@field restore_all fun() Restore all skills in containers
----@field skil_cooldown_time fun() Skill cooldown
----@field use fun() Use skill
+local eva__skill = {}
+
+--- Add amount to skill stacks
+function eva__skill.add_stack() end
+
+--- End use of channeling spell or end effect of skill  with duration
+function eva__skill.end_use() end
+
+--- Return current skill progress time
+function eva__skill.get_active_progress() end
+
+--- Return skill active time (duration)
+function eva__skill.get_active_time() end
+
+--- Return skill active left time (until end of duration)
+function eva__skill.get_active_time_left() end
+
+--- Get cooldown progress
+function eva__skill.get_cooldown_progress() end
+
+--- Return skill cooldown time
+function eva__skill.get_cooldown_time() end
+
+--- Return skill cooldown time left
+function eva__skill.get_cooldown_time_left() end
+
+--- Get current skill stack amount
+function eva__skill.get_stack_amount() end
+
+--- Time between use and end_use
+function eva__skill.is_active() end
+
+--- Return true if skill can be used now
+function eva__skill.is_can_use() end
+
+--- Return true if skill is empty now
+function eva__skill.is_empty_stack() end
+
+--- Return true if skill on full stack
+function eva__skill.is_full_stack() end
+
+--- Return true if skill on the cooldown
+function eva__skill.is_on_cooldown() end
+
+--- Restore all skills in containers
+function eva__skill.restore_all() end
+
+--- Skill cooldown
+function eva__skill.skil_cooldown_time() end
+
+--- Use skill
+function eva__skill.use() end
+
 
 ---@class eva.sound
----@field fade_music fun() Slowly fade music to another one or empty
----@field is_music_enabled fun() Check music gain
----@field is_sound_enabled fun() Check sound gain
----@field play fun() Play the sound in the game
----@field play_music fun() Start playing music
----@field set_music_gain fun() Set music gain
----@field set_sound_gain fun() Set sound gain
----@field stop_all fun() Stop all sounds in the game
----@field stop_music fun() Stop any music in the game
+local eva__sound = {}
+
+--- Slowly fade music to another one or empty
+function eva__sound.fade_music() end
+
+--- Check music gain
+function eva__sound.is_music_enabled() end
+
+--- Check sound gain
+function eva__sound.is_sound_enabled() end
+
+--- Play the sound in the game
+function eva__sound.play() end
+
+--- Start playing music
+function eva__sound.play_music() end
+
+--- Set music gain
+function eva__sound.set_music_gain() end
+
+--- Set sound gain
+function eva__sound.set_sound_gain() end
+
+--- Stop all sounds in the game
+function eva__sound.stop_all() end
+
+--- Stop any music in the game
+function eva__sound.stop_music() end
+
 
 ---@class eva.storage
----@field get fun(id:string) Get the value from the storage.
----@field set fun(id:string, value:string|number|bool) Set the value to eva storage
+local eva__storage = {}
+
+--- Get the value from the storage.
+---@param id string The record id
+function eva__storage.get(id) end
+
+--- Set the value to eva storage
+---@param id string The record id
+---@param value string|number|bool Value
+function eva__storage.set(id, value) end
+
 
 ---@class eva.tiled
----@field add_object fun(layer_name:string, spawner_name:string, index:number, x:number, y:number, props:table, map_data:map_data) Add object to the map by object index from tiled tileset
----@field add_tile fun(layer_name:string, spawner_name:string, index:number, i:number, j:number, map_data:map_data) Add tile to the map by tile index from tiled tileset
----@field delete_object fun(game_object_id:hash, map_data:map_data) Delete object from the map by game_object id
----@field delete_tile fun(layer:string, i:number, j:number, map_data:map_data) Delete tile from the map by tile pos
----@field get_object fun(game_object_id:hash, map_data:map_data) Get object to the map by game_object id
----@field get_object_data fun(object_name:string) Get mapping object info by name
----@field get_tile fun(layer_name:string, i:number, j:number, map_data:map_data) Get tile from the map by tile pos
----@field load_map fun(data:table, create_object_fn:callback) Load map from tiled json data
+local eva__tiled = {}
+
+--- Add object to the map by object index from tiled tileset
+---@param layer_name string Name of tiled layer
+---@param spawner_name string Name of tileset
+---@param index number Object index from tileset
+---@param x number x position
+---@param y number y position
+---@param props table Object additional properties
+---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+function eva__tiled.add_object(layer_name, spawner_name, index, x, y, props, map_data) end
+
+--- Add tile to the map by tile index from tiled tileset
+---@param layer_name string Name of tiled layer
+---@param spawner_name string Name of tileset
+---@param index number Tile index from tileset
+---@param i number Cell x position
+---@param j number Cell y position
+---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+function eva__tiled.add_tile(layer_name, spawner_name, index, i, j, map_data) end
+
+--- Delete object from the map by game_object id
+---@param game_object_id hash Game object id
+---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+function eva__tiled.delete_object(game_object_id, map_data) end
+
+--- Delete tile from the map by tile pos
+---@param layer string Name of the tiled layer
+---@param i number Cell x position
+---@param j number Cell y position
+---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+function eva__tiled.delete_tile(layer, i, j, map_data) end
+
+--- Get object to the map by game_object id
+---@param game_object_id hash Game object id
+---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+function eva__tiled.get_object(game_object_id, map_data) end
+
+--- Get mapping object info by name
+---@param object_name string The game object name
+function eva__tiled.get_object_data(object_name) end
+
+--- Get tile from the map by tile pos
+---@param layer_name string Name of tiled layer
+---@param i number Cell x position
+---@param j number Cell y position
+---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+function eva__tiled.get_tile(layer_name, i, j, map_data) end
+
+--- Load map from tiled json data
+---@param data table Json map data
+---@param create_object_fn callback Module call this with param(object_layer, object_id, position)
+function eva__tiled.load_map(data, create_object_fn) end
+
 
 ---@class eva.timers
----@field add fun(slot_id:string, timer_id:string, time:number, auto_trigger:bool) Add new timer  Timer with slot_id should no exist
----@field clear fun(slot_id:string) Clear the timer slot
----@field get fun() Get timer
----@field get_time fun(slot_id:string):number Get time until end, in seconds
----@field is_end fun(slot_id:string) Check is timer has ended
----@field set_pause fun(slot_id:string, is_pause:boolean) Set timer pause state
+local eva__timers = {}
+
+--- Add new timer  Timer with slot_id should no exist
+---@param slot_id string identificator of timer
+---@param timer_id string string param of timer
+---@param time number time of timer, in seconds
+---@param auto_trigger bool true, if event should fire event at end
+function eva__timers.add(slot_id, timer_id, time, auto_trigger) end
+
+--- Clear the timer slot
+---@param slot_id string identificator of timer
+function eva__timers.clear(slot_id) end
+
+--- Get timer
+function eva__timers.get() end
+
+--- Get time until end, in seconds
+---@param slot_id string identificator of timer
+---@return number Time until end of timer. -1 if timer is not exist
+function eva__timers.get_time(slot_id) end
+
+--- Check is timer has ended
+---@param slot_id string identificator of timer
+function eva__timers.is_end(slot_id) end
+
+--- Set timer pause state
+---@param slot_id string identificator of timer
+---@param is_pause boolean pause state
+function eva__timers.set_pause(slot_id, is_pause) end
+
 
 ---@class eva.token
----@field add fun() Add tokens to save
----@field add_group fun() Add multiply tokens by token_group_id
----@field add_infinity_time fun() Add to tokens infinity time usage
----@field add_many fun() Add multiply tokens
----@field add_visual fun() Add visual debt to token
----@field clear_container fun(container_id:string) Clear all tokens from container
----@field create_container fun(container_id:string, container_type:string) Create new token container
----@field delete_container fun(container_id:string) Delete token container
----@field get fun() Get current token amount from save
----@field get_infinity_seconds fun() Get amount of seconds till end of infinity time
----@field get_lot_price fun(lot_id:string):evadata.Tokens Return lot price by lot_id.
----@field get_lot_reward fun(lot_id:string):evadata.Tokens Return lot reward by lot_id.
----@field get_many fun(container_id:string):evadata.Tokens Get all tokens from container
----@field get_seconds_to_restore fun() Get current time to next restore point
----@field get_token_group fun(token_group_id:string):evadata.Tokens Return token group by id.
----@field get_tokens fun(tokens:table) Return evadata.Tokens tokens format.
----@field get_visual fun() Get current visual debt of token
----@field is_empty fun() Return is tokens equals to 0
----@field is_enough fun() Check is enough to pay token
----@field is_enough_group fun(token_group_id:string) Check multiply tokens by token_group_id
----@field is_enough_many fun(tokens:evadata.Tokens) Check multiply tokens
----@field is_exist_container fun(container_id:string):bool Check if token container exist
----@field is_infinity fun() Return is token is infinity now
----@field is_max fun() Return is token is maximum
----@field pay fun(token_id:string, amount:number, reason:string) Try to pay tokens from save
----@field pay_group fun(token_group_id:string, reason:string) Pay multiply tokens by token_group_id
----@field pay_many fun(tokens:evadata.Tokens, reason:string) Pay multiply tokens
----@field set fun() Set tokens to save
----@field sync_visual fun() Reset visual debt of tokens
+local eva__token = {}
+
+--- Add tokens to save
+function eva__token.add() end
+
+--- Add multiply tokens by token_group_id
+function eva__token.add_group() end
+
+--- Add to tokens infinity time usage
+function eva__token.add_infinity_time() end
+
+--- Add multiply tokens
+function eva__token.add_many() end
+
+--- Add visual debt to token
+function eva__token.add_visual() end
+
+--- Clear all tokens from container
+---@param container_id string Container id
+function eva__token.clear_container(container_id) end
+
+--- Create new token container
+---@param container_id string Container id
+---@param container_type string Container type to match from token config
+function eva__token.create_container(container_id, container_type) end
+
+--- Delete token container
+---@param container_id string Container id
+function eva__token.delete_container(container_id) end
+
+--- Get current token amount from save
+function eva__token.get() end
+
+--- Get amount of seconds till end of infinity time
+function eva__token.get_infinity_seconds() end
+
+--- Return lot price by lot_id.
+---@param lot_id string the token lot id
+---@return evadata.Tokens the token list
+function eva__token.get_lot_price(lot_id) end
+
+--- Return lot reward by lot_id.
+---@param lot_id string the token lot id
+---@return evadata.Tokens the token list
+function eva__token.get_lot_reward(lot_id) end
+
+--- Get all tokens from container
+---@param container_id string Container id
+---@return evadata.Tokens Tokens from container
+function eva__token.get_many(container_id) end
+
+--- Get current time to next restore point
+function eva__token.get_seconds_to_restore() end
+
+--- Return token group by id.
+---@param token_group_id string the token group id
+---@return evadata.Tokens the token list
+function eva__token.get_token_group(token_group_id) end
+
+--- Return evadata.Tokens tokens format.
+---@param tokens table Map with token_id = amount
+function eva__token.get_tokens(tokens) end
+
+--- Get current visual debt of token
+function eva__token.get_visual() end
+
+--- Return is tokens equals to 0
+function eva__token.is_empty() end
+
+--- Check is enough to pay token
+function eva__token.is_enough() end
+
+--- Check multiply tokens by token_group_id
+---@param token_group_id string the token group id
+function eva__token.is_enough_group(token_group_id) end
+
+--- Check multiply tokens
+---@param tokens evadata.Tokens list
+function eva__token.is_enough_many(tokens) end
+
+--- Check if token container exist
+---@param container_id string Container id
+---@return bool Container exist state
+function eva__token.is_exist_container(container_id) end
+
+--- Return is token is infinity now
+function eva__token.is_infinity() end
+
+--- Return is token is maximum
+function eva__token.is_max() end
+
+--- Try to pay tokens from save
+---@param token_id string Token id
+---@param amount number Amount to pay
+---@param reason string The reason to pay
+function eva__token.pay(token_id, amount, reason) end
+
+--- Pay multiply tokens by token_group_id
+---@param token_group_id string The token group id
+---@param reason string The reason to pay
+function eva__token.pay_group(token_group_id, reason) end
+
+--- Pay multiply tokens
+---@param tokens evadata.Tokens Tokens data
+---@param reason string The reason to pay
+function eva__token.pay_many(tokens, reason) end
+
+--- Set tokens to save
+function eva__token.set() end
+
+--- Reset visual debt of tokens
+function eva__token.sync_visual() end
+
 
 ---@class eva.trucks
----@field arrive fun(truck_id:string) Arrive truck right now, even it can't be  arrived now.
----@field get_time_to_arrive fun(truck_id:string):number Get time for next truck arrive
----@field get_time_to_leave fun(truck_id:string):number Get time for next truck leave
----@field is_arrived fun(truck_id:string):bool Check if truck is already arrived
----@field is_can_arrive fun(truck_id:string):bool Check if truck can be arrived now
----@field is_can_leave fun(truck_id:string):bool Check if truck can leave now
----@field is_enabled fun(truck_id:string):bool Check is truck enabled now
----@field leave fun(truck_id:string) Leave truck right now, even it can  leave now.
----@field set_enabled fun(truck_id:string) Set truck enabled state
----@field set_settings fun(trucks_settings:table) Set trucks settings with custom callbacks.
+local eva__trucks = {}
+
+--- Arrive truck right now, even it can't be  arrived now.
+---@param truck_id string Truck id
+function eva__trucks.arrive(truck_id) end
+
+--- Get time for next truck arrive
+---@param truck_id string Truck id
+---@return number Time in seconds
+function eva__trucks.get_time_to_arrive(truck_id) end
+
+--- Get time for next truck leave
+---@param truck_id string Truck id
+---@return number Time in seconds
+function eva__trucks.get_time_to_leave(truck_id) end
+
+--- Check if truck is already arrived
+---@param truck_id string Truck id
+---@return bool Is arrived now
+function eva__trucks.is_arrived(truck_id) end
+
+--- Check if truck can be arrived now
+---@param truck_id string Truck id
+---@return bool Is can arrive now
+function eva__trucks.is_can_arrive(truck_id) end
+
+--- Check if truck can leave now
+---@param truck_id string Truck id
+---@return bool Is can leave now
+function eva__trucks.is_can_leave(truck_id) end
+
+--- Check is truck enabled now
+---@param truck_id string Truck id
+---@return bool Is truck enabled
+function eva__trucks.is_enabled(truck_id) end
+
+--- Leave truck right now, even it can  leave now.
+---@param truck_id string Truck id
+function eva__trucks.leave(truck_id) end
+
+--- Set truck enabled state
+---@param truck_id string Truck id
+function eva__trucks.set_enabled(truck_id) end
+
+--- Set trucks settings with custom callbacks.
+---@param trucks_settings table Table with callbacks
+function eva__trucks.set_settings(trucks_settings) end
+
 
 ---@class eva.utils
----@field after fun() Make after closure
----@field get_days_in_month fun() Return days in month
----@field hex2rgb fun() Convert hex color to rgb color
----@field load_json fun() Load json from bundled resource
----@field rgb2hex fun() Convert rgb color to hex color
----@field save_json fun() Save json in bundled resource (desktop only)
+local eva__utils = {}
+
+--- Make after closure
+function eva__utils.after() end
+
+--- Return days in month
+function eva__utils.get_days_in_month() end
+
+--- Convert hex color to rgb color
+function eva__utils.hex2rgb() end
+
+--- Load json from bundled resource
+function eva__utils.load_json() end
+
+--- Convert rgb color to hex color
+function eva__utils.rgb2hex() end
+
+--- Save json in bundled resource (desktop only)
+function eva__utils.save_json() end
+
 
 ---@class eva.wallet
----@field add fun() Add tokens to save
----@field add_group fun() Add multiply tokens by token_group_id
----@field add_infinity_time fun() Add to tokens infinity time usage
----@field add_many fun() Add multiply tokens
----@field add_visual fun() Add visual debt to token
----@field get fun() Get current token amount from save
----@field get_infinity_seconds fun() Get amount of seconds till end of infinity time
----@field get_seconds_to_restore fun() Get current time to next restore point
----@field get_visual fun() Get current visual debt of token
----@field is_empty fun() Return is tokens equals to 0
----@field is_enough fun() Check is enough to pay token
----@field is_enough_group fun(token_group_id:string) Check multiply tokens by token_group_id
----@field is_enough_many fun(tokens:evadata.Tokens) Check multiply tokens
----@field is_infinity fun() Return is token is infinity now
----@field is_max fun() Return is token is maximum
----@field pay fun(token_id:string, amount:number, reason:string) Try to pay tokens from save
----@field pay_group fun(token_group_id:string, reason:string) Pay multiply tokens by token_group_id
----@field pay_many fun(tokens:evadata.Tokens, reason:string) Pay multiply tokens
----@field set fun() Set tokens to save
----@field sync_visual fun() Reset visual debt of tokens
+local eva__wallet = {}
+
+--- Add tokens to save
+function eva__wallet.add() end
+
+--- Add multiply tokens by token_group_id
+function eva__wallet.add_group() end
+
+--- Add to tokens infinity time usage
+function eva__wallet.add_infinity_time() end
+
+--- Add multiply tokens
+function eva__wallet.add_many() end
+
+--- Add visual debt to token
+function eva__wallet.add_visual() end
+
+--- Get current token amount from save
+function eva__wallet.get() end
+
+--- Get amount of seconds till end of infinity time
+function eva__wallet.get_infinity_seconds() end
+
+--- Get current time to next restore point
+function eva__wallet.get_seconds_to_restore() end
+
+--- Get current visual debt of token
+function eva__wallet.get_visual() end
+
+--- Return is tokens equals to 0
+function eva__wallet.is_empty() end
+
+--- Check is enough to pay token
+function eva__wallet.is_enough() end
+
+--- Check multiply tokens by token_group_id
+---@param token_group_id string the token group id
+function eva__wallet.is_enough_group(token_group_id) end
+
+--- Check multiply tokens
+---@param tokens evadata.Tokens list
+function eva__wallet.is_enough_many(tokens) end
+
+--- Return is token is infinity now
+function eva__wallet.is_infinity() end
+
+--- Return is token is maximum
+function eva__wallet.is_max() end
+
+--- Try to pay tokens from save
+---@param token_id string Token id
+---@param amount number Amount to pay
+---@param reason string The reason to pay
+function eva__wallet.pay(token_id, amount, reason) end
+
+--- Pay multiply tokens by token_group_id
+---@param token_group_id string The token group id
+---@param reason string The reason to pay
+function eva__wallet.pay_group(token_group_id, reason) end
+
+--- Pay multiply tokens
+---@param tokens evadata.Tokens Tokens data
+---@param reason string The reason to pay
+function eva__wallet.pay_many(tokens, reason) end
+
+--- Set tokens to save
+function eva__wallet.set() end
+
+--- Reset visual debt of tokens
+function eva__wallet.sync_visual() end
+
 
 ---@class eva.window
----@field appear fun() Appear functions for all windows  Need to call inside window
----@field close fun() Close window by id or last window
----@field close_all fun() Close all windows
----@field disappear fun() Disappear functions for all windows  Need to call inside window
----@field is_open fun() Check is window is opened now
----@field preload fun(window_id:string, callback:function) Preload window via monarch
----@field set_settings fun() Set game windows settings
----@field show fun() Show the game window  It will close current window and open new, if any opened  It can be popup on popup, so don't close prev.
----@field show_scene fun() Load the game scene
+local eva__window = {}
+
+--- Appear functions for all windows  Need to call inside window
+function eva__window.appear() end
+
+--- Close window by id or last window
+function eva__window.close() end
+
+--- Close all windows
+function eva__window.close_all() end
+
+--- Disappear functions for all windows  Need to call inside window
+function eva__window.disappear() end
+
+--- Check is window is opened now
+function eva__window.is_open() end
+
+--- Preload window via monarch
+---@param window_id string The window id
+---@param callback function The callback function
+function eva__window.preload(window_id, callback) end
+
+--- Set game windows settings
+function eva__window.set_settings() end
+
+--- Show the game window  It will close current window and open new, if any opened  It can be popup on popup, so don't close prev.
+function eva__window.show() end
+
+--- Load the game scene
+function eva__window.show_scene() end
+
 
 ---@class eva_const
 ---@field AD eva_const.AD Available ads values
@@ -428,15 +1401,21 @@
 ---@field UNKNOWN_REGION field Unknown region for eva.device.get_region()
 ---@field WALLET_CONTAINER field Default player container
 ---@field WALLET_TYPE field Default wallet container type
+local eva_const = {}
+
 
 ---@class eva_const.AD
 ---@field INTERSTITIAL field
 ---@field REWARDED field
+local eva_const__AD = {}
+
 
 ---@class eva_const.DAILY
 ---@field RESET field
 ---@field SKIP field
 ---@field WAIT field
+local eva_const__DAILY = {}
+
 
 ---@class eva_const.EVA
 ---@field ADS field
@@ -474,6 +1453,8 @@
 ---@field TOKENS_DATA field
 ---@field TOKEN_RESTORE_CONFIG field
 ---@field TRUCKS field
+local eva_const__EVA = {}
+
 
 ---@class eva_const.EVENT
 ---@field ADS_READY field
@@ -528,6 +1509,8 @@
 ---@field WINDOW_CLOSE field
 ---@field WINDOW_EVENT field
 ---@field WINDOW_SHOW field
+local eva_const__EVENT = {}
+
 
 ---@class eva_const.IAP
 ---@field FAILED field
@@ -535,6 +1518,8 @@
 ---@field RESTORED field
 ---@field STATE field
 ---@field UNVERIFIED field
+local eva_const__IAP = {}
+
 
 ---@class eva_const.INPUT
 ---@field CALLBACK field
@@ -553,12 +1538,16 @@
 ---@field SCROLL_DOWN field
 ---@field SCROLL_UP field
 ---@field TOUCH field
+local eva_const__INPUT = {}
+
 
 ---@class eva_const.INPUT_SWIPE
 ---@field DOWN field
 ---@field LEFT field
 ---@field RIGHT field
 ---@field UP field
+local eva_const__INPUT_SWIPE = {}
+
 
 ---@class eva_const.INPUT_TYPE
 ---@field DRAG field
@@ -575,6 +1564,8 @@
 ---@field TOUCH field
 ---@field TOUCH_END field
 ---@field TOUCH_START field
+local eva_const__INPUT_TYPE = {}
+
 
 ---@class eva_const.OS
 ---@field ANDROID field
@@ -583,6 +1574,8 @@
 ---@field LINUX field
 ---@field MAC field
 ---@field WINDOWS field
+local eva_const__OS = {}
+
 
 ---@class luax
 ---@field debug luax.debug Submodule
@@ -593,71 +1586,190 @@
 ---@field string luax.string Submodule
 ---@field table luax.table Submodule
 ---@field vmath luax.vmath Submodule
+local luax = {}
+
 
 ---@class luax.debug
----@field timelog fun() debug.timelog
+local luax__debug = {}
+
+--- debug.timelog
+function luax__debug.timelog() end
+
 
 ---@class luax.go
----@field set_alpha fun() go.set_alpha
+local luax__go = {}
+
+--- go.set_alpha
+function luax__go.set_alpha() end
+
 
 ---@class luax.gui
----@field get_alpha fun() gui.get_alpha
----@field is_chain_enabled fun() gui.is_chain_enabled
----@field set_alpha fun() gui.set_alpha
+local luax__gui = {}
+
+--- gui.get_alpha
+function luax__gui.get_alpha() end
+
+--- gui.is_chain_enabled
+function luax__gui.is_chain_enabled() end
+
+--- gui.set_alpha
+function luax__gui.set_alpha() end
+
 
 ---@class luax.math
----@field chance fun() math.chance
----@field clamp fun() math.clamp
----@field clamp_box fun(pos:vector3, box:vector4, size:vector3, change_point:bool) math.clamp_box
----@field distance fun() math.distance
----@field is fun() math.is
----@field lerp fun() math.lerp
----@field lerp_box fun() math.lerp_box
----@field manhattan fun() math.manhattan
----@field round fun() math.round
----@field sign fun() math.sign
----@field step fun() math.step
----@field vec2rad fun() math.vec2rad
+local luax__math = {}
+
+--- math.chance
+function luax__math.chance() end
+
+--- math.clamp
+function luax__math.clamp() end
+
+--- math.clamp_box
+---@param pos vector3
+---@param box vector4
+---@param size vector3
+---@param change_point bool
+function luax__math.clamp_box(pos, box, size, change_point) end
+
+--- math.distance
+function luax__math.distance() end
+
+--- math.is
+function luax__math.is() end
+
+--- math.lerp
+function luax__math.lerp() end
+
+--- math.lerp_box
+function luax__math.lerp_box() end
+
+--- math.manhattan
+function luax__math.manhattan() end
+
+--- math.round
+function luax__math.round() end
+
+--- math.sign
+function luax__math.sign() end
+
+--- math.step
+function luax__math.step() end
+
+--- math.vec2rad
+function luax__math.vec2rad() end
+
 
 ---@class luax.operators
----@field eq fun() operators.eq
----@field ge fun() operators.ge
----@field gt fun() operators.gt
----@field le fun() operators.le
----@field lt fun() operators.lt
----@field neq fun() operators.neq
+local luax__operators = {}
+
+--- operators.eq
+function luax__operators.eq() end
+
+--- operators.ge
+function luax__operators.ge() end
+
+--- operators.gt
+function luax__operators.gt() end
+
+--- operators.le
+function luax__operators.le() end
+
+--- operators.lt
+function luax__operators.lt() end
+
+--- operators.neq
+function luax__operators.neq() end
+
 
 ---@class luax.string
----@field add_prefix_zeros fun() string.add_prefix_zeros
----@field ends fun() string.ends
----@field random fun() string.random
----@field split fun() string.split
----@field split_by_rank fun() string.split_by_rank
----@field starts fun() string.starts
+local luax__string = {}
+
+--- string.add_prefix_zeros
+function luax__string.add_prefix_zeros() end
+
+--- string.ends
+function luax__string.ends() end
+
+--- string.random
+function luax__string.random() end
+
+--- string.split
+function luax__string.split() end
+
+--- string.split_by_rank
+function luax__string.split_by_rank() end
+
+--- string.starts
+function luax__string.starts() end
+
 
 ---@class luax.table
----@field contains fun() table.contains
----@field copy fun() table.copy array
----@field deepcopy fun() table.deepcopy
----@field extend fun() table.extend
----@field get_item_from_array fun() table.get_item_from_array
----@field is_empty fun() table.is_empty
----@field length fun() table.length
----@field list fun() table.list
----@field override fun() table.override
----@field random fun() table.random
----@field remove_by_dict fun() table.remove_by_dict
----@field remove_item fun() table.remove_item
----@field shuffle fun() table.shuffle
----@field tostring fun() table.tostring
----@field weight_random fun() table.weight_random
+local luax__table = {}
+
+--- table.contains
+function luax__table.contains() end
+
+--- table.copy array
+function luax__table.copy() end
+
+--- table.deepcopy
+function luax__table.deepcopy() end
+
+--- table.extend
+function luax__table.extend() end
+
+--- table.get_item_from_array
+function luax__table.get_item_from_array() end
+
+--- table.is_empty
+function luax__table.is_empty() end
+
+--- table.length
+function luax__table.length() end
+
+--- table.list
+function luax__table.list() end
+
+--- table.override
+function luax__table.override() end
+
+--- table.random
+function luax__table.random() end
+
+--- table.remove_by_dict
+function luax__table.remove_by_dict() end
+
+--- table.remove_item
+function luax__table.remove_item() end
+
+--- table.shuffle
+function luax__table.shuffle() end
+
+--- table.tostring
+function luax__table.tostring() end
+
+--- table.weight_random
+function luax__table.weight_random() end
+
 
 ---@class luax.vmath
----@field distance fun() vmath.distance
----@field rad2quat fun() vmath.rad2quat
----@field rad2vec fun() vmath.rad2vec
----@field vec2quat fun() vmath.vec2quat
----@field vec2rad fun() vmath.vec2rad
+local luax__vmath = {}
+
+--- vmath.distance
+function luax__vmath.distance() end
+
+--- vmath.rad2quat
+function luax__vmath.rad2quat() end
+
+--- vmath.rad2vec
+function luax__vmath.rad2vec() end
+
+--- vmath.vec2quat
+function luax__vmath.vec2quat() end
+
+--- vmath.vec2rad
+function luax__vmath.vec2rad() end
 
 
 

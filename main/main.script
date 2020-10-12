@@ -1,5 +1,6 @@
 go.property("map", hash("hex"))
 
+---@type eva
 local eva = require("eva.eva")
 local eva_const = require("eva.const")
 local mapping = require("hextest.mapping.mapping")

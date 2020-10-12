@@ -1,3 +1,4 @@
+-- Quest settings example
 local M = {}
 
 

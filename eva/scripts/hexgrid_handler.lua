@@ -1,4 +1,4 @@
---- Handler for hexagonal grid astar
+-- Handler for hexagonal grid astar
 
 local const = require("eva.const")
 local basic_handler = require("eva.libs.astar.basic_handler")

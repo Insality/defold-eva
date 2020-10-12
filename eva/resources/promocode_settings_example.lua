@@ -1,3 +1,4 @@
+-- Promocode settings examples
 local M = {}
 
 

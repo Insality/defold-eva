@@ -1,4 +1,4 @@
---- Input touch handling
+-- Input touch handling
 
 
 local rendercam = require("rendercam.rendercam")

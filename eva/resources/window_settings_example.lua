@@ -1,4 +1,4 @@
---- Window settings example
+-- Window settings example
 -- default settings will be extend with windows custom
 -- every settings should have next field:
 -- 	- render_order - number 0..15 to gui.set_render_order
