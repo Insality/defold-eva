@@ -1,11 +1,76 @@
 {
   "token_groups": {
-    "reward1": { "tokens": [ { "token_id": "money", "amount": 100 } ] },
-    "reward2": { "tokens": [ { "token_id": "energy", "amount": 50 }, { "token_id": "level", "amount": 1 } ] },
-    "iap_1": { "tokens": [ { "token_id": "money", "amount": 500 } ] },
-    "iap_2": { "tokens": [ { "token_id": "money", "amount": 1000 }, { "token_id": "energy", "amount": 10 } ] },
-    "no_ads": { "tokens": [ { "token_id": "no_ads", "amount": 1 } ] },
-    "test_group_1": { "tokens": [ { "token_id": "money", "amount": 1000 } ] },
-    "test_group_2": { "tokens": [ { "token_id": "energy", "amount": 50 } ] }
+    "for_ads_required": {
+      "tokens": [
+        {
+          "amount": 3,
+          "token_id": "level"
+        }
+      ]
+    },
+    "iap_1": {
+      "tokens": [
+        {
+          "amount": 500,
+          "token_id": "money"
+        }
+      ]
+    },
+    "iap_2": {
+      "tokens": [
+        {
+          "amount": 1000,
+          "token_id": "money"
+        },
+        {
+          "amount": 10,
+          "token_id": "energy"
+        }
+      ]
+    },
+    "no_ads": {
+      "tokens": [
+        {
+          "amount": 1,
+          "token_id": "no_ads"
+        }
+      ]
+    },
+    "reward1": {
+      "tokens": [
+        {
+          "amount": 100,
+          "token_id": "money"
+        }
+      ]
+    },
+    "reward2": {
+      "tokens": [
+        {
+          "amount": 50,
+          "token_id": "energy"
+        },
+        {
+          "amount": 1,
+          "token_id": "level"
+        }
+      ]
+    },
+    "test_group_1": {
+      "tokens": [
+        {
+          "amount": 1000,
+          "token_id": "money"
+        }
+      ]
+    },
+    "test_group_2": {
+      "tokens": [
+        {
+          "amount": 50,
+          "token_id": "energy"
+        }
+      ]
+    }
   }
 }
