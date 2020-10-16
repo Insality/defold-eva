@@ -1,5 +1,15 @@
 {
   "quests": {
+    "earn_max_score": {
+      "use_max_task_value": true,
+      "tasks": [
+        {
+          "action": "get",
+          "object": "score",
+          "required": 5000
+        }
+      ]
+    },
     "quest_1": {
       "autofinish": true,
       "autostart": true,

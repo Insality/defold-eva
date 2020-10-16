@@ -284,7 +284,13 @@ local function apply_event(quest_id, quest, action, object, amount)
 			is_updated = true
 
 			local prev_value = quest.progress[i]
-			quest.progress[i] = luax.math.clamp(quest.progress[i] + amount, 0, task_data.required)
+			local task_value
+			if quest_data.use_max_task_value then
+				task_value = math.max(quest.progress[i], amount)
+			else
+				task_value = quest.progress[i] + amount
+			end
+			quest.progress[i] = luax.math.clamp(task_value, 0, task_data.required)
 
 			local delta = quest.progress[i] - prev_value
 

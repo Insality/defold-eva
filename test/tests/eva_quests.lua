@@ -1,3 +1,4 @@
+---@type eva
 local eva = require("eva.eva")
 local const = require("eva.const")
 local luax = require("eva.luax")
@@ -373,6 +374,22 @@ return function()
 
 			assert(events[END].calls == 1)
 			assert(events[START].calls == 3)
+		end)
+
+		it("Should work with single progress tasks", function()
+			eva.quests.start_quests()
+			eva.quests.start_quest("earn_max_score")
+			assert(eva.quests.is_active("earn_max_score"))
+			assert(not eva.quests.is_can_complete_quest("earn_max_score"))
+
+			eva.quests.quest_event("get", "score", 4000)
+			assert(not eva.quests.is_can_complete_quest("earn_max_score"))
+
+			eva.quests.quest_event("get", "score", 4000)
+			assert(not eva.quests.is_can_complete_quest("earn_max_score"))
+
+			eva.quests.quest_event("get", "score", 5000)
+			assert(eva.quests.is_can_complete_quest("earn_max_score"))
 		end)
 	end)
 end
