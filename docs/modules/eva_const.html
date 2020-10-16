@@ -1,0 +1,1196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Defold Eva documentation</title>
+    <link rel="stylesheet" href="../ldoc_pale.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Defold-Eva</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Tables">Tables</a></li>
+<li><a href="#Fields">Fields</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>eva_const</strong></li>
+  <li><a href="../modules/eva.html">eva</a></li>
+  <li><a href="../modules/luax.html">luax</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>eva_const</code></h1>
+<p>Defold-Eva const module.</p>
+<p>
+ Specify all eva constant</p>
+
+
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#OS">OS</a></td>
+	<td class="summary">Available OS values</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#INPUT">INPUT</a></td>
+	<td class="summary">Eva input events</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#INPUT_TYPE">INPUT_TYPE</a></td>
+	<td class="summary">Eva built-in input type</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#EVENT">EVENT</a></td>
+	<td class="summary">Eva built-in game events</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#IAP">IAP</a></td>
+	<td class="summary">Iap states</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#EVA">EVA</a></td>
+	<td class="summary">Inner eva protodata names</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#DAILY">DAILY</a></td>
+	<td class="summary">Available daily bonus values</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#INPUT_KEYS">INPUT_KEYS</a></td>
+	<td class="summary">This is all keys from all.input_binding</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#INPUT_SWIPE">INPUT_SWIPE</a></td>
+	<td class="summary">Eva built-in input swipe directions</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#VIBRATE">VIBRATE</a></td>
+	<td class="summary">Vibrate constants for eva.vibrate</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#STORAGE">STORAGE</a></td>
+	<td class="summary">Reserved strings for eva.storage values from other modules</td>
+	</tr>
+</table>
+<h2><a href="#Fields">Fields</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#EVA_VERSION">EVA_VERSION</a></td>
+	<td class="summary">Need to check basic config and protofiles</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#UNKNOWN_REGION">UNKNOWN_REGION</a></td>
+	<td class="summary">Unknown region for eva.device.get_region()</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#WALLET_CONTAINER">WALLET_CONTAINER</a></td>
+	<td class="summary">Default player container</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#WALLET_TYPE">WALLET_TYPE</a></td>
+	<td class="summary">Default wallet container type</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#FPS">FPS</a></td>
+	<td class="summary">Game FPS constant</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "OS"></a>
+    <strong>OS</strong>
+    </dt>
+    <dd>
+    Available OS values
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">ANDROID</span>
+
+        </li>
+        <li><span class="parameter">IOS</span>
+
+        </li>
+        <li><span class="parameter">MAC</span>
+
+        </li>
+        <li><span class="parameter">LINUX</span>
+
+        </li>
+        <li><span class="parameter">WINDOWS</span>
+
+        </li>
+        <li><span class="parameter">BROWSER</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "INPUT"></a>
+    <strong>INPUT</strong>
+    </dt>
+    <dd>
+    Eva input events
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">MULTITOUCH</span>
+
+        </li>
+        <li><span class="parameter">TOUCH</span>
+
+        </li>
+        <li><span class="parameter">CLOSE</span>
+
+        </li>
+        <li><span class="parameter">CALLBACK</span>
+
+        </li>
+        <li><span class="parameter">SCROLL_UP</span>
+
+        </li>
+        <li><span class="parameter">SCROLL_DOWN</span>
+
+        </li>
+        <li><span class="parameter">KEY_Q</span>
+
+        </li>
+        <li><span class="parameter">KEY_R</span>
+
+        </li>
+        <li><span class="parameter">KEY_N</span>
+
+        </li>
+        <li><span class="parameter">KEY_D</span>
+
+        </li>
+        <li><span class="parameter">KEY_P</span>
+
+        </li>
+        <li><span class="parameter">KEY_1</span>
+
+        </li>
+        <li><span class="parameter">KEY_2</span>
+
+        </li>
+        <li><span class="parameter">KEY_3</span>
+
+        </li>
+        <li><span class="parameter">KEY_LALT</span>
+
+        </li>
+        <li><span class="parameter">KEY_LCTRL</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "INPUT_TYPE"></a>
+    <strong>INPUT_TYPE</strong>
+    </dt>
+    <dd>
+    Eva built-in input type
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">KEY_PRESSED</span>
+
+        </li>
+        <li><span class="parameter">KEY_REPEATED</span>
+
+        </li>
+        <li><span class="parameter">KEY_HOLD</span>
+
+        </li>
+        <li><span class="parameter">KEY_RELEASED</span>
+
+        </li>
+        <li><span class="parameter">TOUCH_START</span>
+
+        </li>
+        <li><span class="parameter">TOUCH</span>
+
+        </li>
+        <li><span class="parameter">TOUCH_END</span>
+
+        </li>
+        <li><span class="parameter">LONG_TOUCH</span>
+
+        </li>
+        <li><span class="parameter">DRAG_START</span>
+        it mean touch_cancel too
+        </li>
+        <li><span class="parameter">DRAG</span>
+
+        </li>
+        <li><span class="parameter">DRAG_END</span>
+
+        </li>
+        <li><span class="parameter">PINCH_START</span>
+
+        </li>
+        <li><span class="parameter">PINCH</span>
+
+        </li>
+        <li><span class="parameter">PINCH_END</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "EVENT"></a>
+    <strong>EVENT</strong>
+    </dt>
+    <dd>
+    Eva built-in game events
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">GAME_START</span>
+        Game start eva event
+        </li>
+        <li><span class="parameter">GAME_FOCUS</span>
+
+        </li>
+        <li><span class="parameter">NEW_SESSION</span>
+
+        </li>
+        <li><span class="parameter">IAP_UPDATE</span>
+
+        </li>
+        <li><span class="parameter">IAP_START</span>
+
+        </li>
+        <li><span class="parameter">IAP_CANCEL</span>
+
+        </li>
+        <li><span class="parameter">IAP_PURCHASE</span>
+
+        </li>
+        <li><span class="parameter">IAP_VALID</span>
+
+        </li>
+        <li><span class="parameter">IAP_INVALID</span>
+
+        </li>
+        <li><span class="parameter">ADS_READY</span>
+
+        </li>
+        <li><span class="parameter">ADS_SUCCESS_REWARDED</span>
+
+        </li>
+        <li><span class="parameter">ADS_SUCCESS</span>
+
+        </li>
+        <li><span class="parameter">ADS_SHOW</span>
+
+        </li>
+        <li><span class="parameter">TOKEN_CHANGE</span>
+
+        </li>
+        <li><span class="parameter">SERVER_LOGIN</span>
+
+        </li>
+        <li><span class="parameter">TIMER_TRIGGER</span>
+
+        </li>
+        <li><span class="parameter">LANG_UPDATE</span>
+
+        </li>
+        <li><span class="parameter">OFFERS_START</span>
+
+        </li>
+        <li><span class="parameter">OFFERS_CLEAR</span>
+
+        </li>
+        <li><span class="parameter">DAILY_REWARD</span>
+
+        </li>
+        <li><span class="parameter">DAILY_RESET</span>
+
+        </li>
+        <li><span class="parameter">DAILY_LOST</span>
+
+        </li>
+        <li><span class="parameter">DAILY_NEW_CYCLE</span>
+
+        </li>
+        <li><span class="parameter">FESTIVAL_START</span>
+
+        </li>
+        <li><span class="parameter">FESTIVAL_END</span>
+
+        </li>
+        <li><span class="parameter">FESTIVAL_CLOSE_TO_END</span>
+
+        </li>
+        <li><span class="parameter">QUEST_REGISTER</span>
+
+        </li>
+        <li><span class="parameter">QUEST_START</span>
+
+        </li>
+        <li><span class="parameter">QUEST_PROGRESS</span>
+
+        </li>
+        <li><span class="parameter">QUEST_TASK_COMPLETE</span>
+
+        </li>
+        <li><span class="parameter">QUEST_END</span>
+
+        </li>
+        <li><span class="parameter">WINDOW_SHOW</span>
+
+        </li>
+        <li><span class="parameter">WINDOW_CLOSE</span>
+
+        </li>
+        <li><span class="parameter">SCENE_SHOW</span>
+
+        </li>
+        <li><span class="parameter">SCENE_CLOSE</span>
+
+        </li>
+        <li><span class="parameter">PUSH_SCHEDULED</span>
+
+        </li>
+        <li><span class="parameter">PUSH_CANCEL</span>
+
+        </li>
+        <li><span class="parameter">INVOICE_ADD</span>
+
+        </li>
+        <li><span class="parameter">INVOICE_EXPIRE</span>
+
+        </li>
+        <li><span class="parameter">INVOICE_CONSUME</span>
+
+        </li>
+        <li><span class="parameter">TRUCK_ARRIVE</span>
+
+        </li>
+        <li><span class="parameter">TRUCK_LEAVE</span>
+
+        </li>
+        <li><span class="parameter">TRUCK_CLOSE_TO_LEAVE</span>
+
+        </li>
+        <li><span class="parameter">LABEL_ADD</span>
+
+        </li>
+        <li><span class="parameter">LABEL_REMOVE</span>
+
+        </li>
+        <li><span class="parameter">SKILL_USE</span>
+
+        </li>
+        <li><span class="parameter">SKILL_USE_END</span>
+
+        </li>
+        <li><span class="parameter">SKILL_COOLDOWN_START</span>
+
+        </li>
+        <li><span class="parameter">SKILL_COOLDOWN_END</span>
+
+        </li>
+        <li><span class="parameter">CODE_REDEEM</span>
+
+        </li>
+        <li><span class="parameter">WINDOW_EVENT</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "IAP"></a>
+    <strong>IAP</strong>
+    </dt>
+    <dd>
+    Iap states
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">STATE</span>
+
+        </li>
+        <li><span class="parameter">PURCHASED</span>
+
+        </li>
+        <li><span class="parameter">FAILED</span>
+
+        </li>
+        <li><span class="parameter">RESTORED</span>
+
+        </li>
+        <li><span class="parameter">UNVERIFIED</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "EVA"></a>
+    <strong>EVA</strong>
+    </dt>
+    <dd>
+    Inner eva protodata names
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">ADS</span>
+
+        </li>
+        <li><span class="parameter">SOUND</span>
+
+        </li>
+        <li><span class="parameter">LANG</span>
+
+        </li>
+        <li><span class="parameter">LABELS</span>
+
+        </li>
+        <li><span class="parameter">DEVICE</span>
+
+        </li>
+        <li><span class="parameter">RATE</span>
+
+        </li>
+        <li><span class="parameter">SAVER</span>
+
+        </li>
+        <li><span class="parameter">GAME</span>
+
+        </li>
+        <li><span class="parameter">GDPR</span>
+
+        </li>
+        <li><span class="parameter">IAPS</span>
+
+        </li>
+        <li><span class="parameter">TIMERS</span>
+
+        </li>
+        <li><span class="parameter">STORAGE</span>
+
+        </li>
+        <li><span class="parameter">OFFERS</span>
+
+        </li>
+        <li><span class="parameter">DAILY</span>
+
+        </li>
+        <li><span class="parameter">FESTIVALS</span>
+
+        </li>
+        <li><span class="parameter">QUESTS</span>
+
+        </li>
+        <li><span class="parameter">PUSH</span>
+
+        </li>
+        <li><span class="parameter">INVOICES</span>
+
+        </li>
+        <li><span class="parameter">TRUCKS</span>
+
+        </li>
+        <li><span class="parameter">CONTAINERS</span>
+
+        </li>
+        <li><span class="parameter">SKILLS</span>
+
+        </li>
+        <li><span class="parameter">SKILL_CONTAINERS</span>
+
+        </li>
+        <li><span class="parameter">STATUSES</span>
+
+        </li>
+        <li><span class="parameter">PROMOCODES</span>
+        Part of data
+        </li>
+        <li><span class="parameter">TOKEN</span>
+
+        </li>
+        <li><span class="parameter">OFFER</span>
+
+        </li>
+        <li><span class="parameter">STORAGE_VALUE</span>
+
+        </li>
+        <li><span class="parameter">TIMER</span>
+
+        </li>
+        <li><span class="parameter">IAP_INFO</span>
+
+        </li>
+        <li><span class="parameter">PUSH_INFO</span>
+
+        </li>
+        <li><span class="parameter">INVOICE_INFO</span>
+
+        </li>
+        <li><span class="parameter">TOKEN_RESTORE_CONFIG</span>
+
+        </li>
+        <li><span class="parameter">CONTAINER</span>
+
+        </li>
+        <li><span class="parameter">SKILL</span>
+
+        </li>
+        <li><span class="parameter">TOKENS_DATA</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DAILY"></a>
+    <strong>DAILY</strong>
+    </dt>
+    <dd>
+    Available daily bonus values
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">SKIP</span>
+
+        </li>
+        <li><span class="parameter">WAIT</span>
+
+        </li>
+        <li><span class="parameter">RESET</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "INPUT_KEYS"></a>
+    <strong>INPUT_KEYS</strong>
+    </dt>
+    <dd>
+    This is all keys from all.input_binding
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+        <li><span class="parameter">hash</span>
+        from mouse some triggers
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "INPUT_SWIPE"></a>
+    <strong>INPUT_SWIPE</strong>
+    </dt>
+    <dd>
+    Eva built-in input swipe directions
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">UP</span>
+
+        </li>
+        <li><span class="parameter">RIGHT</span>
+
+        </li>
+        <li><span class="parameter">DOWN</span>
+
+        </li>
+        <li><span class="parameter">LEFT</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "VIBRATE"></a>
+    <strong>VIBRATE</strong>
+    </dt>
+    <dd>
+    Vibrate constants for eva.vibrate
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">LIGHT</span>
+        in milliseconds
+        </li>
+        <li><span class="parameter">iOS</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "STORAGE"></a>
+    <strong>STORAGE</strong>
+    </dt>
+    <dd>
+    Reserved strings for eva.storage values from other modules
+
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">VIBRATE_IS_ENABLED</span>
+
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Fields"></a>Fields</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "EVA_VERSION"></a>
+    <strong>EVA_VERSION</strong>
+    </dt>
+    <dd>
+    Need to check basic config and protofiles
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "UNKNOWN_REGION"></a>
+    <strong>UNKNOWN_REGION</strong>
+    </dt>
+    <dd>
+    Unknown region for eva.device.get_region()
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "WALLET_CONTAINER"></a>
+    <strong>WALLET_CONTAINER</strong>
+    </dt>
+    <dd>
+    Default player container
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "WALLET_TYPE"></a>
+    <strong>WALLET_TYPE</strong>
+    </dt>
+    <dd>
+    Default wallet container type
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "FPS"></a>
+    <strong>FPS</strong>
+    </dt>
+    <dd>
+    Game FPS constant
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2020-10-17 00:20:01 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

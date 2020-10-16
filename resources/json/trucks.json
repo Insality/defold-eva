@@ -1,7 +1,19 @@
 {
   "trucks": {
-    "foodtruck": { "lifetime": 50, "cooldown": 25, "autoarrive": true, "autoleave": true },
-    "merchant": { "lifetime": 100, "cooldown": 50 },
-    "stranger": { "lifetime": 250, "cooldown": 500, "autoleave": true }
+    "foodtruck": {
+      "autoarrive": true,
+      "autoleave": true,
+      "cooldown": 25,
+      "lifetime": 50
+    },
+    "merchant": {
+      "cooldown": 50,
+      "lifetime": 100
+    },
+    "stranger": {
+      "autoleave": true,
+      "cooldown": 500,
+      "lifetime": 250
+    }
   }
 }

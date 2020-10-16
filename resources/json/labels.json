@@ -1,30 +1,328 @@
 {
   "labels": {
-    "payer_0": { "spec_cond": [ [ "ltv", "le", 0 ] ] },
-    "payer_5": { "spec_cond": [ [ "ltv", "le", 5 ], [ "ltv", "gt", 0 ] ] },
-    "payer_10": { "spec_cond": [ [ "ltv", "le", 10 ], [ "ltv", "gt", 5 ] ] },
-    "payer_25": { "spec_cond": [ [ "ltv", "le", 25 ], [ "ltv", "gt", 10 ] ] },
-    "payer_50": { "spec_cond": [ [ "ltv", "le", 50 ], [ "ltv", "gt", 25 ] ] },
-    "payer_50_plus": { "spec_cond": [ [ "ltv", "gt", 50 ] ] },
-    "max_pay_0": { "spec_cond": [ [ "maxpay", "le", 0 ] ] },
-    "max_pay_2": { "spec_cond": [ [ "maxpay", "le", 2 ], [ "maxpay", "gt", 0 ] ] },
-    "max_pay_5": { "spec_cond": [ [ "maxpay", "le", 5 ], [ "maxpay", "gt", 2 ] ] },
-    "max_pay_10": { "spec_cond": [ [ "maxpay", "le", 10 ], [ "maxpay", "gt", 5 ] ] },
-    "max_pay_25": { "spec_cond": [ [ "maxpay", "le", 25 ], [ "maxpay", "gt", 10 ] ] },
-    "max_pay_50": { "spec_cond": [ [ "maxpay", "le", 50 ], [ "maxpay", "gt", 25 ] ] },
-    "max_pay_50_plus": { "spec_cond": [ [ "maxpay", "gt", 50 ] ] },
-    "days_1": { "spec_cond": [ [ "days", "le", 1 ] ] },
-    "days_7": { "spec_cond": [ [ "days", "le", 7 ], [ "days", "gt", 1 ] ] },
-    "days_30": { "spec_cond": [ [ "days", "le", 30 ], [ "days", "gt", 7 ] ] },
-    "days_180": { "spec_cond": [ [ "days", "le", 180 ], [ "days", "gt", 30 ] ] },
-    "days_180_plus": { "spec_cond": [ [ "days", "gt", 180 ] ] },
-    "ads_watched_0": { "spec_cond": [ [ "ads", "le", 0 ] ] },
-    "ads_watched_1": { "spec_cond": [ [ "ads", "le", 1 ], [ "ads", "gt", 0 ] ] },
-    "ads_watched_5": { "spec_cond": [ [ "ads", "le", 5 ], [ "ads", "gt", 1 ] ] },
-    "ads_watched_20": { "spec_cond": [ [ "ads", "le", 20 ], [ "ads", "gt", 5 ] ] },
-    "ads_watched_50": { "spec_cond": [ [ "ads", "le", 50 ], [ "ads", "gt", 20 ] ] },
-    "ads_watched_100": { "spec_cond": [ [ "ads", "le", 100 ], [ "ads", "gt", 50 ] ] },
-    "ads_watched_200": { "spec_cond": [ [ "ads", "le", 200 ], [ "ads", "gt", 100 ] ] },
-    "ads_watched_200_plus": { "spec_cond": [ [ "ads", "gt", 200 ] ] }
+    "ads_watched_0": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          0
+        ]
+      ]
+    },
+    "ads_watched_1": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          1
+        ],
+        [
+          "ads",
+          "gt",
+          0
+        ]
+      ]
+    },
+    "ads_watched_100": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          100
+        ],
+        [
+          "ads",
+          "gt",
+          50
+        ]
+      ]
+    },
+    "ads_watched_20": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          20
+        ],
+        [
+          "ads",
+          "gt",
+          5
+        ]
+      ]
+    },
+    "ads_watched_200": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          200
+        ],
+        [
+          "ads",
+          "gt",
+          100
+        ]
+      ]
+    },
+    "ads_watched_200_plus": {
+      "spec_cond": [
+        [
+          "ads",
+          "gt",
+          200
+        ]
+      ]
+    },
+    "ads_watched_5": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          5
+        ],
+        [
+          "ads",
+          "gt",
+          1
+        ]
+      ]
+    },
+    "ads_watched_50": {
+      "spec_cond": [
+        [
+          "ads",
+          "le",
+          50
+        ],
+        [
+          "ads",
+          "gt",
+          20
+        ]
+      ]
+    },
+    "days_1": {
+      "spec_cond": [
+        [
+          "days",
+          "le",
+          1
+        ]
+      ]
+    },
+    "days_180": {
+      "spec_cond": [
+        [
+          "days",
+          "le",
+          180
+        ],
+        [
+          "days",
+          "gt",
+          30
+        ]
+      ]
+    },
+    "days_180_plus": {
+      "spec_cond": [
+        [
+          "days",
+          "gt",
+          180
+        ]
+      ]
+    },
+    "days_30": {
+      "spec_cond": [
+        [
+          "days",
+          "le",
+          30
+        ],
+        [
+          "days",
+          "gt",
+          7
+        ]
+      ]
+    },
+    "days_7": {
+      "spec_cond": [
+        [
+          "days",
+          "le",
+          7
+        ],
+        [
+          "days",
+          "gt",
+          1
+        ]
+      ]
+    },
+    "max_pay_0": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "le",
+          0
+        ]
+      ]
+    },
+    "max_pay_10": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "le",
+          10
+        ],
+        [
+          "maxpay",
+          "gt",
+          5
+        ]
+      ]
+    },
+    "max_pay_2": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "le",
+          2
+        ],
+        [
+          "maxpay",
+          "gt",
+          0
+        ]
+      ]
+    },
+    "max_pay_25": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "le",
+          25
+        ],
+        [
+          "maxpay",
+          "gt",
+          10
+        ]
+      ]
+    },
+    "max_pay_5": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "le",
+          5
+        ],
+        [
+          "maxpay",
+          "gt",
+          2
+        ]
+      ]
+    },
+    "max_pay_50": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "le",
+          50
+        ],
+        [
+          "maxpay",
+          "gt",
+          25
+        ]
+      ]
+    },
+    "max_pay_50_plus": {
+      "spec_cond": [
+        [
+          "maxpay",
+          "gt",
+          50
+        ]
+      ]
+    },
+    "payer_0": {
+      "spec_cond": [
+        [
+          "ltv",
+          "le",
+          0
+        ]
+      ]
+    },
+    "payer_10": {
+      "spec_cond": [
+        [
+          "ltv",
+          "le",
+          10
+        ],
+        [
+          "ltv",
+          "gt",
+          5
+        ]
+      ]
+    },
+    "payer_25": {
+      "spec_cond": [
+        [
+          "ltv",
+          "le",
+          25
+        ],
+        [
+          "ltv",
+          "gt",
+          10
+        ]
+      ]
+    },
+    "payer_5": {
+      "spec_cond": [
+        [
+          "ltv",
+          "le",
+          5
+        ],
+        [
+          "ltv",
+          "gt",
+          0
+        ]
+      ]
+    },
+    "payer_50": {
+      "spec_cond": [
+        [
+          "ltv",
+          "le",
+          50
+        ],
+        [
+          "ltv",
+          "gt",
+          25
+        ]
+      ]
+    },
+    "payer_50_plus": {
+      "spec_cond": [
+        [
+          "ltv",
+          "gt",
+          50
+        ]
+      ]
+    }
   }
 }

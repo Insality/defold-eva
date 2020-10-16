@@ -1,8 +1,24 @@
 {
   "offers": {
-    "starter_1": { "category": "iap", "time": 172800, "iap_id": "starter1" },
-    "level_1": { "category": "game", "time": 14400, "lot_id": "lot1" },
-    "test_fast": { "category": "test", "time": 20, "lot_id": "lot_test" },
-    "test_iap": { "category": "test", "time": 50, "iap_id": "test_iap" }
+    "level_1": {
+      "category": "game",
+      "lot_id": "lot1",
+      "time": 14400
+    },
+    "starter_1": {
+      "category": "iap",
+      "iap_id": "starter1",
+      "time": 172800
+    },
+    "test_fast": {
+      "category": "test",
+      "lot_id": "lot_test",
+      "time": 20
+    },
+    "test_iap": {
+      "category": "test",
+      "iap_id": "test_iap",
+      "time": 50
+    }
   }
 }

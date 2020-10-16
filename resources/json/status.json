@@ -1,1 +1,8 @@
-{ "status": { "rend": { "duration": 5, "max_stack": 1 } } }
+{
+  "status": {
+    "rend": {
+      "duration": 5,
+      "max_stack": 1
+    }
+  }
+}

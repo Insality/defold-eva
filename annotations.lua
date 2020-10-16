@@ -40,6 +40,7 @@
 ---@field token eva.token Submodule
 ---@field trucks eva.trucks Submodule
 ---@field utils eva.utils Submodule
+---@field vibrate eva.vibrate Submodule
 ---@field wallet eva.wallet Submodule
 ---@field window eva.window Submodule
 local eva = {}
@@ -68,23 +69,17 @@ function eva__ads.get_watched(Total) end
 ---@return bool is ads enabled
 function eva__ads.is_enabled() end
 
---- Check is page ads ready.
----@return bool is page ads ready
-function eva__ads.is_page_ready() end
-
---- Check is rewarded ads ready.
----@return bool is rewarded ads ready
-function eva__ads.is_rewarded_ready() end
+--- Check is ads are available now
+---@param ad_id string The Ad placement id
+function eva__ads.is_ready(ad_id) end
 
 --- Set enabled ads state
----@param state bool ads state
+---@param state boolean ads state
 function eva__ads.set_enabled(state) end
 
---- Start show page ads
-function eva__ads.show_page() end
-
---- Start show rewarded ads  On success it will throw ADS_SUCCESS_REWARDED event
-function eva__ads.show_rewarded() end
+--- Show ad by placement id
+---@param ad_id string The Ad placement id
+function eva__ads.show(ad_id) end
 
 
 ---@class eva.callbacks
@@ -119,7 +114,7 @@ function eva__camera.set_borders(border_soft, border_hard) end
 function eva__camera.set_camera(cam_id, camera_box) end
 
 --- Enable or disable camera user control
----@param enabled bool state
+---@param enabled boolean state
 function eva__camera.set_control(enabled) end
 
 --- Set the camera position
@@ -402,7 +397,7 @@ function eva__hexgrid.cell_to_pos(i, j, map_params) end
 ---@param tileside number Hexagon side length (flat side)
 ---@param width number Map width in tiles count
 ---@param height number Map height in tiles count
----@param invert_y bool If true, zero pos will be at top, else on bot
+---@param invert_y boolean If true, zero pos will be at top, else on bot
 ---@return map_params Map params data
 function eva__hexgrid.get_map_params(tilewidth, tileheight, tileside, width, height, invert_y) end
 
@@ -741,6 +736,11 @@ function eva__proto.encode() end
 ---@param proto_type string name of proto message e.g. 'eva.Token'
 ---@return table empty table with default values from proto
 function eva__proto.get(proto_type) end
+
+--- Check data to match the proto_type  Return data with default values according to proto_type
+---@param proto_type string The prototype name
+---@param data table The user data
+function eva__proto.verify(proto_type, data) end
 
 
 ---@class eva.push
@@ -1279,6 +1279,22 @@ function eva__utils.rgb2hex() end
 function eva__utils.save_json() end
 
 
+---@class eva.vibrate
+local eva__vibrate = {}
+
+--- Return if vibrate is enabled for user
+---@return boolean|nil Is vibrate enabled
+function eva__vibrate.is_enabled() end
+
+--- Turn on or off vibrate for user
+---@param is_enabled boolean Vibrate state
+function eva__vibrate.set_enabled(is_enabled) end
+
+--- Make phone vibrate
+---@param vibrate_pattern number Vibrate const.VIBRATE
+function eva__vibrate.vibrate(vibrate_pattern) end
+
+
 ---@class eva.wallet
 local eva__wallet = {}
 
@@ -1386,7 +1402,6 @@ function eva__window.show_scene() end
 
 
 ---@class eva_const
----@field AD eva_const.AD Available ads values
 ---@field DAILY eva_const.DAILY Available daily bonus values
 ---@field EVA eva_const.EVA Inner eva protodata names
 ---@field EVA_VERSION field Need to check basic config and protofiles
@@ -1398,16 +1413,12 @@ function eva__window.show_scene() end
 ---@field INPUT_SWIPE eva_const.INPUT_SWIPE Eva built-in input swipe directions
 ---@field INPUT_TYPE eva_const.INPUT_TYPE Eva built-in input type
 ---@field OS eva_const.OS Available OS values
+---@field STORAGE eva_const.STORAGE Reserved strings for eva.storage values from other modules
 ---@field UNKNOWN_REGION field Unknown region for eva.device.get_region()
+---@field VIBRATE eva_const.VIBRATE Vibrate constants for eva.vibrate
 ---@field WALLET_CONTAINER field Default player container
 ---@field WALLET_TYPE field Default wallet container type
 local eva_const = {}
-
-
----@class eva_const.AD
----@field INTERSTITIAL field
----@field REWARDED field
-local eva_const__AD = {}
 
 
 ---@class eva_const.DAILY
@@ -1458,9 +1469,8 @@ local eva_const__EVA = {}
 
 ---@class eva_const.EVENT
 ---@field ADS_READY field
----@field ADS_SHOW_PAGE field
----@field ADS_SHOW_REWARDED field
----@field ADS_SUCCESS_PAGE field
+---@field ADS_SHOW field
+---@field ADS_SUCCESS field
 ---@field ADS_SUCCESS_REWARDED field
 ---@field CODE_REDEEM field
 ---@field DAILY_LOST field
@@ -1575,6 +1585,17 @@ local eva_const__INPUT_TYPE = {}
 ---@field MAC field
 ---@field WINDOWS field
 local eva_const__OS = {}
+
+
+---@class eva_const.STORAGE
+---@field VIBRATE_IS_ENABLED field
+local eva_const__STORAGE = {}
+
+
+---@class eva_const.VIBRATE
+---@field LIGHT field in milliseconds
+---@field iOS field
+local eva_const__VIBRATE = {}
 
 
 ---@class luax
@@ -1777,8 +1798,9 @@ function luax__vmath.vec2rad() end
 ---@class eva.Ads
 ---@field ads_disabled boolean
 ---@field ads_loaded number
----@field interstitial_watched number
----@field rewarded_watched number
+---@field daily_watched table<string, number>
+---@field last_watched_time table<string, number>
+---@field total_watched table<string, number>
 
 ---@class eva.Container
 ---@field infinity_timers table<string, number>
@@ -1957,6 +1979,17 @@ function luax__vmath.vec2rad() end
 
 
 --======== File: evadata.proto ========--
+---@class evadata.Ads
+---@field ads table<string, evadata.Ads.AdSettings>
+
+---@class evadata.Ads.AdSettings
+---@field all_ads_daily_limit number
+---@field daily_limit number
+---@field required_token_group string
+---@field time_between_shows number
+---@field time_from_game_start number
+---@field type string
+
 ---@class evadata.Festivals
 ---@field festivals table<string, evadata.Festivals.Festival>
 

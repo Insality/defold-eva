@@ -1,8 +1,20 @@
 {
   "token_config": {
-    "money": { "name": "money" },
-    "level": { "default": 1, "min": 1, "max": 80, "name": "level" },
-    "energy": { "name": "energy" },
-    "no_ads": { "max": 1, "name": "no_ads" }
+    "energy": {
+      "name": "energy"
+    },
+    "level": {
+      "default": 1,
+      "max": 80,
+      "min": 1,
+      "name": "level"
+    },
+    "money": {
+      "name": "money"
+    },
+    "no_ads": {
+      "max": 1,
+      "name": "no_ads"
+    }
   }
 }

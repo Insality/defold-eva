@@ -1,1 +1,11 @@
-{ "skills": { "war_cry": { "cast_time": 0, "duration": 20, "cooldown": 20, "max_stack": 1, "restore_amount": 1 } } }
+{
+  "skills": {
+    "war_cry": {
+      "cast_time": 0,
+      "cooldown": 20,
+      "duration": 20,
+      "max_stack": 1,
+      "restore_amount": 1
+    }
+  }
+}

@@ -1,95 +1,250 @@
 {
   "quests": {
     "quest_1": {
-      "category": "game",
-      "autostart": true,
       "autofinish": true,
-      "reward": { "tokens": [ { "token_id": "money", "amount": 100 } ] },
-      "tasks": [ { "action": "get", "object": "money", "required": 10 } ]
-    },
-    "quest_2": {
-      "required_quests": [ "quest_1" ],
-      "category": "game",
       "autostart": true,
-      "autofinish": true,
-      "required_tokens": { "tokens": [ { "token_id": "level", "amount": 2 } ] },
-      "tasks": [ { "action": "get", "object": "money", "required": 200 } ]
-    },
-    "quest_3": {
-      "required_quests": [ "quest_2" ],
       "category": "game",
-      "autostart": true,
-      "autofinish": true,
-      "required_tokens": { "tokens": [ { "token_id": "level", "amount": 3 } ] },
-      "tasks": [ { "action": "get", "object": "money", "required": 300 } ]
+      "reward": {
+        "tokens": [
+          {
+            "amount": 100,
+            "token_id": "money"
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "action": "get",
+          "object": "money",
+          "required": 10
+        }
+      ]
     },
-    "quest_4": {
-      "category": "game",
-      "events_offline": true,
-      "autostart": true,
-      "autofinish": true,
-      "required_tokens": { "tokens": [ { "token_id": "level", "amount": 3 } ] },
-      "tasks": [ { "action": "get", "object": "exp", "required": 100 } ]
-    },
-    "quest_5": {
-      "required_quests": [ "quest_1", "quest_4" ],
-      "category": "game",
-      "autostart": true,
-      "autofinish": true,
-      "tasks": [ { "action": "get", "object": "exp", "required": 1 } ]
-    },
-    "quest_6": {
+    "quest_10": {
       "category": "board_main",
-      "events_offline": true,
-      "autofinish": true,
-      "required_tokens": { "tokens": [ { "token_id": "level", "amount": 2 } ] },
-      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
+      "tasks": [
+        {
+          "action": "get",
+          "object": "gold",
+          "required": 1
+        }
+      ]
     },
-    "quest_7": {
-      "required_quests": [ "quest_6" ],
-      "category": "board_main",
-      "autofinish": true,
-      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
-    },
-    "quest_8": {
-      "category": "board_main",
-      "autofinish": true,
-      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
-    },
-    "quest_9": {
-      "required_quests": [ "quest_8" ],
-      "category": "board_main",
-      "autofinish": true,
-      "tasks": [ { "action": "get", "object": "item", "required": 1 } ]
-    },
-    "quest_10": { "category": "board_main", "tasks": [ { "action": "get", "object": "gold", "required": 1 } ] },
     "quest_11": {
-      "required_quests": [ "quest_10" ],
       "category": "board_main",
-      "tasks": [ { "action": "get", "object": "gold", "required": 1 } ]
+      "required_quests": [
+        "quest_10"
+      ],
+      "tasks": [
+        {
+          "action": "get",
+          "object": "gold",
+          "required": 1
+        }
+      ]
     },
     "quest_12": {
-      "required_quests": [ "quest_11" ],
+      "autostart": true,
       "category": "board_main",
       "events_offline": true,
-      "autostart": true,
-      "tasks": [ { "action": "get", "object": "gold", "required": 1 } ]
+      "required_quests": [
+        "quest_11"
+      ],
+      "tasks": [
+        {
+          "action": "get",
+          "object": "gold",
+          "required": 1
+        }
+      ]
     },
     "quest_13": {
       "category": "board_main",
       "events_offline": true,
-      "tasks": [ { "action": "get", "object": "gold", "required": 1 } ]
+      "tasks": [
+        {
+          "action": "get",
+          "object": "gold",
+          "required": 1
+        }
+      ]
     },
     "quest_14": {
-      "category": "board_main",
       "autostart": true,
-      "required_tokens": { "tokens": [ { "token_id": "gold", "amount": 100 } ] },
-      "tasks": [ { "action": "get", "object": "gold", "required": 1 } ]
+      "category": "board_main",
+      "required_tokens": {
+        "tokens": [
+          {
+            "amount": 100,
+            "token_id": "gold"
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "action": "get",
+          "object": "gold",
+          "required": 1
+        }
+      ]
+    },
+    "quest_2": {
+      "autofinish": true,
+      "autostart": true,
+      "category": "game",
+      "required_quests": [
+        "quest_1"
+      ],
+      "required_tokens": {
+        "tokens": [
+          {
+            "amount": 2,
+            "token_id": "level"
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "action": "get",
+          "object": "money",
+          "required": 200
+        }
+      ]
+    },
+    "quest_3": {
+      "autofinish": true,
+      "autostart": true,
+      "category": "game",
+      "required_quests": [
+        "quest_2"
+      ],
+      "required_tokens": {
+        "tokens": [
+          {
+            "amount": 3,
+            "token_id": "level"
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "action": "get",
+          "object": "money",
+          "required": 300
+        }
+      ]
+    },
+    "quest_4": {
+      "autofinish": true,
+      "autostart": true,
+      "category": "game",
+      "events_offline": true,
+      "required_tokens": {
+        "tokens": [
+          {
+            "amount": 3,
+            "token_id": "level"
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "action": "get",
+          "object": "exp",
+          "required": 100
+        }
+      ]
+    },
+    "quest_5": {
+      "autofinish": true,
+      "autostart": true,
+      "category": "game",
+      "required_quests": [
+        "quest_1",
+        "quest_4"
+      ],
+      "tasks": [
+        {
+          "action": "get",
+          "object": "exp",
+          "required": 1
+        }
+      ]
+    },
+    "quest_6": {
+      "autofinish": true,
+      "category": "board_main",
+      "events_offline": true,
+      "required_tokens": {
+        "tokens": [
+          {
+            "amount": 2,
+            "token_id": "level"
+          }
+        ]
+      },
+      "tasks": [
+        {
+          "action": "get",
+          "object": "item",
+          "required": 1
+        }
+      ]
+    },
+    "quest_7": {
+      "autofinish": true,
+      "category": "board_main",
+      "required_quests": [
+        "quest_6"
+      ],
+      "tasks": [
+        {
+          "action": "get",
+          "object": "item",
+          "required": 1
+        }
+      ]
+    },
+    "quest_8": {
+      "autofinish": true,
+      "category": "board_main",
+      "tasks": [
+        {
+          "action": "get",
+          "object": "item",
+          "required": 1
+        }
+      ]
+    },
+    "quest_9": {
+      "autofinish": true,
+      "category": "board_main",
+      "required_quests": [
+        "quest_8"
+      ],
+      "tasks": [
+        {
+          "action": "get",
+          "object": "item",
+          "required": 1
+        }
+      ]
     },
     "quest_daily_1": {
       "category": "daily",
       "repeatable": true,
-      "tasks": [ { "action": "win", "object": "game", "required": 1 }, { "action": "play", "object": "hero", "required": 1 } ]
+      "tasks": [
+        {
+          "action": "win",
+          "object": "game",
+          "required": 1
+        },
+        {
+          "action": "play",
+          "object": "hero",
+          "required": 1
+        }
+      ]
     }
   }
 }

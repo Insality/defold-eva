@@ -71,6 +71,7 @@
 <li><a href="#modules_token_Functions">modules.token Functions</a></li>
 <li><a href="#modules_trucks_Functions">modules.trucks Functions</a></li>
 <li><a href="#modules_utils_Functions">modules.utils Functions</a></li>
+<li><a href="#modules_vibrate_Functions">modules.vibrate Functions</a></li>
 <li><a href="#modules_wallet_Functions">modules.wallet Functions</a></li>
 <li><a href="#modules_window_Functions">modules.window Functions</a></li>
 </ul>
@@ -78,15 +79,9 @@
 
 <h2>Modules</h2>
 <ul class="nowrap">
-  <li><a href="../modules/const.html">const</a></li>
+  <li><a href="../modules/eva_const.html">eva_const</a></li>
   <li><strong>eva</strong></li>
-  <li><a href="../modules/log.html">log</a></li>
   <li><a href="../modules/luax.html">luax</a></li>
-  <li><a href="../modules/modules.input.input_pinch.html">modules.input.input_pinch</a></li>
-  <li><a href="../modules/modules.input.input_touch.html">modules.input.input_touch</a></li>
-  <li><a href="../modules/scripts.grid_handler.html">scripts.grid_handler</a></li>
-  <li><a href="../modules/scripts.hexgrid_handler.html">scripts.hexgrid_handler</a></li>
-  <li><a href="../modules/scripts.isogrid_handler.html">scripts.isogrid_handler</a></li>
 </ul>
 
 </div>
@@ -126,33 +121,24 @@
 <h2><a href="#modules_ads_Functions">modules.ads Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.ads.is_page_ready">eva.ads.is_page_ready()</a></td>
-	<td class="summary">Check is page ads ready.</td>
+	<td class="name" nowrap><a href="#eva.ads.is_ready">eva.ads.is_ready(ad_id)</a></td>
+	<td class="summary">Check is ads are available now</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.ads.is_rewarded_ready">eva.ads.is_rewarded_ready()</a></td>
-	<td class="summary">Check is rewarded ads ready.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.ads.show_rewarded">eva.ads.show_rewarded()</a></td>
-	<td class="summary">Start show rewarded ads
- On success it will throw ADS_SUCCESS_REWARDED event</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#eva.ads.show_page">eva.ads.show_page()</a></td>
-	<td class="summary">Start show page ads</td>
+	<td class="name" nowrap><a href="#eva.ads.show">eva.ads.show(ad_id)</a></td>
+	<td class="summary">Show ad by placement id</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.set_enabled">eva.ads.set_enabled(state)</a></td>
 	<td class="summary">Set enabled ads state</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.ads.get_watched">eva.ads.get_watched(Total)</a></td>
-	<td class="summary">Get total ads watched</td>
-	</tr>
-	<tr>
 	<td class="name" nowrap><a href="#eva.ads.is_enabled">eva.ads.is_enabled()</a></td>
 	<td class="summary">Check ads is enabled</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.get_watched">eva.ads.get_watched(Total)</a></td>
+	<td class="summary">Get total ads watched</td>
 	</tr>
 </table>
 <h2><a href="#modules_callbacks_Functions">modules.callbacks Functions</a></h2>
@@ -179,6 +165,10 @@
 	<td class="summary">Set the camera game object and size of the camera</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_control">eva.camera.set_control(enabled)</a></td>
+	<td class="summary">Enable or disable camera user control</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.camera.set_borders">eva.camera.set_borders(border_soft, border_hard)</a></td>
 	<td class="summary">Set the borders of the camera zone</td>
 	</tr>
@@ -187,8 +177,17 @@
 	<td class="summary">Set the camera position</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_target_position">eva.camera.set_target_position(x, y)</a></td>
+	<td class="summary">Set target camera position</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.camera.set_zoom_borders">eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</a></td>
 	<td class="summary">Set the camera game object and size of the camera</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.update">eva.camera.update(dt)</a></td>
+	<td class="summary">Eva camera update should be called manually
+ Due the it uses context go.set_position</td>
 	</tr>
 </table>
 <h2><a href="#modules_daily_Functions">modules.daily Functions</a></h2>
@@ -258,7 +257,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.device.is_mobile">eva.device.is_mobile()</a></td>
-	<td class="summary">Check if device is mobile (Android or iOS)</td>
+	<td class="summary">Check if device is native mobile (Android or iOS)</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.device.is_web">eva.device.is_web()</a></td>
@@ -374,6 +373,10 @@
 	<td class="name" nowrap><a href="#eva.game.get_days_played">eva.game.get_days_played()</a></td>
 	<td class="summary">Get days since first game launch</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.is_first_launch">eva.game.is_first_launch()</a></td>
+	<td class="summary">Return true, if game launched first time</td>
+	</tr>
 </table>
 <h2><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></h2>
 <table class="function_list">
@@ -433,7 +436,7 @@
 <h2><a href="#modules_hexgrid_Functions">modules.hexgrid Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.hexgrid.get_map_params">eva.hexgrid.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)</a></td>
+	<td class="name" nowrap><a href="#eva.hexgrid.get_map_params">eva.hexgrid.get_map_params(tilewidth, tileheight, tileside, width, height, invert_y)</a></td>
 	<td class="summary">Get map params data to work with it
  You can pass directly params in every method or set is as default
  with eva.hexgrid.set_default_map_params
@@ -445,12 +448,32 @@
  To dont pass it every time in transform functions</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.hexgrid.cell_to_pos">eva.hexgrid.cell_to_pos()</a></td>
-	<td class="summary">Transform hex to pixel position</td>
+	<td class="name" nowrap><a href="#eva.hexgrid.cell_to_pos">eva.hexgrid.cell_to_pos(i, j, map_params)</a></td>
+	<td class="summary">Transform hex to pixel position.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.hexgrid.pos_to_cell">eva.hexgrid.pos_to_cell()</a></td>
-	<td class="summary">Transform pixel to hex</td>
+	<td class="name" nowrap><a href="#eva.hexgrid.pos_to_cell">eva.hexgrid.pos_to_cell(x, y, map_params)</a></td>
+	<td class="summary">Transform pixel to hex.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.cell_cube_to_pos">eva.hexgrid.cell_cube_to_pos(i, j, k[, map_params])</a></td>
+	<td class="summary">Transform hex to pixel position.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.pos_to_cell_cube">eva.hexgrid.pos_to_cell_cube(x, y, map_params)</a></td>
+	<td class="summary">Transform pixel to hex.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.offset_to_cube">eva.hexgrid.offset_to_cube(i, j[, map_params])</a></td>
+	<td class="summary">Transfrom offset coordinates to cube coordinates</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.offset_to_cube">eva.hexgrid.offset_to_cube(i, j, k[, map_params])</a></td>
+	<td class="summary">Transfrom cube coordinates to offset coordinates</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.hexgrid.rotate_offset">eva.hexgrid.rotate_offset(i, j, k, N)</a></td>
+	<td class="summary">Rotate offset coordinate by N * 60degree</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.hexgrid.get_z">eva.hexgrid.get_z(y, z_layer)</a></td>
@@ -624,6 +647,10 @@
 	<td class="name" nowrap><a href="#eva.lang.is_exist">eva.lang.is_exist(lang_id)</a></td>
 	<td class="summary">Check is translation with lang_id exist</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.lang.get_langs">eva.lang.get_langs()</a></td>
+	<td class="summary">Return list of available languages</td>
+	</tr>
 </table>
 <h2><a href="#modules_migrations_Functions">modules.migrations Functions</a></h2>
 <table class="function_list">
@@ -678,7 +705,7 @@
 <h2><a href="#modules_pathfinder_Functions">modules.pathfinder Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.pathfinder.init_astar">eva.pathfinder.init_astar(map_data, get_node_fn, options.)</a></td>
+	<td class="name" nowrap><a href="#eva.pathfinder.init_astar">eva.pathfinder.init_astar(map_data, get_node_fn, options)</a></td>
 	<td class="summary">Init astar for map, init get_tile callback
  get_node_fn - function to get tile: function(i, j)
  should return cost of node.</td>
@@ -691,7 +718,7 @@
 <h2><a href="#modules_promocode_Functions">modules.promocode Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#get_applied_codes">get_applied_codes()</a></td>
+	<td class="name" nowrap><a href="#eva.promocode.get_applied_codes">eva.promocode.get_applied_codes()</a></td>
 	<td class="summary">Get list of all redeemed codes</td>
 	</tr>
 	<tr>
@@ -724,6 +751,11 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.proto.decode">eva.proto.decode()</a></td>
 	<td class="summary">Decode protobuf</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.proto.verify">eva.proto.verify(proto_type, data)</a></td>
+	<td class="summary">Check data to match the proto_type
+ Return data with default values according to proto_type</td>
 	</tr>
 </table>
 <h2><a href="#modules_push_Functions">modules.push Functions</a></h2>
@@ -866,11 +898,15 @@
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.load">eva.saver.load()</a></td>
-	<td class="summary">Load the game save</td>
+	<td class="summary">Load the file from save directory</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.save">eva.saver.save()</a></td>
-	<td class="summary">Save the game save</td>
+	<td class="summary">Save the game file in save directory</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.save_data">eva.saver.save_data()</a></td>
+	<td class="summary">Save the data in save directory</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.delete">eva.saver.delete([filename])</a></td>
@@ -899,13 +935,73 @@
 <h2><a href="#modules_skill_Functions">modules.skill Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#end_use">end_use(container_id, skill_id)</a></td>
+	<td class="name" nowrap><a href="#eva.skill.use">eva.skill.use()</a></td>
+	<td class="summary">Use skill</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.end_use">eva.skill.end_use()</a></td>
 	<td class="summary">End use of channeling spell or end effect of skill
  with duration</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#is_active">is_active(container_id, skill_id)</a></td>
+	<td class="name" nowrap><a href="#eva.skill.skil_cooldown_time">eva.skill.skil_cooldown_time()</a></td>
+	<td class="summary">Skill cooldown</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.is_active">eva.skill.is_active()</a></td>
 	<td class="summary">Time between use and end_use</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_active_time">eva.skill.get_active_time()</a></td>
+	<td class="summary">Return skill active time (duration)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_active_time_left">eva.skill.get_active_time_left()</a></td>
+	<td class="summary">Return skill active left time (until end of duration)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_active_progress">eva.skill.get_active_progress()</a></td>
+	<td class="summary">Return current skill progress time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.is_on_cooldown">eva.skill.is_on_cooldown()</a></td>
+	<td class="summary">Return true if skill on the cooldown</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_cooldown_time">eva.skill.get_cooldown_time()</a></td>
+	<td class="summary">Return skill cooldown time</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_cooldown_time_left">eva.skill.get_cooldown_time_left()</a></td>
+	<td class="summary">Return skill cooldown time left</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_cooldown_progress">eva.skill.get_cooldown_progress()</a></td>
+	<td class="summary">Get cooldown progress</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.get_stack_amount">eva.skill.get_stack_amount()</a></td>
+	<td class="summary">Get current skill stack amount</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.add_stack">eva.skill.add_stack()</a></td>
+	<td class="summary">Add amount to skill stacks</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.is_full_stack">eva.skill.is_full_stack()</a></td>
+	<td class="summary">Return true if skill on full stack</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.is_empty_stack">eva.skill.is_empty_stack()</a></td>
+	<td class="summary">Return true if skill is empty now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.is_can_use">eva.skill.is_can_use()</a></td>
+	<td class="summary">Return true if skill can be used now</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.skill.restore_all">eva.skill.restore_all()</a></td>
+	<td class="summary">Restore all skills in containers</td>
 	</tr>
 </table>
 <h2><a href="#modules_sound_Functions">modules.sound Functions</a></h2>
@@ -937,6 +1033,14 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.sound.set_sound_gain">eva.sound.set_sound_gain()</a></td>
 	<td class="summary">Set sound gain</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.is_music_enabled">eva.sound.is_music_enabled()</a></td>
+	<td class="summary">Check music gain</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.is_sound_enabled">eva.sound.is_sound_enabled()</a></td>
+	<td class="summary">Check sound gain</td>
 	</tr>
 </table>
 <h2><a href="#modules_storage_Functions">modules.storage Functions</a></h2>
@@ -977,7 +1081,7 @@
 	<td class="summary">Get object to the map by game_object id</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#get_object_data">get_object_data(object_name)</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.get_object_data">eva.tiled.get_object_data(object_name)</a></td>
 	<td class="summary">Get mapping object info by name</td>
 	</tr>
 	<tr>
@@ -1184,8 +1288,39 @@
 	<td class="summary">Make after closure</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.utils.save_json">eva.utils.save_json()</a></td>
+	<td class="summary">Save json in bundled resource (desktop only)</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.utils.load_json">eva.utils.load_json()</a></td>
 	<td class="summary">Load json from bundled resource</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.hex2rgb">eva.utils.hex2rgb()</a></td>
+	<td class="summary">Convert hex color to rgb color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.rgb2hex">eva.utils.rgb2hex()</a></td>
+	<td class="summary">Convert rgb color to hex color</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.get_days_in_month">eva.utils.get_days_in_month()</a></td>
+	<td class="summary">Return days in month</td>
+	</tr>
+</table>
+<h2><a href="#modules_vibrate_Functions">modules.vibrate Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.vibrate.vibrate">eva.vibrate.vibrate(vibrate_pattern)</a></td>
+	<td class="summary">Make phone vibrate</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.vibrate.is_enabled">eva.vibrate.is_enabled()</a></td>
+	<td class="summary">Return if vibrate is enabled for user</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.vibrate.set_enabled">eva.vibrate.set_enabled(is_enabled)</a></td>
+	<td class="summary">Turn on or off vibrate for user</td>
 	</tr>
 </table>
 <h2><a href="#modules_wallet_Functions">modules.wallet Functions</a></h2>
@@ -1282,6 +1417,10 @@
 	<td class="summary">Show the game window
  It will close current window and open new, if any opened
  It can be popup on popup, so don't close prev.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.preload">eva.window.preload(window_id[, callback])</a></td>
+	<td class="summary">Preload window via monarch</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.window.is_open">eva.window.is_open()</a></td>
@@ -1383,54 +1522,20 @@
 
     <dl class="function">
     <dt>
-    <a name = "eva.ads.is_page_ready"></a>
-    <strong>eva.ads.is_page_ready()</strong>
+    <a name = "eva.ads.is_ready"></a>
+    <strong>eva.ads.is_ready(ad_id)</strong>
     </dt>
     <dd>
-    Check is page ads ready.
+    Check is ads are available now
 
 
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        is page ads ready
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.ads.is_rewarded_ready"></a>
-    <strong>eva.ads.is_rewarded_ready()</strong>
-    </dt>
-    <dd>
-    Check is rewarded ads ready.
-
-
-
-    <h3>Returns:</h3>
-    <ol>
-
-           <span class="types"><span class="type">bool</span></span>
-        is rewarded ads ready
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.ads.show_rewarded"></a>
-    <strong>eva.ads.show_rewarded()</strong>
-    </dt>
-    <dd>
-    Start show rewarded ads
- On success it will throw ADS_SUCCESS_REWARDED event
-
-
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ad_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The Ad placement id
+        </li>
+    </ul>
 
 
 
@@ -1438,13 +1543,20 @@
 
 </dd>
     <dt>
-    <a name = "eva.ads.show_page"></a>
-    <strong>eva.ads.show_page()</strong>
+    <a name = "eva.ads.show"></a>
+    <strong>eva.ads.show(ad_id)</strong>
     </dt>
     <dd>
-    Start show page ads
+    Show ad by placement id
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ad_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The Ad placement id
+        </li>
+    </ul>
 
 
 
@@ -1462,29 +1574,8 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">state</span>
-            <span class="types"><span class="type">bool</span></span>
+            <span class="types"><span class="type">boolean</span></span>
          ads state
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-    <dt>
-    <a name = "eva.ads.get_watched"></a>
-    <strong>eva.ads.get_watched(Total)</strong>
-    </dt>
-    <dd>
-    Get total ads watched
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">Total</span>
-            <span class="types"><span class="type">number</span></span>
-         watched ads count
         </li>
     </ul>
 
@@ -1508,6 +1599,27 @@
            <span class="types"><span class="type">bool</span></span>
         is ads enabled
     </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.get_watched"></a>
+    <strong>eva.ads.get_watched(Total)</strong>
+    </dt>
+    <dd>
+    Get total ads watched
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">Total</span>
+            <span class="types"><span class="type">number</span></span>
+         watched ads count
+        </li>
+    </ul>
+
 
 
 
@@ -1622,6 +1734,27 @@
 
 </dd>
     <dt>
+    <a name = "eva.camera.set_control"></a>
+    <strong>eva.camera.set_control(enabled)</strong>
+    </dt>
+    <dd>
+    Enable or disable camera user control
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">enabled</span>
+            <span class="types"><span class="type">boolean</span></span>
+         state
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.camera.set_borders"></a>
     <strong>eva.camera.set_borders(border_soft, border_hard)</strong>
     </dt>
@@ -1672,6 +1805,31 @@
 
 </dd>
     <dt>
+    <a name = "eva.camera.set_target_position"></a>
+    <strong>eva.camera.set_target_position(x, y)</strong>
+    </dt>
+    <dd>
+    Set target camera position
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         X position
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         Y position
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.camera.set_zoom_borders"></a>
     <strong>eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</strong>
     </dt>
@@ -1688,6 +1846,28 @@
         <li><span class="parameter">zoom_hard</span>
             <span class="types"><span class="type">vector3</span></span>
          Setup zoom hard values. vector3(min_value, max_value, 0)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.update"></a>
+    <strong>eva.camera.update(dt)</strong>
+    </dt>
+    <dd>
+    Eva camera update should be called manually
+ Due the it uses context go.set_position
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">dt</span>
+            <span class="types"><span class="type">number</span></span>
+         Delta time
         </li>
     </ul>
 
@@ -1964,7 +2144,7 @@
     <strong>eva.device.is_mobile()</strong>
     </dt>
     <dd>
-    Check if device is mobile (Android or iOS)
+    Check if device is native mobile (Android or iOS)
 
 
 
@@ -2539,6 +2719,26 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.game.is_first_launch"></a>
+    <strong>eva.game.is_first_launch()</strong>
+    </dt>
+    <dd>
+    Return true, if game launched first time
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        True, if game first time launch
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_gdpr_Functions"></a>modules.gdpr Functions</h2>
 
@@ -2760,7 +2960,7 @@
     <dl class="function">
     <dt>
     <a name = "eva.hexgrid.get_map_params"></a>
-    <strong>eva.hexgrid.get_map_params(tilewidth, tileheight, tileside, tiles_x, tiles_y)</strong>
+    <strong>eva.hexgrid.get_map_params(tilewidth, tileheight, tileside, width, height, invert_y)</strong>
     </dt>
     <dd>
     Get map params data to work with it
@@ -2781,15 +2981,19 @@
         </li>
         <li><span class="parameter">tileside</span>
             <span class="types"><span class="type">number</span></span>
-         Hexagon side height
+         Hexagon side length (flat side)
         </li>
-        <li><span class="parameter">tiles_x</span>
+        <li><span class="parameter">width</span>
             <span class="types"><span class="type">number</span></span>
          Map width in tiles count
         </li>
-        <li><span class="parameter">tiles_y</span>
+        <li><span class="parameter">height</span>
             <span class="types"><span class="type">number</span></span>
          Map height in tiles count
+        </li>
+        <li><span class="parameter">invert_y</span>
+            <span class="types"><span class="type">boolean</span></span>
+         If true, zero pos will be at top, else on bot
         </li>
     </ul>
 
@@ -2828,12 +3032,27 @@
 </dd>
     <dt>
     <a name = "eva.hexgrid.cell_to_pos"></a>
-    <strong>eva.hexgrid.cell_to_pos()</strong>
+    <strong>eva.hexgrid.cell_to_pos(i, j, map_params)</strong>
     </dt>
     <dd>
-    Transform hex to pixel position
+    Transform hex to pixel position.  Offset coordinates
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell i coordinate
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell j coordinate
+        </li>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+        </li>
+    </ul>
 
 
 
@@ -2842,13 +3061,194 @@
 </dd>
     <dt>
     <a name = "eva.hexgrid.pos_to_cell"></a>
-    <strong>eva.hexgrid.pos_to_cell()</strong>
+    <strong>eva.hexgrid.pos_to_cell(x, y, map_params)</strong>
     </dt>
     <dd>
-    Transform pixel to hex
+    Transform pixel to hex.  Offset coordinates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         World x position
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         World y position
+        </li>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+        </li>
+    </ul>
 
 
 
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.cell_cube_to_pos"></a>
+    <strong>eva.hexgrid.cell_cube_to_pos(i, j, k[, map_params])</strong>
+    </dt>
+    <dd>
+    Transform hex to pixel position.  Offset coordinates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell i coordinate
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell j coordinate
+        </li>
+        <li><span class="parameter">k</span>
+            <span class="types"><span class="type">number</span></span>
+         Cell k coordinate
+        </li>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.pos_to_cell_cube"></a>
+    <strong>eva.hexgrid.pos_to_cell_cube(x, y, map_params)</strong>
+    </dt>
+    <dd>
+    Transform pixel to hex.  Cube coordinates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+            <span class="types"><span class="type">number</span></span>
+         World x position
+        </li>
+        <li><span class="parameter">y</span>
+            <span class="types"><span class="type">number</span></span>
+         World y position
+        </li>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.offset_to_cube"></a>
+    <strong>eva.hexgrid.offset_to_cube(i, j[, map_params])</strong>
+    </dt>
+    <dd>
+    Transfrom offset coordinates to cube coordinates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         I coordinate
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         J coordinate
+        </li>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.offset_to_cube"></a>
+    <strong>eva.hexgrid.offset_to_cube(i, j, k[, map_params])</strong>
+    </dt>
+    <dd>
+    Transfrom cube coordinates to offset coordinates
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         I coordinate
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         J coordinate
+        </li>
+        <li><span class="parameter">k</span>
+            <span class="types"><span class="type">number</span></span>
+         K coordinate
+        </li>
+        <li><span class="parameter">map_params</span>
+            <span class="types"><span class="type">map_params</span></span>
+         Params from eva.hexgrid.get_map_params
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.hexgrid.rotate_offset"></a>
+    <strong>eva.hexgrid.rotate_offset(i, j, k, N)</strong>
+    </dt>
+    <dd>
+    Rotate offset coordinate by N * 60degree
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">i</span>
+            <span class="types"><span class="type">number</span></span>
+         I coordinate
+        </li>
+        <li><span class="parameter">j</span>
+            <span class="types"><span class="type">number</span></span>
+         J coordinate
+        </li>
+        <li><span class="parameter">k</span>
+            <span class="types"><span class="type">number</span></span>
+         K coordinate
+        </li>
+        <li><span class="parameter">N</span>
+            <span class="types"><span class="type">number</span></span>
+         Number, how much rotate on 60 degrees. Positive - rotate right, Negative - left
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number,</span></span>
+        number, number Offset coordinate
+    </ol>
 
 
 
@@ -3703,6 +4103,26 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.lang.get_langs"></a>
+    <strong>eva.lang.get_langs()</strong>
+    </dt>
+    <dd>
+    Return list of available languages
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        List of available languages
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_migrations_Functions"></a>modules.migrations Functions</h2>
 
@@ -3948,7 +4368,7 @@
     <dl class="function">
     <dt>
     <a name = "eva.pathfinder.init_astar"></a>
-    <strong>eva.pathfinder.init_astar(map_data, get_node_fn, options.)</strong>
+    <strong>eva.pathfinder.init_astar(map_data, get_node_fn, options)</strong>
     </dt>
     <dd>
     Init astar for map, init get_tile callback
@@ -3966,7 +4386,7 @@
             <span class="types"><span class="type">function</span></span>
          Get node cost function from map
         </li>
-        <li><span class="parameter">options.</span>
+        <li><span class="parameter">options</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
          Options for map handlers:
  - diagonal boolean, to grid and isogrid pathfinding
@@ -4030,8 +4450,8 @@
 
     <dl class="function">
     <dt>
-    <a name = "get_applied_codes"></a>
-    <strong>get_applied_codes()</strong>
+    <a name = "eva.promocode.get_applied_codes"></a>
+    <strong>eva.promocode.get_applied_codes()</strong>
     </dt>
     <dd>
     Get list of all redeemed codes
@@ -4198,6 +4618,32 @@
     Decode protobuf
 
 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.proto.verify"></a>
+    <strong>eva.proto.verify(proto_type, data)</strong>
+    </dt>
+    <dd>
+    Check data to match the proto_type
+ Return data with default values according to proto_type
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">proto_type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The prototype name
+        </li>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         The user data
+        </li>
+    </ul>
 
 
 
@@ -4767,7 +5213,7 @@
     <strong>eva.saver.load()</strong>
     </dt>
     <dd>
-    Load the game save
+    Load the file from save directory
 
 
 
@@ -4781,7 +5227,21 @@
     <strong>eva.saver.save()</strong>
     </dt>
     <dd>
-    Save the game save
+    Save the game file in save directory
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.save_data"></a>
+    <strong>eva.saver.save_data()</strong>
+    </dt>
+    <dd>
+    Save the data in save directory
 
 
 
@@ -4891,23 +5351,13 @@
 
     <dl class="function">
     <dt>
-    <a name = "end_use"></a>
-    <strong>end_use(container_id, skill_id)</strong>
+    <a name = "eva.skill.use"></a>
+    <strong>eva.skill.use()</strong>
     </dt>
     <dd>
-    End use of channeling spell or end effect of skill
- with duration
+    Use skill
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">container_id</span>
-
-        </li>
-        <li><span class="parameter">skill_id</span>
-
-        </li>
-    </ul>
 
 
 
@@ -4915,22 +5365,224 @@
 
 </dd>
     <dt>
-    <a name = "is_active"></a>
-    <strong>is_active(container_id, skill_id)</strong>
+    <a name = "eva.skill.end_use"></a>
+    <strong>eva.skill.end_use()</strong>
+    </dt>
+    <dd>
+    End use of channeling spell or end effect of skill
+ with duration
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.skil_cooldown_time"></a>
+    <strong>eva.skill.skil_cooldown_time()</strong>
+    </dt>
+    <dd>
+    Skill cooldown
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.is_active"></a>
+    <strong>eva.skill.is_active()</strong>
     </dt>
     <dd>
     Time between use and end_use
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">container_id</span>
 
-        </li>
-        <li><span class="parameter">skill_id</span>
 
-        </li>
-    </ul>
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_active_time"></a>
+    <strong>eva.skill.get_active_time()</strong>
+    </dt>
+    <dd>
+    Return skill active time (duration)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_active_time_left"></a>
+    <strong>eva.skill.get_active_time_left()</strong>
+    </dt>
+    <dd>
+    Return skill active left time (until end of duration)
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_active_progress"></a>
+    <strong>eva.skill.get_active_progress()</strong>
+    </dt>
+    <dd>
+    Return current skill progress time
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.is_on_cooldown"></a>
+    <strong>eva.skill.is_on_cooldown()</strong>
+    </dt>
+    <dd>
+    Return true if skill on the cooldown
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_cooldown_time"></a>
+    <strong>eva.skill.get_cooldown_time()</strong>
+    </dt>
+    <dd>
+    Return skill cooldown time
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_cooldown_time_left"></a>
+    <strong>eva.skill.get_cooldown_time_left()</strong>
+    </dt>
+    <dd>
+    Return skill cooldown time left
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_cooldown_progress"></a>
+    <strong>eva.skill.get_cooldown_progress()</strong>
+    </dt>
+    <dd>
+    Get cooldown progress
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.get_stack_amount"></a>
+    <strong>eva.skill.get_stack_amount()</strong>
+    </dt>
+    <dd>
+    Get current skill stack amount
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.add_stack"></a>
+    <strong>eva.skill.add_stack()</strong>
+    </dt>
+    <dd>
+    Add amount to skill stacks
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.is_full_stack"></a>
+    <strong>eva.skill.is_full_stack()</strong>
+    </dt>
+    <dd>
+    Return true if skill on full stack
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.is_empty_stack"></a>
+    <strong>eva.skill.is_empty_stack()</strong>
+    </dt>
+    <dd>
+    Return true if skill is empty now
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.is_can_use"></a>
+    <strong>eva.skill.is_can_use()</strong>
+    </dt>
+    <dd>
+    Return true if skill can be used now
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.skill.restore_all"></a>
+    <strong>eva.skill.restore_all()</strong>
+    </dt>
+    <dd>
+    Restore all skills in containers
+
+
 
 
 
@@ -5031,6 +5683,34 @@
     </dt>
     <dd>
     Set sound gain
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.is_music_enabled"></a>
+    <strong>eva.sound.is_music_enabled()</strong>
+    </dt>
+    <dd>
+    Check music gain
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.is_sound_enabled"></a>
+    <strong>eva.sound.is_sound_enabled()</strong>
+    </dt>
+    <dd>
+    Check sound gain
 
 
 
@@ -5306,8 +5986,8 @@
 
 </dd>
     <dt>
-    <a name = "get_object_data"></a>
-    <strong>get_object_data(object_name)</strong>
+    <a name = "eva.tiled.get_object_data"></a>
+    <strong>eva.tiled.get_object_data(object_name)</strong>
     </dt>
     <dd>
     Get mapping object info by name
@@ -5316,7 +5996,8 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">object_name</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The game object name
         </li>
     </ul>
 
@@ -6332,6 +7013,20 @@
 
 </dd>
     <dt>
+    <a name = "eva.utils.save_json"></a>
+    <strong>eva.utils.save_json()</strong>
+    </dt>
+    <dd>
+    Save json in bundled resource (desktop only)
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.utils.load_json"></a>
     <strong>eva.utils.load_json()</strong>
     </dt>
@@ -6339,6 +7034,114 @@
     Load json from bundled resource
 
 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.utils.hex2rgb"></a>
+    <strong>eva.utils.hex2rgb()</strong>
+    </dt>
+    <dd>
+    Convert hex color to rgb color
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.utils.rgb2hex"></a>
+    <strong>eva.utils.rgb2hex()</strong>
+    </dt>
+    <dd>
+    Convert rgb color to hex color
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.utils.get_days_in_month"></a>
+    <strong>eva.utils.get_days_in_month()</strong>
+    </dt>
+    <dd>
+    Return days in month
+
+
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_vibrate_Functions"></a>modules.vibrate Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.vibrate.vibrate"></a>
+    <strong>eva.vibrate.vibrate(vibrate_pattern)</strong>
+    </dt>
+    <dd>
+    Make phone vibrate
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">vibrate_pattern</span>
+            <span class="types"><span class="type">number</span></span>
+         Vibrate const.VIBRATE
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.vibrate.is_enabled"></a>
+    <strong>eva.vibrate.is_enabled()</strong>
+    </dt>
+    <dd>
+    Return if vibrate is enabled for user
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span> or <span class="type">nil</span></span>
+        Is vibrate enabled
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.vibrate.set_enabled"></a>
+    <strong>eva.vibrate.set_enabled(is_enabled)</strong>
+    </dt>
+    <dd>
+    Turn on or off vibrate for user
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">is_enabled</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Vibrate state
+        </li>
+    </ul>
 
 
 
@@ -6717,6 +7520,32 @@
 
 </dd>
     <dt>
+    <a name = "eva.window.preload"></a>
+    <strong>eva.window.preload(window_id[, callback])</strong>
+    </dt>
+    <dd>
+    Preload window via monarch
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         The window id
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The callback function
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.window.is_open"></a>
     <strong>eva.window.is_open()</strong>
     </dt>
@@ -6809,7 +7638,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-05-19 23:33:44 </i>
+<i style="float:right;">Last updated 2020-10-17 00:20:01 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

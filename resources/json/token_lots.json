@@ -1,7 +1,16 @@
 {
   "token_lots": {
-    "lot1": { "price": "reward1", "reward": "reward2" },
-    "lot2": { "price": "reward2", "reward": "reward1" },
-    "lot_test": { "price": "test_group_1", "reward": "test_group_2" }
+    "lot1": {
+      "price": "reward1",
+      "reward": "reward2"
+    },
+    "lot2": {
+      "price": "reward2",
+      "reward": "reward1"
+    },
+    "lot_test": {
+      "price": "test_group_1",
+      "reward": "test_group_2"
+    }
   }
 }
