@@ -105,7 +105,8 @@
 			"TokenLots": "evadata.Lots",
 			"Trucks": "evadata.Trucks",
 			"Skills": "evadata.Skills",
-			"Promocodes": "evadata.Promocodes"
+			"Promocodes": "evadata.Promocodes",
+			"Ads": "evadata.Ads"
 		}
 	},
 	"quests": {
