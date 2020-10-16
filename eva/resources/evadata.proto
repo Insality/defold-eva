@@ -144,5 +144,5 @@ message Ads {
 		uint32 all_ads_daily_limit = 5;
 		string required_token_group = 6;
 	}
-	map<string, AdSettings> ads_settings = 1;
+	map<string, AdSettings> ads = 1;
 }

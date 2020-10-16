@@ -244,6 +244,7 @@ end
 
 
 function M.on_eva_update(dt)
+	check_session()
 	app.game_data.current_time = app.game_data.current_time + dt
 	app[const.EVA.GAME].played_time = app[const.EVA.GAME].played_time + dt
 	app[const.EVA.GAME].last_play_timepoint = M.get_time()

@@ -1,4 +1,4 @@
---- Eva ads module
+--- Eva advertisement module
 -- This module provide API to unityads
 -- @submodule eva
 
@@ -8,19 +8,18 @@ local log = require("eva.log")
 local const = require("eva.const")
 
 local db = require("eva.modules.db")
-local saver = require("eva.modules.saver")
+local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
+local saver = require("eva.modules.saver")
+local device = require("eva.modules.device")
 local events = require("eva.modules.events")
 local wallet = require("eva.modules.wallet")
-local device = require("eva.modules.device")
-local game = require("eva.modules.game")
 
 local logger = log.get_logger("eva.ads")
 
 local M = {}
 
 
----@return evadata.Ads.AdSettings
 local function get_ad_data(ad_id)
 	local config_name = app.settings.ads.config
 	return db.get(config_name).ads[ad_id]
@@ -30,7 +29,6 @@ end
 local function on_ads_success(ad_id)
 	logger:debug("Ads success", { id = ad_id })
 
-	---@type eva.Ads
 	local data = app[const.EVA.ADS]
 
 	data.daily_watched[ad_id] = (data.daily_watched[ad_id] or 0) + 1
@@ -62,7 +60,6 @@ local function unity_ads_callback(self, message_id, message)
 end
 
 
----@param ad_config evadata.Ads.AdSettings
 local function is_network_ok(ad_id, ad_config)
 	if not unityads then
 		return true
@@ -72,24 +69,19 @@ local function is_network_ok(ad_id, ad_config)
 end
 
 
----@param ad_config evadata.Ads.AdSettings
 local function is_time_between_ok(ad_id, ad_config)
-	---@type eva.Ads
 	local data = app[const.EVA.ADS]
-	local last_play_time = data.last_watched_time[ad_id]
+	local last_play_time = data.last_watched_time[ad_id] or 0
 	return (game.get_time() - last_play_time) >= ad_config.time_between_shows
 end
 
 
----@param ad_config evadata.Ads.AdSettings
 local function is_from_session_start_ok(ad_id, ad_config)
-	---@type eva.Game
 	local game_data = app[const.EVA.GAME]
 	return (game.get_time() - game_data.session_start_time) >= ad_config.time_from_game_start
 end
 
 
----@param ad_config evadata.Ads.AdSettings
 local function is_tokens_ok(ad_id, ad_config)
 	local token_group_id = ad_config.required_token_group
 	if not token_group_id or token_group_id == "" then
@@ -100,18 +92,14 @@ local function is_tokens_ok(ad_id, ad_config)
 end
 
 
----@param ad_config evadata.Ads.AdSettings
 local function is_daily_limit_ok(ad_id, ad_config)
-	---@type eva.Ads
 	local data = app[const.EVA.ADS]
 
-	return ad_config.daily_limit <= (data.daily_watched[ad_id] or 0)
+	return (data.daily_watched[ad_id] or 0) < ad_config.daily_limit
 end
 
 
----@param ad_config evadata.Ads.AdSettings
 local function is_total_limit_ok(ad_id, ad_config)
-	---@type eva.Ads
 	local data = app[const.EVA.ADS]
 
 	local count = 0
@@ -119,7 +107,7 @@ local function is_total_limit_ok(ad_id, ad_config)
 		count = count + data.daily_watched[id]
 	end
 
-	return ad_config.daily_limit <= count
+	return count < ad_config.all_ads_daily_limit
 end
 
 
@@ -131,6 +119,12 @@ function M.is_ready(ad_id)
 	assert(ad_id, "You should provide ad id")
 	assert(ad_config, "Ad config should exists")
 
+	print("Check", is_network_ok(ad_id, ad_config),
+		is_from_session_start_ok(ad_id, ad_config),
+		is_time_between_ok(ad_id, ad_config),
+		is_daily_limit_ok(ad_id, ad_config),
+		is_tokens_ok(ad_id, ad_config),
+		is_total_limit_ok(ad_id, ad_config))
 	return is_network_ok(ad_id, ad_config) and
 			is_from_session_start_ok(ad_id, ad_config) and
 			is_time_between_ok(ad_id, ad_config) and
@@ -148,7 +142,7 @@ function M.show(ad_id)
 		return
 	end
 
-	local ad_config = get_ad_data(get_ad_data)
+	local ad_config = get_ad_data(ad_id)
 	events.event(const.EVENT.ADS_SHOW, { id = ad_id, type = ad_config.type })
 
 	app._eva_ads_data.last_ad_id = ad_id
@@ -181,7 +175,6 @@ end
 -- @function eva.ads.get_watched
 -- @tparam number Total watched ads count
 function M.get_ads_watched()
-	---@type eva.Ads
 	local data = app[const.EVA.ADS]
 	local count = 0
 	if not data then
@@ -197,7 +190,6 @@ end
 
 
 function M.on_new_session()
-	---@type eva.Ads
 	local data = app[const.EVA.ADS]
 
 	for id, amount in pairs(data.daily_watched) do
