@@ -75,7 +75,7 @@ local function check_session()
 	local game = app[const.EVA.GAME]
 	local current_time = M.get_time()
 
-	if current_time - game.session_start_time >= app.settings.game.session_time then
+	if current_time - game.last_play_timepoint >= app.settings.game.session_time then
 		game.session_start_time = current_time
 		events.event(const.EVENT.NEW_SESSION)
 	end
@@ -244,6 +244,7 @@ end
 
 
 function M.on_eva_update(dt)
+	check_session()
 	app.game_data.current_time = app.game_data.current_time + dt
 	app[const.EVA.GAME].played_time = app[const.EVA.GAME].played_time + dt
 	app[const.EVA.GAME].last_play_timepoint = M.get_time()

@@ -92,6 +92,11 @@ function M.decode(proto_type, bytes)
 end
 
 
+--- Check data to match the proto_type
+-- Return data with default values according to proto_type
+-- @function eva.proto.verify
+-- @tparam string proto_type The prototype name
+-- @tparam table data The user data
 function M.verify(proto_type, data)
 	return M.decode(proto_type, M.encode(proto_type, data))
 end

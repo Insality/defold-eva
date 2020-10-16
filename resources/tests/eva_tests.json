@@ -94,7 +94,8 @@
 			"Labels": "/resources/json/labels.json",
 			"Skills": "/resources/json/skills.json",
 			"Status": "/resources/json/status.json",
-			"Promocodes": "/resources/json/promocodes.json"
+			"Promocodes": "/resources/json/promocodes.json",
+			"Ads": "/resources/json/ads.json"
 		},
 		"verify": {
 			"Offers": "evadata.Offers",
@@ -104,7 +105,8 @@
 			"TokenLots": "evadata.Lots",
 			"Trucks": "evadata.Trucks",
 			"Skills": "evadata.Skills",
-			"Promocodes": "evadata.Promocodes"
+			"Promocodes": "evadata.Promocodes",
+			"Ads": "evadata.Ads"
 		}
 	},
 	"quests": {
@@ -163,7 +165,8 @@
 	"ads": {
 		"is_disabled": false,
 		"ads_id_ios": "999999999",
-		"ads_id_android": "999999999"
+		"ads_id_android": "999999999",
+		"config": "Ads"
 	},
 	"rate": {
 		"is_disabled": false,
