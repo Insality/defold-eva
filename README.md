@@ -116,6 +116,7 @@ _not implemented_
 | [timers](https://insality.github.io/defold-eva/modules/eva.html#modules_timers_Functions) | Eva timers/delayed results module | ✅ |
 | [token](https://insality.github.io/defold-eva/modules/eva.html#modules_token_Functions) | Eva general token module (any items in game) | ✅ |
 | [trucks](https://insality.github.io/defold-eva/modules/eva.html#modules_trucks_Functions) | Eva trucks system. It is periodic events with timers (foodtrack, traders, etc) | ✅ |
+| [vibrate](https://insality.github.io/defold-eva/modules/eva.html#modules_vibrate_Functions) | Android/iOS vibrate module | ✅ |
 | [utils](https://insality.github.io/defold-eva/modules/eva.html#modules_utils_Functions) | System utilitary functions | ✅ |
 | [wallet](https://insality.github.io/defold-eva/modules/eva.html#modules_wallet_Functions) | Wrap on token module, with player wallet token container | ✅ |
 | [window](https://insality.github.io/defold-eva/modules/eva.html#modules_window_Functions) | Eva windows API | ✅ |

@@ -1,7 +1,8 @@
 --- Eva vibrate module
 -- It uses two different native extensions to unify vibrate API on
 -- Android and iOS.
--- For use it you should add dependencies for vibrate for Android and iOS (see dependencies.txt)
+-- For use it you should add dependencies for vibrate for Android and iOS (see dependencies.txt,
+-- vibrate and taptic_engine)
 -- @submodule eva
 
 local const = require("eva.const")
@@ -22,7 +23,6 @@ function M.vibrate(vibrate_pattern)
     end
 
     if device.is_android() and vibrate then
-        print("Vibrate", vibrate_pattern.Android)
         vibrate.vibrate(vibrate_pattern.Android)
     end
 
