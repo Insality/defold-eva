@@ -106,6 +106,7 @@ message Quests {
 		bool autostart = 7;
 		bool autofinish = 8;
 		bool repeatable = 9;
+		bool use_max_task_value = 10;
 	}
 	map<string, Quest> quests = 1;
 }
