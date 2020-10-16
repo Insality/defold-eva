@@ -1,0 +1,18 @@
+{
+  "ads": {
+    "double_exp": {
+      "daily_limit": 5,
+      "time_between_shows": 0,
+      "time_from_game_start": 0,
+      "type": "rewarded"
+    },
+    "page": {
+      "all_ads_daily_limit": 999,
+      "daily_limit": 999,
+      "required_token_group": "for_ads_required",
+      "time_between_shows": 240,
+      "time_from_game_start": 60,
+      "type": "interstitial"
+    }
+  }
+}

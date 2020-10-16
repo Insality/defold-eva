@@ -58,9 +58,10 @@ message Rate {
 
 message Ads {
 	uint32 ads_loaded = 1;
-	uint32 interstitial_watched = 2;
-	uint32 rewarded_watched = 3;
-	bool ads_disabled = 4;
+	bool ads_disabled = 2;
+	map<string, uint32> daily_watched = 3;
+	map<string, uint32> total_watched = 4;
+	map<string, uint32> last_watched_time = 5;
 }
 
 message Game {

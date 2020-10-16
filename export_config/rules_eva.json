@@ -156,6 +156,10 @@
 			"lists": ["Statuses"]
 		},
 
+		"ads": {
+			"lists": ["Ads"]
+		},
+
 		"promocodes": {
 			"lists": ["Promocodes"],
 			"handlers": [

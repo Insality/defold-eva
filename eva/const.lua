@@ -39,7 +39,6 @@ M.TYPE = {
 }
 
 
---- Available ads values
 M.AD = {
 	REWARDED = "rewardedVideo",
 	INTERSTITIAL = "video",
@@ -98,10 +97,9 @@ M.EVENT = {
 	IAP_VALID = "eva.iaps.valid",
 	IAP_INVALID = "eva.iaps.invalid",
 	ADS_READY = "eva.ads.ready",
-	ADS_SHOW_REWARDED = "eva.ads.show_rewarded",
-	ADS_SHOW_PAGE = "eva.ads.show_page",
 	ADS_SUCCESS_REWARDED = "eva.ads.rewarded_success",
-	ADS_SUCCESS_PAGE = "eva.ads.page_success",
+	ADS_SUCCESS = "eva.ads.success",
+	ADS_SHOW = "eva.ads.show",
 	TOKEN_CHANGE = "eva.token.change",
 	SERVER_LOGIN = "eva.server.login",
 	TIMER_TRIGGER = "eva.timers.trigger",
