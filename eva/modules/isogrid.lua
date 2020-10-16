@@ -102,10 +102,10 @@ function M.pos_to_cell(x, y, map_params)
 		y = data.scene.size_y - y
 	end
 
-	local j = y / (data.tile.height / 2)
-	local i = (x / data.tile.width) - 0.5 * (bit.band(j, 1))
+	local j = luax.math.round(y / (data.tile.height / 2))
+	local i = luax.math.round((x / data.tile.width) - 0.5 * (bit.band(j, 1)))
 
-	return luax.math.round(i), luax.math.round(j)
+	return i, j
 end
 
 

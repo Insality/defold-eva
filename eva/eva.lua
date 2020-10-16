@@ -73,6 +73,7 @@ local function load_modules()
 		timers = require("eva.modules.timers"),
 		token = require("eva.modules.token"),
 		trucks = require("eva.modules.trucks"),
+		vibrate = require("eva.modules.vibrate"),
 		utils = require("eva.modules.utils"),
 		wallet = require("eva.modules.wallet"),
 		window = require("eva.modules.window")

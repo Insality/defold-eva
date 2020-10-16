@@ -56,7 +56,7 @@ end
 
 --- Enable or disable camera user control
 -- @function eva.camera.set_control
--- @tparam bool enabled state
+-- @tparam boolean enabled state
 function M.set_control(is_enabled)
 	local state = app.camera_state
 	state.is_control = is_enabled

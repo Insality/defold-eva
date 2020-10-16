@@ -112,7 +112,7 @@ end
 
 --- Set enabled ads state
 -- @function eva.ads.set_enabled
--- @tparam bool state ads state
+-- @tparam boolean state ads state
 function M.set_enabled(state)
 	app[const.EVA.ADS].ads_disabled = not state
 end

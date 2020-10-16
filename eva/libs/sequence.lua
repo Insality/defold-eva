@@ -30,7 +30,7 @@ end
 function M.gui_animate(node, property, to, easing, duration, delay, playback)
 	local co = coroutine.running()
 	assert(co, "You must call this from inside a sequence")
-	gui.animate(node, property, to, easing, duration, delay, function()
+	gui.animate(node, property, to, easing, duration or 0, delay or 0, function()
 		resume(co)
 	end, playback)
 	coroutine.yield()

@@ -38,7 +38,7 @@ end
 -- @tparam number tileside Hexagon side length (flat side)
 -- @tparam number width Map width in tiles count
 -- @tparam number height Map height in tiles count
--- @tparam bool invert_y If true, zero pos will be at top, else on bot
+-- @tparam boolean invert_y If true, zero pos will be at top, else on bot
 -- @treturn map_params Map params data
 function M.get_map_params(options)
 	local map_params = {}

@@ -61,10 +61,10 @@ function M.pos_to_cell_flattop(x, y, map_params)
 		y = data.scene.size_y - y
 	end
 
-	local i = 2 * x / two_hex_width
-	local j = y / data.tile.height - 0.5 * bit.band(i, 1)
+	local i = luax.math.round(2 * x / two_hex_width)
+	local j = luax.math.round(y / data.tile.height - 0.5 * bit.band(i, 1))
 
-	return luax.math.round(i), luax.math.round(j)
+	return i, j
 end
 
 
@@ -83,10 +83,10 @@ function M.pos_to_cell_pointytop(x, y, map_params)
 		y = data.scene.size_y - y
 	end
 
-	local j = 2 * y / two_hex_height
-	local i = x / data.tile.width - 0.5 * bit.band(j, 1)
+	local j = luax.math.round(2 * y / two_hex_height)
+	local i = luax.math.round(x / data.tile.width - 0.5 * bit.band(j, 1))
 
-	return luax.math.round(i), luax.math.round(j)
+	return i, j
 end
 
 

@@ -142,7 +142,7 @@ function M.add_save_part(name, table_ref)
 
 	local prev_ref = save_table[name]
 	save_table[name] = table_ref
-	prev_ref = proto.decode(name, proto.encode(name, prev_ref))
+	prev_ref = proto.verify(name, prev_ref)
 	luax.table.override(prev_ref, table_ref)
 end
 

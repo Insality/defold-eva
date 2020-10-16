@@ -395,6 +395,29 @@ M.INPUT_SWIPE = {
 }
 
 
+--- Vibrate constants for eva.vibrate
+M.VIBRATE = {
+	LIGHT = {
+		Android = 1, -- in milliseconds
+		iOS = 1
+	},
+	MEDIUM = {
+		Android = 50,
+		iOS = 2
+	},
+	HEAVY = {
+		Android = 200,
+		iOS = 3
+	},
+}
+
+
+--- Reserved strings for eva.storage values from other modules
+M.STORAGE = {
+	VIBRATE_IS_ENABLED = "eva.vibrate.is_enabled"
+}
+
+
 -- List of days in every month
 M.DAYS_IN_MONTH = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
 
