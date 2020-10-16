@@ -90,6 +90,7 @@ M.EVENT = {
 	GAME_START = "eva.game.start", --- Game start eva event
 	GAME_FOCUS = "eva.game.focus",
 	NEW_SESSION = "eva.game.new_session",
+	NEW_DAY = "eva.game.new_day",
 	IAP_UPDATE = "eva.iaps.update",
 	IAP_START = "eva.iaps.start",
 	IAP_CANCEL = "eva.iaps.cancel",

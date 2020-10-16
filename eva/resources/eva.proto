@@ -75,6 +75,7 @@ message Game {
 	uint32 first_start_time = 8;
 	uint32 session_start_time = 9;
 	uint32 last_play_timepoint = 10;
+	uint32 last_play_date = 11; // In format YYYYMMDD
 }
 
 message Token {

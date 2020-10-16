@@ -119,12 +119,6 @@ function M.is_ready(ad_id)
 	assert(ad_id, "You should provide ad id")
 	assert(ad_config, "Ad config should exists")
 
-	print("Check", is_network_ok(ad_id, ad_config),
-		is_from_session_start_ok(ad_id, ad_config),
-		is_time_between_ok(ad_id, ad_config),
-		is_daily_limit_ok(ad_id, ad_config),
-		is_tokens_ok(ad_id, ad_config),
-		is_total_limit_ok(ad_id, ad_config))
 	return is_network_ok(ad_id, ad_config) and
 			is_from_session_start_ok(ad_id, ad_config) and
 			is_time_between_ok(ad_id, ad_config) and
@@ -189,7 +183,7 @@ function M.get_ads_watched()
 end
 
 
-function M.on_new_session()
+function M.on_new_day()
 	local data = app[const.EVA.ADS]
 
 	for id, amount in pairs(data.daily_watched) do
@@ -206,7 +200,7 @@ function M.on_eva_init()
 		last_ad_id = nil
 	}
 
-	events.subscribe(const.EVENT.NEW_SESSION, M.on_new_session)
+	events.subscribe(const.EVENT.NEW_DAY, M.on_new_day)
 end
 
 

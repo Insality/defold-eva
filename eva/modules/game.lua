@@ -79,6 +79,12 @@ local function check_session()
 		game.session_start_time = current_time
 		events.event(const.EVENT.NEW_SESSION)
 	end
+
+	local current_date = M.get_current_date_code()
+	if game.last_play_date ~= current_date then
+		game.last_play_date = current_date
+		events.event(const.EVENT.NEW_DAY)
+	end
 end
 
 
@@ -182,6 +188,15 @@ function M.get_current_time_string(time)
 end
 
 
+--- Get current date in format: YYYYMMDD
+-- @function ev.game.get_current_day_string
+-- @treturn number Current day in format YYYYMMDD
+function M.get_current_date_code(date)
+	date = date or os.date("*t", M.get_time())
+	return date.year * 10000 + date.month * 100 + date.day
+end
+
+
 --- Get days since first game launch
 -- @function eva.game.get_days_played
 -- @treturn number Days since first game launch
@@ -237,6 +252,9 @@ function M.after_eva_init()
 	if game.first_start_time == 0 then
 		game.first_start_time = M.get_time()
 	end
+	if game.last_play_date == 0 then
+		game.last_play_date = M.get_current_date_code()
+	end
 
 	check_session()
 	window.set_listener(on_window_event)
@@ -244,7 +262,6 @@ end
 
 
 function M.on_eva_update(dt)
-	check_session()
 	app.game_data.current_time = app.game_data.current_time + dt
 	app[const.EVA.GAME].played_time = app[const.EVA.GAME].played_time + dt
 	app[const.EVA.GAME].last_play_timepoint = M.get_time()
