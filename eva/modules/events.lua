@@ -29,7 +29,7 @@ function M.event(event, params)
 			local context = info.callback_context or info.context
 			local ok, errors = pcall(info.callback, context, params)
 			if not ok then
-				pprint(errors)
+				error(errors)
 			end
 		end
 	end

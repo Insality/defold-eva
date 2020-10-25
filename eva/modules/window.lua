@@ -12,7 +12,6 @@ local const = require("eva.const")
 local monarch = require("monarch.monarch")
 local log = require("eva.log")
 
-local queue = require("eva.modules.queue")
 local events = require("eva.modules.events")
 
 local logger = log.get_logger("eva.window")
@@ -33,7 +32,8 @@ end
 
 
 local function get_current()
-	return app.window.queue[#app.window.queue]
+	local current = app.window.queue[#app.window.queue]
+	return current and current.window_id
 end
 
 
@@ -68,7 +68,7 @@ local function handle_callbacks(data)
 			lua_script_instance.Set(current_context)
 
 			if not ok then
-				pprint(result)
+				error(result)
 			end
 		end
 	end
@@ -188,9 +188,9 @@ end
 function M.close(window_id)
 	window_id = window_id or get_current()
 
-	for _, id in ipairs(app.window.queue) do
-		if id == window_id then
-			monarch.post(window_id, const.INPUT.CLOSE, luax.table.empty)
+	for _, queue_data in ipairs(app.window.queue) do
+		if queue_data.window_id == window_id then
+			msg.post(queue_data.window_url, const.INPUT.CLOSE)
 			return
 		end
 	end
@@ -222,7 +222,10 @@ function M.appear(window_id, cb)
 	local settings = get_settings(window_id)
 	gui.set_render_order(settings.render_order)
 
-	table.insert(app.window.queue, window_id)
+	table.insert(app.window.queue, {
+		window_id = window_id,
+		window_url = msg.url()
+	})
 
 	settings.appear_func(settings, function()
 		if cb then
@@ -271,7 +274,7 @@ end
 function M.before_eva_init()
 	app.window = {
 		last_scene = "loader", -- TODO: To const or auto-calc?
-		queue = {},
+		queue = {}, -- Current windows, {id: "", url: ""}
 		next_queue = {},
 		close_all_callback = nil,
 		prev_context = nil,

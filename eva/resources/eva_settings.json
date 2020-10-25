@@ -131,7 +131,8 @@
 		"clear_push_in_next_seconds": 5
 	},
 	"quests": {
-		"is_disabled": false
+		"is_disabled": false,
+		"config": "Quests"
 	},
 	"rate": {
 		"is_disabled": false,

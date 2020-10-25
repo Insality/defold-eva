@@ -288,7 +288,7 @@ end
 -- Throw EVENT.IAP_UPDATE at end
 -- @function eva.iaps.refresh_iap_list
 function M.refresh_iap_list()
-	if not iap then
+	if not iap or device.is_web() then
 		logger:debug("No iap on current platform. Fake iap module")
 		list_callback(nil, get_fake_products())
 		return

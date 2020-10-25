@@ -184,7 +184,7 @@ end
 
 
 --- Transfrom cube coordinates to offset coordinates
--- @function eva.hexgrid.offset_to_cube
+-- @function eva.hexgrid.cube_to_offset
 -- @tparam number i I coordinate
 -- @tparam number j J coordinate
 -- @tparam number k K coordinate

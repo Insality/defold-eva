@@ -32,7 +32,8 @@ local M = {}
 
 
 local function get_config()
-	return db.get("Quests").quests
+	local config_name = app.settings.quests.config
+	return db.get(config_name).quests
 end
 
 

@@ -29,6 +29,7 @@ function M.register(context, name, callback, priority)
 	table.insert(app.input.stack, {
 		name = name,
 		callback = callback,
+		script_context = lua_script_instance.Get(),
 		priority = priority,
 		context = context
 	})
@@ -148,15 +149,23 @@ function M.on_input(action_id, action)
 	state.action_id = action_id
 	state.action = action
 
+	local current_context = lua_script_instance.Get()
 	for i = 1, #stack do
 		local context = stack[i].context
 		local callback = stack[i].callback
-		local result = callback(context, state.input_type, state)
+		local script_context = stack[i].script_context
+		lua_script_instance.Set(script_context)
 
-		if result then
+		local ok, result = pcall(callback, context, state.input_type, state)
+
+		if ok and result then
 			break
 		end
+		if not ok then
+			pprint("Input errors:", result)
+		end
 	end
+	lua_script_instance.Set(current_context)
 
 	input_touch.after_input(state, action_id, action)
 end

@@ -19,12 +19,12 @@ local M = {}
 --- Get the value from the storage.
 -- @function eva.storage.get
 -- @tparam string id The record id
-function M.get(id)
+function M.get(id, defalt_value)
 	local storage = app[const.EVA.STORAGE].storage
 	local value = storage[id]
 
 	if not value then
-		return nil
+		return defalt_value
 	end
 
 	return value.s_value or value.i_value or value.b_value
