@@ -92,10 +92,13 @@ return function()
 
 			mock_time.elapse(600)
 			eva.update(1)
-			-- Session limit
+
+			-- Daily limit
 			assert(not eva.ads.is_ready("page"))
 
-			mock_time.elapse(60)
+			-- skip one day
+			mock_time.elapse(60 * 60 * 24 + 1)
+			eva.update(1)
 			assert(eva.ads.is_ready("page"))
 		end)
 
@@ -118,7 +121,7 @@ return function()
 			eva.ads.show("double_exp")
 			assert(not eva.ads.is_ready("some_limit"))
 
-			mock_time.elapse(600)
+			mock_time.elapse(24 * 60 * 60)
 			eva.update(1)
 
 			assert(eva.ads.is_ready("some_limit"))

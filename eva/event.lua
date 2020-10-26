@@ -11,11 +11,16 @@ local Event = class("eva.event")
 
 function Event:initialize(callback, callback_context)
     self._callbacks = {}
-    self:subscribe(callback, callback_context)
+
+    if callback then
+        self:subscribe(callback, callback_context)
+    end
 end
 
 
 function Event:subscribe(callback, callback_context)
+    assert(callback, "You should pass function to subscribe on event")
+
     if self:is_subscribed(callback, callback_context) then
         logger:error("Event is already subscribed")
         return
@@ -30,6 +35,8 @@ end
 
 
 function Event:unsubscribe(callback, callback_context)
+    assert(callback, "You should pass function to subscribe on event")
+
     for index = 1, #self._callbacks do
         local cb = self._callbacks[index]
         if cb.callback == callback and cb.callback_context == callback_context then

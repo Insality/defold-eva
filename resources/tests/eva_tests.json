@@ -110,7 +110,8 @@
 		}
 	},
 	"quests": {
-		"is_disabled": false
+		"is_disabled": false,
+		"config": "Quests"
 	},
 	"skill": {
 		"is_disabled": false,

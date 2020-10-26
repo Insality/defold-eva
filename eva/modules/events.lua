@@ -53,9 +53,9 @@ end
 --- Subscribe the pack of events by map
 -- @function eva.events.subscribe_map
 -- @tparam table map {Event = Callback} map
-function M.subscribe_map(map)
+function M.subscribe_map(map, callback_context)
 	for event_name, callback in pairs(map) do
-		M.subscribe(event_name, callback)
+		M.subscribe(event_name, callback, callback_context)
 	end
 end
 
@@ -76,9 +76,9 @@ end
 --- Unsubscribe the pack of events by map
 -- @function eva.events.unsubscribe_map
 -- @tparam table map {Event = Callback} map
-function M.unsubscribe_map(map)
+function M.unsubscribe_map(map, callback_context)
 	for event_name, callback in pairs(map) do
-		M.unsubscribe(event_name, callback)
+		M.unsubscribe(event_name, callback, callback_context)
 	end
 end
 

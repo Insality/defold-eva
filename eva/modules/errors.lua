@@ -43,17 +43,16 @@ end
 
 local function check_crash()
 	local crash_previous = crash.load_previous()
-    if crash_previous == nil then
-        print("No crash dump found")
-        return
+	if crash_previous == nil then
+			return
 	end
 
-    print("Crash [" .. crash.get_sys_field(crash_previous, crash.SYSFIELD_ENGINE_VERSION) .. "] [" .. crash.get_sys_field(crash_previous, crash.SYSFIELD_ENGINE_HASH) .. "]")
-    print("Signum [" .. crash.get_signum(crash_previous) .. "]")
-    print("Userdata0 = [" .. crash.get_user_field(crash_previous, 0) .. "]")
-    print("Pretty Backtrace:\n" .. crash.get_extra_data(crash_previous))
+	print("Crash [" .. crash.get_sys_field(crash_previous, crash.SYSFIELD_ENGINE_VERSION) .. "] [" .. crash.get_sys_field(crash_previous, crash.SYSFIELD_ENGINE_HASH) .. "]")
+	print("Signum [" .. crash.get_signum(crash_previous) .. "]")
+	print("Userdata0 = [" .. crash.get_user_field(crash_previous, 0) .. "]")
+	print("Pretty Backtrace:\n" .. crash.get_extra_data(crash_previous))
 
-    crash.release(crash_previous)
+	crash.release(crash_previous)
 end
 
 
