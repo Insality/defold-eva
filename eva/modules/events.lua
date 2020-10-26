@@ -7,6 +7,7 @@
 
 local app = require("eva.app")
 local log = require("eva.log")
+local Event = require("eva.event")
 
 local logger = log.get_logger("eva.events")
 
@@ -17,24 +18,11 @@ local M = {}
 -- @function eva.events.event
 -- @tparam string event name of event
 -- @tparam[opt={}] table params params
-function M.event(event, params)
-	logger:debug("Event", { event = event, params = params })
-
-	local current_context = lua_script_instance.Get()
-	local listeners = app.event_listeners[event]
-	if listeners then
-		for i = 1, #listeners do
-			local info = listeners[i]
-			lua_script_instance.Set(info.context)
-			local context = info.callback_context or info.context
-			local ok, errors = pcall(info.callback, context, params)
-			if not ok then
-				error(errors)
-			end
-		end
+function M.event(event_name, params)
+	logger:debug("Event", { event = event_name, params = params })
+	if app.event_listeners[event_name] then
+		app.event_listeners[event_name]:trigger(params)
 	end
-
-	lua_script_instance.Set(current_context)
 end
 
 
@@ -51,18 +39,14 @@ end
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
 function M.subscribe(event_name, callback, callback_context)
-	app.event_listeners[event_name] = app.event_listeners[event_name] or {}
+	app.event_listeners[event_name] = app.event_listeners[event_name] or Event()
 
 	if M.is_subscribed(event_name, callback, callback_context) then
 		logger:warn("The callback is already add to events. Aborting", { event_name = event_name })
 		return
 	end
 
-	table.insert(app.event_listeners[event_name], {
-		callback = callback,
-		callback_context = callback_context,
-		context = lua_script_instance.Get()
-	})
+	app.event_listeners[event_name]:subscribe(callback, callback_context)
 end
 
 
@@ -81,12 +65,11 @@ end
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
 function M.unsubscribe(event_name, callback, callback_context)
-	local index = M.is_subscribed(event_name, callback, callback_context)
-	if index then
-		table.remove(app.event_listeners[event_name], index)
-	else
+	if not M.is_subscribed(event_name, callback, callback_context) then
 		logger:warn("No event to unsubscribe", { event_name = event_name })
 	end
+
+	app.event_listeners[event_name]:unsubscribe(callback, callback_context)
 end
 
 
@@ -105,18 +88,13 @@ end
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
 function M.is_subscribed(event_name, callback, callback_context)
-	app.event_listeners[event_name] = app.event_listeners[event_name] or {}
-	for i = 1, #app.event_listeners[event_name] do
-		if app.event_listeners[event_name][i].callback == callback and
-			app.event_listeners[event_name][i].callback_context == callback_context then
-			return i
-		end
-	end
-	return false
+	app.event_listeners[event_name] = app.event_listeners[event_name] or Event()
+	return app.event_listeners[event_name]:is_subscribed(callback, callback_context)
 end
 
 
 function M.before_eva_init()
+	---@type map<string, eva.event>
 	app.event_listeners = {}
 end
 
