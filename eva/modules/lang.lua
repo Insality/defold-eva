@@ -55,8 +55,10 @@ end
 -- @tparam string lang current language code from eva-settings
 function M.set_lang(lang)
 	load_lang(lang)
-	app[const.EVA.LANG].lang = lang
-	events.event(const.EVENT.LANG_UPDATE, { lang = lang })
+	if app[const.EVA.LANG].lang ~= lang then
+		app[const.EVA.LANG].lang = lang
+		events.event(const.EVENT.LANG_UPDATE, { lang = lang })
+	end
 end
 
 

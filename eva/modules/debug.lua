@@ -6,16 +6,21 @@
 -- R(3) - restart game
 -- N(5) - reset profile
 -- D - toggle profiler
+-- O - toggle Profi profiler
 -- @submodule eva
 
 
 local app = require("eva.app")
+local log = require("eva.log")
 local const = require("eva.const")
 
 local festivals = require("eva.modules.festivals")
 local game = require("eva.modules.game")
 local saver = require("eva.modules.saver")
 local input = require("eva.modules.input")
+local ProFi = require("eva.system.profi")
+
+local logger = log.get_logger("eva.debug")
 
 local M = {}
 
@@ -89,6 +94,20 @@ local function on_eva_input(_, input_type, input_state)
 		M.toogle_profiler()
 	end
 
+	if key == const.INPUT.KEY_O then
+		if not app.debug_data.is_profiling_now then
+			app.debug_data.is_profiling_now = true
+			ProFi:reset()
+			ProFi:start()
+			logger:info("Start ProFi profiling...")
+		else
+			app.debug_data.is_profiling_now = false
+			ProFi:stop()
+			ProFi:writeReport('MyProfilingReport.txt')
+			logger:info("Finish ProFi profiling")
+		end
+	end
+
 	if key == const.INPUT.KEY_R then
 		M.restart_game()
 	end
@@ -107,6 +126,7 @@ local function on_eva_input(_, input_type, input_state)
 		end
 		if input_state.modifiers.lctrl then
 			M.save_profile("eva_test_1.json")
+			logger:info("Debug save to slot 1")
 		end
 	end
 
@@ -116,6 +136,7 @@ local function on_eva_input(_, input_type, input_state)
 		end
 		if input_state.modifiers.lctrl then
 			M.save_profile("eva_test_2.json")
+			logger:info("Debug save to slot 2")
 		end
 	end
 
@@ -125,6 +146,7 @@ local function on_eva_input(_, input_type, input_state)
 		end
 		if input_state.modifiers.lctrl then
 			M.save_profile("eva_test_3.json")
+			logger:info("Debug save to slot 3")
 		end
 	end
 end

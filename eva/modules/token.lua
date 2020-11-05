@@ -193,7 +193,7 @@ end
 -- @tparam string container_id Container id
 function M.clear_container(container_id)
 	if not M.is_exist_container(container_id) then
-		logger:warn("Cant clear non existing container", { container_id = container_id })
+		logger:warn("Can't clear non existing container", { container_id = container_id })
 		return
 	end
 

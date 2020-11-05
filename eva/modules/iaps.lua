@@ -64,11 +64,11 @@ end
 
 local function list_callback(self, products, error)
 	if not error then
-		local products_string = table.concat(luax.table.list(products), ", ")
+		local products_string = table.concat(luax.table.list(products, "ident"), ", ")
 		logger:info("Get product list", { products =  products_string })
 
 		for k, v in pairs(products) do
-			local iap_id = get_id_by_ident(k)
+			local iap_id = get_id_by_ident(v.ident)
 			local iap_info = app.iap_products[iap_id]
 
 			iap_info.is_available = true
@@ -103,6 +103,7 @@ local function get_fake_products()
 	for iap_id, value in pairs(app.iap_products) do
 		products[value.ident] = {
 			currency_code = "USD",
+			ident = value.ident,
 			title = "Fake title",
 			description = "Fake description",
 			price_string = "$" .. value.price,

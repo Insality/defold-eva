@@ -115,36 +115,26 @@ end
 
 
 function M.cube_to_offset_pointytop(i, j, k, map_params)
-	local offset_i = i + (k - bit.band(k, 1)) / 2
-	local offset_j = k
-
-	return offset_i, offset_j
+	return i + (k - bit.band(k, 1)) / 2, k
 end
 
 
 function M.cube_to_offset_flattop(i, j, k, map_params)
-	local offset_i = i
-	local offset_j = k + (i - bit.band(i, 1)) / 2
-
-	return offset_i, offset_j
+	return i, k + (i - bit.band(i, 1)) / 2
 end
 
 
 function M.offset_to_cube_pointytop(i, j, map_params)
 	local x = i - (j - bit.band(j, 1)) / 2
-	local z = j
-	local y = -x - z
 
-	return x, y, z
+	return x, -x - j, j
 end
 
 
 function M.offset_to_cube_flattop(i, j, map_params)
-	local x = i
 	local z = j - (i - bit.band(i, 1)) / 2
-	local y = -x - z
 
-	return x, y, z
+	return i, -i - z, z
 end
 
 

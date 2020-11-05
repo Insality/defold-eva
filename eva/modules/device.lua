@@ -31,7 +31,7 @@ function M.get_device_id()
 			logger:debug("Get new device_id", { device_id = data.device_id })
 		end
 
-		if #data.device_id < 8 then
+		if #data.device_id <= 2 then
 			data.device_id = M.get_uuid()
 			logger:debug("Generate device_id from uuid", { device_id = data.device_id })
 		end

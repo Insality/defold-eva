@@ -19,9 +19,7 @@ function M.screen(text)
     end
 
     local buffer = screenshot.png()
-    pprint(buffer)
     share.image(buffer, text)
-    print("After share")
 end
 
 

@@ -89,7 +89,7 @@ end
 
 
 local function on_window_event(self, event, data)
-	events.event(const.EVENT.WINDOW_EVENT, { event = event, data = data })
+	-- events.event(const.EVENT.WINDOW_EVENT, { event = event, data = data })
 	if event == window.WINDOW_EVENT_FOCUS_GAINED then
 		sync_time()
 		check_session()
