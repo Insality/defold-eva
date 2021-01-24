@@ -27,7 +27,8 @@ local function get_iaps_config()
 	local settings = app.settings.iaps
 	local is_ios = device.is_ios()
 	local config_name = is_ios and settings.config_ios or settings.config_android
-	return db.get(config_name).iaps
+	local config = db.get(config_name)
+	return config and config.iaps or {}
 end
 
 

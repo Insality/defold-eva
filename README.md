@@ -33,8 +33,7 @@
 
 ## Setup
 
-Eva setup and initial configuration is quite massive, please read install instruction here
-_TODO: write setup instructions in separate MD_
+Eva setup and initial configuration is quite massive, please read install [instruction here](/docs_md/setup.md)
 
 
 ## Evadata format and export

@@ -491,7 +491,7 @@ end
 
 
 function M.get_mapping()
-	return db.get(app.settings.tiled.mapping_config)
+	return db.get(app.settings.tiled.mapping_config) or {}
 end
 
 

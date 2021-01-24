@@ -21,7 +21,8 @@ local M = {}
 
 local function get_labels_config()
 	local config_name = app.settings.labels.config
-	return db.get(config_name).labels
+	local config = app.settings.labels.config
+	return config and config.labels or {}
 end
 
 

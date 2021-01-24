@@ -64,11 +64,13 @@ function M.before_eva_init()
 	local paths = settings.paths
 
 	for name, path in pairs(paths) do
-		logger:debug("Load JSON data", { name = name, path = path })
 		local ok, result = pcall(utils.load_json, path)
 
 		if ok then
-			app._db[name] = result
+			if result then
+				logger:debug("Load JSON data", { name = name, path = path })
+				app._db[name] = result
+			end
 		else
 			logger:fatal("Error on loading json file", { name = name, traceback = result})
 			error(result)

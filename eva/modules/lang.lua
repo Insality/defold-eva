@@ -20,7 +20,7 @@ local function load_lang(lang)
 	local filename = settings.lang_paths[lang]
 
 	app.clear("lang_dict")
-	app.lang_dict = utils.load_json(filename)
+	app.lang_dict = utils.load_json(filename) or {}
 end
 
 

@@ -147,7 +147,10 @@ end
 
 
 local function load_settings(settings_path)
-	app.settings = utils.load_json(settings_path)
+	local settings = utils.load_json(settings_path)
+	assert(settings, "No eva settings finded on path: " .. (settings_path or ""))
+
+	app.settings = settings
 	assert(const.EVA_VERSION <= app.settings.eva.version, "Eva resources outdated, please update eva_settings, eva.proto and evadata.proto files")
 end
 
