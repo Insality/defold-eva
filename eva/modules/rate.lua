@@ -12,6 +12,7 @@ local device = require("eva.modules.device")
 local game = require("eva.modules.game")
 local saver = require("eva.modules.saver")
 local proto = require("eva.modules.proto")
+local events = require("eva.modules.events")
 
 local M = {}
 
@@ -53,11 +54,12 @@ function M.promt_rate(on_can_promt)
 end
 
 
---- Open store or native rating on iOS
+--- Open store or native rating if available
 -- @function eva.rate.open_rate
 function M.open_rate()
-	if defreview and defreview.isSupported() then
-		defreview.requestReview()
+	events.event(const.EVENT.RATE_OPEN)
+	if review and review.is_supported() then
+		review.request_review()
 	else
 		game.open_store_page()
 	end

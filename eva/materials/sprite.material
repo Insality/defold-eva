@@ -24,9 +24,9 @@ fragment_constants {
   }
 }
 samplers {
-  name: "DIFFUSE_TEXTURE"
+  name: "texture_sampler"
   wrap_u: WRAP_MODE_REPEAT
   wrap_v: WRAP_MODE_REPEAT
-  filter_min: FILTER_MODE_MIN_LINEAR_MIPMAP_LINEAR
+  filter_min: FILTER_MODE_MIN_LINEAR
   filter_mag: FILTER_MODE_MAG_LINEAR
 }

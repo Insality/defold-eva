@@ -118,7 +118,7 @@ message Skills {
 		uint32 duration = 2;
 		uint32 cooldown = 3;
 		uint32 max_stack = 4 [default = 1];
-		uint32 restore_amount = 5[default = 1];
+		uint32 restore_amount = 5 [default = 1];
 		bool channel = 6;
 		bool manual_time = 7;
 	}
@@ -141,9 +141,10 @@ message Ads {
 		string type = 1;
 		uint32 time_between_shows = 2;
 		uint32 time_from_game_start = 3;
-		uint32 daily_limit = 4;
-		uint32 all_ads_daily_limit = 5;
-		string required_token_group = 6;
+		uint32 time_between_shows_all = 4;
+		uint32 daily_limit = 5;
+		uint32 all_ads_daily_limit = 6;
+		string required_token_group = 7;
 	}
 	map<string, AdSettings> ads = 1;
 }

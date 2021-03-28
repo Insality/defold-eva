@@ -26,14 +26,19 @@ local function get_ad_data(ad_id)
 end
 
 
-local function on_ads_success(ad_id)
-	logger:debug("Ads success", { id = ad_id })
+local function on_ads_finished(ad_id)
+	logger:debug("Ads finished", { id = ad_id, time = game.get_time() })
 
 	local data = app[const.EVA.ADS]
 
 	data.daily_watched[ad_id] = (data.daily_watched[ad_id] or 0) + 1
 	data.total_watched[ad_id] = (data.total_watched[ad_id] or 0) + 1
 	data.last_watched_time[ad_id] = game.get_time()
+end
+
+
+local function on_ads_success(ad_id)
+	logger:debug("Ads success", { id = ad_id })
 
 	local ad_config = get_ad_data(ad_id)
 	events.event(const.EVENT.ADS_SUCCESS, { id = ad_id })
@@ -53,6 +58,7 @@ local function unity_ads_callback(self, message_id, message)
 	end
 
 	if message_id == unityads.TYPE_DID_FINISH then
+		on_ads_finished(app._eva_ads_data.last_ad_id)
 		if message.state == unityads.FINISH_STATE_COMPLETED then
 			on_ads_success(app._eva_ads_data.last_ad_id)
 		end
@@ -62,7 +68,7 @@ end
 
 local function is_network_ok(ad_id, ad_config)
 	if not unityads then
-		return true
+		return game.is_debug()
 	end
 
 	return unityads.isReady(ad_config.type)
@@ -73,6 +79,16 @@ local function is_time_between_ok(ad_id, ad_config)
 	local data = app[const.EVA.ADS]
 	local last_play_time = data.last_watched_time[ad_id] or 0
 	return (game.get_time() - last_play_time) >= ad_config.time_between_shows
+end
+
+
+local function is_time_between_all_ok(ad_id, ad_config)
+	local data = app[const.EVA.ADS]
+	local last_play_time = 0
+	for _, ad_last_play_time in pairs(data.last_watched_time) do
+		last_play_time = math.max(last_play_time, ad_last_play_time)
+	end
+	return (game.get_time() - last_play_time) >= ad_config.time_between_shows_all
 end
 
 
@@ -122,6 +138,7 @@ function M.is_ready(ad_id)
 	return is_network_ok(ad_id, ad_config) and
 			is_from_session_start_ok(ad_id, ad_config) and
 			is_time_between_ok(ad_id, ad_config) and
+			is_time_between_all_ok(ad_id, ad_config) and
 			is_daily_limit_ok(ad_id, ad_config) and
 			is_tokens_ok(ad_id, ad_config) and
 			is_total_limit_ok(ad_id, ad_config)

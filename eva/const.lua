@@ -140,6 +140,7 @@ M.EVENT = {
 	SKILL_COOLDOWN_END = "eva.skill.cooldown_end",
 	CODE_REDEEM = "eva.promocode.redeem",
 	WINDOW_EVENT = "eva.game.window_event",
+	RATE_OPEN = "eva.rate.open",
 }
 
 

@@ -160,7 +160,9 @@ local function iap_listener(self, transaction, error)
 		end
 	else
 		if error.reason == const.IAP.REASON.CANCELED then
-			events.event(const.EVENT.IAP_CANCEL, transaction and transaction.ident or "n/a")
+			local ident = transaction and transaction.ident or "n/a"
+			local iap_id = get_id_by_ident(ident)
+			events.event(const.EVENT.IAP_CANCEL, { ident = ident, iap_id = iap_id })
 		else
 			logger:warn("Error while IAP processing", transaction)
 		end
@@ -179,6 +181,8 @@ function M.buy(iap_id)
 		logger:error("The IAP is not exist", { iap_id = iap_id })
 		return
 	end
+
+	events.event(const.EVENT.IAP_START, { ident = item.ident, iap_id = iap_id })
 
 	if iap then
 		logger:info("Start process IAP", { iap_id = iap_id })
