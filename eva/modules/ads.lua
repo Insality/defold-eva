@@ -48,7 +48,7 @@ local function on_ads_success(ad_id)
 end
 
 
-local function unity_ads_callback(self, message_id, message)
+local function ads_callback(self, message_id, message)
 	local data = app[const.EVA.ADS]
 
 	if message_id == unityads.TYPE_IS_READY then
@@ -159,7 +159,8 @@ function M.show(ad_id)
 	app._eva_ads_data.last_ad_id = ad_id
 
 	if not unityads then
-		on_ads_success(ad_id)
+		on_ads_finished(app._eva_ads_data.last_ad_id)
+		on_ads_success(app._eva_ads_data.last_ad_id)
 	else
 		unityads.show(ad_config.type)
 	end
@@ -238,7 +239,7 @@ function M.after_eva_init()
 	end
 
 	if unityads and ads_id then
-		unityads.initialize(ads_id, unity_ads_callback, is_debug)
+		unityads.initialize(ads_id, ads_callback, is_debug)
 	end
 end
 

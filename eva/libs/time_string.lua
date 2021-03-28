@@ -55,18 +55,33 @@ end
 
 
 --- Get seconds from ISO string time format
--- @tparam string str time in ISO format
-function M.parse_ISO(str)
+-- @tparam string str time in ISO format in GMT time
+-- @tparam boolean in_gmt If true, return time in GMT format
+function M.parse_ISO(str, in_gmt)
 	local Y, MM, D = parse_date(str)
 	local h, m, s = parse_time(str)
 	local oh, om = parse_offset(str)
-	return os.time({ year=Y, month=MM, day=D, hour=(h+oh), min=(m+om), sec=s })
+	local time = os.time({ year=Y, month=MM, day=D, hour=(h+oh), min=(m+om), sec=s })
+
+	if in_gmt then
+		time = time + M.get_timezone_offset(time)
+	end
+
+	return time
 end
 
 
 --- Get time in ISO format from seconds
-function M.get_ISO(seconds)
-	return os.date("%Y-%m-%dT%TZ", seconds)
+-- @tparam number seconds The time in seconds to convert in ISO format
+-- @tparam boolean in_gmt If true, return time in GMT format
+function M.get_ISO(seconds, in_gmt)
+	local time = seconds
+
+	if in_gmt then
+		time = seconds - M.get_timezone_offset(seconds)
+	end
+
+	return os.date("%Y-%m-%dT%TZ", time)
 end
 
 
@@ -104,6 +119,16 @@ function M.get_delta_seconds(delta_str)
 	seconds = seconds + time_table.month * 60 * 60 * 24 * 30
 	seconds = seconds + time_table.year * 60 * 60 * 24 * 365
 	return seconds
+end
+
+
+--- Return timezone offset from local time to GMT for timestamp
+-- @tparam number ts The timestamp in seconds
+function M.get_timezone_offset(ts)
+	local utcdate   = os.date("!*t", ts)
+	local localdate = os.date("*t", ts)
+	localdate.isdst = false -- this is the trick
+	return os.difftime(os.time(localdate), os.time(utcdate))
 end
 
 

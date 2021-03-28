@@ -9,6 +9,7 @@
       "all_ads_daily_limit": 999,
       "daily_limit": 5,
       "time_between_shows": 0,
+      "time_between_shows_all": 0,
       "time_from_game_start": 0,
       "type": "rewardedVideo"
     },
@@ -17,6 +18,7 @@
       "daily_limit": 5,
       "required_token_group": "for_ads_required",
       "time_between_shows": 240,
+      "time_between_shows_all": 10,
       "time_from_game_start": 60,
       "type": "video"
     },
