@@ -189,11 +189,27 @@ end
 
 
 --- Get current date in format: YYYYMMDD
--- @function ev.game.get_current_day_string
+-- @function eva.game.get_current_day_string
 -- @treturn number Current day in format YYYYMMDD
 function M.get_current_date_code(date)
 	date = date or os.date("*t", M.get_time())
 	return date.year * 10000 + date.month * 100 + date.day
+end
+
+
+--- Get time in seconds until next day from current time
+-- @function eva.game.get_seconds_until_new_day
+-- @treturn number Seconds until next day
+function M.get_seconds_until_new_day()
+	local time = M.get_time()
+	local current_date   = os.date("*t", time)
+	local next_date = os.date("*t", time + (60 * 60 * 24))
+	next_date.hour = 0
+	next_date.min = 0
+	next_date.sec = 0
+	pprint(current_date)
+
+	return os.difftime(os.time(next_date), os.time(current_date))
 end
 
 

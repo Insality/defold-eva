@@ -25,7 +25,7 @@ return function()
 	describe("Eva ads", function()
 		before(function()
 			mock_time.mock()
-			mock_time.set(100000)
+			mock_time.set(os.time({year=2000, month=1, day=1, hour=0}))
 			mock.mock(events)
 
 			eva.init("/resources/tests/eva_tests.json")
@@ -151,6 +151,44 @@ return function()
 			assert(not eva.ads.is_ready("page"))
 			mock_time.elapse(5)
 			assert(eva.ads.is_ready("page"))
+		end)
+
+		it("Should correct return get_time_to_ready", function()
+			eva.wallet.add("level", 2)
+
+			assert(eva.ads.get_time_to_ready("page") == 60)
+			assert(eva.ads.get_time_to_ready("double_exp") == 0)
+
+			mock_time.elapse(60)
+			assert(eva.ads.get_time_to_ready("page") == 0)
+			assert(eva.ads.get_time_to_ready("double_exp") == 0)
+
+			eva.ads.show("double_exp")
+			assert(eva.ads.get_time_to_ready("page") == 10)
+
+			mock_time.elapse(10)
+			eva.ads.show("page") -- 1 show
+			assert(eva.ads.get_time_to_ready("page") == 240)
+
+			assert(eva.ads.get_time_to_ready("some_limit") == 0)
+			
+			mock_time.elapse(240)
+			eva.ads.show("page") -- 2 show
+
+			local until_next_day = (60 * 60 * 24) - (60 + 10 + 240)
+			assert(eva.ads.get_time_to_ready("some_limit") == until_next_day)
+
+			mock_time.elapse(240)
+			eva.ads.show("page") -- 3 show
+
+			mock_time.elapse(240)
+			eva.ads.show("page") -- 4 show
+
+			mock_time.elapse(240)
+			eva.ads.show("page") -- 5 show
+
+			until_next_day = (60 * 60 * 24) - (60 + 10 + 240 + 240 + 240 + 240)
+			assert(eva.ads.get_time_to_ready("page") == until_next_day)
 		end)
 	end)
 end

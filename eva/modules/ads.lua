@@ -127,7 +127,7 @@ local function is_total_limit_ok(ad_id, ad_config)
 end
 
 
---- Check is ads are available now
+--- Check is ads are ready to show now
 -- @function eva.ads.is_ready
 -- @tparam string ad_id The Ad placement id
 function M.is_ready(ad_id)
@@ -145,13 +145,49 @@ function M.is_ready(ad_id)
 end
 
 
+--- Check is ads are blocked with network or tokens for player
+-- @functions eva.ads.is_blocked
+-- @tparam string ad_id The Ad placement id
+function M.is_blocked(ad_id)
+	local ad_config = get_ad_data(ad_id)
+	assert(ad_id, "You should provide ad id")
+	assert(ad_config, "Ad config should exists")
+
+	return is_network_ok(ad_id, ad_config) and
+			is_tokens_ok(ad_id, ad_config)
+end
+
+
 --- Return seconds when placement will be ready
 -- @function eva.ads.get_time_to_ready
 -- @tparam string ad_id The Ad placement id
 -- @tparam number The amount in seconds
+-- @treturn number The seconds amount until ads available
 function M.get_time_to_ready(ad_id)
-	-- TODO:
-	return 59
+	local game_data = app[const.EVA.GAME]
+	local ads_data = app[const.EVA.ADS]
+
+	local ad_config = get_ad_data(ad_id)
+	local time = game.get_time()
+
+	local until_from_game_start = math.max(0, ad_config.time_from_game_start - (time - game_data.session_start_time))
+
+	local last_play_time = ads_data.last_watched_time[ad_id] or 0
+	local until_between_shows = math.max(0, ad_config.time_between_shows - (time - last_play_time))
+
+	local all_last_play_time = 0
+	for _, ad_last_play_time in pairs(ads_data.last_watched_time) do
+		all_last_play_time = math.max(all_last_play_time, ad_last_play_time)
+	end
+	local until_between_shows_all = math.max(0, ad_config.time_between_shows_all - (time - all_last_play_time))
+
+	local until_daily_limit_reset = 0
+	local is_daily_limit_ok = is_daily_limit_ok(ad_id, ad_config) and is_total_limit_ok(ad_id, ad_config)
+	if not is_daily_limit_ok then
+		until_daily_limit_reset = game.get_seconds_until_new_day()
+	end
+
+	return math.max(until_from_game_start, until_between_shows, until_between_shows_all, until_daily_limit_reset)
 end
 
 
