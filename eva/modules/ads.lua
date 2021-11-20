@@ -21,7 +21,7 @@ local M = {}
 
 M.ADAPTERS = {
 	["unity"] = require("eva.modules.ads.ads_unity"),
-	["yandex"] = require("eva.modules.ads.ads_yandex")
+	-- ["yandex"] = require("eva.modules.ads.ads_yandex")
 }
 
 
