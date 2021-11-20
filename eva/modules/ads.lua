@@ -1,5 +1,5 @@
 --- Eva advertisement module
--- This module provide API to unityads
+-- This module provide API to ads with different adapters
 -- @submodule eva
 
 
@@ -19,10 +19,20 @@ local logger = log.get_logger("eva.ads")
 
 local M = {}
 
+M.ADAPTERS = {
+	["unity"] = require("eva.modules.ads.ads_unity"),
+	["yandex"] = require("eva.modules.ads.ads_yandex")
+}
+
 
 local function get_ad_data(ad_id)
 	local config_name = app.settings.ads.config
 	return db.get(config_name).ads[ad_id]
+end
+
+
+local function get_adapter()
+	return M.ADAPTERS[app._eva_ads_data.adapter]
 end
 
 
@@ -37,6 +47,11 @@ local function on_ads_finished(ad_id)
 end
 
 
+local function on_ads_error(ad_id)
+	logger:debug("Ads error", { id = ad_id, time = game.get_time() })
+end
+
+
 local function on_ads_success(ad_id)
 	logger:debug("Ads success", { id = ad_id })
 
@@ -48,30 +63,15 @@ local function on_ads_success(ad_id)
 end
 
 
-local function ads_callback(self, message_id, message)
+local function on_ads_loaded(ad_id, placement_id)
 	local data = app[const.EVA.ADS]
-
-	if message_id == unityads.TYPE_IS_READY then
-		data.ads_loaded = data.ads_loaded + 1
-
-		events.event(const.EVENT.ADS_READY, { placement = message.placementId })
-	end
-
-	if message_id == unityads.TYPE_DID_FINISH then
-		on_ads_finished(app._eva_ads_data.last_ad_id)
-		if message.state == unityads.FINISH_STATE_COMPLETED then
-			on_ads_success(app._eva_ads_data.last_ad_id)
-		end
-	end
+	data.ads_loaded = data.ads_loaded + 1
+	events.event(const.EVENT.ADS_READY, { ad_id = ad_id, placement = placement_id })
 end
 
 
 local function is_network_ok(ad_id, ad_config)
-	if not unityads then
-		return game.is_debug()
-	end
-
-	return unityads.isReady(ad_config.type)
+	return get_adapter().is_ready(ad_id, ad_config)
 end
 
 
@@ -145,25 +145,44 @@ function M.is_ready(ad_id)
 end
 
 
+--- Return seconds when placement will be ready
+-- @function eva.ads.get_time_to_ready
+-- @tparam string ad_id The Ad placement id
+-- @tparam number The amount in seconds
+function M.get_time_to_ready(ad_id)
+	-- TODO:
+	return 59
+end
+
+
 --- Show ad by placement id
 -- @function eva.ads.show
 -- @tparam string ad_id The Ad placement id
-function M.show(ad_id)
+-- @tparam function success_callback The success callback
+-- @tparam function finish_callback The ads finish callback
+function M.show(ad_id, success_callback, finish_callback)
 	if not M.is_ready(ad_id) then
+		logger:info("The ads is not ready, skip show", { ad_id = ad_id })
 		return
 	end
 
 	local ad_config = get_ad_data(ad_id)
 	events.event(const.EVENT.ADS_SHOW, { id = ad_id, type = ad_config.type })
-
 	app._eva_ads_data.last_ad_id = ad_id
 
-	if not unityads then
-		on_ads_finished(app._eva_ads_data.last_ad_id)
+	get_adapter().show(ad_id, ad_config, function(id)
 		on_ads_success(app._eva_ads_data.last_ad_id)
-	else
-		unityads.show(ad_config.type)
-	end
+		if success_callback then
+			success_callback(ad_id)
+		end
+	end, function(id)
+		on_ads_finished(app._eva_ads_data.last_ad_id)
+		if finish_callback then
+			finish_callback(ad_id)
+		end
+	end, function(id)
+		on_ads_error(app._eva_ads_data.last_ad_id)
+	end)
 end
 
 
@@ -215,6 +234,7 @@ function M.on_eva_init()
 	saver.add_save_part(const.EVA.ADS, app[const.EVA.ADS])
 
 	app._eva_ads_data = {
+		adapter = app.settings.ads.adapter or "unity",
 		last_ad_id = nil
 	}
 
@@ -228,7 +248,6 @@ function M.after_eva_init()
 	end
 
 	local settings = app.settings.ads
-	local is_debug = game.is_debug()
 	local ads_id = nil
 
 	if device.is_ios() then
@@ -238,9 +257,7 @@ function M.after_eva_init()
 		ads_id = settings.ads_id_android
 	end
 
-	if unityads and ads_id then
-		unityads.initialize(ads_id, ads_callback, is_debug)
-	end
+	get_adapter().initialize(ads_id, on_ads_loaded)
 end
 
 

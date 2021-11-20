@@ -117,8 +117,19 @@ end
 
 --- Return is token is maximum
 -- @function eva.wallet.is_max
+-- @tparam string token_id Token id
+-- @tparam boolean True, if token at maximum value
 function M.is_max(token_id)
 	return token.is_max(const.WALLET_CONTAINER, token_id)
+end
+
+
+--- Return token maximum value
+-- @function eva.wallet.get_max
+-- @tparam string token_id Token id
+-- @treturn number|nil The token maximum value if exists
+function M.get_max(token_id)
+	return token.get_max(const.WALLET_CONTAINER, token_id)
 end
 
 

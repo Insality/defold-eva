@@ -45,6 +45,7 @@ local function add_to_next_queue(window_id, window_data)
 		return
 	end
 
+	logger:debug("Add window to next queue", { window_id = window_id })
 	table.insert(data.next_queue, {
 		window_id = window_id,
 		data = window_data
@@ -77,6 +78,7 @@ local function handle_callbacks(data)
 end
 
 
+--- Return passed data to scene/window
 -- @function eva.window.get_data
 function M.get_data(window_id)
 	return monarch.data(window_id) or {}
@@ -128,14 +130,16 @@ function M.show(window_id, window_data, in_queue)
 		add_to_next_queue(window_id, window_data)
 
 		if not in_queue then
-			-- Close by hard all and open new window
+			logger:debug("Close all to open new window", { window_id = window_id })
 			M.close_all()
 		end
+
 		return true
 	end
 
 	-- Handle return context
 	if window_data.is_return then
+		logger:debug("Set prev context", data.last_data)
 		data.prev_context = data.last_data
 		window_data.is_return = nil
 	end
@@ -174,6 +178,7 @@ end
 
 --- Check is window is opened now
 -- @function eva.window.is_open
+-- @tparam string window_id The window id
 function M.is_open(window_id)
 	if window_id then
 		return window_id == get_current()
@@ -185,9 +190,11 @@ end
 
 --- Close window by id or last window
 -- @function eva.window.close
+-- @tparam string window_id The window id
 function M.close(window_id)
 	window_id = window_id or get_current()
 
+	logger:debug("Call close window", { window_id = window_id })
 	for _, queue_data in ipairs(app.window.queue) do
 		if queue_data.window_id == window_id then
 			msg.post(queue_data.window_url, const.INPUT.CLOSE)
@@ -197,20 +204,51 @@ function M.close(window_id)
 end
 
 
+
+--- Send message to the last open window
+-- @function eva.window.msg_post
+-- @tparam hash message_id
+-- @tparam table message
+function M.msg_post(message_id, message)
+	monarch.post(get_current(), message_id, message)
+end
+
+
 --- Close all windows
 -- @function eva.window.close_all
 function M.close_all()
+	app.window.closing_all = true
 	M.close()
 end
 
 
 function M.on_close_window(prev_window_id)
-	events.event(const.EVENT.WINDOW_CLOSE, { window_id = prev_window_id })
 	local data = app.window
 
-	if #data.next_queue > 0 and #data.queue == 0 then
-		local next_window = table.remove(data.next_queue, 1)
-		M.show(next_window.window_id, next_window.data)
+	-- Remove this from queue
+	for i = #data.queue, 1, -1 do
+		if data.queue[i].window_id == prev_window_id then
+			table.remove(data.queue, i)
+		end
+	end
+
+	events.event(const.EVENT.WINDOW_CLOSE, { window_id = prev_window_id, queue = #data.queue })
+
+	if #data.queue == 0 then
+		app.window.closing_all = nil
+
+		if data.prev_context then
+			local context = data.prev_context
+			data.prev_context = nil
+			M.show(context.window_id, context.window_data)
+		elseif #data.next_queue > 0 then
+			local next_window = table.remove(data.next_queue, 1)
+			M.show(next_window.window_id, next_window.data)
+		end
+	end
+
+	if app.window.closing_all and #data.queue > 0 then
+		M.close_all()
 	end
 end
 
@@ -218,7 +256,9 @@ end
 --- Appear functions for all windows
 -- Need to call inside window
 -- @function eva.window.appear
-function M.appear(window_id, cb)
+-- @tparam string window_id The window id
+-- @tparam func callback Callback after window open
+function M.appear(window_id, callback)
 	local settings = get_settings(window_id)
 	gui.set_render_order(settings.render_order)
 
@@ -228,8 +268,8 @@ function M.appear(window_id, cb)
 	})
 
 	settings.appear_func(settings, function()
-		if cb then
-			cb()
+		if callback then
+			callback()
 		end
 	end)
 end
@@ -238,25 +278,31 @@ end
 --- Disappear functions for all windows
 -- Need to call inside window
 -- @function eva.window.disappear
-function M.disappear(window_id, cb)
+-- @tparam string window_id The window id
+-- @tparam func callback Callback after window close
+function M.disappear(window_id, callback)
 	local settings = get_settings(window_id)
 	msg.post(".", "release_input_focus")
 
 	settings.disappear_func(settings, function()
 		monarch.back(nil, function()
 			-- TODO: If it was popup on popup??
-			table.remove(app.window.queue)
-
-			if cb then
-				cb()
-			end
-
 			M.on_close_window(window_id)
+
+			if callback then
+				callback()
+			end
 		end)
 	end)
 end
 
 
+--- On message function to manage windows
+-- @function eva.window.on_message
+-- @tparam string window_id
+-- @tparam hash message_id
+-- @tparam table message
+-- @tparam url sender
 function M.on_message(window_id, message_id, message, sender)
 	if message_id == const.INPUT.CLOSE then
 		M.disappear(window_id)
@@ -279,6 +325,7 @@ function M.before_eva_init()
 		close_all_callback = nil,
 		prev_context = nil,
 		last_data = nil,
+		closing_all = nil
 	}
 end
 

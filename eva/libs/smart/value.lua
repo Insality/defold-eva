@@ -69,6 +69,11 @@ function M.is_max(self)
 end
 
 
+function M.get_max(self)
+	return self.params.max
+end
+
+
 function M.is_any(self)
 	return self:get() > 0
 end

@@ -3,6 +3,7 @@ import "evadata.proto";
 
 package eva;
 
+
 message StorageValue {
 	oneof value {
 		string s_value = 1;

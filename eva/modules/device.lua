@@ -123,6 +123,14 @@ function M.is_mobile()
 end
 
 
+--- Check if device is desktop (Windows/MacOS)
+-- @function eva.device.is_desktop
+function M.is_desktop()
+	local system_name = sys.get_sys_info().system_name
+	return system_name == const.OS.MAC or system_name == const.OS.WINDOWS
+end
+
+
 --- Check if device is HTML5
 -- @function eva.device.is_web
 function M.is_web()

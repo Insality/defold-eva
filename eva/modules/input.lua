@@ -139,7 +139,7 @@ function M.on_input(action_id, action)
 		end
 	end
 
-	if state.is_drag then
+	if state.is_drag and state.input_type ~= const.INPUT_TYPE.DRAG_START then
 		state.input_type = const.INPUT_TYPE.DRAG
 	end
 	if state.is_pinch then

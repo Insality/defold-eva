@@ -90,6 +90,20 @@ function M.set_sound_gain(value)
 end
 
 
+--- Get music gain
+-- @function eva.sound.get_music_gain
+function M.get_music_gain()
+	return app[const.EVA.SOUND].music_gain
+end
+
+
+--- Get sound gain
+-- @function eva.sound.get_sound_gain
+function M.get_sound_gain()
+	return app[const.EVA.SOUND].sound_gain
+end
+
+
 --- Check music gain
 -- @function eva.sound.is_music_enabled
 function M.is_music_enabled(value)

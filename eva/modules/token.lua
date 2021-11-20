@@ -74,7 +74,7 @@ local function on_change_token(token, delta, reason, container_id)
 end
 
 
-local function get_config_for_token(container_id, token_id)
+local function get_config_for_token(token_id)
 	local config = get_token_config()[token_id] or {}
 	config.name = token_id
 
@@ -83,15 +83,16 @@ end
 
 
 local function create_token_in_save(container_id, token_id, token_data)
+	local config = get_config_for_token(token_id)
+
 	if not token_data then
 		local container_data = get_data_containers()[container_id]
 		token_data = proto.get(const.EVA.TOKEN)
 		container_data.tokens[token_id] = token_data
+		token_data.amount = config.default or 0
 	end
 
-	local config = get_config_for_token(container_id, token_id)
 	local smart_token = smart.new(config, token_data)
-
 	if app.settings.tokens.memory_protect then
 		smart_token:random_offset()
 	else
@@ -427,13 +428,27 @@ end
 
 --- Return is token is maximum
 -- @function eva.token.is_max
+-- @tparam string container_id Container id
+-- @tparam string token_id Token id
 function M.is_max(container_id, token_id)
 	return get_token(container_id, token_id):is_max()
 end
 
 
+--- Return token maximum value
+-- @function eva.token.get_max
+-- @tparam string container_id Container id
+-- @tparam string token_id Token id
+-- @treturn number|nil The token maximum value if exists
+function M.get_max(container_id, token_id)
+	return get_token(container_id, token_id):get_max()
+end
+
+
 --- Return is tokens equals to 0
 -- @function eva.token.is_empty
+-- @tparam string container_id Container id
+-- @tparam string token_id Token id
 function M.is_empty(container_id, token_id)
 	return get_token(container_id, token_id):is_empty()
 end
@@ -519,10 +534,7 @@ function M.on_eva_init()
 	saver.add_save_part(const.EVA.CONTAINERS, app[const.EVA.CONTAINERS])
 
 	events.subscribe(const.EVENT.GAME_FOCUS, update_tokens_offset)
-end
 
-
-function M.after_eva_init()
 	local containers = app.smart_containers
 	local data_containers = get_data_containers()
 	for container_id, data_container in pairs(data_containers) do

@@ -13,7 +13,7 @@ local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
 
 local M = {}
-
+local EMPTY_STRING = ""
 
 local function load_lang(lang)
 	local settings = app.settings.lang
@@ -85,9 +85,16 @@ end
 -- @tparam string lang_id Locale id from your localization
 -- @tparam string ... Params for string.format for lang_id
 -- @treturn string Translated locale
-function M.txp(lang_id, ...)
+function M.txp(lang_id, a, b, c, d, e, f, g)
 	assert(lang_id, "You must provide the lang id")
-	return string.format(M.txt(lang_id), ...)
+	return string.format(M.txt(lang_id),
+		a or EMPTY_STRING,
+		b or EMPTY_STRING,
+		c or EMPTY_STRING,
+		d or EMPTY_STRING,
+		e or EMPTY_STRING,
+		f or EMPTY_STRING,
+		g or EMPTY_STRING)
 end
 
 
