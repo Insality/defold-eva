@@ -1568,8 +1568,6 @@ function eva__window.show_scene() end
 ---@field VIBRATE eva_const.VIBRATE Vibrate constants for eva.vibrate
 ---@field WALLET_CONTAINER field Default player container
 ---@field WALLET_TYPE field Default wallet container type
----@field require field Hack for require dynamic libraries
-(exlude from defold dependencies tree, need to manual pre-require some libraries)
 local eva_const = {}
 
 
