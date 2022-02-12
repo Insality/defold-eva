@@ -105,8 +105,7 @@
 		}
 	},
 	"log": {
-		"format": "%levelshort[%logger]<%function:%lineno>: %message %context",
-		"level": "DEBUG"
+		"format": "%levelshort[%logger]<%function:%lineno>: %message %context"
 	},
 	"offers": {
 		"is_disabled": false,
