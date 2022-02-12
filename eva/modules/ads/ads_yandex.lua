@@ -1,7 +1,9 @@
 -- Eva yandex ads plugin adapter
 -- @local
 
-local yagames = require("yagames.yagames")
+-- EVA_SETUP uncomment this if yagames is used
+local yagames = {} --require("yagames.yagames")
+
 local game = require("eva.modules.game")
 local device = require("eva.modules.device")
 local sound = require("eva.modules.sound")

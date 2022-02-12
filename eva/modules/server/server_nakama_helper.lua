@@ -6,10 +6,11 @@ local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 
-local defold = require("nakama.engine.defold")
-local nakama = require("nakama.nakama")
-local nakama_session = require("nakama.session")
-local nakama_log = require("nakama.util.log")
+-- EVA_SETUP uncomment this if nakama is used
+local defold = {} --require("nakama.engine.defold")
+local nakama = {} --require("nakama.nakama")
+local nakama_session = {} --require("nakama.session")
+local nakama_log = {} --require("nakama.util.log")
 
 local device = require("eva.modules.device")
 
