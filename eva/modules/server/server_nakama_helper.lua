@@ -5,10 +5,18 @@ local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
+
+-- EVA_SETUP
+-- Uncomment this if nakama server is enabled and comment the module stubs
+--[[
 local defold = require("nakama.engine.defold")
 local nakama = require("nakama.nakama")
 local nakama_session = require("nakama.session")
 local nakama_log = require("nakama.util.log")
+--]]
+--[
+local defold, nakama, nakama_session, nakama_log = {}, {}, {}, {}
+--]]
 
 local device = require("eva.modules.device")
 
