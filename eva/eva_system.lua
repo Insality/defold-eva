@@ -126,8 +126,6 @@ function M.init(settings_path, module_settings, modules)
 	call_each_module("after_eva_init")
 
 	logger:debug("Eva init completed", { settings = settings_path, version = app.settings.eva.version })
-
-	M.log = log.get_logger("eva")
 end
 
 

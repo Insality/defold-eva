@@ -19,11 +19,9 @@ local logger = log.get_logger("eva.ads")
 
 local M = {}
 
--- EVA_SETUP
--- Uncomment adapters you wanna use
 M.ADAPTERS = {
-	["unity"] = require("eva.modules.ads.ads_unity"),
-	-- ["yandex"] = require("eva.modules.ads.ads_yandex")
+	["unity"] = const.require("eva.modules.ads.ads_unity"),
+	["yandex"] = const.require("eva.modules.ads.ads_yandex")
 }
 
 

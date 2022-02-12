@@ -13,10 +13,7 @@ local game = require("eva.modules.game")
 local proto = require("eva.modules.proto")
 local saver = require("eva.modules.saver")
 
--- EVA_SETUP
--- Uncomment this if nakama server is enabled
--- local server_nakama_helper = require("eva.modules.server.server_nakama_helper")
-local server_nakama_helper = {}
+local server_nakama_helper = require("eva.modules.server.server_nakama_helper")
 
 local logger = log.get_logger("eva.server")
 

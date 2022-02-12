@@ -5,6 +5,8 @@
 --
 -- Access for module is eva[module_name]
 -- @module eva
+
+local log = require("eva.log")
 local eva_system = require("eva.eva_system")
 
 local modules = {
@@ -62,7 +64,11 @@ local modules = {
 }
 
 -- DYNAMIC LIBRARIES SECTION
+-- Uncomment if unity ads adapter is used
+-- require("eva.modules.ads.ads_unity")
+
 -- Uncomment if yandex ads adapter is used
+-- require("eva.modules.ads.ads_yandex")
 -- require("yagames.yagames")
 
 -- Uncomment is nakama server is used
@@ -83,6 +89,7 @@ function Eva.init(settings_path, module_settings)
 	for name, module in pairs(modules) do
 		Eva[name] = module
 	end
+	Eva.log = log.get_logger("eva")
 
 	-- Init eva
 	eva_system.init(settings_path, module_settings, modules)
