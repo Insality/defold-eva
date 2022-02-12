@@ -20,17 +20,32 @@ M.go.PROP_POS_Y = "position.y"
 M.go.PROP_SCALE = "scale"
 M.go.PROP_SCALE_X = "scale.x"
 M.go.PROP_SCALE_Y = "scale.y"
-M.go.PROP_ALPHA = "color.w"
+M.go.PROP_ALPHA = "tint.w"
+M.go.PROP_EULER = "euler"
+M.go.PROP_EULER_X = "euler.x"
+M.go.PROP_EULER_Y = "euler.y"
+M.go.PROP_EULER_Z = "euler.z"
 M.gui.PROP_POS = "position"
 M.gui.PROP_POS_X = "position.x"
 M.gui.PROP_POS_Y = "position.y"
 M.gui.PROP_ALPHA = "color.w"
+M.gui.PROP_COLOR = "color"
+M.gui.PROP_SCALE = "scale"
 M.gui.PROP_SCALE_X = "scale.x"
 M.gui.PROP_SCALE_Y = "scale.y"
+M.gui.PROP_ROT = "rotation"
+M.gui.PROP_ROT_X = "rotation.x"
+M.gui.PROP_ROT_Y = "rotation.y"
+M.gui.PROP_ROT_Z = "rotation.z"
+M.gui.PROP_SIZE = "size"
+M.gui.PROP_SIZE_X = "size.x"
+M.gui.PROP_SIZE_Y = "size.y"
+M.gui.PROP_SIZE_Z = "size.z"
 M.vmath.VECTOR_ZERO = vmath.vector3(0)
 M.vmath.VECTOR_ONE = vmath.vector3(1)
 M.table.empty = {}
 M.string.empty = ""
+M.vmath.temp_vector = vmath.vector3(0)
 M.func.empty = function() end
 
 
@@ -168,6 +183,13 @@ end
 -- @function luax.math.vec2rad
 function M.math.vec2rad(x, y)
 	return math.atan2(y, x)
+end
+
+
+--- math.randm_sign
+-- @function luax.math.random_sign
+function M.math.random_sign()
+	return math.random() >= 0.5 and 1 or -1
 end
 
 
@@ -498,6 +520,32 @@ function M.gui.set_alpha(node, alpha)
 	local color = gui.get_color(node)
 	color.w = alpha
 	gui.set_color(node, color)
+end
+
+--- gui.set_x
+-- @function luax.gui.set_x
+function M.gui.set_x(node, pos_x)
+	local position = gui.get_position(node)
+	position.x = pos_x
+	gui.set_position(node, position)
+end
+
+
+--- gui.set_y
+-- @function luax.gui.set_y
+function M.gui.set_y(node, pos_y)
+	local position = gui.get_position(node)
+	position.y = pos_y
+	gui.set_position(node, position)
+end
+
+
+--- gui.set_z
+-- @function luax.gui.set_z
+function M.gui.set_z(node, pos_z)
+	local position = gui.get_position(node)
+	position.z = pos_z
+	gui.set_position(node, position)
 end
 
 
