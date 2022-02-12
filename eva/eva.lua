@@ -65,7 +65,7 @@ local modules = {
 
 -- DYNAMIC LIBRARIES SECTION
 -- Uncomment if unity ads adapter is used
-require("eva.modules.ads.ads_unity")
+-- require("eva.modules.ads.ads_unity")
 
 -- Uncomment if yandex ads adapter is used
 -- require("eva.modules.ads.ads_yandex")
