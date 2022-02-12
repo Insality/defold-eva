@@ -111,6 +111,8 @@ end
 
 
 function M.before_eva_init()
+	server_nakama_helper.init_dependencies()
+
 	local settings = app.settings.server
 	app.server_data = {
 		nakama_config = server_nakama_helper.create_nakama_client(settings.server_host, settings.server_port, settings.use_ssl),

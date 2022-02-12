@@ -239,13 +239,16 @@ function M.refresh_session()
 end
 
 
-function M.before_eva_init(client, socket)
+function M.init_dependencies()
 	-- Override dynamic dependencies
 	defold = const.require("nakama.engine.defold")
 	nakama = const.require("nakama.nakama")
 	nakama_session = const.require("nakama.session")
 	nakama_log = const.require("nakama.util.log")
-	
+end
+
+
+function M.before_eva_init(client, socket)
 	bind_callbacks(client, socket)
 
 	app.server_data.is_connected = false
