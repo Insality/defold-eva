@@ -20,8 +20,8 @@ local logger = log.get_logger("eva.ads")
 local M = {}
 
 M.ADAPTERS = {
-	["unity"] = const.require("eva.modules.ads.ads_unity"),
-	["yandex"] = const.require("eva.modules.ads.ads_yandex")
+	["unity"] = "eva.modules.ads.ads_unity",
+	["yandex"] = "eva.modules.ads.ads_yandex"
 }
 
 
@@ -32,7 +32,7 @@ end
 
 
 local function get_adapter()
-	return M.ADAPTERS[app._eva_ads_data.adapter]
+	return const.require(M.ADAPTERS[app._eva_ads_data.adapter])
 end
 
 
