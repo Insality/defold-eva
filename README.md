@@ -90,7 +90,6 @@ _not implemented_
 | [isogrid](https://insality.github.io/defold-eva/modules/eva.html#modules_isogrid_Functions) | API to work with isometric matrix field | ✅ |
 | [labels](https://insality.github.io/defold-eva/modules/eva.html#modules_labels_Functions) | Add labels to player for easier clusterization | ✅ |
 | [lang](https://insality.github.io/defold-eva/modules/eva.html#modules_lang_Functions) | Eva localization module | ✅ |
-| [loader](https://insality.github.io/defold-eva/modules/eva.html#modules_loader_Functions) | Carry on game load flow | ❌ |
 | [migrations](https://insality.github.io/defold-eva/modules/eva.html#modules_migrations_Functions) | Provides migrations on player's profile between game versions | ✅ |
 | [offers](https://insality.github.io/defold-eva/modules/eva.html#modules_offers_Functions) | Provides game offers system | ✅ |
 | [pathfinder](https://insality.github.io/defold-eva/modules/eva.html#modules_pathfinder_Functions) | Pathfinding on any type of field (grid, isogrid, hexgrid) | ✅ |
@@ -124,10 +123,10 @@ _not implemented_
 ## Learn Eva
 
 - Eva setup
-- Exporter usage
-- Tiled exporter usage
+- Core concepts / Glossary
+- Exporter usage - `eva.db` module
+- Tiled exporter usage - `eva.tiled` module
 - Writing protobuf for user profile
-- Render setup
 - Window setup
 - Quests setup
 
