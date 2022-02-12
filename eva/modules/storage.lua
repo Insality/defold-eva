@@ -2,7 +2,6 @@
 -- Using for simple key-value local storage
 -- @submodule eva
 
-
 local app = require("eva.app")
 local luax = require("eva.luax")
 local const = require("eva.const")

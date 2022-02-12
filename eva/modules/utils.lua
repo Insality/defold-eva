@@ -5,6 +5,8 @@
 
 local const = require("eva.const")
 
+local events = require("eva.modules.events")
+
 local M = {}
 
 
@@ -87,6 +89,51 @@ function M.get_days_in_month(month, year)
 	else
 		return const.DAYS_IN_MONTH[month]
 	end
+end
+
+
+--- Load image to GUI node
+-- @function eva.utils.load_image
+local __image_cache = {}
+function M.load_image(node, image_path, image_id)
+	local place_url = msg.url()
+	local place_id = place_url.socket .. place_url.path
+
+	__image_cache[place_id] = __image_cache[place_id] or {}
+
+	image_id = image_id or image_path
+	if __image_cache[place_id][image_id] then
+		gui.set_texture(node, image_id)
+		return true, "Set from cache texture"
+	end
+
+	local resource_data, is_error = sys.load_resource(image_path)
+	if is_error then
+		return nil, is_error
+	end
+
+	local img = image.load(resource_data)
+	if not img then
+		return nil, "Unable to load image"
+	end
+
+	if gui.new_texture(image_id, img.width, img.height, img.type, img.buffer) then
+		__image_cache[place_id][image_id] = image_id
+		gui.set_texture(node, image_id)
+		return true, "Set new texture"
+	else
+		return nil, "Unable to create texture"
+	end
+end
+
+
+local function clear_texture_cache()
+	__image_cache = {}
+end
+
+
+function M.on_eva_init()
+	events.subscribe(const.EVENT.SCENE_SHOW, clear_texture_cache)
 end
 
 
