@@ -7,10 +7,11 @@ local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 
-local defold = const.require("nakama.engine.defold")
-local nakama = const.require("nakama.nakama")
-local nakama_session = const.require("nakama.session")
-local nakama_log = const.require("nakama.util.log")
+--- This dependencies will be overriden if server is enabled
+local defold = nil
+local nakama = nil
+local nakama_session = nil
+local nakama_log = nil
 
 local device = require("eva.modules.device")
 
@@ -239,6 +240,12 @@ end
 
 
 function M.before_eva_init(client, socket)
+	-- Override dynamic dependencies
+	defold = const.require("nakama.engine.defold")
+	nakama = const.require("nakama.nakama")
+	nakama_session = const.require("nakama.session")
+	nakama_log = const.require("nakama.util.log")
+	
 	bind_callbacks(client, socket)
 
 	app.server_data.is_connected = false
