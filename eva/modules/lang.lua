@@ -80,6 +80,20 @@ function M.txt(lang_id)
 end
 
 
+--- Get random translation for locale id, split by \n symbol
+-- @function eva.lang.txr
+-- @tparam string lang_id locale id from your localization
+-- @treturn string translated locale
+function M.txr(lang_id)
+	assert(lang_id, "You must provide the lang id")
+	if not app.lang_dict[lang_id] then
+		return lang_id
+	end
+	local texts = luax.string.split(app.lang_dict[lang_id], "\n")
+	return texts[math.random(1, #texts)]
+end
+
+
 --- Get translation for locale id with params
 -- @function eva.lang.txp
 -- @tparam string lang_id Locale id from your localization
