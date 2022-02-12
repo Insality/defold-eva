@@ -1,7 +1,9 @@
 [project]
 title = defold-eva
-version = 1.0.0
+version = 1.2.0
 custom_resources = /eva/resources,/resources
+publisher = Insality Games
+developer = Insality
 dependencies#0 = https://github.com/insalitygames/monarch/archive/3.1.0.zip
 dependencies#1 = https://github.com/insalitygames/rendercam/archive/master.zip
 dependencies#2 = https://github.com/insalitygames/defold-protobuf/archive/master.zip
