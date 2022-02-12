@@ -24,7 +24,7 @@
 	},
 	"saver": {
 		"save_name": "eva_test.json",
-		"autosave": 3,
+		"autosave": 0,
 		"print_save_at_start": false
 	},
 	"gdpr": {
@@ -172,6 +172,9 @@
 	"rate": {
 		"is_disabled": false,
 		"max_promt_count": 4
+	},
+	"festivals": {
+		"is_disabled": false
 	},
 	"proto": {
 		"default_nest_messages": true,
