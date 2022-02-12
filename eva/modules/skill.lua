@@ -33,7 +33,7 @@ local function get_container(container_id)
 end
 
 
---- @treturn eva.Skill
+-- @treturn eva.Skill
 local function get_skill_data(container_id, skill_id)
 	local container = get_container(container_id).skill_data
 
@@ -272,5 +272,6 @@ function M.on_eva_update(dt, current_time)
 		end
 	end
 end
+
 
 return M
