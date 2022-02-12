@@ -4,6 +4,10 @@
 
 local M = {}
 
+--- Hack for require dynamic libraries
+---(exlude from defold dependencies tree, need to manual pre-require some libraries)
+M.require = require
+
 --- Need to check basic config and protofiles
 M.EVA_VERSION = 1
 

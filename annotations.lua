@@ -1,6 +1,14 @@
 -- luacheck: ignore
 
 
+---@class app
+local app = {}
+
+--- Clear the app state or the app value
+---@param value unknown
+function app.clear(value) end
+
+
 ---@class eva
 ---@field ads eva.ads Submodule
 ---@field callbacks eva.callbacks Submodule
@@ -32,6 +40,7 @@
 ---@field render eva.render Submodule
 ---@field saver eva.saver Submodule
 ---@field server eva.server Submodule
+---@field share eva.share Submodule
 ---@field skill eva.skill Submodule
 ---@field sound eva.sound Submodule
 ---@field storage eva.storage Submodule
@@ -45,13 +54,15 @@
 ---@field window eva.window Submodule
 local eva = {}
 
+--- Return logger from eva.log module
+---@param logger_name string[opt=default] The logger name
+---@return logger The logger instance
+function eva.get_logger(logger_name) end
+
 --- Call this to init Eva module
 ---@param settings_path string path to eva_settings.json
 ---@param module_settings table Settings to modules. See description on eva.lua
 function eva.init(settings_path, module_settings) end
-
---- Call this on main game on_input
-function eva.on_input() end
 
 --- Call this on main update loop
 ---@param dt number delta time
@@ -61,15 +72,29 @@ function eva.update(dt) end
 ---@class eva.ads
 local eva__ads = {}
 
+--- Return current ads adapter name
+---@return string The adapter name
+function eva__ads.get_adapter_name() end
+
+--- Return seconds when placement will be ready
+---@param ad_id string The Ad placement id
+---@param The number amount in seconds
+---@return number The seconds amount until ads available
+function eva__ads.get_time_to_ready(ad_id, The) end
+
 --- Get total ads watched
 ---@param Total number watched ads count
 function eva__ads.get_watched(Total) end
+
+--- Check is ads are blocked with network or tokens for player
+---@param ad_id string The Ad placement id
+function eva__ads.is_blocked(ad_id) end
 
 --- Check ads is enabled
 ---@return bool is ads enabled
 function eva__ads.is_enabled() end
 
---- Check is ads are available now
+--- Check is ads are ready to show now
 ---@param ad_id string The Ad placement id
 function eva__ads.is_ready(ad_id) end
 
@@ -79,7 +104,9 @@ function eva__ads.set_enabled(state) end
 
 --- Show ad by placement id
 ---@param ad_id string The Ad placement id
-function eva__ads.show(ad_id) end
+---@param success_callback function The success callback
+---@param finish_callback function The ads finish callback
+function eva__ads.show(ad_id, success_callback, finish_callback) end
 
 
 ---@class eva.callbacks
@@ -195,6 +222,9 @@ function eva__device.get_uuid(except) end
 --- Check if device on android
 function eva__device.is_android() end
 
+--- Check if device is desktop (Windows/MacOS)
+function eva__device.is_desktop() end
+
 --- Check if device on iOS
 function eva__device.is_ios() end
 
@@ -203,6 +233,9 @@ function eva__device.is_mobile() end
 
 --- Check if device is HTML5
 function eva__device.is_web() end
+
+--- Check if device is HTML5 mobile
+function eva__device.is_web_mobile() end
 
 
 ---@class eva.events
@@ -225,7 +258,8 @@ function eva__events.screen(screen_id) end
 --- Subscribe the callback on event
 ---@param event_name string Event name
 ---@param callback function Event callback
-function eva__events.subscribe(event_name, callback) end
+---@param callback_context table The first param for callback on fire
+function eva__events.subscribe(event_name, callback, callback_context) end
 
 --- Subscribe the pack of events by map
 ---@param map table {Event = Callback} map
@@ -291,6 +325,10 @@ local eva__game = {}
 ---@param code int The exit code
 function eva__game.exit(code) end
 
+--- Get current date in format: YYYYMMDD
+---@return number Current day in format YYYYMMDD
+function eva__game.get_current_date_code() end
+
 --- Get current time in string format
 ---@return string Time format in iso e.g. "2019-09-25T01:48:19Z"
 function eva__game.get_current_time_string() end
@@ -298,6 +336,10 @@ function eva__game.get_current_time_string() end
 --- Get days since first game launch
 ---@return number Days since first game launch
 function eva__game.get_days_played() end
+
+--- Get time in seconds until next day from current time
+---@return number Seconds until next day
+function eva__game.get_seconds_until_new_day() end
 
 --- Return unique id for local session
 ---@return number Unique id in this game session
@@ -391,6 +433,13 @@ function eva__hexgrid.cell_cube_to_pos(i, j, k, map_params) end
 ---@param map_params map_params Params from eva.hexgrid.get_map_params
 function eva__hexgrid.cell_to_pos(i, j, map_params) end
 
+--- Transfrom cube coordinates to offset coordinates
+---@param i number I coordinate
+---@param j number J coordinate
+---@param k number K coordinate
+---@param map_params map_params Params from eva.hexgrid.get_map_params
+function eva__hexgrid.cube_to_offset(i, j, k, map_params) end
+
 --- Get map params data to work with it  You can pass directly params in every method or set is as default  with eva.hexgrid.set_default_map_params  Pass the map sizes to calculate correct coordinates
 ---@param tilewidth number Hexagon width
 ---@param tileheight number Hexagon height
@@ -418,13 +467,6 @@ function eva__hexgrid.get_tiled_scene_pos() end
 ---@param z_layer number Object Z layer index
 ---@return map_params Map params data
 function eva__hexgrid.get_z(y, z_layer) end
-
---- Transfrom cube coordinates to offset coordinates
----@param i number I coordinate
----@param j number J coordinate
----@param k number K coordinate
----@param map_params map_params Params from eva.hexgrid.get_map_params
-function eva__hexgrid.offset_to_cube(i, j, k, map_params) end
 
 --- Transfrom offset coordinates to cube coordinates
 ---@param i number I coordinate
@@ -619,6 +661,11 @@ function eva__lang.time_format() end
 ---@param ... string Params for string.format for lang_id
 ---@return string Translated locale
 function eva__lang.txp(lang_id, ...) end
+
+--- Get random translation for locale id, split by \n symbol
+---@param lang_id string locale id from your localization
+---@return string translated locale
+function eva__lang.txr(lang_id) end
 
 --- Get translation for locale id
 ---@param lang_id string locale id from your localization
@@ -834,7 +881,7 @@ function eva__quests.update_quests() end
 ---@class eva.rate
 local eva__rate = {}
 
---- Open store or native rating on iOS
+--- Open store or native rating if available
 function eva__rate.open_rate() end
 
 --- Try to promt rate game to the player
@@ -880,6 +927,14 @@ function eva__saver.add_save_part() end
 ---@param filename string The save filename. Can be default by settings
 function eva__saver.delete(filename) end
 
+--- Return save table
+---@return table
+function eva__saver.get_save_data() end
+
+--- Return current save version.
+---@return number
+function eva__saver.get_save_version() end
+
 --- Load the file from save directory
 function eva__saver.load() end
 
@@ -890,19 +945,41 @@ function eva__saver.reset() end
 function eva__saver.save() end
 
 --- Save the data in save directory
-function eva__saver.save_data() end
+---@param data table The save data table
+---@param filename string The save filename
+function eva__saver.save_data(data, filename) end
+
+--- Set autosave timer for game.
+---@param seconds number The time in seconds
+function eva__saver.set_autosave_timer(seconds) end
 
 
 ---@class eva.server
 local eva__server = {}
 
---- Login at playfab server
+--- Login at nakama server
 ---@param callback function Callback after login
-function eva__server.login(callback) end
+function eva__server.connect(callback) end
 
---- Send save to the server
----@param json_data string JSON data
-function eva__server.send_save(json_data) end
+--- Return nakama client
+---@return table
+function eva__server.get_client() end
+
+--- Return nakama socket
+---@return table
+function eva__server.get_socket() end
+
+--- Return is currently server connected
+---@return boolean If server connected
+function eva__server.is_connected() end
+
+
+---@class eva.share
+local eva__share = {}
+
+--- Share screenshot of the game
+---@param text string The optional text to share with screenshot
+function eva__share.screen(text) end
 
 
 ---@class eva.skill
@@ -963,8 +1040,24 @@ function eva__skill.use() end
 ---@class eva.sound
 local eva__sound = {}
 
+--- Fade sound from one gain to another
+---@param sound_id string
+---@param to number
+---@param time number
+---@param callback function
+function eva__sound.fade(sound_id, to, time, callback) end
+
 --- Slowly fade music to another one or empty
-function eva__sound.fade_music() end
+---@param to number
+---@param time number
+---@param callback function
+function eva__sound.fade_music(to, time, callback) end
+
+--- Get music gain
+function eva__sound.get_music_gain() end
+
+--- Get sound gain
+function eva__sound.get_sound_gain() end
 
 --- Check music gain
 function eva__sound.is_music_enabled() end
@@ -973,16 +1066,32 @@ function eva__sound.is_music_enabled() end
 function eva__sound.is_sound_enabled() end
 
 --- Play the sound in the game
-function eva__sound.play() end
+---@param sound_id string
+---@param gain number
+---@param speed number
+function eva__sound.play(sound_id, gain, speed) end
 
 --- Start playing music
-function eva__sound.play_music() end
+---@param music_id string
+---@param gain number
+---@param callback function
+function eva__sound.play_music(music_id, gain, callback) end
+
+--- Play the random sound from sound names array
+---@param sound_ids string[]
+---@param gain number
+---@param speed number
+function eva__sound.play_random(sound_ids, gain, speed) end
 
 --- Set music gain
 function eva__sound.set_music_gain() end
 
 --- Set sound gain
 function eva__sound.set_sound_gain() end
+
+--- Stop sound playing
+---@param sound_id string
+function eva__sound.stop(sound_id) end
 
 --- Stop all sounds in the game
 function eva__sound.stop_all() end
@@ -1144,6 +1253,12 @@ function eva__token.get_lot_reward(lot_id) end
 ---@return evadata.Tokens Tokens from container
 function eva__token.get_many(container_id) end
 
+--- Return token maximum value
+---@param container_id string Container id
+---@param token_id string Token id
+---@return number|nil The token maximum value if exists
+function eva__token.get_max(container_id, token_id) end
+
 --- Get current time to next restore point
 function eva__token.get_seconds_to_restore() end
 
@@ -1160,7 +1275,9 @@ function eva__token.get_tokens(tokens) end
 function eva__token.get_visual() end
 
 --- Return is tokens equals to 0
-function eva__token.is_empty() end
+---@param container_id string Container id
+---@param token_id string Token id
+function eva__token.is_empty(container_id, token_id) end
 
 --- Check is enough to pay token
 function eva__token.is_enough() end
@@ -1182,7 +1299,9 @@ function eva__token.is_exist_container(container_id) end
 function eva__token.is_infinity() end
 
 --- Return is token is maximum
-function eva__token.is_max() end
+---@param container_id string Container id
+---@param token_id string Token id
+function eva__token.is_max(container_id, token_id) end
 
 --- Try to pay tokens from save
 ---@param token_id string Token id
@@ -1269,6 +1388,9 @@ function eva__utils.get_days_in_month() end
 --- Convert hex color to rgb color
 function eva__utils.hex2rgb() end
 
+--- Load image to GUI node
+function eva__utils.load_image() end
+
 --- Load json from bundled resource
 function eva__utils.load_json() end
 
@@ -1319,6 +1441,11 @@ function eva__wallet.get() end
 --- Get amount of seconds till end of infinity time
 function eva__wallet.get_infinity_seconds() end
 
+--- Return token maximum value
+---@param token_id string Token id
+---@return number|nil The token maximum value if exists
+function eva__wallet.get_max(token_id) end
+
 --- Get current time to next restore point
 function eva__wallet.get_seconds_to_restore() end
 
@@ -1343,7 +1470,9 @@ function eva__wallet.is_enough_many(tokens) end
 function eva__wallet.is_infinity() end
 
 --- Return is token is maximum
-function eva__wallet.is_max() end
+---@param token_id string Token id
+---@param True boolean , if token at maximum value
+function eva__wallet.is_max(token_id, True) end
 
 --- Try to pay tokens from save
 ---@param token_id string Token id
@@ -1372,19 +1501,40 @@ function eva__wallet.sync_visual() end
 local eva__window = {}
 
 --- Appear functions for all windows  Need to call inside window
-function eva__window.appear() end
+---@param window_id string The window id
+---@param callback func Callback after window open
+function eva__window.appear(window_id, callback) end
 
 --- Close window by id or last window
-function eva__window.close() end
+---@param window_id string The window id
+function eva__window.close(window_id) end
 
 --- Close all windows
 function eva__window.close_all() end
 
 --- Disappear functions for all windows  Need to call inside window
-function eva__window.disappear() end
+---@param window_id string The window id
+---@param callback func Callback after window close
+function eva__window.disappear(window_id, callback) end
+
+--- Return passed data to scene/window
+function eva__window.get_data() end
 
 --- Check is window is opened now
-function eva__window.is_open() end
+---@param window_id string The window id
+function eva__window.is_open(window_id) end
+
+--- Send message to the last open window
+---@param message_id hash
+---@param message table
+function eva__window.msg_post(message_id, message) end
+
+--- On message function to manage windows
+---@param window_id string
+---@param message_id hash
+---@param message table
+---@param sender url
+function eva__window.on_message(window_id, message_id, message, sender) end
 
 --- Preload window via monarch
 ---@param window_id string The window id
@@ -1418,6 +1568,8 @@ function eva__window.show_scene() end
 ---@field VIBRATE eva_const.VIBRATE Vibrate constants for eva.vibrate
 ---@field WALLET_CONTAINER field Default player container
 ---@field WALLET_TYPE field Default wallet container type
+---@field require field Hack for require dynamic libraries
+(exlude from defold dependencies tree, need to manual pre-require some libraries)
 local eva_const = {}
 
 
@@ -1451,6 +1603,7 @@ local eva_const__DAILY = {}
 ---@field QUESTS field
 ---@field RATE field
 ---@field SAVER field
+---@field SERVER field
 ---@field SKILL field
 ---@field SKILLS field
 ---@field SKILL_CONTAINERS field
@@ -1468,6 +1621,7 @@ local eva_const__EVA = {}
 
 
 ---@class eva_const.EVENT
+---@field ADS_ERROR field
 ---@field ADS_READY field
 ---@field ADS_SHOW field
 ---@field ADS_SUCCESS field
@@ -1494,6 +1648,8 @@ local eva_const__EVA = {}
 ---@field LABEL_ADD field
 ---@field LABEL_REMOVE field
 ---@field LANG_UPDATE field
+---@field MUSIC_GAIN_CHANGE field
+---@field NEW_DAY field
 ---@field NEW_SESSION field
 ---@field OFFERS_CLEAR field
 ---@field OFFERS_START field
@@ -1504,6 +1660,7 @@ local eva_const__EVA = {}
 ---@field QUEST_REGISTER field
 ---@field QUEST_START field
 ---@field QUEST_TASK_COMPLETE field
+---@field RATE_OPEN field
 ---@field SCENE_CLOSE field
 ---@field SCENE_SHOW field
 ---@field SERVER_LOGIN field
@@ -1511,6 +1668,7 @@ local eva_const__EVA = {}
 ---@field SKILL_COOLDOWN_START field
 ---@field SKILL_USE field
 ---@field SKILL_USE_END field
+---@field SOUND_GAIN_CHANGE field
 ---@field TIMER_TRIGGER field
 ---@field TOKEN_CHANGE field
 ---@field TRUCK_ARRIVE field
@@ -1541,6 +1699,7 @@ local eva_const__IAP = {}
 ---@field KEY_LALT field
 ---@field KEY_LCTRL field
 ---@field KEY_N field
+---@field KEY_O field
 ---@field KEY_P field
 ---@field KEY_Q field
 ---@field KEY_R field
@@ -1598,6 +1757,81 @@ local eva_const__STORAGE = {}
 local eva_const__VIBRATE = {}
 
 
+---@class event
+local event = {}
+
+--- Clear all event callbacks
+function event.clear() end
+
+--- Check is event is empty
+---@return boolean True if event has no any subscribed callbacks
+function event.is_empty() end
+
+--- Subscribe on the event
+---@param callback function The event callback function
+---@param callback_context any The first argument for callback function
+function event.subscribe(callback, callback_context) end
+
+--- Trigger the even
+---@param args args The args for event trigger
+function event.trigger(args) end
+
+--- Unsubscribe from the event
+---@param callback function The event callback function
+---@param callback_context any The first argument for callback function
+---@return If event was unsubscribed or not
+function event.unsubscribe(callback, callback_context) end
+
+--- Unsubscribe from the event
+---@param callback function The default event callback function
+---@param callback_context any The first argument for callback function
+---@return boolean Is there is event with callback and context
+function event.unsubscribe(callback, callback_context) end
+
+
+---@class log
+local log = {}
+
+--- Return the new logger instance
+---@param name string
+---@return logger
+function log.get_logger(name) end
+
+
+---@class logger
+local logger = {}
+
+--- Call log with DEBUG level
+---@param The self log instance
+---@param msg string The log message
+---@param context table The log context
+function logger.debug(The, msg, context) end
+
+--- Call log with ERROR level
+---@param self userdata The log instance
+---@param msg string The log message
+---@param table context The log context
+function logger.error(self, msg, table) end
+
+--- Call log with FATAL level
+---@param self userdata The log instance
+---@param msg string The log message
+---@param table context The log context
+function logger.fatal(self, msg, table) end
+
+--- Call log with INFO level
+---@param self userdata The log instance
+---@param msg string The log message
+---@param table context The log context
+function logger.info(self, msg, table) end
+
+--- Call log with WARN level
+---@param self userdata The log instance
+---@param msg string The log message
+---@param table context The log context
+function logger.warn(self, msg, table) end
+
+
 ---@class luax
 ---@field debug luax.debug Submodule
 ---@field go luax.go Submodule
@@ -1636,6 +1870,15 @@ function luax__gui.is_chain_enabled() end
 --- gui.set_alpha
 function luax__gui.set_alpha() end
 
+--- gui.set_x
+function luax__gui.set_x() end
+
+--- gui.set_y
+function luax__gui.set_y() end
+
+--- gui.set_z
+function luax__gui.set_z() end
+
 
 ---@class luax.math
 local luax__math = {}
@@ -1667,6 +1910,9 @@ function luax__math.lerp_box() end
 
 --- math.manhattan
 function luax__math.manhattan() end
+
+--- math.randm_sign
+function luax__math.random_sign() end
 
 --- math.round
 function luax__math.round() end
@@ -1793,6 +2039,14 @@ function luax__vmath.vec2quat() end
 function luax__vmath.vec2rad() end
 
 
+---@class profi
+---@field getTime field Local Functions:
+local profi = {}
+
+--- Implementations methods:
+function profi.ProFi:shouldReturn() end
+
+
 
 --======== File: /Users/insality/code/defold/defold-eva/eva/resources/eva.proto ========--
 ---@class eva.Ads
@@ -1829,6 +2083,7 @@ function luax__vmath.vec2rad() end
 ---@field game_start_dates string[]
 ---@field game_uid number
 ---@field last_diff_time number
+---@field last_play_date number
 ---@field last_play_timepoint number
 ---@field last_uptime number
 ---@field played_time number
@@ -1917,6 +2172,9 @@ function luax__vmath.vec2rad() end
 ---@field migration_version number
 ---@field version number
 
+---@class eva.Server
+---@field token string
+
 ---@class eva.Skill
 ---@field end_duration_time number
 ---@field is_active boolean
@@ -1987,6 +2245,7 @@ function luax__vmath.vec2rad() end
 ---@field daily_limit number
 ---@field required_token_group string
 ---@field time_between_shows number
+---@field time_between_shows_all number
 ---@field time_from_game_start number
 ---@field type string
 
@@ -2047,6 +2306,7 @@ function luax__vmath.vec2rad() end
 ---@field required_tokens evadata.Tokens
 ---@field reward evadata.Tokens
 ---@field tasks evadata.Quests.Quest.QuestTasks[]
+---@field use_max_task_value boolean
 
 ---@class evadata.Quests.Quest.QuestTasks
 ---@field action string

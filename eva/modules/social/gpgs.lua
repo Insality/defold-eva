@@ -1,3 +1,6 @@
+--- Gpgs platform module adapter
+-- @module platform.gpgs
+-- @local
 local class = require("eva.libs.middleclass")
 local SocialStub = require("eva.modules.social.stub")
 

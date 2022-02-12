@@ -95,7 +95,6 @@ end
 
 
 function M.before_eva_init()
-	---@type map<string, eva.event>
 	app.event_listeners = {}
 end
 

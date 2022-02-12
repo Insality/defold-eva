@@ -1,8 +1,9 @@
--- Eva yandex ads plugin adapter
+--- Eva yandex ads plugin adapter
+-- @module adapter.yandex
 -- @local
 
--- EVA_SETUP uncomment this if yagames is used
-local yagames = {} --require("yagames.yagames")
+local const = require("eva.const")
+local yagames = const.require("yagames.yagames")
 
 local game = require("eva.modules.game")
 local device = require("eva.modules.device")
@@ -86,6 +87,7 @@ end
 -- @tparam table ad_config
 -- @tparam function success_callback The callback on ads success show
 -- @tparam function error_callback The callback on ads failure show
+-- @local
 function Ads.show(ad_id, ad_config, success_callback, finish_callback, error_callback)
 	if (game.is_debug() and device.is_desktop()) or not yagames then
 		finish_callback(ad_id)
@@ -106,6 +108,7 @@ end
 -- @function adapter.initialize
 -- @tparam string ads_id
 -- @tparam function on_ready_callback
+-- @local
 function Ads.initialize(ads_id, on_ready_callback)
 	Ads._on_ready_callback = on_ready_callback
 	Ads._music_gain = sound.get_music_gain()
@@ -118,6 +121,7 @@ end
 -- @tparam string ads_id
 -- @tparam table ad_config
 -- @treturn boolean
+-- @local
 function Ads.is_ready(ad_id, ad_config)
 	return true
 end

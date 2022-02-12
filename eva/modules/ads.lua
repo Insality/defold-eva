@@ -155,7 +155,7 @@ end
 
 
 --- Check is ads are blocked with network or tokens for player
--- @functions eva.ads.is_blocked
+-- @function eva.ads.is_blocked
 -- @tparam string ad_id The Ad placement id
 function M.is_blocked(ad_id)
 	local ad_config = get_ad_data(ad_id)

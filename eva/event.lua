@@ -77,7 +77,7 @@ end
 -- @function event.unsubscribe
 -- @tparam function callback The default event callback function
 -- @tparam[opt] any callback_context The first argument for callback function
--- @teturn boolean Is there is event with callback and context
+-- @treturn boolean Is there is event with callback and context
 function Event:is_subscribed(callback, callback_context)
     for index = 1, #self._callbacks do
         local cb = self._callbacks[index]

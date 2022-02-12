@@ -1,4 +1,5 @@
--- Eva unity ads plugin
+--- Eva unity ads plugin
+-- @module adapter.unity
 -- @local
 
 local game = require("eva.modules.game")
@@ -44,6 +45,7 @@ end
 -- @function adapter.initialize
 -- @tparam string ads_id
 -- @tparam function on_ready_callback
+-- @local
 function Ads.initialize(ads_id, on_ready_callback)
 	Ads._on_ready_callback = on_ready_callback
 	if unityads and ads_id then
@@ -57,6 +59,7 @@ end
 -- @tparam string ads_id
 -- @tparam table ad_config
 -- @treturn boolean
+-- @local
 function Ads.is_ready(ad_id, ad_config)
 	if not unityads then
 		return game.is_debug()
@@ -72,6 +75,7 @@ end
 -- @tparam table ad_config
 -- @tparam function success_callback The callback on ads success show
 -- @tparam function error_callback The callback on ads failure show
+-- @local
 function Ads.show(ad_id, ad_config, success_callback, finish_callback, error_callback)
 	if not unityads then
 		finish_callback(ad_id)

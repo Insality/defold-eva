@@ -1,3 +1,7 @@
+--- Stub platform module adapter
+-- @module platform.stub
+-- @local
+
 local class = require("eva.libs.middleclass")
 
 local M = class("eva.social.stub")

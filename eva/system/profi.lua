@@ -1,3 +1,6 @@
+--- Profi library
+-- @module profi
+-- @local
 local ProFi = {}
 local onDebugHook, sortByDurationDesc, sortByCallCount, getTime
 local DEFAULT_DEBUG_HOOK_COUNT = 0
@@ -19,16 +22,6 @@ local FORMAT_MEMORY_HEADER1    = "\n=== HIGH & LOW MEMORY USAGE ================
 local FORMAT_MEMORY_HEADER2    = "=== MEMORY USAGE ==========================================\n"
 local FORMAT_BANNER 		   = ""
 
------------------------
--- Public Methods:
------------------------
-
---[[
-	Starts profiling any method that is called between this and ProFi:stop().
-	Pass the parameter 'once' to so that this methodis only run once.
-	Example:
-		ProFi:start( 'once' )
-]]
 function ProFi:start( param )
 	if param == 'once' then
 		if self:shouldReturn() then
@@ -44,9 +37,7 @@ function ProFi:start( param )
 	self.startTime = getTime()
 end
 
---[[
-	Stops profiling.
-]]
+
 function ProFi:stop()
 	if self:shouldReturn() then
 		return
@@ -413,10 +404,6 @@ end
 sortByCallCount = function( a, b )
 	return a.count > b.count
 end
-
------------------------
--- Return Module:
------------------------
 
 ProFi:reset()
 return ProFi

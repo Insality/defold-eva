@@ -164,8 +164,9 @@ end
 
 
 --- Init the logger system from eva
+-- @function log.init
 -- @tparam table setting
--- @tparam striing log_level
+-- @tparam string log_level
 -- @local
 function M.init(settings, log_level)
 	M.settings = settings

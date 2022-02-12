@@ -1,16 +1,16 @@
--- Adapter for nakama server
+--- Adapter for nakama server
 -- @module nakama_helper
 -- @local
+
 local app = require("eva.app")
 local log = require("eva.log")
 local luax = require("eva.luax")
 local const = require("eva.const")
 
--- EVA_SETUP uncomment this if nakama is used
-local defold = {} --require("nakama.engine.defold")
-local nakama = {} --require("nakama.nakama")
-local nakama_session = {} --require("nakama.session")
-local nakama_log = {} --require("nakama.util.log")
+local defold = const.require("nakama.engine.defold")
+local nakama = const.require("nakama.nakama")
+local nakama_session = const.require("nakama.session")
+local nakama_log = const.require("nakama.util.log")
 
 local device = require("eva.modules.device")
 
@@ -156,6 +156,7 @@ end
 -- @treturn number port
 -- @treturn boolean is_ssl
 -- @treturn table The nakama client config
+-- @local
 function M.create_nakama_client(host, port, is_ssl)
 	if app.settings.server.debug_log then
 		nakama_log.custom(function(text, a, b)
@@ -180,6 +181,7 @@ end
 -- @function nakama_helper.create_nakama_socket
 -- @tparam table client The nakama client config
 -- @treturn table The nakama socket config
+-- @local
 function M.create_nakama_socket(client)
 	local socket = nakama.create_socket(client)
 	return socket
@@ -192,6 +194,7 @@ end
 -- @tparam table socket The nakama socket config
 -- @tparam string token The nakama client token
 -- @tparam function callback The callback after the login
+-- @local
 function M.connect(client, socket, token, callback)
 	if app.server_data.is_connected then
 		logger:error("Call server connect while already connected")
@@ -223,6 +226,7 @@ end
 
 --- Check and update if required the nakama session
 -- @function nakama_helper.refresh_session
+-- @local
 function M.refresh_session()
 	local session = app.server_data.nakama_session
 	if not session or is_session_expire_soon(session) then
