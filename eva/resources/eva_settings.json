@@ -1,6 +1,7 @@
 {
 	"ads": {
 		"is_disabled": true,
+		"adapter": "yandex",
 		"ads_id_ios": "999999999",
 		"ads_id_android": "999999999",
 		"config": "Ads"
@@ -91,7 +92,8 @@
 		"multi_touch": true,
 		"long_touch_threshold": 0.65,
 		"drag_deadzone": 10,
-		"zoom_speed": 2.5
+		"zoom_speed": 2.5,
+		"is_gestures_enabled": false
 	},
 	"labels": {
 		"is_disabled": false,
@@ -152,8 +154,18 @@
 		"print_save_at_start": false
 	},
 	"server": {
-		"is_disabled": true,
-		"game_id": "FFFFF"
+		"is_disabled": false,
+		"game_id": "FFFFF",
+		"server_host": "you.server.adress",
+		"server_port": 443,
+		"check_connection_timer": 30,
+		"reconnect_attempts_time": [1, 5, 10, 15, 60],
+		"server_key": "print_your_nakama_server_key_here",
+		"http_key": "put_your_nakama_http_key_here",
+		"encryption_key": "put_your_encryption_key_here",
+		"refresh_encryption_key": "put_your_refresh_encryption_key_here",
+		"debug_log": false,
+		"use_ssl": true
 	},
 	"skill": {
 		"is_disabled": false,
@@ -165,7 +177,7 @@
 	"sound": {
 		"is_disabled": false,
 		"repeat_threshold": 0.05,
-		"sound_path": "main:/sounds#"
+		"sound_path": "loader:/sounds#"
 	},
 	"status": {
 		"is_disabled": false,
@@ -182,6 +194,9 @@
 		"config_lots": "TokenLots",
 		"config_token_groups": "TokenGroups",
 		"config_token_config": "TokenConfig"
+	},
+	"festivals": {
+		"is_disabled": true
 	},
 	"trucks": {
 		"is_disabled": false,
