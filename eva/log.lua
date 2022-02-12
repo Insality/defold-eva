@@ -1,4 +1,14 @@
--- Defold Eva log module
+--- Defold Eva log module
+-- You can require this file and make logger as
+--
+-- local log = require("eva.log")
+-- local logger = log.get_logger(logger_name)
+--
+-- or create logger from eva directly
+--
+-- local eva = require("eva.eva)
+-- local logger = eva.get_logger(logger_name)
+-- @module log
 
 local inspect = require("eva.libs.inspect")
 
@@ -6,6 +16,7 @@ local const = require("eva.const")
 
 local M = {}
 local _loggers = {}
+
 local _log = {}
 
 local INSPECT_PARAMS = { depth = 2, newline = "", indent = "" }
@@ -36,6 +47,7 @@ local LEVEL_NAME_SHORT = {
 
 local UNKNOWN = "unknown"
 
+
 local function is_mobile()
 	local system_name = sys.get_sys_info().system_name
 	return system_name == const.OS.IOS or system_name == const.OS.ANDROID
@@ -55,6 +67,7 @@ local function format(self, level, message, context)
 	if not record_context or record_context == "nil" then
 		record_context = ""
 	end
+	record_context = string.gsub(record_context, "%%", "﹪")
 
 	local caller_info = debug.getinfo(4)
 	log_message = string.gsub(log_message, "%%date", format_time(socket.gettime()))
@@ -73,7 +86,7 @@ end
 
 
 local function log_msg(self, level, message, context)
-	if level > LEVEL[M.settings.level] then
+	if level > LEVEL[M.log_level] then
 		return
 	end
 
@@ -88,36 +101,60 @@ local function log_msg(self, level, message, context)
 end
 
 
--- Log with fatal level
+--- Call log with FATAL level
+-- @function logger.fatal
+-- @tparam userdata self The log instance
+-- @tparam string msg The log message
+-- @tparam[opt] context table The log context
 function _log.fatal(self, msg, context)
 	log_msg(self, LEVEL.FATAL, msg, context)
 end
 
 
--- Log with error level
+--- Call log with ERROR level
+-- @function logger.error
+-- @tparam userdata self The log instance
+-- @tparam string msg The log message
+-- @tparam[opt] context table The log context
 function _log.error(self, msg, context)
 	log_msg(self, LEVEL.ERROR, msg, context)
 end
 
 
--- Log with warning level
+--- Call log with WARN level
+-- @function logger.warn
+-- @tparam userdata self The log instance
+-- @tparam string msg The log message
+-- @tparam[opt] context table The log context
 function _log.warn(self, msg, context)
 	log_msg(self, LEVEL.WARN, msg, context)
 end
 
 
--- Log with info level
+--- Call log with INFO level
+-- @function logger.info
+-- @tparam userdata self The log instance
+-- @tparam string msg The log message
+-- @tparam[opt] context table The log context
 function _log.info(self, msg, context)
 	log_msg(self, LEVEL.INFO, msg, context)
 end
 
 
--- Log with debug level
+--- Call log with DEBUG level
+-- @function logger.debug
+-- @tparam self The log instance
+-- @tparam string msg The log message
+-- @tparam[opt] table context The log context
 function _log.debug(self, msg, context)
 	log_msg(self, LEVEL.DEBUG, msg, context)
 end
 
 
+--- Return the new logger instance
+-- @function log.get_logger
+-- @tparam string name
+-- @treturn logger
 function M.get_logger(name)
 	name = name or "default"
 	_loggers[name] = _loggers[name] or setmetatable({}, { __index = _log })
@@ -126,8 +163,17 @@ function M.get_logger(name)
 end
 
 
-function M.init(settings)
+--- Init the logger system from eva
+-- @tparam table setting
+-- @tparam striing log_level
+-- @local
+function M.init(settings, log_level)
 	M.settings = settings
+
+	if not LEVEL[log_level] then
+		log_level = LEVEL.FATAL
+	end
+	M.log_level = log_level
 end
 
 

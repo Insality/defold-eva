@@ -102,6 +102,7 @@ M.EVENT = {
 	ADS_SUCCESS_REWARDED = "eva.ads.rewarded_success",
 	ADS_SUCCESS = "eva.ads.success",
 	ADS_SHOW = "eva.ads.show",
+	ADS_ERROR = "eva.ads.error",
 	TOKEN_CHANGE = "eva.token.change",
 	SERVER_LOGIN = "eva.server.login",
 	TIMER_TRIGGER = "eva.timers.trigger",
@@ -141,6 +142,8 @@ M.EVENT = {
 	CODE_REDEEM = "eva.promocode.redeem",
 	WINDOW_EVENT = "eva.game.window_event",
 	RATE_OPEN = "eva.rate.open",
+	SOUND_GAIN_CHANGE = "eva.sound.sound_gain_change",
+	MUSIC_GAIN_CHANGE = "eva.sound.music_gain_change",
 }
 
 
@@ -175,6 +178,7 @@ M.EVA = {
 	DEVICE = "eva.Device",
 	RATE = "eva.Rate",
 	SAVER = "eva.Saver",
+	SERVER = "eva.Server",
 	GAME = "eva.Game",
 	GDPR = "eva.Gdpr",
 	IAPS = "eva.Iaps",

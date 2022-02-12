@@ -169,13 +169,15 @@ function M.init(settings_path, module_settings)
 	load_modules()
 	apply_module_settings(module_settings)
 
-	log.init(app.settings.log)
+	log.init(app.settings.log, sys.get_config("eva.log_level", "DEBUG"))
 
 	call_each_module("before_eva_init")
 	call_each_module("on_eva_init")
 	call_each_module("after_eva_init")
 
 	logger:debug("Eva init completed", { settings = settings_path, version = app.settings.eva.version })
+
+	M.log = log.get_logger("eva")
 end
 
 
@@ -195,10 +197,12 @@ function M.update(dt)
 end
 
 
---- Call this on main game on_input
--- @function eva.on_input
-function M.on_input(action_id, action)
-	-- M.input.on_input(action_id, action)
+--- Return logger from eva.log module
+-- @function eva.get_logger
+-- @tparam string[opt=default] logger_name The logger name
+-- @treturn logger The logger instance
+function M.get_logger(logger_name)
+	return log.get_logger(logger_name)
 end
 
 
