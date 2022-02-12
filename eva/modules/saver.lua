@@ -73,7 +73,7 @@ function M.load(filename)
 			file:close()
 			if file_data then
 				local parsed_data = cjson.decode(file_data)
-				if parsed_data then
+				if parsed_data and type(parsed_data) == "table" then
 					return parsed_data
 				end
 			end
@@ -99,7 +99,10 @@ end
 
 --- Save the data in save directory
 -- @function eva.saver.save_data
+-- @tparam table data The save data table
+-- @tparam string filename The save filename
 function M.save_data(data, filename)
+	filename = filename or app.settings.saver.save_name
 	local path = get_save_path(filename)
 
 	if filename and luax.string.ends(filename, ".json") then
@@ -109,6 +112,14 @@ function M.save_data(data, filename)
 	else
 		sys.save(path, data)
 	end
+end
+
+
+--- Return save table
+-- @function eva.saver.get_save_data
+-- @treturn table
+function M.get_save_data()
+	return app.save_table
 end
 
 
@@ -147,6 +158,22 @@ function M.add_save_part(name, table_ref)
 end
 
 
+--- Set autosave timer for game. Pass 0 to disable autosave
+-- @function eva.saver.set_autosave_timer
+-- @tparam number seconds The time in seconds
+function M.set_autosave_timer(seconds)
+	app.saver_runtime_data.autosave_counter_max = seconds or 0
+end
+
+
+--- Return current save version. Useful for check which save data is newer
+-- @function eva.saver.get_save_version
+-- @treturn number
+function M.get_save_version()
+	return app[const.EVA.SAVER].version or 0
+end
+
+
 function M.before_eva_init()
 	app.save_table = M.load()
 	local path = get_save_path(get_default_save_name())
@@ -160,17 +187,18 @@ function M.on_eva_init()
 	app[const.EVA.SAVER].migration_version = migrations.get_count()
 	M.add_save_part(const.EVA.SAVER, app[const.EVA.SAVER])
 
+	app.saver_runtime_data = {
+		autosave_counter = 0,
+		autosave_counter_max = 0
+	}
+
 	events.subscribe(const.EVENT.IAP_PURCHASE, function() M.save() end)
 end
 
 
 function M.after_eva_init()
 	local settings = app.settings.saver
-	if settings.autosave > 0 then
-		timer.delay(settings.autosave, true, function()
-			M.save()
-		end)
-	end
+	M.set_autosave_timer(settings.autosave)
 
 	local last_version = app[const.EVA.SAVER].last_game_version
 	local current_version = sys.get_config("project.version")
@@ -193,6 +221,19 @@ function M.after_eva_init()
 		version = app[const.EVA.SAVER].version,
 		migration_version = app[const.EVA.SAVER].migration_version
 	})
+end
+
+
+function M.on_eva_second()
+	if app.saver_runtime_data.autosave_counter_max <= 0 then
+		return
+	end
+
+	app.saver_runtime_data.autosave_counter = app.saver_runtime_data.autosave_counter - 1
+	if app.saver_runtime_data.autosave_counter <= 0 then
+		app.saver_runtime_data.autosave_counter = app.saver_runtime_data.autosave_counter_max
+		M.save()
+	end
 end
 
 
