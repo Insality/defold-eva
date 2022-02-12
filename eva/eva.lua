@@ -10,6 +10,9 @@
 -- 	festivals_settings: see festival_settings_example,
 -- 	quests_settings: see quest_settings_example,
 -- }
+-- Eva game.project params:
+-- eva.log_level Default: "DEBUG". Variables: FATAL ERROR WARN INFO DEBUG
+-- ios.id The app id from iOS AppStore. Required for generate shop url
 -- @module eva
 
 
