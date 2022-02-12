@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../export_config"
+		},
+		{
+			"path": "../main"
+		},
+		{
+			"path": "../test"
+		}
+	]
+}
