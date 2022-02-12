@@ -139,6 +139,16 @@ function M.is_web()
 end
 
 
+--- Check if device is HTML5 mobile
+-- @function eva.device.is_web_mobile
+function M.is_web_mobile()
+	if html5 then
+		return html5.run("(typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);") == "true"
+	end
+	return false
+end
+
+
 function M.on_eva_init()
 	uuid.randomseed(socket.gettime() * 10000)
 

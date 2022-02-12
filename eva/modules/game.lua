@@ -118,7 +118,11 @@ function M.reboot(delay, arg1, arg2)
 
 	sound.stop_all()
 	timer.delay(delay, false, function()
-		msg.post("@system:", "reboot", { arg1 = arg1, arg2 = arg2 })
+		if html5 then
+			html5.run('document.location.reload();')
+		else
+			msg.post("@system:", "reboot", { arg1 = arg1, arg2 = arg2 })
+		end
 	end)
 end
 
@@ -189,7 +193,7 @@ end
 
 
 --- Get current date in format: YYYYMMDD
--- @function eva.game.get_current_day_string
+-- @function eva.game.get_current_date_code
 -- @treturn number Current day in format YYYYMMDD
 function M.get_current_date_code(date)
 	date = date or os.date("*t", M.get_time())

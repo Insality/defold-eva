@@ -38,6 +38,7 @@ end
 -- @function eva.events.subscribe
 -- @tparam string event_name Event name
 -- @tparam function callback Event callback
+-- @tparam table callback_context The first param for callback on fire
 function M.subscribe(event_name, callback, callback_context)
 	app.event_listeners[event_name] = app.event_listeners[event_name] or Event()
 

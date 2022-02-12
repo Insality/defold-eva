@@ -117,7 +117,10 @@ function M.on_input(action_id, action)
 	handle_modifiers(state, action_id, action)
 	input_touch.handle_touch(state, action_id, action)
 	input_pinch.handle_pinch(state, action_id, action)
-	handle_gestures(state, action_id, action)
+
+	if app.settings.input.is_gestures_enabled then
+		handle_gestures(state, action_id, action)
+	end
 
 	if luax.table.contains(const.INPUT_KEYS, action_id) then
 		state.key_id = nil
