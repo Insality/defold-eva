@@ -25,7 +25,7 @@ local function get_containers()
 end
 
 
---- @treturn eva.Skills
+-- @treturn eva.Skills
 local function get_container(container_id)
 	local container = get_containers()
 	container[container_id] = container[container_id] or proto.get(const.EVA.SKILLS)

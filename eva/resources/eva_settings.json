@@ -196,7 +196,7 @@
 		"config_token_config": "TokenConfig"
 	},
 	"festivals": {
-		"is_disabled": true
+		"is_disabled": false
 	},
 	"trucks": {
 		"is_disabled": false,
