@@ -51,7 +51,6 @@ local function load_modules()
 		isogrid = require("eva.modules.isogrid"),
 		labels = require("eva.modules.labels"),
 		lang = require("eva.modules.lang"),
-		loader = require("eva.modules.loader"),
 		migrations = require("eva.modules.migrations"),
 		offers = require("eva.modules.offers"),
 		pathfinder = require("eva.modules.pathfinder"),

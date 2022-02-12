@@ -40,6 +40,10 @@ local function unity_ads_callback(self, message_id, message)
 end
 
 
+--- Init the ads adapter
+-- @function adapter.initialize
+-- @tparam string ads_id
+-- @tparam function on_ready_callback
 function Ads.initialize(ads_id, on_ready_callback)
 	Ads._on_ready_callback = on_ready_callback
 	if unityads and ads_id then
@@ -48,6 +52,11 @@ function Ads.initialize(ads_id, on_ready_callback)
 end
 
 
+--- Check if ads on adapter is ready
+-- @function adapter.is_ready
+-- @tparam string ads_id
+-- @tparam table ad_config
+-- @treturn boolean
 function Ads.is_ready(ad_id, ad_config)
 	if not unityads then
 		return game.is_debug()
@@ -57,6 +66,12 @@ function Ads.is_ready(ad_id, ad_config)
 end
 
 
+--- Show ads
+-- @function adapter.show
+-- @tparam string ad_id
+-- @tparam table ad_config
+-- @tparam function success_callback The callback on ads success show
+-- @tparam function error_callback The callback on ads failure show
 function Ads.show(ad_id, ad_config, success_callback, finish_callback, error_callback)
 	if not unityads then
 		finish_callback(ad_id)

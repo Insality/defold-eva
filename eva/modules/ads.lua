@@ -19,6 +19,8 @@ local logger = log.get_logger("eva.ads")
 
 local M = {}
 
+-- EVA_SETUP
+-- Uncomment adapters you wanna use
 M.ADAPTERS = {
 	["unity"] = require("eva.modules.ads.ads_unity"),
 	-- ["yandex"] = require("eva.modules.ads.ads_yandex")
@@ -48,7 +50,13 @@ end
 
 
 local function on_ads_error(ad_id)
-	logger:debug("Ads error", { id = ad_id, time = game.get_time() })
+	local ad_config = get_ad_data(ad_id)
+	local is_rewarded = ad_config.type == const.AD.REWARDED
+	events.event(const.EVENT.ADS_ERROR, {
+		id = ad_id,
+		time = game.get_time(),
+		is_rewarded = is_rewarded
+	})
 end
 
 
@@ -56,8 +64,9 @@ local function on_ads_success(ad_id)
 	logger:debug("Ads success", { id = ad_id })
 
 	local ad_config = get_ad_data(ad_id)
-	events.event(const.EVENT.ADS_SUCCESS, { id = ad_id })
-	if ad_config.type == const.AD.REWARDED then
+	local is_rewarded = ad_config.type == const.AD.REWARDED
+	events.event(const.EVENT.ADS_SUCCESS, { id = ad_id, is_rewarded = is_rewarded })
+	if is_rewarded then
 		events.event(const.EVENT.ADS_SUCCESS_REWARDED, { id = ad_id })
 	end
 end
@@ -153,8 +162,8 @@ function M.is_blocked(ad_id)
 	assert(ad_id, "You should provide ad id")
 	assert(ad_config, "Ad config should exists")
 
-	return is_network_ok(ad_id, ad_config) and
-			is_tokens_ok(ad_id, ad_config)
+	return not (is_network_ok(ad_id, ad_config) and
+			is_tokens_ok(ad_id, ad_config))
 end
 
 
@@ -253,6 +262,14 @@ function M.get_ads_watched()
 	end
 
 	return count
+end
+
+
+--- Return current ads adapter name
+-- @function eva.ads.get_adapter_name
+-- @treturn string The adapter name
+function M.get_adapter_name()
+	return app._eva_ads_data.adapter
 end
 
 

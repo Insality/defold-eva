@@ -1,11 +1,10 @@
--- Eva yandex ads plugin
+-- Eva yandex ads plugin adapter
 -- @local
 
 local yagames = require("yagames.yagames")
 local game = require("eva.modules.game")
 local device = require("eva.modules.device")
 local sound = require("eva.modules.sound")
-local app = require("eva.app")
 local log = require("eva.log")
 
 local logger = log.get_logger("ads.yandex")
@@ -14,6 +13,7 @@ local Ads = {}
 Ads._on_ready_callback = nil
 Ads._sound_gain = nil
 Ads._music_gain = nil
+
 
 local function mute_sounds()
 	Ads._music_gain = sound.get_music_gain()
@@ -26,18 +26,6 @@ end
 local function return_sounds()
 	sound.set_music_gain(Ads._music_gain)
 	sound.set_sound_gain(Ads._sound_gain)
-end
-
-
-function Ads.initialize(ads_id, on_ready_callback)
-	Ads._on_ready_callback = on_ready_callback
-	Ads._music_gain = sound.get_music_gain()
-	Ads._sound_gain = sound.get_sound_gain()
-end
-
-
-function Ads.is_ready(ad_id, ad_config)
-	return true
 end
 
 
@@ -90,6 +78,12 @@ local function show_rewarded(ad_id, success_callback, finish_callback, error_cal
 end
 
 
+--- Show ads
+-- @function adapter.show
+-- @tparam string ad_id
+-- @tparam table ad_config
+-- @tparam function success_callback The callback on ads success show
+-- @tparam function error_callback The callback on ads failure show
 function Ads.show(ad_id, ad_config, success_callback, finish_callback, error_callback)
 	if (game.is_debug() and device.is_desktop()) or not yagames then
 		finish_callback(ad_id)
@@ -103,6 +97,27 @@ function Ads.show(ad_id, ad_config, success_callback, finish_callback, error_cal
 	if ad_config.type == "video" then
 		show_interstitial(ad_id, success_callback, finish_callback, error_callback)
 	end
+end
+
+
+--- Init the ads adapter
+-- @function adapter.initialize
+-- @tparam string ads_id
+-- @tparam function on_ready_callback
+function Ads.initialize(ads_id, on_ready_callback)
+	Ads._on_ready_callback = on_ready_callback
+	Ads._music_gain = sound.get_music_gain()
+	Ads._sound_gain = sound.get_sound_gain()
+end
+
+
+--- Check if ads on adapter is ready
+-- @function adapter.is_ready
+-- @tparam string ads_id
+-- @tparam table ad_config
+-- @treturn boolean
+function Ads.is_ready(ad_id, ad_config)
+	return true
 end
 
 
