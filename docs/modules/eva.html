@@ -81,7 +81,10 @@
 <ul class="nowrap">
   <li><a href="../modules/eva_const.html">eva_const</a></li>
   <li><strong>eva</strong></li>
+  <li><a href="../modules/event.html">event</a></li>
+  <li><a href="../modules/log.html">log</a></li>
   <li><a href="../modules/luax.html">luax</a></li>
+  <li><a href="../modules/modules.share.html">modules.share</a></li>
 </ul>
 
 </div>
@@ -89,18 +92,11 @@
 <div id="content">
 
 <h1>Module <code>eva</code></h1>
-<p>Defold Eva library
- Eva library carry on all basic mobile game
- functions like iaps, camera, offers and other
- a lot of basic stuffs.</p>
-<p> Designed for fast integration
- and single code base.
-<p> module_settings: {
- 	migrations: see migrations_example,
- 	window_settings: see window_settings_example
- 	festivals_settings: see festival_settings_example,
- 	quests_settings: see quest_settings_example,
- }</p>
+<p>Custom Eva header setup
+ Copy this file to your project, comment/uncomment required libraries
+ and dynamic libraries and use it
+ You can use eva.eva module to use all eva modules (all modules will be included in your build)</p>
+<p> Access for module is eva[module_name]</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
@@ -114,18 +110,26 @@
 	<td class="summary">Call this on main update loop</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#on_input">on_input()</a></td>
-	<td class="summary">Call this on main game on_input</td>
+	<td class="name" nowrap><a href="#get_logger">get_logger(logger_name)</a></td>
+	<td class="summary">Return logger from eva.log module</td>
 	</tr>
 </table>
 <h2><a href="#modules_ads_Functions">modules.ads Functions</a></h2>
 <table class="function_list">
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.is_ready">eva.ads.is_ready(ad_id)</a></td>
-	<td class="summary">Check is ads are available now</td>
+	<td class="summary">Check is ads are ready to show now</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.ads.show">eva.ads.show(ad_id)</a></td>
+	<td class="name" nowrap><a href="#eva.ads.is_blocked">eva.ads.is_blocked(ad_id)</a></td>
+	<td class="summary">Check is ads are blocked with network or tokens for player</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.get_time_to_ready">eva.ads.get_time_to_ready(ad_id, The)</a></td>
+	<td class="summary">Return seconds when placement will be ready</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.show">eva.ads.show(ad_id, success_callback, finish_callback)</a></td>
 	<td class="summary">Show ad by placement id</td>
 	</tr>
 	<tr>
@@ -139,6 +143,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.ads.get_watched">eva.ads.get_watched(Total)</a></td>
 	<td class="summary">Get total ads watched</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.ads.get_adapter_name">eva.ads.get_adapter_name()</a></td>
+	<td class="summary">Return current ads adapter name</td>
 	</tr>
 </table>
 <h2><a href="#modules_callbacks_Functions">modules.callbacks Functions</a></h2>
@@ -260,8 +268,16 @@
 	<td class="summary">Check if device is native mobile (Android or iOS)</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.device.is_desktop">eva.device.is_desktop()</a></td>
+	<td class="summary">Check if device is desktop (Windows/MacOS)</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.device.is_web">eva.device.is_web()</a></td>
 	<td class="summary">Check if device is HTML5</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.device.is_web_mobile">eva.device.is_web_mobile()</a></td>
+	<td class="summary">Check if device is HTML5 mobile</td>
 	</tr>
 </table>
 <h2><a href="#modules_events_Functions">modules.events Functions</a></h2>
@@ -275,7 +291,7 @@
 	<td class="summary">Setup current game screen</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.events.subscribe">eva.events.subscribe(event_name, callback)</a></td>
+	<td class="name" nowrap><a href="#eva.events.subscribe">eva.events.subscribe(event_name, callback, callback_context)</a></td>
 	<td class="summary">Subscribe the callback on event</td>
 	</tr>
 	<tr>
@@ -368,6 +384,14 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.game.get_current_time_string">eva.game.get_current_time_string()</a></td>
 	<td class="summary">Get current time in string format</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_current_date_code">eva.game.get_current_date_code()</a></td>
+	<td class="summary">Get current date in format: YYYYMMDD</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.game.get_seconds_until_new_day">eva.game.get_seconds_until_new_day()</a></td>
+	<td class="summary">Get time in seconds until next day from current time</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.game.get_days_played">eva.game.get_days_played()</a></td>
@@ -468,7 +492,7 @@
 	<td class="summary">Transfrom offset coordinates to cube coordinates</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.hexgrid.offset_to_cube">eva.hexgrid.offset_to_cube(i, j, k[, map_params])</a></td>
+	<td class="name" nowrap><a href="#eva.hexgrid.cube_to_offset">eva.hexgrid.cube_to_offset(i, j, k[, map_params])</a></td>
 	<td class="summary">Transfrom cube coordinates to offset coordinates</td>
 	</tr>
 	<tr>
@@ -638,6 +662,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.lang.txt">eva.lang.txt(lang_id)</a></td>
 	<td class="summary">Get translation for locale id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.lang.txr">eva.lang.txr(lang_id)</a></td>
+	<td class="summary">Get random translation for locale id, split by \n symbol</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.lang.txp">eva.lang.txp(lang_id, ...)</a></td>
@@ -869,7 +897,7 @@
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.rate.open_rate">eva.rate.open_rate()</a></td>
-	<td class="summary">Open store or native rating on iOS</td>
+	<td class="summary">Open store or native rating if available</td>
 	</tr>
 </table>
 <h2><a href="#modules_rating_Functions">modules.rating Functions</a></h2>
@@ -905,8 +933,12 @@
 	<td class="summary">Save the game file in save directory</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.saver.save_data">eva.saver.save_data()</a></td>
+	<td class="name" nowrap><a href="#eva.saver.save_data">eva.saver.save_data(data, filename)</a></td>
 	<td class="summary">Save the data in save directory</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.get_save_data">eva.saver.get_save_data()</a></td>
+	<td class="summary">Return save table</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.saver.delete">eva.saver.delete([filename])</a></td>
@@ -920,16 +952,32 @@
 	<td class="name" nowrap><a href="#eva.saver.add_save_part">eva.saver.add_save_part()</a></td>
 	<td class="summary">Add save part to the save table</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.set_autosave_timer">eva.saver.set_autosave_timer(seconds)</a></td>
+	<td class="summary">Set autosave timer for game.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.saver.get_save_version">eva.saver.get_save_version()</a></td>
+	<td class="summary">Return current save version.</td>
+	</tr>
 </table>
 <h2><a href="#modules_server_Functions">modules.server Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.server.login">eva.server.login(callback)</a></td>
-	<td class="summary">Login at playfab server</td>
+	<td class="name" nowrap><a href="#eva.server.connect">eva.server.connect(callback)</a></td>
+	<td class="summary">Login at nakama server</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.server.send_save">eva.server.send_save(json_data)</a></td>
-	<td class="summary">Send save to the server</td>
+	<td class="name" nowrap><a href="#eva.server.is_connected">eva.server.is_connected()</a></td>
+	<td class="summary">Return is currently server connected</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.server.get_client">eva.server.get_client()</a></td>
+	<td class="summary">Return nakama client</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.server.get_socket">eva.server.get_socket()</a></td>
+	<td class="summary">Return nakama socket</td>
 	</tr>
 </table>
 <h2><a href="#modules_skill_Functions">modules.skill Functions</a></h2>
@@ -1007,11 +1055,19 @@
 <h2><a href="#modules_sound_Functions">modules.sound Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#eva.sound.play">eva.sound.play()</a></td>
+	<td class="name" nowrap><a href="#eva.sound.play">eva.sound.play(sound_id[, gain=1[, speed=1]])</a></td>
 	<td class="summary">Play the sound in the game</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.sound.play_music">eva.sound.play_music()</a></td>
+	<td class="name" nowrap><a href="#eva.sound.play_random">eva.sound.play_random(sound_ids[, gain=1[, speed=1]])</a></td>
+	<td class="summary">Play the random sound from sound names array</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.stop">eva.sound.stop(sound_id)</a></td>
+	<td class="summary">Stop sound playing</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.play_music">eva.sound.play_music(music_id[, gain=1[, callback]])</a></td>
 	<td class="summary">Start playing music</td>
 	</tr>
 	<tr>
@@ -1019,7 +1075,11 @@
 	<td class="summary">Stop any music in the game</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.sound.fade_music">eva.sound.fade_music()</a></td>
+	<td class="name" nowrap><a href="#eva.sound.fade">eva.sound.fade(sound_id, to[, time=1[, callback]])</a></td>
+	<td class="summary">Fade sound from one gain to another</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.fade_music">eva.sound.fade_music(to[, time=1], callback)</a></td>
 	<td class="summary">Slowly fade music to another one or empty</td>
 	</tr>
 	<tr>
@@ -1033,6 +1093,14 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.sound.set_sound_gain">eva.sound.set_sound_gain()</a></td>
 	<td class="summary">Set sound gain</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.get_music_gain">eva.sound.get_music_gain()</a></td>
+	<td class="summary">Get music gain</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.sound.get_sound_gain">eva.sound.get_sound_gain()</a></td>
+	<td class="summary">Get sound gain</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.sound.is_music_enabled">eva.sound.is_music_enabled()</a></td>
@@ -1200,11 +1268,15 @@
 	<td class="summary">Check multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.token.is_max">eva.token.is_max()</a></td>
+	<td class="name" nowrap><a href="#eva.token.is_max">eva.token.is_max(container_id, token_id)</a></td>
 	<td class="summary">Return is token is maximum</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.token.is_empty">eva.token.is_empty()</a></td>
+	<td class="name" nowrap><a href="#eva.token.get_max">eva.token.get_max(container_id, token_id)</a></td>
+	<td class="summary">Return token maximum value</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_empty">eva.token.is_empty(container_id, token_id)</a></td>
 	<td class="summary">Return is tokens equals to 0</td>
 	</tr>
 	<tr>
@@ -1307,6 +1379,10 @@
 	<td class="name" nowrap><a href="#eva.utils.get_days_in_month">eva.utils.get_days_in_month()</a></td>
 	<td class="summary">Return days in month</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.utils.load_image">eva.utils.load_image()</a></td>
+	<td class="summary">Load image to GUI node</td>
+	</tr>
 </table>
 <h2><a href="#modules_vibrate_Functions">modules.vibrate Functions</a></h2>
 <table class="function_list">
@@ -1370,8 +1446,12 @@
 	<td class="summary">Check multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.wallet.is_max">eva.wallet.is_max()</a></td>
+	<td class="name" nowrap><a href="#eva.wallet.is_max">eva.wallet.is_max(token_id, True)</a></td>
 	<td class="summary">Return is token is maximum</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.wallet.get_max">eva.wallet.get_max(token_id)</a></td>
+	<td class="summary">Return token maximum value</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.wallet.is_empty">eva.wallet.is_empty()</a></td>
@@ -1409,6 +1489,10 @@
 <h2><a href="#modules_window_Functions">modules.window Functions</a></h2>
 <table class="function_list">
 	<tr>
+	<td class="name" nowrap><a href="#eva.window.get_data">eva.window.get_data()</a></td>
+	<td class="summary">Return passed data to scene/window</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.window.show_scene">eva.window.show_scene()</a></td>
 	<td class="summary">Load the game scene</td>
 	</tr>
@@ -1423,26 +1507,34 @@
 	<td class="summary">Preload window via monarch</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.window.is_open">eva.window.is_open()</a></td>
+	<td class="name" nowrap><a href="#eva.window.is_open">eva.window.is_open(window_id)</a></td>
 	<td class="summary">Check is window is opened now</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.window.close">eva.window.close()</a></td>
+	<td class="name" nowrap><a href="#eva.window.close">eva.window.close(window_id)</a></td>
 	<td class="summary">Close window by id or last window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.msg_post">eva.window.msg_post(message_id, message)</a></td>
+	<td class="summary">Send message to the last open window</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.window.close_all">eva.window.close_all()</a></td>
 	<td class="summary">Close all windows</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.window.appear">eva.window.appear()</a></td>
+	<td class="name" nowrap><a href="#eva.window.appear">eva.window.appear(window_id, callback)</a></td>
 	<td class="summary">Appear functions for all windows
  Need to call inside window</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.window.disappear">eva.window.disappear()</a></td>
+	<td class="name" nowrap><a href="#eva.window.disappear">eva.window.disappear(window_id, callback)</a></td>
 	<td class="summary">Disappear functions for all windows
  Need to call inside window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.window.on_message">eva.window.on_message(window_id, message_id, message, sender)</a></td>
+	<td class="summary">On message function to manage windows</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.window.set_settings">eva.window.set_settings()</a></td>
@@ -1468,11 +1560,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">settings_path</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          path to eva_settings.json
         </li>
         <li><span class="parameter">module_settings</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Settings to modules. See description on eva.lua
         </li>
     </ul>
@@ -1504,14 +1596,27 @@
 
 </dd>
     <dt>
-    <a name = "on_input"></a>
-    <strong>on_input()</strong>
+    <a name = "get_logger"></a>
+    <strong>get_logger(logger_name)</strong>
     </dt>
     <dd>
-    Call this on main game on_input
+    Return logger from eva.log module
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">logger_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string[opt=default]</a></span>
+         The logger name
+        </li>
+    </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">logger</span></span>
+        The logger instance
+    </ol>
 
 
 
@@ -1526,13 +1631,13 @@
     <strong>eva.ads.is_ready(ad_id)</strong>
     </dt>
     <dd>
-    Check is ads are available now
+    Check is ads are ready to show now
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">ad_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The Ad placement id
         </li>
     </ul>
@@ -1543,8 +1648,60 @@
 
 </dd>
     <dt>
+    <a name = "eva.ads.is_blocked"></a>
+    <strong>eva.ads.is_blocked(ad_id)</strong>
+    </dt>
+    <dd>
+    Check is ads are blocked with network or tokens for player
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ad_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The Ad placement id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.get_time_to_ready"></a>
+    <strong>eva.ads.get_time_to_ready(ad_id, The)</strong>
+    </dt>
+    <dd>
+    Return seconds when placement will be ready
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">ad_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The Ad placement id
+        </li>
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">number</span></span>
+         amount in seconds
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        The seconds amount until ads available
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.ads.show"></a>
-    <strong>eva.ads.show(ad_id)</strong>
+    <strong>eva.ads.show(ad_id, success_callback, finish_callback)</strong>
     </dt>
     <dd>
     Show ad by placement id
@@ -1553,8 +1710,16 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">ad_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The Ad placement id
+        </li>
+        <li><span class="parameter">success_callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The success callback
+        </li>
+        <li><span class="parameter">finish_callback</span>
+            <span class="types"><span class="type">function</span></span>
+         The ads finish callback
         </li>
     </ul>
 
@@ -1620,6 +1785,26 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.ads.get_adapter_name"></a>
+    <strong>eva.ads.get_adapter_name()</strong>
+    </dt>
+    <dd>
+    Return current ads adapter name
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        The adapter name
+    </ol>
 
 
 
@@ -1719,7 +1904,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">cam_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          url of camera game object
         </li>
         <li><span class="parameter">camera_box</span>
@@ -1963,7 +2148,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         Array with booleans to show picked rewards
     </ol>
 
@@ -1986,7 +2171,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">config_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Config name from eva settings
         </li>
     </ul>
@@ -1994,7 +2179,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         Config table
     </ol>
 
@@ -2013,7 +2198,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">settings</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Custom db settings
         </li>
     </ul>
@@ -2041,7 +2226,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         device_id
     </ol>
 
@@ -2060,7 +2245,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">except</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          list of uuid, what not need to be generated
         </li>
     </ul>
@@ -2068,7 +2253,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         the uuid
     </ol>
 
@@ -2089,7 +2274,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         region
     </ol>
 
@@ -2154,11 +2339,39 @@
 
 </dd>
     <dt>
+    <a name = "eva.device.is_desktop"></a>
+    <strong>eva.device.is_desktop()</strong>
+    </dt>
+    <dd>
+    Check if device is desktop (Windows/MacOS)
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.device.is_web"></a>
     <strong>eva.device.is_web()</strong>
     </dt>
     <dd>
     Check if device is HTML5
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.device.is_web_mobile"></a>
+    <strong>eva.device.is_web_mobile()</strong>
+    </dt>
+    <dd>
+    Check if device is HTML5 mobile
 
 
 
@@ -2182,11 +2395,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">event</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          name of event
         </li>
         <li><span class="parameter">params</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          params
          (<em>default</em> {})
         </li>
@@ -2208,7 +2421,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">screen_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          screen id
         </li>
     </ul>
@@ -2220,7 +2433,7 @@
 </dd>
     <dt>
     <a name = "eva.events.subscribe"></a>
-    <strong>eva.events.subscribe(event_name, callback)</strong>
+    <strong>eva.events.subscribe(event_name, callback, callback_context)</strong>
     </dt>
     <dd>
     Subscribe the callback on event
@@ -2229,12 +2442,16 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">event_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Event name
         </li>
         <li><span class="parameter">callback</span>
             <span class="types"><span class="type">function</span></span>
          Event callback
+        </li>
+        <li><span class="parameter">callback_context</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The first param for callback on fire
         </li>
     </ul>
 
@@ -2254,7 +2471,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">map</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          {Event = Callback} map
         </li>
     </ul>
@@ -2275,7 +2492,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">event_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Event name
         </li>
         <li><span class="parameter">callback</span>
@@ -2300,7 +2517,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">map</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          {Event = Callback} map
         </li>
     </ul>
@@ -2321,7 +2538,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">event_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Event name
         </li>
         <li><span class="parameter">callback</span>
@@ -2350,7 +2567,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">festival_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Festival id from Festivals json
         </li>
     </ul>
@@ -2378,7 +2595,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">festival_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Festival id from Festivals json
         </li>
     </ul>
@@ -2405,7 +2622,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">festival_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Festival id from Festivals json
         </li>
     </ul>
@@ -2432,7 +2649,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">festival_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Festival id from Festivals json
         </li>
     </ul>
@@ -2460,7 +2677,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         array of current festivals
     </ol>
 
@@ -2480,7 +2697,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         array of completed festivals
     </ol>
 
@@ -2499,7 +2716,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">festival_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Festival id from Festivals json
         </li>
     </ul>
@@ -2520,7 +2737,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">festival_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Festival id from Festivals json
         </li>
     </ul>
@@ -2691,8 +2908,48 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         Time format in iso e.g. "2019-09-25T01:48:19Z"
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.get_current_date_code"></a>
+    <strong>eva.game.get_current_date_code()</strong>
+    </dt>
+    <dd>
+    Get current date in format: YYYYMMDD
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Current day in format YYYYMMDD
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.game.get_seconds_until_new_day"></a>
+    <strong>eva.game.get_seconds_until_new_day()</strong>
+    </dt>
+    <dd>
+    Get time in seconds until next day from current time
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        Seconds until next day
     </ol>
 
 
@@ -3182,8 +3439,8 @@
 
 </dd>
     <dt>
-    <a name = "eva.hexgrid.offset_to_cube"></a>
-    <strong>eva.hexgrid.offset_to_cube(i, j, k[, map_params])</strong>
+    <a name = "eva.hexgrid.cube_to_offset"></a>
+    <strong>eva.hexgrid.cube_to_offset(i, j, k[, map_params])</strong>
     </dt>
     <dd>
     Transfrom cube coordinates to offset coordinates
@@ -3361,7 +3618,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">iap_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          In-game inapp ID from iaps settings
         </li>
     </ul>
@@ -3382,7 +3639,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">iap_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the inapp id
         </li>
     </ul>
@@ -3403,7 +3660,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">iap_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the inapp id
         </li>
     </ul>
@@ -3424,7 +3681,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">category</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Category of iap
         </li>
     </ul>
@@ -3451,7 +3708,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">iap_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the inapp id
         </li>
     </ul>
@@ -3478,7 +3735,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">iap_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the inapp id
         </li>
     </ul>
@@ -3505,7 +3762,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">iap_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the inapp id
         </li>
     </ul>
@@ -3513,7 +3770,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         The iap price string
     </ol>
 
@@ -3593,7 +3850,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of input system
         </li>
         <li><span class="parameter">callback</span>
@@ -3622,7 +3879,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of input system
         </li>
     </ul>
@@ -3650,7 +3907,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">category</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Category param of the invoice
         </li>
         <li><span class="parameter">reward</span>
@@ -3668,12 +3925,12 @@
          (<em>optional</em>)
         </li>
         <li><span class="parameter">title</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Text invoice title
          (<em>optional</em>)
         </li>
         <li><span class="parameter">text</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Text invoice desc
          (<em>optional</em>)
         </li>
@@ -3943,7 +4200,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">label</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The label id
         </li>
     </ul>
@@ -3988,7 +4245,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lang</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          current language code from eva-settings
         </li>
     </ul>
@@ -4010,7 +4267,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         return current language code
     </ol>
 
@@ -4029,7 +4286,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lang_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          locale id from your localization
         </li>
     </ul>
@@ -4037,7 +4294,34 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        translated locale
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.lang.txr"></a>
+    <strong>eva.lang.txr(lang_id)</strong>
+    </dt>
+    <dd>
+    Get random translation for locale id, split by \n symbol
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">lang_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         locale id from your localization
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         translated locale
     </ol>
 
@@ -4056,11 +4340,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lang_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Locale id from your localization
         </li>
         <li><span class="parameter">...</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Params for string.format for lang_id
         </li>
     </ul>
@@ -4068,7 +4352,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
         Translated locale
     </ol>
 
@@ -4115,7 +4399,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         List of available languages
     </ol>
 
@@ -4189,7 +4473,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4216,7 +4500,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4238,7 +4522,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4265,7 +4549,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4292,7 +4576,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4319,7 +4603,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4346,7 +4630,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">offer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          offer id from db
         </li>
     </ul>
@@ -4387,7 +4671,7 @@
          Get node cost function from map
         </li>
         <li><span class="parameter">options</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Options for map handlers:
  - diagonal boolean, to grid and isogrid pathfinding
         </li>
@@ -4437,7 +4721,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a> or <span class="type">nil</span></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a> or <span class="type">nil</span></span>
         Table of points. See eva.libs.astar.path. Nil if path is not exist
     </ol>
 
@@ -4461,7 +4745,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string[]</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string[]</a></span>
         List of applied codes
     </ol>
 
@@ -4480,7 +4764,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">code</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The promocode itself
         </li>
     </ul>
@@ -4507,7 +4791,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">code</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The promocode itself
         </li>
     </ul>
@@ -4534,7 +4818,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">code</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The promocode itself
         </li>
     </ul>
@@ -4580,7 +4864,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">proto_type</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          name of proto message e.g. 'eva.Token'
         </li>
     </ul>
@@ -4588,7 +4872,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         empty table with default values from proto
     </ol>
 
@@ -4636,11 +4920,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">proto_type</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The prototype name
         </li>
         <li><span class="parameter">data</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          The user data
         </li>
     </ul>
@@ -4742,7 +5026,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">quest_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Quest id
         </li>
     </ul>
@@ -4750,7 +5034,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         List of progress of quest tasks in task order
     </ol>
 
@@ -4770,7 +5054,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         List of active quests
     </ol>
 
@@ -4790,7 +5074,7 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
         List of active quests
     </ol>
 
@@ -4810,11 +5094,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">action</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Task action
         </li>
         <li><span class="parameter">object</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Task object
          (<em>optional</em>)
         </li>
@@ -4902,7 +5186,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">quest_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Quest id
         </li>
     </ul>
@@ -4943,7 +5227,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">quest_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Quest id
         </li>
     </ul>
@@ -4964,7 +5248,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">quest_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Quest id
         </li>
     </ul>
@@ -4985,11 +5269,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">action</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Type of event
         </li>
         <li><span class="parameter">object</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Object of event
         </li>
         <li><span class="parameter">amount</span>
@@ -5116,7 +5400,7 @@
     <strong>eva.rate.open_rate()</strong>
     </dt>
     <dd>
-    Open store or native rating on iOS
+    Open store or native rating if available
 
 
 
@@ -5238,13 +5522,44 @@
 </dd>
     <dt>
     <a name = "eva.saver.save_data"></a>
-    <strong>eva.saver.save_data()</strong>
+    <strong>eva.saver.save_data(data, filename)</strong>
     </dt>
     <dd>
     Save the data in save directory
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The save data table
+        </li>
+        <li><span class="parameter">filename</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The save filename
+        </li>
+    </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.get_save_data"></a>
+    <strong>eva.saver.get_save_data()</strong>
+    </dt>
+    <dd>
+    Return save table
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
 
 
 
@@ -5261,7 +5576,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">filename</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The save filename. Can be default by settings
          (<em>optional</em>)
         </li>
@@ -5300,16 +5615,57 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.saver.set_autosave_timer"></a>
+    <strong>eva.saver.set_autosave_timer(seconds)</strong>
+    </dt>
+    <dd>
+    Set autosave timer for game.  Pass 0 to disable autosave
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">seconds</span>
+            <span class="types"><span class="type">number</span></span>
+         The time in seconds
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.saver.get_save_version"></a>
+    <strong>eva.saver.get_save_version()</strong>
+    </dt>
+    <dd>
+    Return current save version.  Useful for check which save data is newer
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+
+    </ol>
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_server_Functions"></a>modules.server Functions</h2>
 
     <dl class="function">
     <dt>
-    <a name = "eva.server.login"></a>
-    <strong>eva.server.login(callback)</strong>
+    <a name = "eva.server.connect"></a>
+    <strong>eva.server.connect(callback)</strong>
     </dt>
     <dd>
-    Login at playfab server
+    Login at nakama server
 
 
     <h3>Parameters:</h3>
@@ -5326,21 +5682,60 @@
 
 </dd>
     <dt>
-    <a name = "eva.server.send_save"></a>
-    <strong>eva.server.send_save(json_data)</strong>
+    <a name = "eva.server.is_connected"></a>
+    <strong>eva.server.is_connected()</strong>
     </dt>
     <dd>
-    Send save to the server
+    Return is currently server connected
 
 
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">json_data</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
-         JSON data
-        </li>
-    </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        If server connected
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.server.get_client"></a>
+    <strong>eva.server.get_client()</strong>
+    </dt>
+    <dd>
+    Return nakama client
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.server.get_socket"></a>
+    <strong>eva.server.get_socket()</strong>
+    </dt>
+    <dd>
+    Return nakama socket
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+    </ol>
 
 
 
@@ -5595,12 +5990,81 @@
     <dl class="function">
     <dt>
     <a name = "eva.sound.play"></a>
-    <strong>eva.sound.play()</strong>
+    <strong>eva.sound.play(sound_id[, gain=1[, speed=1]])</strong>
     </dt>
     <dd>
     Play the sound in the game
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">sound_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">gain</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">speed</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.play_random"></a>
+    <strong>eva.sound.play_random(sound_ids[, gain=1[, speed=1]])</strong>
+    </dt>
+    <dd>
+    Play the random sound from sound names array
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">sound_ids</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string[]</a></span>
+
+        </li>
+        <li><span class="parameter">gain</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">speed</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.stop"></a>
+    <strong>eva.sound.stop(sound_id)</strong>
+    </dt>
+    <dd>
+    Stop sound playing
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">sound_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+    </ul>
 
 
 
@@ -5609,12 +6073,29 @@
 </dd>
     <dt>
     <a name = "eva.sound.play_music"></a>
-    <strong>eva.sound.play_music()</strong>
+    <strong>eva.sound.play_music(music_id[, gain=1[, callback]])</strong>
     </dt>
     <dd>
     Start playing music
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">music_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">gain</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+
+         (<em>optional</em>)
+        </li>
+    </ul>
 
 
 
@@ -5636,13 +6117,64 @@
 
 </dd>
     <dt>
+    <a name = "eva.sound.fade"></a>
+    <strong>eva.sound.fade(sound_id, to[, time=1[, callback]])</strong>
+    </dt>
+    <dd>
+    Fade sound from one gain to another
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">sound_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">to</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.sound.fade_music"></a>
-    <strong>eva.sound.fade_music()</strong>
+    <strong>eva.sound.fade_music(to[, time=1], callback)</strong>
     </dt>
     <dd>
     Slowly fade music to another one or empty
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">to</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+        <li><span class="parameter">time</span>
+            <span class="types"><span class="type">number</span></span>
+
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+
+        </li>
+    </ul>
 
 
 
@@ -5683,6 +6215,34 @@
     </dt>
     <dd>
     Set sound gain
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.get_music_gain"></a>
+    <strong>eva.sound.get_music_gain()</strong>
+    </dt>
+    <dd>
+    Get music gain
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.sound.get_sound_gain"></a>
+    <strong>eva.sound.get_sound_gain()</strong>
+    </dt>
+    <dd>
+    Get sound gain
 
 
 
@@ -5734,7 +6294,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The record id
         </li>
     </ul>
@@ -5755,11 +6315,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The record id
         </li>
         <li><span class="parameter">value</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a>, <span class="type">number</span> or <span class="type">bool</span></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a>, <span class="type">number</span> or <span class="type">bool</span></span>
          Value
         </li>
     </ul>
@@ -5784,7 +6344,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">data</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Json map data
         </li>
         <li><span class="parameter">create_object_fn</span>
@@ -5809,11 +6369,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">layer_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tiled layer
         </li>
         <li><span class="parameter">spawner_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tileset
         </li>
         <li><span class="parameter">index</span>
@@ -5852,7 +6412,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">layer_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tiled layer
         </li>
         <li><span class="parameter">i</span>
@@ -5887,7 +6447,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">layer</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of the tiled layer
         </li>
         <li><span class="parameter">i</span>
@@ -5922,11 +6482,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">layer_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tiled layer
         </li>
         <li><span class="parameter">spawner_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tileset
         </li>
         <li><span class="parameter">index</span>
@@ -5942,7 +6502,7 @@
          y position
         </li>
         <li><span class="parameter">props</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Object additional properties
         </li>
         <li><span class="parameter">map_data</span>
@@ -5996,7 +6556,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">object_name</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The game object name
         </li>
     </ul>
@@ -6049,11 +6609,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">slot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          identificator of timer
         </li>
         <li><span class="parameter">timer_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          string param of timer
         </li>
         <li><span class="parameter">time</span>
@@ -6097,7 +6657,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">slot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          identificator of timer
         </li>
     </ul>
@@ -6124,7 +6684,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">slot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          identificator of timer
         </li>
     </ul>
@@ -6145,7 +6705,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">slot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          identificator of timer
         </li>
     </ul>
@@ -6166,7 +6726,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">slot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          identificator of timer
         </li>
         <li><span class="parameter">is_pause</span>
@@ -6195,7 +6755,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">container_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Container id
         </li>
     </ul>
@@ -6222,11 +6782,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">container_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Container id
         </li>
         <li><span class="parameter">container_type</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Container type to match from token config
         </li>
     </ul>
@@ -6247,7 +6807,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">container_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Container id
         </li>
     </ul>
@@ -6268,7 +6828,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">container_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Container id
         </li>
     </ul>
@@ -6289,7 +6849,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">tokens</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Map with token_id = amount
         </li>
     </ul>
@@ -6311,7 +6871,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the token group id
         </li>
     </ul>
@@ -6339,7 +6899,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the token lot id
         </li>
     </ul>
@@ -6367,7 +6927,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">lot_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the token lot id
         </li>
     </ul>
@@ -6464,7 +7024,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">container_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Container id
         </li>
     </ul>
@@ -6491,7 +7051,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Token id
         </li>
         <li><span class="parameter">amount</span>
@@ -6499,7 +7059,7 @@
          Amount to pay
         </li>
         <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The reason to pay
         </li>
     </ul>
@@ -6524,7 +7084,7 @@
          Tokens data
         </li>
         <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The reason to pay
         </li>
     </ul>
@@ -6545,11 +7105,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The token group id
         </li>
         <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The reason to pay
         </li>
     </ul>
@@ -6605,7 +7165,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the token group id
         </li>
     </ul>
@@ -6617,12 +7177,23 @@
 </dd>
     <dt>
     <a name = "eva.token.is_max"></a>
-    <strong>eva.token.is_max()</strong>
+    <strong>eva.token.is_max(container_id, token_id)</strong>
     </dt>
     <dd>
     Return is token is maximum
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Container id
+        </li>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
 
 
 
@@ -6630,13 +7201,55 @@
 
 </dd>
     <dt>
+    <a name = "eva.token.get_max"></a>
+    <strong>eva.token.get_max(container_id, token_id)</strong>
+    </dt>
+    <dd>
+    Return token maximum value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Container id
+        </li>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span> or <span class="type">nil</span></span>
+        The token maximum value if exists
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.token.is_empty"></a>
-    <strong>eva.token.is_empty()</strong>
+    <strong>eva.token.is_empty(container_id, token_id)</strong>
     </dt>
     <dd>
     Return is tokens equals to 0
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Container id
+        </li>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
 
 
 
@@ -6756,7 +7369,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6783,7 +7396,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6810,7 +7423,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6838,7 +7451,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6859,7 +7472,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6886,7 +7499,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6914,7 +7527,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6935,7 +7548,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6962,7 +7575,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">truck_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Truck id
         </li>
     </ul>
@@ -6984,7 +7597,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">trucks_settings</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
          Table with callbacks
         </li>
     </ul>
@@ -7074,6 +7687,20 @@
     </dt>
     <dd>
     Return days in month
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.utils.load_image"></a>
+    <strong>eva.utils.load_image()</strong>
+    </dt>
+    <dd>
+    Load image to GUI node
 
 
 
@@ -7233,7 +7860,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Token id
         </li>
         <li><span class="parameter">amount</span>
@@ -7241,7 +7868,7 @@
          Amount to pay
         </li>
         <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The reason to pay
         </li>
     </ul>
@@ -7266,7 +7893,7 @@
          Tokens data
         </li>
         <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The reason to pay
         </li>
     </ul>
@@ -7287,11 +7914,11 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The token group id
         </li>
         <li><span class="parameter">reason</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The reason to pay
         </li>
     </ul>
@@ -7347,7 +7974,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">token_group_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          the token group id
         </li>
     </ul>
@@ -7359,13 +7986,51 @@
 </dd>
     <dt>
     <a name = "eva.wallet.is_max"></a>
-    <strong>eva.wallet.is_max()</strong>
+    <strong>eva.wallet.is_max(token_id, True)</strong>
     </dt>
     <dd>
     Return is token is maximum
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+        <li><span class="parameter">True</span>
+            <span class="types"><span class="type">boolean</span></span>
+        , if token at maximum value
+        </li>
+    </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.wallet.get_max"></a>
+    <strong>eva.wallet.get_max(token_id)</strong>
+    </dt>
+    <dd>
+    Return token maximum value
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span> or <span class="type">nil</span></span>
+        The token maximum value if exists
+    </ol>
 
 
 
@@ -7488,6 +8153,20 @@
 
     <dl class="function">
     <dt>
+    <a name = "eva.window.get_data"></a>
+    <strong>eva.window.get_data()</strong>
+    </dt>
+    <dd>
+    Return passed data to scene/window
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.window.show_scene"></a>
     <strong>eva.window.show_scene()</strong>
     </dt>
@@ -7530,7 +8209,7 @@
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">window_id</span>
-            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          The window id
         </li>
         <li><span class="parameter">callback</span>
@@ -7547,12 +8226,19 @@
 </dd>
     <dt>
     <a name = "eva.window.is_open"></a>
-    <strong>eva.window.is_open()</strong>
+    <strong>eva.window.is_open(window_id)</strong>
     </dt>
     <dd>
     Check is window is opened now
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The window id
+        </li>
+    </ul>
 
 
 
@@ -7561,12 +8247,44 @@
 </dd>
     <dt>
     <a name = "eva.window.close"></a>
-    <strong>eva.window.close()</strong>
+    <strong>eva.window.close(window_id)</strong>
     </dt>
     <dd>
     Close window by id or last window
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The window id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.msg_post"></a>
+    <strong>eva.window.msg_post(message_id, message)</strong>
+    </dt>
+    <dd>
+    Send message to the last open window
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">message_id</span>
+            <span class="types"><span class="type">hash</span></span>
+
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+    </ul>
 
 
 
@@ -7589,13 +8307,24 @@
 </dd>
     <dt>
     <a name = "eva.window.appear"></a>
-    <strong>eva.window.appear()</strong>
+    <strong>eva.window.appear(window_id, callback)</strong>
     </dt>
     <dd>
     Appear functions for all windows
  Need to call inside window
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The window id
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">func</span></span>
+         Callback after window open
+        </li>
+    </ul>
 
 
 
@@ -7604,13 +8333,57 @@
 </dd>
     <dt>
     <a name = "eva.window.disappear"></a>
-    <strong>eva.window.disappear()</strong>
+    <strong>eva.window.disappear(window_id, callback)</strong>
     </dt>
     <dd>
     Disappear functions for all windows
  Need to call inside window
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The window id
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">func</span></span>
+         Callback after window close
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.window.on_message"></a>
+    <strong>eva.window.on_message(window_id, message_id, message, sender)</strong>
+    </dt>
+    <dd>
+    On message function to manage windows
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">window_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+
+        </li>
+        <li><span class="parameter">message_id</span>
+            <span class="types"><span class="type">hash</span></span>
+
+        </li>
+        <li><span class="parameter">message</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+
+        </li>
+        <li><span class="parameter">sender</span>
+            <span class="types"><span class="type">url</span></span>
+
+        </li>
+    </ul>
 
 
 
@@ -7638,7 +8411,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-10-17 00:20:01 </i>
+<i style="float:right;">Last updated 2022-02-12 15:33:48 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

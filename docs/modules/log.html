@@ -38,15 +38,12 @@
 
 <h2>Modules</h2>
 <ul class="nowrap">
-  <li><a href="../modules/const.html">const</a></li>
+  <li><a href="../modules/eva_const.html">eva_const</a></li>
   <li><a href="../modules/eva.html">eva</a></li>
+  <li><a href="../modules/event.html">event</a></li>
   <li><strong>log</strong></li>
   <li><a href="../modules/luax.html">luax</a></li>
-  <li><a href="../modules/modules.input.input_pinch.html">modules.input.input_pinch</a></li>
-  <li><a href="../modules/modules.input.input_touch.html">modules.input.input_touch</a></li>
-  <li><a href="../modules/scripts.grid_handler.html">scripts.grid_handler</a></li>
-  <li><a href="../modules/scripts.hexgrid_handler.html">scripts.hexgrid_handler</a></li>
-  <li><a href="../modules/scripts.isogrid_handler.html">scripts.isogrid_handler</a></li>
+  <li><a href="../modules/modules.share.html">modules.share</a></li>
 </ul>
 
 </div>
@@ -54,31 +51,40 @@
 <div id="content">
 
 <h1>Module <code>log</code></h1>
-<p>Defold Eva log module</p>
-<p></p>
+<p>Defold Eva log module
+ You can require this file and make logger as</p>
+<p> local log = require("eva.log")
+ local logger = log.get_logger(logger_name)
+<p> or create logger from eva directly
+<p> local eva = require("eva.eva)
+ local logger = eva.get_logger(logger_name)</p>
 
 
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#_log.fatal">_log.fatal(self, msg, context)</a></td>
-	<td class="summary">Log with fatal level</td>
+	<td class="name" nowrap><a href="#logger.fatal">logger.fatal(self, msg[, table])</a></td>
+	<td class="summary">Call log with FATAL level</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_log.error">_log.error(self, msg, context)</a></td>
-	<td class="summary">Log with error level</td>
+	<td class="name" nowrap><a href="#logger.error">logger.error(self, msg[, table])</a></td>
+	<td class="summary">Call log with ERROR level</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_log.warn">_log.warn(self, msg, context)</a></td>
-	<td class="summary">Log with warning level</td>
+	<td class="name" nowrap><a href="#logger.warn">logger.warn(self, msg[, table])</a></td>
+	<td class="summary">Call log with WARN level</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_log.info">_log.info(self, msg, context)</a></td>
-	<td class="summary">Log with info level</td>
+	<td class="name" nowrap><a href="#logger.info">logger.info(self, msg[, table])</a></td>
+	<td class="summary">Call log with INFO level</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#_log.debug">_log.debug(self, msg, context)</a></td>
-	<td class="summary">Log with debug level</td>
+	<td class="name" nowrap><a href="#logger.debug">logger.debug(The, msg[, context])</a></td>
+	<td class="summary">Call log with DEBUG level</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_logger">get_logger(name)</a></td>
+	<td class="summary">Return the new logger instance</td>
 	</tr>
 </table>
 
@@ -90,23 +96,27 @@
 
     <dl class="function">
     <dt>
-    <a name = "_log.fatal"></a>
-    <strong>_log.fatal(self, msg, context)</strong>
+    <a name = "logger.fatal"></a>
+    <strong>logger.fatal(self, msg[, table])</strong>
     </dt>
     <dd>
-    Log with fatal level
+    Call log with FATAL level
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-
+            <span class="types"><span class="type">userdata</span></span>
+         The log instance
         </li>
         <li><span class="parameter">msg</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The log message
         </li>
-        <li><span class="parameter">context</span>
-
+        <li><span class="parameter">table</span>
+            <span class="types"><span class="type">context</span></span>
+         The log context
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -116,23 +126,27 @@
 
 </dd>
     <dt>
-    <a name = "_log.error"></a>
-    <strong>_log.error(self, msg, context)</strong>
+    <a name = "logger.error"></a>
+    <strong>logger.error(self, msg[, table])</strong>
     </dt>
     <dd>
-    Log with error level
+    Call log with ERROR level
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-
+            <span class="types"><span class="type">userdata</span></span>
+         The log instance
         </li>
         <li><span class="parameter">msg</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The log message
         </li>
-        <li><span class="parameter">context</span>
-
+        <li><span class="parameter">table</span>
+            <span class="types"><span class="type">context</span></span>
+         The log context
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -142,23 +156,27 @@
 
 </dd>
     <dt>
-    <a name = "_log.warn"></a>
-    <strong>_log.warn(self, msg, context)</strong>
+    <a name = "logger.warn"></a>
+    <strong>logger.warn(self, msg[, table])</strong>
     </dt>
     <dd>
-    Log with warning level
+    Call log with WARN level
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-
+            <span class="types"><span class="type">userdata</span></span>
+         The log instance
         </li>
         <li><span class="parameter">msg</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The log message
         </li>
-        <li><span class="parameter">context</span>
-
+        <li><span class="parameter">table</span>
+            <span class="types"><span class="type">context</span></span>
+         The log context
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -168,23 +186,27 @@
 
 </dd>
     <dt>
-    <a name = "_log.info"></a>
-    <strong>_log.info(self, msg, context)</strong>
+    <a name = "logger.info"></a>
+    <strong>logger.info(self, msg[, table])</strong>
     </dt>
     <dd>
-    Log with info level
+    Call log with INFO level
 
 
     <h3>Parameters:</h3>
     <ul>
         <li><span class="parameter">self</span>
-
+            <span class="types"><span class="type">userdata</span></span>
+         The log instance
         </li>
         <li><span class="parameter">msg</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The log message
         </li>
-        <li><span class="parameter">context</span>
-
+        <li><span class="parameter">table</span>
+            <span class="types"><span class="type">context</span></span>
+         The log context
+         (<em>optional</em>)
         </li>
     </ul>
 
@@ -194,26 +216,57 @@
 
 </dd>
     <dt>
-    <a name = "_log.debug"></a>
-    <strong>_log.debug(self, msg, context)</strong>
+    <a name = "logger.debug"></a>
+    <strong>logger.debug(The, msg[, context])</strong>
     </dt>
     <dd>
-    Log with debug level
+    Call log with DEBUG level
 
 
     <h3>Parameters:</h3>
     <ul>
-        <li><span class="parameter">self</span>
-
+        <li><span class="parameter">The</span>
+            <span class="types"><span class="type">self</span></span>
+         log instance
         </li>
         <li><span class="parameter">msg</span>
-
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The log message
         </li>
         <li><span class="parameter">context</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+         The log context
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_logger"></a>
+    <strong>get_logger(name)</strong>
+    </dt>
+    <dd>
+    Return the new logger instance
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
 
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">logger</span></span>
+
+    </ol>
 
 
 
@@ -226,7 +279,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2020-05-19 23:33:44 </i>
+<i style="float:right;">Last updated 2022-02-12 15:33:48 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
