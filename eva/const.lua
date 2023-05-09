@@ -65,6 +65,7 @@ M.INPUT = {
 	KEY_1 = hash("key_1"),
 	KEY_2 = hash("key_2"),
 	KEY_3 = hash("key_3"),
+	KEY_L = hash("key_l"),
 	KEY_LALT = hash("key_lalt"),
 	KEY_LCTRL = hash("key_lctrl"),
 }
@@ -178,6 +179,7 @@ M.EVA = {
 	SOUND = "eva.Sound",
 	LANG = "eva.Lang",
 	LABELS = "eva.Labels",
+	FEATURE = "eva.Feature",
 	DEVICE = "eva.Device",
 	RATE = "eva.Rate",
 	SAVER = "eva.Saver",
@@ -248,8 +250,8 @@ M.ASTAR = {
 	},
 	HEX = {
 		NEIGHBORS = {
-			{{1, 0}, {0,-1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}}, -- Even rows
-			{{1, 0}, {1, -1}, {0, -1}, {-1, 0}, {0, 1}, {1, 1}}, -- Odd rows
+			{{0, -1}, {-1, -1}, {-1, 0}, {0, 1}, {1, 0}, {1, -1}}, -- Even rows
+			{{0, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}}, -- Odd rows
 		}
 	}
 }

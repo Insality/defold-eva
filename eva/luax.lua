@@ -10,6 +10,7 @@ local M = {
 	debug = {},
 	func = {},
 	operators = {},
+	timer = {},
 	toboolean = function(arg) return not not arg end,
 }
 
@@ -43,6 +44,7 @@ M.gui.PROP_SIZE_Y = "size.y"
 M.gui.PROP_SIZE_Z = "size.z"
 M.vmath.VECTOR_ZERO = vmath.vector3(0)
 M.vmath.VECTOR_ONE = vmath.vector3(1)
+M.vmath.VECTOR4_ONE = vmath.vector4(1)
 M.table.empty = {}
 M.string.empty = ""
 M.vmath.temp_vector = vmath.vector3(0)
@@ -172,6 +174,13 @@ function M.math.distance(x1, y1, x2, y2)
 end
 
 
+--- math.distance_check
+-- @function luax.math.distance
+function M.math.distance_check(x1, y1, x2, y2)
+	return (x2 - x1)^2 + (y2 - y1)^2
+end
+
+
 --- math.manhattan
 -- @function luax.math.manhattan
 function M.math.manhattan(x1, y1, x2, y2)
@@ -190,6 +199,20 @@ end
 -- @function luax.math.random_sign
 function M.math.random_sign()
 	return math.random() >= 0.5 and 1 or -1
+end
+
+
+function M.math.random(from, to)
+	return math.random() * (to - from) + from
+end
+
+
+--- table.clear
+-- @function luax.table.clear
+function M.table.clear(array)
+	for index = #array, 1, -1 do
+		array[index] = nil
+	end
 end
 
 
@@ -235,7 +258,10 @@ function M.table.remove_item(t, value)
 	local index = M.table.contains(t, value)
 	if index then
 		table.remove(t, index)
+		return true
 	end
+
+	return false
 end
 
 
@@ -294,12 +320,26 @@ function M.table.extend(t1, t2)
 end
 
 
--- for array
+-- Merge two tables
 --- table.add
 -- @function luax.table.add
-function M.table.add(t1, t2)
+function M.table.add(t1, t2, is_unique)
 	for i = 1, #t2 do
-		table.insert(t1, t2[i])
+		if is_unique then
+			M.table.insert_unique(t1, t2[i])
+		else
+			table.insert(t1, t2[i])
+		end
+	end
+end
+
+
+-- Insert unique value to table
+--- table.insert_unique
+-- @function luax.table.insert_unique
+function M.table.insert_unique(t, value)
+	if not M.table.contains(t, value) then
+		table.insert(t, value)
 	end
 end
 
@@ -437,6 +477,13 @@ function M.table.tostring(t)
 end
 
 
+--- string.is_empty
+-- @function luax.string.is_empty
+function M.string.is_empty(str)
+	return str == nil or str == ""
+end
+
+
 --- string.split
 -- @function luax.string.split
 function M.string.split(inputstr, sep)
@@ -531,6 +578,15 @@ function M.gui.set_x(node, pos_x)
 end
 
 
+--- gui.add_x
+-- @function luax.gui.add_x
+function M.gui.add_x(node, add_x)
+	local position = gui.get_position(node)
+	position.x = position.x + add_x
+	gui.set_position(node, position)
+end
+
+
 --- gui.set_y
 -- @function luax.gui.set_y
 function M.gui.set_y(node, pos_y)
@@ -540,11 +596,29 @@ function M.gui.set_y(node, pos_y)
 end
 
 
+--- gui.add_y
+-- @function luax.gui.add_y
+function M.gui.add_y(node, add_y)
+	local position = gui.get_position(node)
+	position.y = position.y + add_y
+	gui.set_position(node, position)
+end
+
+
 --- gui.set_z
 -- @function luax.gui.set_z
 function M.gui.set_z(node, pos_z)
 	local position = gui.get_position(node)
 	position.z = pos_z
+	gui.set_position(node, position)
+end
+
+
+--- gui.add_z
+-- @function luax.gui.add_z
+function M.gui.add_z(node, add_z)
+	local position = gui.get_position(node)
+	position.z = position.z + add_z
 	gui.set_position(node, position)
 end
 
@@ -662,6 +736,18 @@ end
 -- @function luax.operators.neq
 function M.operators.neq(x, y)
 	return x ~= y
+end
+
+
+--- Trigger callback and schedule timer on it
+-- @function luax.timer.trigger_and_delay
+-- @tparam number delay§
+-- @tparam function calback
+-- @treturn hash The timer id
+function M.timer.trigger_and_delay(delay, callback)
+	local timer_id = timer.delay(delay, true, callback)
+	timer.trigger(timer_id)
+	return timer_id
 end
 
 

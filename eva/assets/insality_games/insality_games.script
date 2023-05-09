@@ -1,4 +1,4 @@
-go.property("notify_url", msg.url())
+ go.property("notify_url", msg.url())
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("destroy_go") then

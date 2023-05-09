@@ -16,6 +16,7 @@ local const = require("eva.const")
 
 local festivals = require("eva.modules.festivals")
 local game = require("eva.modules.game")
+local lang = require("eva.modules.lang")
 local saver = require("eva.modules.saver")
 local input = require("eva.modules.input")
 local ProFi = require("eva.system.profi")
@@ -149,6 +150,28 @@ local function on_eva_input(_, input_type, input_state)
 			logger:info("Debug save to slot 3")
 		end
 	end
+
+	if key == const.INPUT.KEY_L then
+		lang.set_next_lang()
+	end
+end
+
+
+--@function eva.debug.set_value
+--@tparam string key
+--@tparam any value
+function M.set_value(key, value)
+	app.debug_data.values = app.debug_data.values or {}
+	app.debug_data.values[key] = value
+end
+
+
+--@function eva.debug.get_value
+--@tparam string key
+--@treturn any
+function M.get_value(key)
+	app.debug_data.values = app.debug_data.values or {}
+	return app.debug_data.values[key]
 end
 
 

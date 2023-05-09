@@ -19,7 +19,7 @@ local _loggers = {}
 
 local _log = {}
 
-local INSPECT_PARAMS = { depth = 2, newline = "", indent = "" }
+local INSPECT_PARAMS = { depth = 4, newline = "", indent = "" }
 
 local LEVEL = {
 	FATAL = 10,

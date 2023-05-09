@@ -54,6 +54,18 @@ function M.path(from_x, from_y, to_x, to_y, map_handler)
 end
 
 
+function M.floodfill(from_x, from_y, map_handler)
+	map_handler = map_handler or app.pathfinder_default_handler
+
+	if not map_handler then
+		logger:error("No map handler for floodfill")
+		return false
+	end
+
+	return astar.floodfill(map_handler, from_x, from_y)
+end
+
+
 function M.for_path(path, callback)
 	if not path then
 		return nil
@@ -64,6 +76,12 @@ function M.for_path(path, callback)
 		local y = path.nodes[i].y
 		callback(x, y, i)
 	end
+end
+
+
+function M.get_cost(i, j, map_handler)
+	map_handler = map_handler or app.pathfinder_default_handler
+	return map_handler.get_cost(i, j)
 end
 
 

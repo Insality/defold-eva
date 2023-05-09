@@ -308,13 +308,13 @@ end
 
 --- Add multiply tokens
 -- @function eva.token.add_many
-function M.add_many(container_id, tokens, reason)
+function M.add_many(container_id, tokens, reason, visual_later)
 	if not tokens or #tokens.tokens == 0 then
 		return
 	end
 
 	for index, value in ipairs(tokens.tokens) do
-		M.add(container_id, value.token_id, value.amount, reason)
+		M.add(container_id, value.token_id, value.amount, reason, visual_later)
 	end
 end
 
@@ -362,12 +362,12 @@ end
 -- @tparam string token_id Token id
 -- @tparam number amount Amount to pay
 -- @tparam string reason The reason to pay
-function M.pay(container_id, token_id, amount, reason)
+function M.pay(container_id, token_id, amount, reason, is_visual_later)
 	if M.is_infinity(container_id, token_id) then
 		return true
 	end
 
-	return get_token(container_id, token_id):pay(amount, reason)
+	return get_token(container_id, token_id):pay(amount, reason, is_visual_later)
 end
 
 
@@ -375,9 +375,9 @@ end
 -- @function eva.token.pay_many
 -- @tparam evadata.Tokens tokens Tokens data
 -- @tparam string reason The reason to pay
-function M.pay_many(container_id, tokens, reason)
+function M.pay_many(container_id, tokens, reason, is_visual_later)
 	for index, value in ipairs(tokens.tokens) do
-		M.pay(container_id, value.token_id, value.amount, reason)
+		M.pay(container_id, value.token_id, value.amount, reason, is_visual_later)
 	end
 end
 
@@ -409,6 +409,10 @@ end
 function M.is_enough_many(container_id, tokens)
 	local is_enough = true
 
+	if not tokens or not tokens.tokens then
+		return true
+	end
+
 	for index, value in ipairs(tokens.tokens) do
 		is_enough = is_enough and M.is_enough(container_id, value.token_id, value.amount)
 	end
@@ -423,6 +427,26 @@ end
 function M.is_enough_group(container_id, token_group_id)
 	local tokens = M.get_token_group(token_group_id)
 	return M.is_enough_many(container_id, tokens)
+end
+
+
+--- Check if tokens contains the token_id
+-- @function eva.token.is_contains
+-- @tparam evadata.Tokens tokens Tokens data
+-- @tparam string token_id Token id
+-- @treturn boolean True if tokens contains the token_id
+function M.is_contains(tokens, token_id)
+	if not tokens then
+		return false
+	end
+
+	for _, value in ipairs(tokens.tokens) do
+		if value.token_id == token_id then
+			return true
+		end
+	end
+
+	return false
 end
 
 
@@ -520,7 +544,17 @@ end
 --- Get current visual debt of token
 -- @function eva.token.get_visual
 function M.get_visual(container_id, token_id)
-	return get_token(container_id, token_id):get_visual()
+	return math.max(0, get_token(container_id, token_id):get_visual())
+end
+
+
+--- Get total amount of acquired tokens for container
+-- @function eva.token.get_total_sum
+-- @tparam string container_id Container id
+-- @tparam string token_id Token id
+-- @treturn number The total amount of acquired tokens for container
+function M.get_total_sum(container_id, token_id)
+	return get_token(container_id, token_id):get_total_sum()
 end
 
 

@@ -7,6 +7,8 @@
 local app = require("eva.app")
 local luax = require("eva.luax")
 local const = require("eva.const")
+local tweener = require("eva.libs.tweener")
+local rendercam = require("rendercam.rendercam")
 
 local input = require("eva.modules.input")
 local camera_drag = require("eva.modules.camera.camera_drag")
@@ -19,7 +21,9 @@ local function get_initial_state()
 	return {
 		cam_id = nil,
 		is_animate = false,
+		is_animate_zoom = false,
 		is_control = true,
+		is_borders_enabled = true,
 
 		pos = vmath.vector3(0),
 		target_pos = vmath.vector3(0),
@@ -75,6 +79,17 @@ function M.set_borders(border_soft, border_hard)
 end
 
 
+function M.set_borders_enabled(is_borders_enabled)
+	local state = app.camera_state
+	state.is_borders_enabled = is_borders_enabled
+end
+
+
+function M.shake(power, time)
+	rendercam.shake(power, time)
+end
+
+
 --- Set the camera position
 -- @function eva.camera.set_position
 -- @tparam number x X position
@@ -89,20 +104,52 @@ function M.set_position(x, y)
 end
 
 
+---@return number, number
+function M.get_position()
+	local state = app.camera_state
+	return state.pos.x, state.pos.y
+end
+
+
 --- Set target camera position
 -- @function eva.camera.set_target_position
 -- @tparam number x X position
 -- @tparam number y Y position
-function M.scroll_to(x, y, time)
+-- @tparam function callback Callback function
+function M.scroll_to(x, y, time, callback)
 	time = time or 0.75
 	local state = app.camera_state
 	local pos = vmath.vector3(x, y, 0)
 	state.is_animate = true
-	state.pos = pos
 	state.target_pos = vmath.vector3(pos)
 
 	go.animate(state.cam_id, luax.go.PROP_POS, go.PLAYBACK_ONCE_FORWARD, pos, go.EASING_OUTSINE, time, 0, function()
+		state.pos = pos
 		state.is_animate = false
+		if callback then
+			callback()
+		end
+	end)
+end
+
+
+function M.zoom_to(zoom, time, zoom_from)
+	time = time or 0.75
+	local state = app.camera_state
+
+	state.is_animate_zoom = true
+	local current_zoom = state.zoom
+	if zoom_from then
+		current_zoom = zoom_from
+		rendercam.set_ortho_scale(zoom_from, state.cam_id)
+	end
+
+	tweener.tween(tweener.outSine, current_zoom, zoom, time, function(value, is_end)
+		rendercam.set_ortho_scale(value, state.cam_id)
+		if is_end then
+			M.set_zoom(zoom)
+			state.is_animate_zoom = false
+		end
 	end)
 end
 
@@ -116,6 +163,23 @@ function M.set_zoom_borders(zoom_soft, zoom_hard)
 
 	state.zoom_border_soft = zoom_soft
 	state.zoom_border_hard = zoom_hard
+end
+
+
+function M.set_zoom(zoom)
+	app.camera_state.zoom = zoom
+	app.camera_state.target_zoom = zoom
+end
+
+
+function M.set_target_zoom(zoom)
+	app.camera_state.target_zoom = zoom
+end
+
+
+---@return number
+function M.get_zoom()
+	return app.camera_state.zoom
 end
 
 

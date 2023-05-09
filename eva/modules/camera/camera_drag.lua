@@ -40,7 +40,7 @@ function M.update_camera_pos(state, dt, params)
 	local border_lerp = params.move_border_lerp_speed * const.FPS * dt
 
 	-- Soft border
-	if not input_state.is_drag and border_soft then
+	if not input_state.is_drag and border_soft and state.is_borders_enabled then
 		luax.math.lerp_box(target, border_soft, border_lerp, state.camera_box * state.zoom, true)
 	end
 
@@ -56,8 +56,12 @@ function M.update_camera_pos(state, dt, params)
 	end
 
 	-- Hard border
-	if state.border_hard then
+	if state.border_hard and state.is_borders_enabled then
 		luax.math.clamp_box(target, state.border_hard, state.camera_box * state.zoom, true)
+	end
+
+	if pos.x == target.x and pos.y == target.y then
+		return
 	end
 
 	-- Lerp position

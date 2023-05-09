@@ -44,6 +44,10 @@ function M.update_camera_zoom(state, dt, params)
 	local soft = state.zoom_border_soft
 	local hard = state.zoom_border_hard
 
+	if state.is_animate_zoom then
+		return
+	end
+
 	-- Soft border
 	if not input_state.is_pinch then
 		if state.target_zoom < soft.x then

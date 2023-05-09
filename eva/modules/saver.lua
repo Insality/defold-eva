@@ -72,7 +72,12 @@ function M.load(filename)
 			local file_data = file:read("*all")
 			file:close()
 			if file_data then
-				local parsed_data = cjson.decode(file_data)
+				local is_ok, result = pcall(cjson.decode, file_data)
+				if not is_ok then
+					logger:error("Can't load save file: %s", result)
+					return {}
+				end
+				local parsed_data = result
 				if parsed_data and type(parsed_data) == "table" then
 					return parsed_data
 				end

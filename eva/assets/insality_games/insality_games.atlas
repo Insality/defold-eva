@@ -1,52 +1,4 @@
 images {
-  image: "/eva/assets/insality_games/images/icon_cloud.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/icon_moon.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/icon_star.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/icon_sun.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/icon_sunrise.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_day.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_day_top.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_evening.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_evening_top.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_morning.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_night.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/eva/assets/insality_games/images/shadow_night_top.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/eva/assets/images/pixel.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
@@ -55,11 +7,15 @@ images {
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/eva/assets/insality_games/images/text_games_logo.png"
+  image: "/eva/assets/insality_games/images/Insality.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/eva/assets/insality_games/images/text_insality_logo.png"
+  image: "/eva/assets/insality_games/images/Games.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
+images {
+  image: "/eva/assets/insality_games/images/Heart.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 margin: 0

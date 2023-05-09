@@ -72,7 +72,7 @@ end
 
 local function handle_node(data, map_handler, node, to)
 	data.open[node.uid] = nil
-	data.closed[node.uid] = node.uid
+	data.closed[node.uid] = node.move_cost
 
 	assert(node.x ~= nil, 'About to pass a node with nil location to get_adjacent_nodes')
 	assert(node.y ~= nil, 'About to pass a node with nil location to get_adjacent_nodes')
@@ -91,7 +91,7 @@ local function handle_node(data, map_handler, node, to)
 		local n = nodes[i]
 		if map_handler.locations_are_equal(n, to) then
 			return n
-		elseif data.closed[n.uid] then -- Alread in close, skip this
+		elseif data.closed[n.uid] and data.closed[n.uid] <= n.move_cost then -- Alread in close, skip this
 			break
 		elseif data.open[n.uid] then -- Already in open, check if better score
 			local on = data.open[n.uid]
@@ -114,8 +114,7 @@ function M.find_path(map_handler, from_x, from_y, to_x, to_y)
 		closed = {}
 	}
 
-	local from_node = map_handler.get_node(from_x, from_y, 0)
-
+	local from_node = map_handler.get_node(from_x, from_y)
 	local next_node = nil
 
 	if from_node then
@@ -127,12 +126,18 @@ function M.find_path(map_handler, from_x, from_y, to_x, to_y)
 		local to = map_handler.get_node(to_x, to_y)
 		local finish = handle_node(data, map_handler, next_node, to)
 		if finish then
-			return trace_path(finish)
+			return trace_path(finish), data
 		end
 		next_node = get_best_open_node(data)
 	end
 
-	return nil
+	return nil, data
+end
+
+
+function M.floodfill(map_handler, from_x, from_y, max_cost)
+	local _, data = M.find_path(map_handler, from_x, from_y, 99999, 99999)
+	return data.closed
 end
 
 

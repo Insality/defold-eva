@@ -203,6 +203,7 @@ end
 --- Cancel all pushes with category
 -- If category is not provided, cancel all pushes
 -- @function eva.push.unschedule_all
+-- @tparam string category Push category to cancel
 function M.unschedule_all(category)
 	local pushes = app[const.EVA.PUSH].pushes
 
@@ -219,11 +220,28 @@ function M.unschedule_all(category)
 end
 
 
+--- Get push enabled status
+-- @function eva.push.is_enabled
+function M.is_enabled()
+	return app[const.EVA.PUSH].is_enabled
+end
+
+
+--- Set push enabled status
+-- @function eva.push.set_enabled
+-- @tparam boolean is_enabled
+function M.set_enabled(is_enabled)
+	app[const.EVA.PUSH].is_enabled = is_enabled
+	if not is_enabled then
+		M.unschedule_all()
+	end
+end
+
+
 function M.on_eva_init()
 	app[const.EVA.PUSH] = proto.get(const.EVA.PUSH)
 	saver.add_save_part(const.EVA.PUSH, app[const.EVA.PUSH])
 
-	M.clear_old_pushes()
 	--[[
 	print("Try register push")
 	push.register({}, function (self, token, error)
@@ -239,6 +257,11 @@ function M.on_eva_init()
 	if push then
 		push.set_listener(push_listener)
 	end
+end
+
+
+function M.after_eva_init()
+	M.clear_old_pushes()
 end
 
 

@@ -164,6 +164,11 @@ local function on_complete_quest_update_started_list(quest_id)
 			table.insert(can_be_started, q)
 		end
 	end
+
+	-- Update repeatable quests
+	if can_be_started_quest(quest_id) and not luax.table.contains(can_be_started) then
+		table.insert(can_be_started, quest_id)
+	end
 end
 
 
@@ -182,6 +187,28 @@ local function register_quest(quest_id)
 	end
 
 	events.event(const.EVENT.QUEST_REGISTER, { quest_id = quest_id })
+end
+
+
+local function clean_unexisting_quests()
+	local current = app[const.EVA.QUESTS].current
+	for quest_id, quest in pairs(current) do
+		local quest_data = get_quest_config(quest_id)
+		if not quest_data then
+			current[quest_id] = nil
+		end
+	end
+end
+
+
+local function migrate_quests_data()
+	local current = app[const.EVA.QUESTS].current
+	for quest_id, quest in pairs(current) do
+		local quest_data = get_quest_config(quest_id)
+		for i = 1, #quest_data.tasks do
+			quest.progress[i] = quest.progress[i] or 0
+		end
+	end
 end
 
 
@@ -336,10 +363,16 @@ end
 
 --- Get current active quests
 -- @function eva.quests.get_current
+-- @tparam string[opt] category Quest category, if nil return all current quests
 -- @treturn table List of active quests
-function M.get_current()
+function M.get_current(category)
 	return fun.filter(function(quest_id, quest)
-		return quest.is_active
+		local is_category_match = true
+		if category then
+			local quest_data = get_quest_config(quest_id)
+			is_category_match = quest_data.category == category
+		end
+		return quest.is_active and is_category_match
 	end, app[const.EVA.QUESTS].current):totable()
 end
 
@@ -430,6 +463,14 @@ function M.complete_quest(quest_id)
 	if M.is_can_complete_quest(quest_id) then
 		finish_quest(quest_id)
 	end
+end
+
+
+--- Force complete quest
+-- @function eva.quests.force_complete_quest
+-- @tparam string quest_id Quest id
+function M.force_complete_quest(quest_id)
+	finish_quest(quest_id)
 end
 
 
@@ -528,7 +569,10 @@ end
 
 
 function M.after_eva_init()
-	app.quests_settings = {}
+	if not app.quests_settings then
+		app.quests_settings = {}
+	end
+
 	app.quests_info = {
 		is_started = false,
 		can_be_started = {},
@@ -536,6 +580,8 @@ function M.after_eva_init()
 	}
 
 	M.add_update_quest_event(const.EVENT.TOKEN_CHANGE)
+	clean_unexisting_quests()
+	migrate_quests_data()
 end
 
 

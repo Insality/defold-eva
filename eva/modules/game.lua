@@ -11,7 +11,6 @@
 local log = require("eva.log")
 local app = require("eva.app")
 local const = require("eva.const")
-local gui_extra_functions = require("gui_extra_functions.gui_extra_functions")
 local time_string = require("eva.libs.time_string")
 
 local proto = require("eva.modules.proto")
@@ -89,7 +88,7 @@ end
 
 
 local function on_window_event(self, event, data)
-	-- events.event(const.EVENT.WINDOW_EVENT, { event = event, data = data })
+	events.event(const.EVENT.WINDOW_EVENT, { event = event, data = data })
 	if event == window.WINDOW_EVENT_FOCUS_GAINED then
 		sync_time()
 		check_session()
@@ -211,7 +210,6 @@ function M.get_seconds_until_new_day()
 	next_date.hour = 0
 	next_date.min = 0
 	next_date.sec = 0
-	pprint(current_date)
 
 	return os.difftime(os.time(next_date), os.time(current_date))
 end
@@ -250,8 +248,6 @@ function M.on_eva_init()
 		-- TODO: Make custom Dimming timing for specific time?
 		window.set_dim_mode(window.DIMMING_OFF)
 	end
-
-	gui_extra_functions.init()
 
 	app[const.EVA.GAME] = proto.get(const.EVA.GAME)
 	saver.add_save_part(const.EVA.GAME, app[const.EVA.GAME])

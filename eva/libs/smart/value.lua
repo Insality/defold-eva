@@ -1,7 +1,7 @@
 local M = {}
 
 
-function M.set(self, value, reason)
+function M.set(self, value, reason, is_visual_later)
 	if self.params.min then
 		value = math.max(self.params.min, value)
 	end
@@ -14,6 +14,13 @@ function M.set(self, value, reason)
 	local delta = value - old_value
 
 	self.data_table.amount = value - self.data_table.offset
+	if delta > 0 then
+		self.data_table.total_sum = self.data_table.total_sum + delta
+	end
+
+	if is_visual_later then
+		self.visual_credit = self.visual_credit + (value - old_value)
+	end
 
 	if delta ~= 0 then
 		if self._on_change_callbacks then
@@ -34,11 +41,7 @@ end
 
 function M.add(self, value, reason, is_visual_later)
 	local prev_value = self:get()
-	local new_value = self:set(prev_value + value, reason)
-	if is_visual_later then
-		self.visual_credit = self.visual_credit + (new_value - prev_value)
-	end
-
+	local new_value = self:set(prev_value + value, reason, is_visual_later)
 	return new_value
 end
 
@@ -53,11 +56,28 @@ end
 
 function M.add_visual(self, value)
 	self.visual_credit = self.visual_credit - value
+
+	--if self.params.min then
+	--	if self:get() - self.visual_credit < self.params.min then
+	--		self.visual_credit = self:get() - self.params.min
+	--	end
+	--end
+
+	--if self.params.max then
+	--	if self:get() - self.visual_credit > self.params.max then
+	--		self.visual_credit = self:get() - self.params.max
+	--	end
+	--end
 end
 
 
 function M.get_visual(self)
 	return self:get() - self.visual_credit
+end
+
+
+function M.get_total_sum(self)
+	return self.data_table.total_sum
 end
 
 
@@ -89,11 +109,11 @@ function M.check(self, value)
 end
 
 
-function M.pay(self, value, reason)
+function M.pay(self, value, reason, is_visual_later)
 	value = value or 1
 
 	if self:check(value) then
-		return self:add(-value, reason)
+		return self:add(-value, reason, is_visual_later)
 	end
 
 	return false

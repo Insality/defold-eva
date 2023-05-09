@@ -62,6 +62,19 @@ function M.set_lang(lang)
 end
 
 
+function M.set_next_lang()
+	local current_lang = M.get_lang()
+	local all_langs = M.get_langs()
+	local current_index = luax.table.contains(all_langs, current_lang) or 1
+	if current_index >= #all_langs then
+		current_index = 1
+	else
+		current_index = current_index + 1
+	end
+	M.set_lang(all_langs[current_index])
+end
+
+
 --- Get current language
 -- @function eva.lang.get_lang
 -- @treturn string return current language code

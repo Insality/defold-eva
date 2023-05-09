@@ -14,7 +14,7 @@ components {
   }
 }
 components {
-  id: "insality_games1"
+  id: "insality_games_script"
   component: "/eva/assets/insality_games/insality_games.script"
   position {
     x: 0.0

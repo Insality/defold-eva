@@ -39,8 +39,8 @@ end
 
 --- Add multiply tokens
 -- @function eva.wallet.add_many
-function M.add_many(tokens, reason)
-	return token.add_many(const.WALLET_CONTAINER, tokens, reason)
+function M.add_many(tokens, reason, visual_later)
+	return token.add_many(const.WALLET_CONTAINER, tokens, reason, visual_later)
 end
 
 
@@ -79,8 +79,8 @@ end
 -- @function eva.wallet.pay_many
 -- @tparam evadata.Tokens tokens Tokens data
 -- @tparam string reason The reason to pay
-function M.pay_many(tokens, reason)
-	return token.pay_many(const.WALLET_CONTAINER, tokens, reason)
+function M.pay_many(tokens, reason, is_visual_later)
+	return token.pay_many(const.WALLET_CONTAINER, tokens, reason, is_visual_later)
 end
 
 --- Pay multiply tokens by token_group_id
@@ -180,6 +180,16 @@ end
 function M.get_visual(token_id)
 	return token.get_visual(const.WALLET_CONTAINER, token_id)
 end
+
+
+--- Get total amount of acquired tokens for profile
+-- @function eva.token.get_total_sum
+-- @tparam string token_id Token id
+-- @treturn number The total amount of acquired tokens for profile
+function M.get_total_sum(token_id)
+	return token.get_total_sum(const.WALLET_CONTAINER, token_id)
+end
+
 
 
 --- Get current time to next restore point

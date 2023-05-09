@@ -243,7 +243,7 @@ function Inspector:putTable(t)
   elseif self.level >= self.depth then
     self:puts('{...}')
   else
-    if self.tableAppearances[t] > 1 then self:puts('<', self:getId(t), '>') end
+    if self.tableAppearances[t] and self.tableAppearances[t] > 1 then self:puts('<', self:getId(t), '>') end
 
     local nonSequentialKeys, sequenceLength = getNonSequentialKeys(t)
     local mt                = getmetatable(t)

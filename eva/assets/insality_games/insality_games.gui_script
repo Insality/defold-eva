@@ -1,155 +1,15 @@
---[[
-	COLORS = {
-		DARK = "#5e6472",
-		RED = "#ffa69e",
-		YELLOW = "#faf3dd",
-		BLUE = "#aed9e0",
-		LIGHTBLUE = "#b8f2e6"
-	}
---]]
+local animation = require("eva.assets.insality_games.animation_insality_games")
 
-
-local SCENES = {
-	MORNING = "morning",
-	DAY = "day",
-	EVENING = "evening",
-	NIGHT = "night"
-}
-
-
-local function get_scene_name()
-	local hour = os.date("*t").hour
-	if hour >= 4 and hour < 10 then
-		return SCENES.MORNING
-	end
-
-	if hour >= 10 and hour < 16 then
-		return SCENES.DAY
-	end
-
-	if hour >= 16 and hour < 22 then
-		return SCENES.EVENING
-	end
-
-	return SCENES.NIGHT
-end
-
-
-local function set_alpha(node, alpha)
-	local color = gui.get_color(node)
-	color.w = alpha
-	gui.set_color(node, color)
-end
-
-
-local function animate_text_logo(self, node)
-	set_alpha(node, 0)
-	gui.set_scale(node, vmath.vector3(0.9))
-	gui.animate(node, "color.w", 1, gui.EASING_OUTSINE, 0.5, 0.5)
-	gui.animate(node, "scale", vmath.vector3(1), gui.EASING_OUTSINE, 2, 0.4)
-end
-
-
-local function animate_scene_morning(self)
-	animate_text_logo(self, gui.get_node("text_logo_morning"))
-
-	local icon = gui.get_node("icon_morning")
-	set_alpha(icon, 0)
-	gui.animate(icon, "color.w", 1, gui.EASING_OUTSINE, 1, 0)
-	gui.set_position(icon, vmath.vector3(0, -165, 0))
-	gui.animate(icon, "position.y", 0, gui.EASING_OUTSINE, 1.8, 0.2)
-
-	local shadow_bot = gui.get_node("shadow_bot_morning")
-	set_alpha(shadow_bot, 0)
-	gui.animate(shadow_bot, "color.w", 1, gui.EASING_OUTSINE, 1, 0.2)
-end
-
-
-local function animate_scene_day(self)
-	animate_text_logo(self, gui.get_node("text_logo_day"))
-
-	local icon = gui.get_node("icon_day")
-	set_alpha(icon, 0)
-	gui.animate(icon, "position.y", 40, gui.EASING_INSINE, 2, 0, nil, gui.PLAYBACK_ONCE_BACKWARD)
-	gui.animate(icon, "color.w", 1, gui.EASING_OUTSINE, 0.5, 0)
-
-	local shadow_bot = gui.get_node("shadow_bot_day")
-	set_alpha(shadow_bot, 0)
-	gui.animate(shadow_bot, "color.w", 1, gui.EASING_OUTSINE, 1, 0.2)
-
-	local shadow_top = gui.get_node("shadow_top_day")
-	set_alpha(shadow_top, 0)
-	gui.animate(shadow_top, "color.w", 1, gui.EASING_OUTSINE, 1, 0.5)
-end
-
-
-local function animate_scene_evening(self)
-	animate_text_logo(self, gui.get_node("text_logo_evening"))
-
-	local icon = gui.get_node("icon_evening")
-	set_alpha(icon, 0)
-	gui.set_position(icon, vmath.vector3(0, 100, 0))
-	gui.animate(icon, "position.y", 70, gui.EASING_INOUTSINE, 2.2, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
-	gui.animate(icon, "color.w", 1, gui.EASING_OUTSINE, 0.5, 0)
-
-	local shadow_bot = gui.get_node("shadow_bot_evening")
-	set_alpha(shadow_bot, 0)
-	gui.animate(shadow_bot, "color.w", 1, gui.EASING_OUTSINE, 1, 0.2)
-
-	local shadow_top = gui.get_node("shadow_top_evening")
-	set_alpha(shadow_top, 0)
-	gui.animate(shadow_top, "color.w", 1, gui.EASING_OUTSINE, 1, 0.5)
-end
-
-
-local function animate_scene_night(self)
-	animate_text_logo(self, gui.get_node("text_logo_night"))
-
-	local icon = gui.get_node("icon_night")
-	set_alpha(icon, 0)
-	gui.animate(icon, "position.y", 50, gui.EASING_INSINE, 0.75, 0, nil, gui.PLAYBACK_ONCE_BACKWARD)
-	gui.animate(icon, "rotation.z", 10, gui.EASING_INSINE, 0.75, 0, nil, gui.PLAYBACK_ONCE_BACKWARD)
-	gui.animate(icon, "color.w", 1, gui.EASING_OUTSINE, 0.5, 0)
-
-	local shadow_bot = gui.get_node("shadow_bot_night")
-	set_alpha(shadow_bot, 0)
-	gui.animate(shadow_bot, "color.w", 1, gui.EASING_OUTSINE, 1, 0.2)
-
-	local shadow_top = gui.get_node("shadow_top_night")
-	set_alpha(shadow_top, 0)
-	gui.animate(shadow_top, "color.w", 1, gui.EASING_OUTSINE, 1, 0.5)
-
-	for i = 1, 6 do
-		local star_node = gui.get_node("stars_" .. i)
-		set_alpha(star_node, 0)
-		gui.animate(star_node, "color.w", 1, gui.EASING_OUTSINE, 0.2, 0.5 + 0.1 * (i - 1))
-	end
-end
-
-
-local scene_animations = {
-	[SCENES.MORNING] = animate_scene_morning,
-	[SCENES.DAY] = animate_scene_day,
-	[SCENES.EVENING] = animate_scene_evening,
-	[SCENES.NIGHT] = animate_scene_night,
-}
-
-
-local function init_scene(self, scene_name)
-	set_alpha(gui.get_node("root"), 1)
-
-	local scene_node = gui.get_node("scene_" .. scene_name)
-	gui.set_enabled(scene_node, true)
-	gui.set_position(scene_node, vmath.vector3(0))
-	scene_animations[scene_name](self)
-end
 
 
 local function hide_scene(self)
-	self.is_hiding = true
+	if self.is_hiding then
+		return
+	end
 
+	self.is_hiding = true
 	local root = gui.get_node("root")
-	gui.animate(root, "color.w", 0, gui.EASING_OUTSINE, 0.5, 0, function()
+	gui.animate(root, "color.w", 0, gui.EASING_OUTSINE, 0.25, 0, function()
 		msg.post(".", "destroy_go")
 	end)
 end
@@ -158,15 +18,10 @@ end
 function init(self)
 	gui.set_render_order(15)
 
-	local scene_name = get_scene_name()
-	gui.set_enabled(gui.get_node("scene_morning"), false)
-	gui.set_enabled(gui.get_node("scene_day"), false)
-	gui.set_enabled(gui.get_node("scene_evening"), false)
-	gui.set_enabled(gui.get_node("scene_night"), false)
-
-	init_scene(self, scene_name)
-
-	timer.delay(2.5, false, hide_scene)
+	self.animation = animation.create(nil, {
+		animation_id = "appear",
+	}, true)
+	self._timer_id = timer.delay(2.75, false, hide_scene)
 
 	msg.post(".", "late_acquire_focus")
 end
@@ -179,6 +34,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash("late_acquire_focus") then
+		animation.play(self.animation)
 		msg.post(".", "acquire_input_focus")
 	end
 end

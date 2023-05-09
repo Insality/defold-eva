@@ -7,6 +7,9 @@ local M = {}
 
 
 function M.locations_are_equal(a, b)
+	if not b then
+		return false
+	end
 	return a.x == b.x and a.y == b.y
 end
 
@@ -60,6 +63,9 @@ function M.get_handler(get_node_fn)
 		get_node = function(x, y)
 			local cost = get_node_fn(x, y)
 			return node.get(x, y, cost)
+		end,
+		get_cost = function(x, y)
+			return get_node_fn(x, y)
 		end,
 		neighbors = {}
 	}

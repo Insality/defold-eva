@@ -31,7 +31,8 @@ function M.register(context, name, callback, priority)
 		callback = callback,
 		script_context = lua_script_instance.Get(),
 		priority = priority,
-		context = context
+		context = context,
+		is_enabled = true,
 	})
 
 	table.sort(app.input.stack, function(a, b)
@@ -52,6 +53,18 @@ function M.unregister(name)
 
 	if result then
 		logger:debug("Input unregister", { name = name })
+	end
+end
+
+
+function M.set_enabled(name, is_enabled)
+	for index = 1, #app.input.stack do
+		local input = app.input.stack[index]
+		if input.name == name then
+			input.is_enabled = is_enabled
+			logger:debug("Input set enabled", { name = name, is_enabled = is_enabled })
+			return
+		end
 	end
 end
 
@@ -109,7 +122,6 @@ function M.on_input(action_id, action)
 		return
 	end
 
-	local stack = app.input.stack
 	local state = app.input.state
 
 	state.input_type = nil
@@ -145,7 +157,7 @@ function M.on_input(action_id, action)
 	if state.is_drag and state.input_type ~= const.INPUT_TYPE.DRAG_START then
 		state.input_type = const.INPUT_TYPE.DRAG
 	end
-	if state.is_pinch then
+	if state.is_pinch and state.input_type ~= const.INPUT_TYPE.PINCH_START then
 		state.input_type = const.INPUT_TYPE.PINCH
 	end
 
@@ -153,19 +165,23 @@ function M.on_input(action_id, action)
 	state.action = action
 
 	local current_context = lua_script_instance.Get()
+	local stack = app.input.stack
 	for i = 1, #stack do
 		local context = stack[i].context
 		local callback = stack[i].callback
 		local script_context = stack[i].script_context
-		lua_script_instance.Set(script_context)
+		local is_enabled = stack[i].is_enabled
+		if is_enabled then
+			lua_script_instance.Set(script_context)
 
-		local ok, result = pcall(callback, context, state.input_type, state)
+			local ok, result = pcall(callback, context, state.input_type, state)
 
-		if ok and result then
-			break
-		end
-		if not ok then
-			pprint("Input errors:", result)
+			if ok and result then
+				break
+			end
+			if not ok then
+				pprint("Input errors:", result)
+			end
 		end
 	end
 	lua_script_instance.Set(current_context)
