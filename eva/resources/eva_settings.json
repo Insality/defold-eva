@@ -7,14 +7,14 @@
 		"config": "Ads"
 	},
 	"cache": {
-		"is_disabled": false
+		"is_disabled": true
 	},
 	"camera": {
 		"is_disabled": false,
 		"input_priority": 3,
 		"move_lerp_speed": 0.87,
 		"move_border_lerp_speed": 0.09,
-		"zoom_lerp_speed": 0.6,
+		"zoom_lerp_speed": 0.7,
 		"zoom_border_lerp_speed": 0.06,
 		"friction": 0.88,
 		"friction_hold": 0.68,

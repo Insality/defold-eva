@@ -11,7 +11,8 @@ local M = {}
 function M.new(params, data_table)
 	data_table = data_table or {
 		amount = nil,
-		offset = 0
+		offset = 0,
+		total_sum = 0,
 	}
 
 	local v = setmetatable({}, { __index = value })

@@ -85,6 +85,7 @@ message Game {
 message Token {
 	int32 amount = 1;
 	int32 offset = 2;
+	int32 total_sum = 3;
 }
 
 message Tokens {
@@ -169,6 +170,7 @@ message PushInfo {
 
 message Push {
 	repeated PushInfo pushes = 1;
+	bool is_enabled = 2;
 }
 
 message InvoiceInfo {
