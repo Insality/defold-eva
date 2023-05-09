@@ -3,7 +3,15 @@
 [![codecov](https://codecov.io/gh/Insality/defold-eva/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-eva)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/insality/defold-eva)
 
-**Eva** - basic Defold module, designed for mobile games with meta-game. It provides a lot of additional API and systems for easier game development.
+**Eva** - basic Defold module, designed for mobile games with meta-game. It provides a **lot** of additional API and systems for easier game development. It contains a lot of different modules, which can be used separately.
+
+---
+
+**DISCLAIMER**: Eva is not documented well, some functions can be broken. Eva is in development, so API can be changed in future versions.
+
+It is public in educational purposes, so you can see how I do different things and use it in your own projects. I will be glad if you will use it in your projects, but I can't guarantee that it will work well.
+
+---
 
 
 ## Features
@@ -11,7 +19,7 @@
 **Eva** provides the foundation for your game.
 
 - Use *protobuf* for data and user profile validation, default values and marshaling
-- Rich utilitary API for different actions
+- Rich utility API for different actions
 - Quests, festivals, offers, daily bonus, etc system embedded
 - General event system, with already defined 50+ events
 - Tiled support with 3 different grids support + pathfinding (grid, isogrid, hexgrid)
@@ -37,31 +45,41 @@ Eva setup and initial configuration is quite massive, please read install [instr
 
 
 ## Evadata format and export
-For some modules, defined specific basic structure.
+For some modules there are defined specific basic structure.
 
-Proto eva data description can be [found here](https://github.com/Insality/defold-eva/blob/master/eva/resources/evadata.proto).
+Proto Eva data description can be [found here](https://github.com/Insality/defold-eva/blob/master/eva/resources/evadata.proto).
 
 Google document with data example can be [found here](https://docs.google.com/spreadsheets/d/1-kbuk5avCvjkAgUwKM29fHf77Uc1-jZ5TtS3EHZbY4g/edit?usp=sharing).
 
 Rules for export can be [found here](https://github.com/Insality/defold-eva/tree/master/export_config) (using [sheets-exporter](https://github.com/Insality/sheets-exporter)).
 
+Otherwise, all data can be filled manually with designed structure.
+
 
 ## Tiled exporter
 
-Eva have defined workflow with tiled:
-- Make assets (game objects) in defold in separate folder (subfolders allowed)
-- Generate tilesets for Tiled via tiled-exporter module](https://github.com/Insality/defold-tiled-generator)
-- Make level assets in Tiled via generated tilesets
-- Export tmx files to Defold via tiled-exporter module](https://github.com/Insality/defold-tiled-generator)
+**Eva** have defined workflow with **Tiled**. There is a special module for that:
 
-*TODO: write instructions*
 
+<div align="center">
+  <a href="https://github.com/Insality/detiled">
+  	<img src="https://github.com/Insality/detiled/blob/develop/media/detiled_logo.png?raw=true" alt="detiled_logo" width=300>
+  </a>
+</div>
+
+
+What it can do?
+- Generate standalone Tiled tilesets from Defold assets folder
+- Generate collection files with gameobjects, collections and tilemaps from created Tiled maps
+- Generate Defold factory and collectionfactory for all tilesets used in generation. This is allow you create DLC folder assets for liveupdate for example
+- Generate mapping file - list of all usable entities with a lot of additional info (size, properties, urls and other)
+- Generate objects into Defold collections directly, without any code to spawn it (can be disabled via layer property)
 
 ## Custom modules
 
 Eva allows your to define new modules or rewrite existing one
 
-_not implemented_
+_currently not implemented_
 
 
 ## Modules
@@ -131,17 +149,16 @@ _not implemented_
 - Window setup
 - Quests setup
 
-
-## Games powered by Eva
-
-_not implemented yet_
-
-
 ## License
 
 **MIT** License, [Insality](https://github.com/Insality)
 
-
 ## Issues and suggestions
 
 If you have any issues, questions or suggestions please  [create an issue](https://github.com/insality/defold-eva/issues)  or contact me:  [insality@gmail.com](mailto:insality@gmail.com)
+
+## ❤️ Support project ❤️
+
+Please support me if you like this project! It will help me keep engaged to update **Defold** libraries and make more useful content!
+
+[![Github-sponsors](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/insality) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/insality) [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/insality)
