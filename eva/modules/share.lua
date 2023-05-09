@@ -1,7 +1,7 @@
 --- Eva share module. This module require next dependencies (see dependencies.txt):
---- defold-sharing
---- defold-screenshot
-
+-- defold-sharing
+-- defold-screenshot
+-- @submodule eva
 
 local log = require("eva.log")
 

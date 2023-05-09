@@ -24,7 +24,7 @@
 
 <div id="navigation">
 <br/>
-<h1>Defold-Eva</h1>
+<h1>Defold Eva</h1>
 
 <ul>
   <li><a href="../index.html">Index</a></li>
@@ -40,6 +40,7 @@
 <li><a href="#modules_db_Functions">modules.db Functions</a></li>
 <li><a href="#modules_device_Functions">modules.device Functions</a></li>
 <li><a href="#modules_events_Functions">modules.events Functions</a></li>
+<li><a href="#modules_feature_Functions">modules.feature Functions</a></li>
 <li><a href="#modules_festivals_Functions">modules.festivals Functions</a></li>
 <li><a href="#modules_game_Functions">modules.game Functions</a></li>
 <li><a href="#modules_gdpr_Functions">modules.gdpr Functions</a></li>
@@ -63,6 +64,7 @@
 <li><a href="#modules_render_Functions">modules.render Functions</a></li>
 <li><a href="#modules_saver_Functions">modules.saver Functions</a></li>
 <li><a href="#modules_server_Functions">modules.server Functions</a></li>
+<li><a href="#modules_share_Functions">modules.share Functions</a></li>
 <li><a href="#modules_skill_Functions">modules.skill Functions</a></li>
 <li><a href="#modules_sound_Functions">modules.sound Functions</a></li>
 <li><a href="#modules_storage_Functions">modules.storage Functions</a></li>
@@ -84,7 +86,6 @@
   <li><a href="../modules/event.html">event</a></li>
   <li><a href="../modules/log.html">log</a></li>
   <li><a href="../modules/luax.html">luax</a></li>
-  <li><a href="../modules/modules.share.html">modules.share</a></li>
 </ul>
 
 </div>
@@ -185,12 +186,28 @@
 	<td class="summary">Set the camera position</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.camera.set_target_position">eva.camera.set_target_position(x, y)</a></td>
+	<td class="name" nowrap><a href="#eva.camera.get_position">eva.camera.get_position()</a></td>
+	<td class="summary">Get the camera position</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_target_position">eva.camera.set_target_position(x, y, callback)</a></td>
 	<td class="summary">Set target camera position</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.camera.set_zoom_borders">eva.camera.set_zoom_borders(zoom_soft, zoom_hard)</a></td>
 	<td class="summary">Set the camera game object and size of the camera</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_zoom">eva.camera.set_zoom(zoom)</a></td>
+	<td class="summary">Set the camera zoom</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.set_target_zoom">eva.camera.set_target_zoom(zoom)</a></td>
+	<td class="summary">Set the camera target zoom</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.camera.get_zoom">eva.camera.get_zoom()</a></td>
+	<td class="summary">Get the camera zoom</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.camera.update">eva.camera.update(dt)</a></td>
@@ -309,6 +326,17 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.events.is_subscribed">eva.events.is_subscribed(event_name, callback)</a></td>
 	<td class="summary">Check if callback is already subscribed</td>
+	</tr>
+</table>
+<h2><a href="#modules_feature_Functions">modules.feature Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.feature.toggle">eva.feature.toggle(feature_name, state)</a></td>
+	<td class="summary">Toggle manually feature</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.feature.start">eva.feature.start()</a></td>
+	<td class="summary">Start eva feature system.</td>
 	</tr>
 </table>
 <h2><a href="#modules_festivals_Functions">modules.festivals Functions</a></h2>
@@ -571,6 +599,10 @@
 	<td class="name" nowrap><a href="#eva.input.unregister">eva.input.unregister(name)</a></td>
 	<td class="summary">Unregister prev.</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.input.set_enabled">eva.input.set_enabled(name, is_enabled)</a></td>
+	<td class="summary">Set enabled state for input</td>
+	</tr>
 </table>
 <h2><a href="#modules_invoices_Functions">modules.invoices Functions</a></h2>
 <table class="function_list">
@@ -807,9 +839,17 @@
 	<td class="summary">Unschedule the push notification</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.push.unschedule_all">eva.push.unschedule_all()</a></td>
+	<td class="name" nowrap><a href="#eva.push.unschedule_all">eva.push.unschedule_all(category)</a></td>
 	<td class="summary">Cancel all pushes with category
  If category is not provided, cancel all pushes</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.push.is_enabled">eva.push.is_enabled()</a></td>
+	<td class="summary">Get push enabled status</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.push.set_enabled">eva.push.set_enabled(is_enabled)</a></td>
+	<td class="summary">Set push enabled status</td>
 	</tr>
 </table>
 <h2><a href="#modules_quests_Functions">modules.quests Functions</a></h2>
@@ -819,7 +859,7 @@
 	<td class="summary">Get current progress on quest</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.quests.get_current">eva.quests.get_current()</a></td>
+	<td class="name" nowrap><a href="#eva.quests.get_current">eva.quests.get_current(category)</a></td>
 	<td class="summary">Get current active quests</td>
 	</tr>
 	<tr>
@@ -854,6 +894,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.complete_quest">eva.quests.complete_quest(quest_id)</a></td>
 	<td class="summary">Complete quest, if it can be completed</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.quests.force_complete_quest">eva.quests.force_complete_quest(quest_id)</a></td>
+	<td class="summary">Force complete quest</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.quests.reset_progress">eva.quests.reset_progress(quest_id)</a></td>
@@ -978,6 +1022,13 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.server.get_socket">eva.server.get_socket()</a></td>
 	<td class="summary">Return nakama socket</td>
+	</tr>
+</table>
+<h2><a href="#modules_share_Functions">modules.share Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#eva.share.screen">eva.share.screen(text)</a></td>
+	<td class="summary">Share screenshot of the game</td>
 	</tr>
 </table>
 <h2><a href="#modules_skill_Functions">modules.skill Functions</a></h2>
@@ -1129,7 +1180,7 @@
 	<td class="summary">Load map from tiled json data</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.add_tile">eva.tiled.add_tile(layer_name, spawner_name, index, i, j[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.add_tile">eva.tiled.add_tile(layer_name, tileset_name, mapping_id, i, j[, map_data])</a></td>
 	<td class="summary">Add tile to the map by tile index from tiled tileset</td>
 	</tr>
 	<tr>
@@ -1141,7 +1192,7 @@
 	<td class="summary">Delete tile from the map by tile pos</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(layer_name, spawner_name, index, x, y, props[, map_data])</a></td>
+	<td class="name" nowrap><a href="#eva.tiled.add_object">eva.tiled.add_object(layer_name, object_full_id, x, y[, scale=1[, rotation=0[, props[, map_data]]]])</a></td>
 	<td class="summary">Add object to the map by object index from tiled tileset</td>
 	</tr>
 	<tr>
@@ -1151,6 +1202,34 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.tiled.get_object_data">eva.tiled.get_object_data(object_name)</a></td>
 	<td class="summary">Get mapping object info by name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.get_object_data">eva.tiled.get_object_data(object_name)</a></td>
+	<td class="summary">Get mapping object info by mapping_id</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.get_property">eva.tiled.get_property(object_info, object_name, script_name, property_name)</a></td>
+	<td class="summary">Get object property</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.get_property_by_name">eva.tiled.get_property_by_name(object_info, property_name)</a></td>
+	<td class="summary">Get object property by name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.set_object_id">eva.tiled.set_object_id(object_info, scene_id)</a></td>
+	<td class="summary">Set unique id for the object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.set_scene_name">eva.tiled.set_scene_name(object_info, scene_name)</a></td>
+	<td class="summary">Set scene name for the object</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.set_enabled">eva.tiled.set_enabled(object_info, is_enabled)</a></td>
+	<td class="summary">Set object enabled state</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.tiled.is_enabled">eva.tiled.is_enabled(object_info)</a></td>
+	<td class="summary">Return if object is enabled</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.tiled.delete_object">eva.tiled.delete_object(game_object_id[, map_data])</a></td>
@@ -1268,6 +1347,10 @@
 	<td class="summary">Check multiply tokens by token_group_id</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#eva.token.is_contains">eva.token.is_contains(tokens, token_id)</a></td>
+	<td class="summary">Check if tokens contains the token_id</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#eva.token.is_max">eva.token.is_max(container_id, token_id)</a></td>
 	<td class="summary">Return is token is maximum</td>
 	</tr>
@@ -1306,6 +1389,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.token.get_visual">eva.token.get_visual()</a></td>
 	<td class="summary">Get current visual debt of token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_total_sum">eva.token.get_total_sum(container_id, token_id)</a></td>
+	<td class="summary">Get total amount of acquired tokens for container</td>
 	</tr>
 </table>
 <h2><a href="#modules_trucks_Functions">modules.trucks Functions</a></h2>
@@ -1480,6 +1567,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#eva.wallet.get_visual">eva.wallet.get_visual()</a></td>
 	<td class="summary">Get current visual debt of token</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#eva.token.get_total_sum">eva.token.get_total_sum(token_id)</a></td>
+	<td class="summary">Get total amount of acquired tokens for profile</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#eva.wallet.get_seconds_to_restore">eva.wallet.get_seconds_to_restore()</a></td>
@@ -1990,8 +2081,31 @@
 
 </dd>
     <dt>
+    <a name = "eva.camera.get_position"></a>
+    <strong>eva.camera.get_position()</strong>
+    </dt>
+    <dd>
+    Get the camera position
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        x X position</li>
+        <li>
+           <span class="types"><span class="type">number</span></span>
+        y Y position</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.camera.set_target_position"></a>
-    <strong>eva.camera.set_target_position(x, y)</strong>
+    <strong>eva.camera.set_target_position(x, y, callback)</strong>
     </dt>
     <dd>
     Set target camera position
@@ -2006,6 +2120,10 @@
         <li><span class="parameter">y</span>
             <span class="types"><span class="type">number</span></span>
          Y position
+        </li>
+        <li><span class="parameter">callback</span>
+            <span class="types"><span class="type">function</span></span>
+         Callback function
         </li>
     </ul>
 
@@ -2034,6 +2152,68 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.set_zoom"></a>
+    <strong>eva.camera.set_zoom(zoom)</strong>
+    </dt>
+    <dd>
+    Set the camera zoom
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">zoom</span>
+            <span class="types"><span class="type">number</span></span>
+         Zoom
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.set_target_zoom"></a>
+    <strong>eva.camera.set_target_zoom(zoom)</strong>
+    </dt>
+    <dd>
+    Set the camera target zoom
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">zoom</span>
+            <span class="types"><span class="type">number</span></span>
+         Target zoom
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.camera.get_zoom"></a>
+    <strong>eva.camera.get_zoom()</strong>
+    </dt>
+    <dd>
+    Get the camera zoom
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        zoom
+    </ol>
 
 
 
@@ -2546,6 +2726,50 @@
          Event callback
         </li>
     </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_feature_Functions"></a>modules.feature Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.feature.toggle"></a>
+    <strong>eva.feature.toggle(feature_name, state)</strong>
+    </dt>
+    <dd>
+    Toggle manually feature
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">feature_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Feature name
+        </li>
+        <li><span class="parameter">state</span>
+            <span class="types"><span class="type">bool</span></span>
+         Feature state
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.feature.start"></a>
+    <strong>eva.feature.start()</strong>
+    </dt>
+    <dd>
+    Start eva feature system.
+ Need to call, when game is prepared for features
+
+
 
 
 
@@ -3163,8 +3387,8 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">vector3</span></span>
-        Object position
+           <span class="types"><span class="type">number,</span></span>
+        number, number Object position
     </ol>
 
 
@@ -3203,8 +3427,8 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">vector3</span></span>
-        Tile position
+           <span class="types"><span class="type">number,</span></span>
+        number, number Tile position
     </ol>
 
 
@@ -3555,8 +3779,8 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">vector3</span></span>
-        Object position
+           <span class="types"><span class="type">number,</span></span>
+        number, number Object position
     </ol>
 
 
@@ -3595,8 +3819,8 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">vector3</span></span>
-        Tile position
+           <span class="types"><span class="type">number,</span></span>
+        number, number Tile position
     </ol>
 
 
@@ -3889,6 +4113,31 @@
 
 
 </dd>
+    <dt>
+    <a name = "eva.input.set_enabled"></a>
+    <strong>eva.input.set_enabled(name, is_enabled)</strong>
+    </dt>
+    <dd>
+    Set enabled state for input
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Name of input system
+        </li>
+        <li><span class="parameter">is_enabled</span>
+            <span class="types"><span class="type">bool</span></span>
+         Enabled state
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
 </dl>
     <h2 class="section-header "><a name="modules_invoices_Functions"></a>modules.invoices Functions</h2>
 
@@ -4137,8 +4386,8 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">vector3</span></span>
-        Object position
+           <span class="types"><span class="type">number,</span></span>
+        number, number Object position
     </ol>
 
 
@@ -4177,8 +4426,8 @@
     <h3>Returns:</h3>
     <ol>
 
-           <span class="types"><span class="type">vector3</span></span>
-        Tile position
+           <span class="types"><span class="type">number,</span></span>
+        number, number Tile position
     </ol>
 
 
@@ -4998,13 +5247,55 @@
 </dd>
     <dt>
     <a name = "eva.push.unschedule_all"></a>
-    <strong>eva.push.unschedule_all()</strong>
+    <strong>eva.push.unschedule_all(category)</strong>
     </dt>
     <dd>
     Cancel all pushes with category
  If category is not provided, cancel all pushes
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">category</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Push category to cancel
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.push.is_enabled"></a>
+    <strong>eva.push.is_enabled()</strong>
+    </dt>
+    <dd>
+    Get push enabled status
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.push.set_enabled"></a>
+    <strong>eva.push.set_enabled(is_enabled)</strong>
+    </dt>
+    <dd>
+    Set push enabled status
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">is_enabled</span>
+            <span class="types"><span class="type">boolean</span></span>
+
+        </li>
+    </ul>
 
 
 
@@ -5044,12 +5335,19 @@
 </dd>
     <dt>
     <a name = "eva.quests.get_current"></a>
-    <strong>eva.quests.get_current()</strong>
+    <strong>eva.quests.get_current(category)</strong>
     </dt>
     <dd>
     Get current active quests
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">category</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string[opt]</a></span>
+         Quest category, if nil return all current quests
+        </li>
+    </ul>
 
     <h3>Returns:</h3>
     <ol>
@@ -5222,6 +5520,27 @@
     </dt>
     <dd>
     Complete quest, if it can be completed
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">quest_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Quest id
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.quests.force_complete_quest"></a>
+    <strong>eva.quests.force_complete_quest(quest_id)</strong>
+    </dt>
+    <dd>
+    Force complete quest
 
 
     <h3>Parameters:</h3>
@@ -5736,6 +6055,31 @@
            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
 
     </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="modules_share_Functions"></a>modules.share Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "eva.share.screen"></a>
+    <strong>eva.share.screen(text)</strong>
+    </dt>
+    <dd>
+    Share screenshot of the game
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">text</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The optional text to share with screenshot
+        </li>
+    </ul>
+
 
 
 
@@ -6360,7 +6704,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.add_tile"></a>
-    <strong>eva.tiled.add_tile(layer_name, spawner_name, index, i, j[, map_data])</strong>
+    <strong>eva.tiled.add_tile(layer_name, tileset_name, mapping_id, i, j[, map_data])</strong>
     </dt>
     <dd>
     Add tile to the map by tile index from tiled tileset
@@ -6372,13 +6716,13 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tiled layer
         </li>
-        <li><span class="parameter">spawner_name</span>
+        <li><span class="parameter">tileset_name</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tileset
         </li>
-        <li><span class="parameter">index</span>
+        <li><span class="parameter">mapping_id</span>
             <span class="types"><span class="type">number</span></span>
-         Tile index from tileset
+         Tile mapping_id from tileset
         </li>
         <li><span class="parameter">i</span>
             <span class="types"><span class="type">number</span></span>
@@ -6452,11 +6796,11 @@
         </li>
         <li><span class="parameter">i</span>
             <span class="types"><span class="type">number</span></span>
-         Cell x position
+         Cell i position
         </li>
         <li><span class="parameter">j</span>
             <span class="types"><span class="type">number</span></span>
-         Cell y position
+         Cell j position
         </li>
         <li><span class="parameter">map_data</span>
             <span class="types"><span class="type">map_data</span></span>
@@ -6473,7 +6817,7 @@
 </dd>
     <dt>
     <a name = "eva.tiled.add_object"></a>
-    <strong>eva.tiled.add_object(layer_name, spawner_name, index, x, y, props[, map_data])</strong>
+    <strong>eva.tiled.add_object(layer_name, object_full_id, x, y[, scale=1[, rotation=0[, props[, map_data]]]])</strong>
     </dt>
     <dd>
     Add object to the map by object index from tiled tileset
@@ -6485,13 +6829,9 @@
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
          Name of tiled layer
         </li>
-        <li><span class="parameter">spawner_name</span>
+        <li><span class="parameter">object_full_id</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
-         Name of tileset
-        </li>
-        <li><span class="parameter">index</span>
-            <span class="types"><span class="type">number</span></span>
-         Object index from tileset
+         Object full id
         </li>
         <li><span class="parameter">x</span>
             <span class="types"><span class="type">number</span></span>
@@ -6501,9 +6841,20 @@
             <span class="types"><span class="type">number</span></span>
          y position
         </li>
+        <li><span class="parameter">scale</span>
+            <span class="types"><span class="type">number</span></span>
+         Object scale
+         (<em>default</em> 1)
+        </li>
+        <li><span class="parameter">rotation</span>
+            <span class="types"><span class="type">number</span></span>
+         Rotation in euler
+         (<em>default</em> 0)
+        </li>
         <li><span class="parameter">props</span>
             <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
-         Object additional properties
+         Object additional properties. Field, z_position, tiled_id, tiled_name
+         (<em>optional</em>)
         </li>
         <li><span class="parameter">map_data</span>
             <span class="types"><span class="type">map_data</span></span>
@@ -6534,12 +6885,17 @@
         </li>
         <li><span class="parameter">map_data</span>
             <span class="types"><span class="type">map_data</span></span>
-         Map_data returned by eva.tiled.load_map.
- Last map by default
+         Map_data returned by eva.tiled.load_map. Last loaded map by default
          (<em>optional</em>)
         </li>
     </ul>
 
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.5">table</a></span>
+        Object data
+    </ol>
 
 
 
@@ -6561,6 +6917,217 @@
         </li>
     </ul>
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.get_object_data"></a>
+    <strong>eva.tiled.get_object_data(object_name)</strong>
+    </dt>
+    <dd>
+    Get mapping object info by mapping_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The game object name
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.get_property"></a>
+    <strong>eva.tiled.get_property(object_info, object_name, script_name, property_name)</strong>
+    </dt>
+    <dd>
+    Get object property
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_info</span>
+            <span class="types"><span class="type">tiled.object_info</span></span>
+         Object info
+        </li>
+        <li><span class="parameter">object_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Object name
+        </li>
+        <li><span class="parameter">script_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Script name
+        </li>
+        <li><span class="parameter">property_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Property name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a>, <span class="type">boolean</span>, <span class="type">number</span> or <span class="type">nil</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.get_property_by_name"></a>
+    <strong>eva.tiled.get_property_by_name(object_info, property_name)</strong>
+    </dt>
+    <dd>
+    Get object property by name
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_info</span>
+            <span class="types"><span class="type">tiled.object_info</span></span>
+         Object info
+        </li>
+        <li><span class="parameter">property_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Property name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a>, <span class="type">boolean</span>, <span class="type">number</span> or <span class="type">nil</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.set_object_id"></a>
+    <strong>eva.tiled.set_object_id(object_info, scene_id)</strong>
+    </dt>
+    <dd>
+    Set unique id for the object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_info</span>
+            <span class="types"><span class="type">tiled.object_info</span></span>
+         Object info
+        </li>
+        <li><span class="parameter">scene_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Scene id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">tiled.object_info</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.set_scene_name"></a>
+    <strong>eva.tiled.set_scene_name(object_info, scene_name)</strong>
+    </dt>
+    <dd>
+    Set scene name for the object
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_info</span>
+            <span class="types"><span class="type">tiled.object_info</span></span>
+         Object info
+        </li>
+        <li><span class="parameter">scene_name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Scene name
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">tiled.object_info</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.set_enabled"></a>
+    <strong>eva.tiled.set_enabled(object_info, is_enabled)</strong>
+    </dt>
+    <dd>
+    Set object enabled state
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_info</span>
+            <span class="types"><span class="type">tiled.object_info</span></span>
+         Object info
+        </li>
+        <li><span class="parameter">is_enabled</span>
+            <span class="types"><span class="type">boolean</span></span>
+         Is object enabled
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">tiled.object_info</span></span>
+
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.tiled.is_enabled"></a>
+    <strong>eva.tiled.is_enabled(object_info)</strong>
+    </dt>
+    <dd>
+    Return if object is enabled
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">object_info</span>
+            <span class="types"><span class="type">tiled.object_info</span></span>
+         Object info
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+
+    </ol>
 
 
 
@@ -7176,6 +7743,37 @@
 
 </dd>
     <dt>
+    <a name = "eva.token.is_contains"></a>
+    <strong>eva.token.is_contains(tokens, token_id)</strong>
+    </dt>
+    <dd>
+    Check if tokens contains the token_id
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tokens</span>
+            <span class="types"><span class="type">evadata.Tokens</span></span>
+         Tokens data
+        </li>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">boolean</span></span>
+        True if tokens contains the token_id
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.token.is_max"></a>
     <strong>eva.token.is_max(container_id, token_id)</strong>
     </dt>
@@ -7349,6 +7947,37 @@
 
 
 
+
+
+
+
+</dd>
+    <dt>
+    <a name = "eva.token.get_total_sum"></a>
+    <strong>eva.token.get_total_sum(container_id, token_id)</strong>
+    </dt>
+    <dd>
+    Get total amount of acquired tokens for container
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">container_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Container id
+        </li>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        The total amount of acquired tokens for container
+    </ol>
 
 
 
@@ -8135,6 +8764,33 @@
 
 </dd>
     <dt>
+    <a name = "eva.token.get_total_sum"></a>
+    <strong>eva.token.get_total_sum(token_id)</strong>
+    </dt>
+    <dd>
+    Get total amount of acquired tokens for profile
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">token_id</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         Token id
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+        The total amount of acquired tokens for profile
+    </ol>
+
+
+
+
+</dd>
+    <dt>
     <a name = "eva.wallet.get_seconds_to_restore"></a>
     <strong>eva.wallet.get_seconds_to_restore()</strong>
     </dt>
@@ -8411,7 +9067,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2022-02-12 15:33:48 </i>
+<i style="float:right;">Last updated 2023-05-09 21:59:57 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>

@@ -1,7 +1,5 @@
 local animation = require("eva.assets.insality_games.animation_insality_games")
 
-
-
 local function hide_scene(self)
 	if self.is_hiding then
 		return

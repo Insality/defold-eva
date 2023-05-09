@@ -17,7 +17,9 @@ local M = {}
 
 
 --- Toggle manually feature
--- @function set_enabled
+-- @function eva.feature.toggle
+-- @tparam string feature_name Feature name
+-- @tparam bool state Feature state
 function M.set_enabled(feature_name, state)
 
 end

@@ -104,7 +104,10 @@ function M.set_position(x, y)
 end
 
 
----@return number, number
+--- Get the camera position
+-- @function eva.camera.get_position
+-- @treturn number x X position
+-- @treturn number y Y position
 function M.get_position()
 	local state = app.camera_state
 	return state.pos.x, state.pos.y
@@ -166,18 +169,26 @@ function M.set_zoom_borders(zoom_soft, zoom_hard)
 end
 
 
+--- Set the camera zoom
+-- @function eva.camera.set_zoom
+-- @tparam number zoom Zoom
 function M.set_zoom(zoom)
 	app.camera_state.zoom = zoom
 	app.camera_state.target_zoom = zoom
 end
 
 
+--- Set the camera target zoom
+-- @function eva.camera.set_target_zoom
+-- @tparam number zoom Target zoom
 function M.set_target_zoom(zoom)
 	app.camera_state.target_zoom = zoom
 end
 
 
----@return number
+--- Get the camera zoom
+-- @function eva.camera.get_zoom
+-- @treturn number zoom
 function M.get_zoom()
 	return app.camera_state.zoom
 end

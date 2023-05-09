@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ldoc .
+
 emmylua_generator_path=~/code/lua/emmylua-from-ldoc-annotations
 
 

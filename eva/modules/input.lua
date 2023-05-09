@@ -56,7 +56,10 @@ function M.unregister(name)
 	end
 end
 
-
+--- Set enabled state for input
+-- @function eva.input.set_enabled
+-- @tparam string name Name of input system
+-- @tparam bool is_enabled Enabled state
 function M.set_enabled(name, is_enabled)
 	for index = 1, #app.input.stack do
 		local input = app.input.stack[index]

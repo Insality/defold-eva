@@ -4,9 +4,9 @@
 --
 -- Tiled configuration:
 -- Layers:
--- 	Layer can have properties:
--- 	- grid_center (bool) - if true, center every object to map grid
--- 	- z_layer (int) - z_layer of the layer
+--  Layer can have properties:
+--      grid_center (bool) - if true, center every object to map grid
+--      z_layer (int) - z_layer of the layer
 -- @submodule eva
 
 
@@ -137,7 +137,7 @@ local function add_tile(map_data, layer_name, tileset_name, mapping_id, i, j)
 
 	local game_object_id, collection_table = map_data.create_object_fn(tileset_name, mapping_id, TEMP_POS_VECTOR)
 
-	---@type tiled.object_info
+	--@type tiled.object_info
 	local object_info = {
 		game_object_id = game_object_id,
 		collection_table = collection_table,
@@ -204,7 +204,7 @@ local function add_object(map_data, layer_name, tileset_name, mapping_id, positi
 		rotation_vector,
 		object_properties)
 
-	---@type tiled.object_info
+	--@type tiled.object_info
 	local object_info = {
 		game_object_id = game_object_id,
 		collection_table = collection_table,
@@ -491,7 +491,7 @@ end
 -- @function eva.tiled.get_object
 -- @tparam hash game_object_id Game object id
 -- @tparam[opt] map_data map_data Map_data returned by eva.tiled.load_map. Last loaded map by default
----@return tiled.object_info
+-- @treturn table Object data
 function M.get_object_by_gameobject_id(game_object_id, map_data)
 	map_data = map_data or app.tiled_map_default
 	return map_data.game_objects[game_object_id]
@@ -568,8 +568,13 @@ function M.clear_all_objects(map_data)
 end
 
 
----@param object_info tiled.object_info
----@return string|boolean|number|nil
+--- Get object property
+-- @function eva.tiled.get_property
+-- @tparam tiled.object_info object_info Object info
+-- @tparam string object_name Object name
+-- @tparam string script_name Script name
+-- @tparam string property_name Property name
+-- @treturn string|boolean|number|nil
 function M.get_property(object_info, object_name, script_name, property_name)
 	local properties = object_info.properties
 	local full_property_name = object_name .. ":" .. script_name .. ":" .. property_name
@@ -577,8 +582,11 @@ function M.get_property(object_info, object_name, script_name, property_name)
 end
 
 
----@param object_info tiled.object_info
----@return string|boolean|number|nil
+--- Get object property by name
+-- @function eva.tiled.get_property_by_name
+-- @tparam tiled.object_info object_info Object info
+-- @tparam string property_name Property name
+-- @treturn string|boolean|number|nil
 function M.get_property_by_name(object_info, property_name)
 	local properties = object_info.properties
 
@@ -608,9 +616,11 @@ function M.get_object_full_id(tileset_name, object_name, image_name)
 end
 
 
----@param object_info tiled.object_info
----@param scene_id string
----@return tiled.object_info
+--- Set unique id for the object
+-- @function eva.tiled.set_object_id
+-- @tparam tiled.object_info object_info Object info
+-- @tparam string scene_id Scene id
+-- @treturn tiled.object_info
 function M.set_scene_id(object_info, scene_id)
 	scene_id = scene_id and tostring(scene_id) or nil
 	if luax.string.is_empty(scene_id) then
@@ -621,9 +631,11 @@ function M.set_scene_id(object_info, scene_id)
 end
 
 
----@param object_info tiled.object_info
----@param scene_name string
----@return tiled.object_info
+--- Set scene name for the object
+-- @function eva.tiled.set_scene_name
+-- @tparam tiled.object_info object_info Object info
+-- @tparam string scene_name Scene name
+-- @treturn tiled.object_info
 function M.set_scene_name(object_info, scene_name)
 	scene_name = scene_name and tostring(scene_name) or nil
 	if luax.string.is_empty(scene_name) then
@@ -634,8 +646,11 @@ function M.set_scene_name(object_info, scene_name)
 end
 
 
----@param object_info tiled.object_info
----@param is_enabled boolean
+--- Set object enabled state
+-- @function eva.tiled.set_enabled
+-- @tparam tiled.object_info object_info Object info
+-- @tparam boolean is_enabled Is object enabled
+-- @treturn tiled.object_info
 function M.set_enabled(object_info, is_enabled)
 	object_info.is_enabled = is_enabled
 	local msg_name = is_enabled and "enable" or "disable"
@@ -651,11 +666,14 @@ function M.set_enabled(object_info, is_enabled)
 end
 
 
----@param object_info tiled.object_info
----@return boolean
+--- Return if object is enabled
+-- @function eva.tiled.is_enabled
+-- @tparam tiled.object_info object_info Object info
+-- @treturn boolean
 function M.is_enabled(object_info)
 	return object_info.is_enabled
 end
+
 
 --- Delete object from the map by game_object id
 -- @function eva.tiled.delete_object

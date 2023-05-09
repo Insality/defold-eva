@@ -6,7 +6,7 @@
 --
 -- or create logger from eva directly
 --
--- local eva = require("eva.eva)
+-- local eva = require("eva.eva")
 -- local logger = eva.get_logger(logger_name)
 -- @module log
 

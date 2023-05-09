@@ -51,8 +51,14 @@ M.vmath.temp_vector = vmath.vector3(0)
 M.func.empty = function() end
 
 
---- math.step
+--- This function returns the next step that is currently
+-- at `current` and should eventually end at `target`. The `step` value
+-- is the maximum amount that the animation can move in a single step.
 -- @function luax.math.step
+-- @tparam number current Current value
+-- @tparam number target Target value
+-- @tparam number step Maximum amount that can move in a single step
+-- @treturn number The next step
 function M.math.step(current, target, step)
 	if current < target then
 		return math.min(current + step, target)
@@ -62,8 +68,10 @@ function M.math.step(current, target, step)
 end
 
 
---- math.sign
+-- This function returns the sign of the given value.
 -- @function luax.math.sign
+-- @tparam number value
+-- @treturn number -1, 0 or 1
 function M.math.sign(value)
 	if value > 0 then
 		return 1
@@ -75,8 +83,13 @@ function M.math.sign(value)
 end
 
 
---- math.lerp
+--- This code samples a point on the line between a and b
+-- where t is the "interpolation factor" (0 = a, 1 = b)
 -- @function luax.math.lerp
+-- @tparam number a
+-- @tparam number b
+-- @tparam number t
+-- @treturn number
 function M.math.lerp(a, b, t)
 	return a + (b - a) * t
 end

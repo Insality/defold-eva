@@ -1,7 +1,14 @@
+--- Tweener module for tweening values using easing functions with callbacks.
+-- @module tweener
 local M = {}
 
-
----@param easing_function function<current, from, to, time>
+--- Tween a value from one to another using an easing function.
+-- @function tweener.tween
+-- @tparam function easing_function Easing function to use
+-- @tparam number from Starting value
+-- @tparam number to Ending value
+-- @tparam number time Time to take to get from start to end
+-- @tparam function callback Callback function to call every frame
 function M.tween(easing_function, from, to, time, callback)
     local time_elapsed = 0
     timer.delay(0.016, true, function(_, handle, time_elapsed_from_last_trigger)
@@ -409,7 +416,6 @@ local function outInBounce(t, b, c, d)
     return inBounce((t * 2) - d, b + c / 2, c / 2, d)
   end
 end
-
 
 M.linear = linear
 M.inQuad = inQuad

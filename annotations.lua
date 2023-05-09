@@ -17,6 +17,7 @@ function app.clear(value) end
 ---@field db eva.db Submodule
 ---@field device eva.device Submodule
 ---@field events eva.events Submodule
+---@field feature eva.feature Submodule
 ---@field festivals eva.festivals Submodule
 ---@field game eva.game Submodule
 ---@field gdpr eva.gdpr Submodule
@@ -130,6 +131,15 @@ function eva__callbacks.create(callback) end
 ---@class eva.camera
 local eva__camera = {}
 
+--- Get the camera position
+---@return number x X position
+---@return number y Y position
+function eva__camera.get_position() end
+
+--- Get the camera zoom
+---@return number zoom
+function eva__camera.get_zoom() end
+
 --- Set the borders of the camera zone
 ---@param border_soft vector4 Soft zones of camera. Order is: left-top-right-bot.
 ---@param border_hard vector4 Hard zones of camera. Order is: left-top-right-bot.
@@ -152,7 +162,16 @@ function eva__camera.set_position(x, y) end
 --- Set target camera position
 ---@param x number X position
 ---@param y number Y position
-function eva__camera.set_target_position(x, y) end
+---@param callback function Callback function
+function eva__camera.set_target_position(x, y, callback) end
+
+--- Set the camera target zoom
+---@param zoom number Target zoom
+function eva__camera.set_target_zoom(zoom) end
+
+--- Set the camera zoom
+---@param zoom number Zoom
+function eva__camera.set_zoom(zoom) end
 
 --- Set the camera game object and size of the camera
 ---@param zoom_soft vector3 Setup zoom soft values. vector3(min_value, max_value, 0)
@@ -204,6 +223,7 @@ function eva__db.set_settings(settings) end
 local eva__device = {}
 
 --- Return device id.
+--- If device_id is empty, it will generate device_id with  uuid library. And store it on file
 ---@return string device_id
 function eva__device.get_device_id() end
 
@@ -211,6 +231,7 @@ function eva__device.get_device_id() end
 function eva__device.get_device_info() end
 
 --- Return device region.
+--- If region is unknown, it will return "UN".
 ---@return string region
 function eva__device.get_region() end
 
@@ -275,6 +296,19 @@ function eva__events.unsubscribe(event_name, callback) end
 function eva__events.unsubscribe_map(map) end
 
 
+---@class eva.feature
+local eva__feature = {}
+
+--- Start eva feature system.
+--- Need to call, when game is prepared for features
+function eva__feature.start() end
+
+--- Toggle manually feature
+---@param feature_name string Feature name
+---@param state bool Feature state
+function eva__feature.toggle(feature_name, state) end
+
+
 ---@class eva.festivals
 local eva__festivals = {}
 
@@ -315,6 +349,7 @@ function eva__festivals.is_active(festival_id) end
 function eva__festivals.is_completed(festival_id) end
 
 --- Set game festivals settings.
+--- See festivals_settings_example.lua
 function eva__festivals.set_settings() end
 
 
@@ -392,11 +427,12 @@ function eva__grid.cell_to_pos() end
 function eva__grid.get_map_params() end
 
 --- Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
----@return vector3 Object position
+---@return number, number, number Object position
 function eva__grid.get_object_pos() end
 
 --- Get tile position.
----@return vector3 Tile position
+--- Convert from i, j to map position
+---@return number, number, number Tile position
 function eva__grid.get_tile_pos() end
 
 --- Convert tiled object position to scene position
@@ -421,6 +457,7 @@ function eva__grid.set_default_map_params(map_params) end
 local eva__hexgrid = {}
 
 --- Transform hex to pixel position.
+--- Offset coordinates
 ---@param i number Cell i coordinate
 ---@param j number Cell j coordinate
 ---@param k number Cell k coordinate
@@ -428,6 +465,7 @@ local eva__hexgrid = {}
 function eva__hexgrid.cell_cube_to_pos(i, j, k, map_params) end
 
 --- Transform hex to pixel position.
+--- Offset coordinates
 ---@param i number Cell i coordinate
 ---@param j number Cell j coordinate
 ---@param map_params map_params Params from eva.hexgrid.get_map_params
@@ -451,11 +489,12 @@ function eva__hexgrid.cube_to_offset(i, j, k, map_params) end
 function eva__hexgrid.get_map_params(tilewidth, tileheight, tileside, width, height, invert_y) end
 
 --- Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
----@return vector3 Object position
+---@return number, number, number Object position
 function eva__hexgrid.get_object_pos() end
 
 --- Get tile position.
----@return vector3 Tile position
+--- Convert from i, j to map position
+---@return number, number, number Tile position
 function eva__hexgrid.get_tile_pos() end
 
 --- Convert tiled object position to scene position
@@ -475,12 +514,14 @@ function eva__hexgrid.get_z(y, z_layer) end
 function eva__hexgrid.offset_to_cube(i, j, map_params) end
 
 --- Transform pixel to hex.
+--- Offset coordinates
 ---@param x number World x position
 ---@param y number World y position
 ---@param map_params map_params Params from eva.hexgrid.get_map_params
 function eva__hexgrid.pos_to_cell(x, y, map_params) end
 
 --- Transform pixel to hex.
+--- Cube coordinates
 ---@param x number World x position
 ---@param y number World y position
 ---@param map_params map_params Params from eva.hexgrid.get_map_params
@@ -511,6 +552,7 @@ function eva__iaps.buy(iap_id) end
 function eva__iaps.get_iap(iap_id) end
 
 --- Get all iaps.
+--- Can be selected by category
 ---@param category string Category of iap
 ---@return list of iap products
 function eva__iaps.get_iaps(category) end
@@ -543,6 +585,7 @@ function eva__iaps.get_reward(iap_id) end
 function eva__iaps.is_available(iap_id) end
 
 --- Refresh iap list.
+--- It make request to stores to get new info  Throw EVENT.IAP_UPDATE at end
 function eva__iaps.refresh_iap_list() end
 
 
@@ -555,7 +598,13 @@ local eva__input = {}
 ---@param priority number Priority of input. Lower first
 function eva__input.register(name, callback, priority) end
 
+--- Set enabled state for input
+---@param name string Name of input system
+---@param is_enabled bool Enabled state
+function eva__input.set_enabled(name, is_enabled) end
+
 --- Unregister prev.
+--- registered input
 ---@param name string Name of input system
 function eva__input.unregister(name) end
 
@@ -599,11 +648,12 @@ function eva__isogrid.cell_to_pos() end
 function eva__isogrid.get_map_params() end
 
 --- Get object position  Can pass the offset to calculate it correctly (+ z coordinate)
----@return vector3 Object position
+---@return number, number, number Object position
 function eva__isogrid.get_object_pos() end
 
 --- Get tile position.
----@return vector3 Tile position
+--- Convert from i, j to map position
+---@return number, number, number Tile position
 function eva__isogrid.get_tile_pos() end
 
 --- Convert tiled object position to scene position
@@ -690,6 +740,7 @@ function eva__migrations.set_migrations() end
 local eva__offers = {}
 
 --- Start new offer  Every offer is unique.
+--- You got error, if offer_id  is already started. Data pickups from Offers DB.
 ---@param offer_id string offer id from db
 ---@return eva.Offer new offer
 function eva__offers.add(offer_id) end
@@ -705,6 +756,7 @@ function eva__offers.get_price(offer_id) end
 function eva__offers.get_reward(offer_id) end
 
 --- Return time till offer end.
+--- If offer is no exist now, print the error
 ---@param offer_id string offer id from db
 ---@return number time in seconds
 function eva__offers.get_time(offer_id) end
@@ -728,6 +780,7 @@ function eva__offers.remove(offer_id) end
 local eva__pathfinder = {}
 
 --- Init astar for map, init get_tile callback  get_node_fn - function to get tile: function(i, j)  should return cost of node.
+--- Nil if cell is unpassable
 ---@param map_data map_data Map data from eva.tiled.load_map
 ---@param get_node_fn function Get node cost function from map
 ---@param options table Options for map handlers:  - diagonal boolean, to grid and isogrid pathfinding
@@ -735,6 +788,7 @@ local eva__pathfinder = {}
 function eva__pathfinder.init_astar(map_data, get_node_fn, options) end
 
 --- Return path between two points for map.
+--- Call init_astar, to make map_handler param optional
 ---@param from_x unknown Cell X from map
 ---@param from_y unknown Cell Y from map
 ---@param to_x unknown Cell X from map
@@ -767,6 +821,7 @@ function eva__promocode.is_can_redeem(code) end
 function eva__promocode.redeem_code(code) end
 
 --- Set promocode settings.
+--- Pass settings in eva.init function
 function eva__promocode.set_settings() end
 
 
@@ -796,36 +851,50 @@ local eva__push = {}
 --- Clear all pushes, what already  should be invoked.
 function eva__push.clear_old_pushes() end
 
+--- Get push enabled status
+function eva__push.is_enabled() end
+
 --- Schedule notification
 function eva__push.schedule() end
 
 --- Schedule by list  Every notifications have: after, title, text, category, payload
 function eva__push.schedule_list() end
 
+--- Set push enabled status
+---@param is_enabled boolean
+function eva__push.set_enabled(is_enabled) end
+
 --- Unschedule the push notification
 function eva__push.unschedule() end
 
 --- Cancel all pushes with category  If category is not provided, cancel all pushes
-function eva__push.unschedule_all() end
+---@param category string Push category to cancel
+function eva__push.unschedule_all(category) end
 
 
 ---@class eva.quests
 local eva__quests = {}
 
 --- Add event, to trigger quest list update.
+--- Example: you have a condition to start quest only if festival is enabled  So add event FESTIVAL_START to update quests on this update
 function eva__quests.add_update_quest_event() end
 
 --- Complete quest, if it can be completed
 ---@param quest_id string Quest id
 function eva__quests.complete_quest(quest_id) end
 
+--- Force complete quest
+---@param quest_id string Quest id
+function eva__quests.force_complete_quest(quest_id) end
+
 --- Get completed quests list
 ---@return table List of active quests
 function eva__quests.get_completed() end
 
 --- Get current active quests
+---@param category string[opt] Quest category, if nil return all current quests
 ---@return table List of active quests
-function eva__quests.get_current() end
+function eva__quests.get_current(category) end
 
 --- Get current progress on quest
 ---@param quest_id string Quest id
@@ -865,6 +934,7 @@ function eva__quests.quest_event(action, object, amount) end
 function eva__quests.reset_progress(quest_id) end
 
 --- Set game quests settings.
+--- Pass settings in eva.init function
 function eva__quests.set_settings() end
 
 --- Start quest, if it can be started
@@ -872,6 +942,7 @@ function eva__quests.set_settings() end
 function eva__quests.start_quest(quest_id) end
 
 --- Start eva quests system.
+--- Need to call, when game is prepared for quests  Call it to activate quests
 function eva__quests.start_quests() end
 
 --- Update quests list  It will start and end quests, by checking quests condition
@@ -888,6 +959,7 @@ function eva__rate.open_rate() end
 function eva__rate.promt_rate() end
 
 --- Set rate as accepted.
+--- It will no show more
 function eva__rate.set_accepted() end
 
 --- Set never promt rate again
@@ -932,6 +1004,7 @@ function eva__saver.delete(filename) end
 function eva__saver.get_save_data() end
 
 --- Return current save version.
+--- Useful for check which save data is newer
 ---@return number
 function eva__saver.get_save_version() end
 
@@ -950,6 +1023,7 @@ function eva__saver.save() end
 function eva__saver.save_data(data, filename) end
 
 --- Set autosave timer for game.
+--- Pass 0 to disable autosave
 ---@param seconds number The time in seconds
 function eva__saver.set_autosave_timer(seconds) end
 
@@ -1118,22 +1192,23 @@ local eva__tiled = {}
 
 --- Add object to the map by object index from tiled tileset
 ---@param layer_name string Name of tiled layer
----@param spawner_name string Name of tileset
----@param index number Object index from tileset
+---@param object_full_id string Object full id
 ---@param x number x position
 ---@param y number y position
----@param props table Object additional properties
+---@param scale number Object scale
+---@param rotation number Rotation in euler
+---@param props table Object additional properties. Field, z_position, tiled_id, tiled_name
 ---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
-function eva__tiled.add_object(layer_name, spawner_name, index, x, y, props, map_data) end
+function eva__tiled.add_object(layer_name, object_full_id, x, y, scale, rotation, props, map_data) end
 
 --- Add tile to the map by tile index from tiled tileset
 ---@param layer_name string Name of tiled layer
----@param spawner_name string Name of tileset
----@param index number Tile index from tileset
+---@param tileset_name string Name of tileset
+---@param mapping_id number Tile mapping_id from tileset
 ---@param i number Cell x position
 ---@param j number Cell y position
 ---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
-function eva__tiled.add_tile(layer_name, spawner_name, index, i, j, map_data) end
+function eva__tiled.add_tile(layer_name, tileset_name, mapping_id, i, j, map_data) end
 
 --- Delete object from the map by game_object id
 ---@param game_object_id hash Game object id
@@ -1142,19 +1217,38 @@ function eva__tiled.delete_object(game_object_id, map_data) end
 
 --- Delete tile from the map by tile pos
 ---@param layer string Name of the tiled layer
----@param i number Cell x position
----@param j number Cell y position
+---@param i number Cell i position
+---@param j number Cell j position
 ---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
 function eva__tiled.delete_tile(layer, i, j, map_data) end
 
 --- Get object to the map by game_object id
 ---@param game_object_id hash Game object id
----@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
+---@param map_data map_data Map_data returned by eva.tiled.load_map. Last loaded map by default
+---@return table Object data
 function eva__tiled.get_object(game_object_id, map_data) end
 
 --- Get mapping object info by name
 ---@param object_name string The game object name
 function eva__tiled.get_object_data(object_name) end
+
+--- Get mapping object info by mapping_id
+---@param object_name string The game object name
+function eva__tiled.get_object_data(object_name) end
+
+--- Get object property
+---@param object_info tiled.object_info Object info
+---@param object_name string Object name
+---@param script_name string Script name
+---@param property_name string Property name
+---@return string|boolean|number|nil
+function eva__tiled.get_property(object_info, object_name, script_name, property_name) end
+
+--- Get object property by name
+---@param object_info tiled.object_info Object info
+---@param property_name string Property name
+---@return string|boolean|number|nil
+function eva__tiled.get_property_by_name(object_info, property_name) end
 
 --- Get tile from the map by tile pos
 ---@param layer_name string Name of tiled layer
@@ -1163,10 +1257,33 @@ function eva__tiled.get_object_data(object_name) end
 ---@param map_data map_data Map_data returned by eva.tiled.load_map.  Last map by default
 function eva__tiled.get_tile(layer_name, i, j, map_data) end
 
+--- Return if object is enabled
+---@param object_info tiled.object_info Object info
+---@return boolean
+function eva__tiled.is_enabled(object_info) end
+
 --- Load map from tiled json data
 ---@param data table Json map data
 ---@param create_object_fn callback Module call this with param(object_layer, object_id, position)
 function eva__tiled.load_map(data, create_object_fn) end
+
+--- Set object enabled state
+---@param object_info tiled.object_info Object info
+---@param is_enabled boolean Is object enabled
+---@return tiled.object_info
+function eva__tiled.set_enabled(object_info, is_enabled) end
+
+--- Set unique id for the object
+---@param object_info tiled.object_info Object info
+---@param scene_id string Scene id
+---@return tiled.object_info
+function eva__tiled.set_object_id(object_info, scene_id) end
+
+--- Set scene name for the object
+---@param object_info tiled.object_info Object info
+---@param scene_name string Scene name
+---@return tiled.object_info
+function eva__tiled.set_scene_name(object_info, scene_name) end
 
 
 ---@class eva.timers
@@ -1239,11 +1356,13 @@ function eva__token.get() end
 function eva__token.get_infinity_seconds() end
 
 --- Return lot price by lot_id.
+--- It pickup data from DB
 ---@param lot_id string the token lot id
 ---@return evadata.Tokens the token list
 function eva__token.get_lot_price(lot_id) end
 
 --- Return lot reward by lot_id.
+--- It pickup data from DB
 ---@param lot_id string the token lot id
 ---@return evadata.Tokens the token list
 function eva__token.get_lot_reward(lot_id) end
@@ -1263,16 +1382,35 @@ function eva__token.get_max(container_id, token_id) end
 function eva__token.get_seconds_to_restore() end
 
 --- Return token group by id.
+--- It pickup data from DB
 ---@param token_group_id string the token group id
 ---@return evadata.Tokens the token list
 function eva__token.get_token_group(token_group_id) end
 
 --- Return evadata.Tokens tokens format.
+--- Used in *_tokens methods
 ---@param tokens table Map with token_id = amount
 function eva__token.get_tokens(tokens) end
 
+--- Get total amount of acquired tokens for container
+---@param container_id string Container id
+---@param token_id string Token id
+---@return number The total amount of acquired tokens for container
+function eva__token.get_total_sum(container_id, token_id) end
+
+--- Get total amount of acquired tokens for profile
+---@param token_id string Token id
+---@return number The total amount of acquired tokens for profile
+function eva__token.get_total_sum(token_id) end
+
 --- Get current visual debt of token
 function eva__token.get_visual() end
+
+--- Check if tokens contains the token_id
+---@param tokens evadata.Tokens Tokens data
+---@param token_id string Token id
+---@return boolean True if tokens contains the token_id
+function eva__token.is_contains(tokens, token_id) end
 
 --- Return is tokens equals to 0
 ---@param container_id string Container id
@@ -1372,6 +1510,7 @@ function eva__trucks.leave(truck_id) end
 function eva__trucks.set_enabled(truck_id) end
 
 --- Set trucks settings with custom callbacks.
+--- See trucks_settings_example.lua
 ---@param trucks_settings table Table with callbacks
 function eva__trucks.set_settings(trucks_settings) end
 
@@ -1545,6 +1684,7 @@ function eva__window.preload(window_id, callback) end
 function eva__window.set_settings() end
 
 --- Show the game window  It will close current window and open new, if any opened  It can be popup on popup, so don't close prev.
+--- window  Can add window in queue to open it after current one is closed  Window callbacks will be separated module? Calling with ID
 function eva__window.show() end
 
 --- Load the game scene
@@ -1584,6 +1724,7 @@ local eva_const__DAILY = {}
 ---@field CONTAINERS field
 ---@field DAILY field
 ---@field DEVICE field
+---@field FEATURE field
 ---@field FESTIVALS field
 ---@field GAME field
 ---@field GDPR field
@@ -1694,6 +1835,7 @@ local eva_const__IAP = {}
 ---@field KEY_2 field
 ---@field KEY_3 field
 ---@field KEY_D field
+---@field KEY_L field
 ---@field KEY_LALT field
 ---@field KEY_LCTRL field
 ---@field KEY_N field
@@ -1838,6 +1980,7 @@ function logger.warn(self, msg, table) end
 ---@field operators luax.operators Submodule
 ---@field string luax.string Submodule
 ---@field table luax.table Submodule
+---@field timer luax.timer Submodule
 ---@field vmath luax.vmath Submodule
 local luax = {}
 
@@ -1858,6 +2001,15 @@ function luax__go.set_alpha() end
 
 ---@class luax.gui
 local luax__gui = {}
+
+--- gui.add_x
+function luax__gui.add_x() end
+
+--- gui.add_y
+function luax__gui.add_y() end
+
+--- gui.add_z
+function luax__gui.add_z() end
 
 --- gui.get_alpha
 function luax__gui.get_alpha() end
@@ -1894,14 +2046,21 @@ function luax__math.clamp() end
 ---@param change_point bool
 function luax__math.clamp_box(pos, box, size, change_point) end
 
+--- math.distance_check
+function luax__math.distance() end
+
 --- math.distance
 function luax__math.distance() end
 
 --- math.is
 function luax__math.is() end
 
---- math.lerp
-function luax__math.lerp() end
+--- This code samples a point on the line between a and b  where t is the "interpolation factor" (0 = a, 1 = b)
+---@param a number
+---@param b number
+---@param t number
+---@return number
+function luax__math.lerp(a, b, t) end
 
 --- math.lerp_box
 function luax__math.lerp_box() end
@@ -1915,11 +2074,13 @@ function luax__math.random_sign() end
 --- math.round
 function luax__math.round() end
 
---- math.sign
-function luax__math.sign() end
-
---- math.step
-function luax__math.step() end
+--- This function returns the next step that is currently  at `current` and should eventually end at `target`.
+--- The `step` value  is the maximum amount that the animation can move in a single step.
+---@param current number Current value
+---@param target number Target value
+---@param step number Maximum amount that can move in a single step
+---@return number The next step
+function luax__math.step(current, target, step) end
 
 --- math.vec2rad
 function luax__math.vec2rad() end
@@ -1956,6 +2117,9 @@ function luax__string.add_prefix_zeros() end
 --- string.ends
 function luax__string.ends() end
 
+--- string.is_empty
+function luax__string.is_empty() end
+
 --- string.random
 function luax__string.random() end
 
@@ -1971,6 +2135,9 @@ function luax__string.starts() end
 
 ---@class luax.table
 local luax__table = {}
+
+--- table.clear
+function luax__table.clear() end
 
 --- table.contains
 function luax__table.contains() end
@@ -2018,6 +2185,16 @@ function luax__table.tostring() end
 function luax__table.weight_random() end
 
 
+---@class luax.timer
+local luax__timer = {}
+
+--- Trigger callback and schedule timer on it
+---@param delay number §
+---@param calback function
+---@return hash The timer id
+function luax__timer.trigger_and_delay(delay, calback) end
+
+
 ---@class luax.vmath
 local luax__vmath = {}
 
@@ -2035,6 +2212,11 @@ function luax__vmath.vec2quat() end
 
 --- vmath.vec2rad
 function luax__vmath.vec2rad() end
+
+
+---@class nakama_helper
+---@field defold field This dependencies will be overriden if server is enabled
+local nakama_helper = {}
 
 
 ---@class profi

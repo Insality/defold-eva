@@ -1,4 +1,6 @@
---- Eva base event class
+--- Event system for Defold.
+-- Have ability to create events, subscribe on them. Works across
+-- different context via changing context before calling event.
 -- @module event
 
 local class = require("eva.libs.middleclass")
@@ -72,8 +74,7 @@ function Event:unsubscribe(callback, callback_context)
 end
 
 
-
---- Unsubscribe from the event
+--- Check if event is subscribed
 -- @function event.unsubscribe
 -- @tparam function callback The default event callback function
 -- @tparam[opt] any callback_context The first argument for callback function
@@ -90,7 +91,7 @@ function Event:is_subscribed(callback, callback_context)
 end
 
 
---- Trigger the even
+--- Trigger the event
 -- @function event.trigger
 -- @tparam args args The args for event trigger
 function Event:trigger(a, b, c, d, e, f, g, h, i, j)
@@ -124,7 +125,7 @@ function Event:trigger(a, b, c, d, e, f, g, h, i, j)
 end
 
 
---- Check is event is empty
+--- Check if event has no any subscribed callbacks
 -- @function event.is_empty
 -- @treturn boolean True if event has no any subscribed callbacks
 function Event:is_empty()
@@ -132,7 +133,7 @@ function Event:is_empty()
 end
 
 
---- Clear all event callbacks
+--- Clear all subscribed callbacks
 -- @function event.clear
 function Event:clear()
 	self._callbacks = {}

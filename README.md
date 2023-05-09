@@ -1,5 +1,5 @@
 [![](media/eva_logo.png)](https://insality.github.io/defold-eva/)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/insality/defold-eva/test-workflow.yml?branch=master)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/insality/defold-eva/test-workflow.yml?branch=master)
 [![codecov](https://codecov.io/gh/Insality/defold-eva/branch/master/graph/badge.svg)](https://codecov.io/gh/Insality/defold-eva)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/insality/defold-eva)
 
@@ -78,6 +78,7 @@ _not implemented_
 | [device](https://insality.github.io/defold-eva/modules/eva.html#modules_device_Functions) | Provides utilitary device functions | ✅ |
 | [errors](https://insality.github.io/defold-eva/modules/eva.html#modules_errors_Functions) | Provides lua errors handler | ❌ |
 | [events](https://insality.github.io/defold-eva/modules/eva.html#modules_events_Functions) | Eva event system | ✅ |
+| [feature](https://insality.github.io/defold-eva/modules/eva.html#modules_feature_Functions) | Game system management, turn on/off and conditions for any features | ❌ |
 | [festivals](https://insality.github.io/defold-eva/modules/eva.html#modules_festivals_Functions) | Provides single or repeatable festivals system (halloween, weekend, etc) | ✅ |
 | [game](https://insality.github.io/defold-eva/modules/eva.html#modules_game_Functions) | Provides utilitary game functions | ✅ |
 | [gdpr](https://insality.github.io/defold-eva/modules/eva.html#modules_gdpr_Functions) | Provides GDPR API functions | ✅ |

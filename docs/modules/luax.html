@@ -24,7 +24,7 @@
 
 <div id="navigation">
 <br/>
-<h1>Defold-Eva</h1>
+<h1>Defold Eva</h1>
 
 <ul>
   <li><a href="../index.html">Index</a></li>
@@ -43,7 +43,6 @@
   <li><a href="../modules/event.html">event</a></li>
   <li><a href="../modules/log.html">log</a></li>
   <li><strong>luax</strong></li>
-  <li><a href="../modules/modules.share.html">modules.share</a></li>
 </ul>
 
 </div>
@@ -58,16 +57,14 @@
 <h2><a href="#Functions">Functions</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#luax.math.step">luax.math.step()</a></td>
-	<td class="summary">math.step</td>
+	<td class="name" nowrap><a href="#luax.math.step">luax.math.step(current, target, step)</a></td>
+	<td class="summary">This function returns the next step that is currently
+ at `current` and should eventually end at `target`.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#luax.math.sign">luax.math.sign()</a></td>
-	<td class="summary">math.sign</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#luax.math.lerp">luax.math.lerp()</a></td>
-	<td class="summary">math.lerp</td>
+	<td class="name" nowrap><a href="#luax.math.lerp">luax.math.lerp(a, b, t)</a></td>
+	<td class="summary">This code samples a point on the line between a and b
+ where t is the "interpolation factor" (0 = a, 1 = b)</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#luax.math.lerp_box">luax.math.lerp_box()</a></td>
@@ -98,6 +95,10 @@
 	<td class="summary">math.distance</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#luax.math.distance">luax.math.distance()</a></td>
+	<td class="summary">math.distance_check</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#luax.math.manhattan">luax.math.manhattan()</a></td>
 	<td class="summary">math.manhattan</td>
 	</tr>
@@ -108,6 +109,10 @@
 	<tr>
 	<td class="name" nowrap><a href="#luax.math.random_sign">luax.math.random_sign()</a></td>
 	<td class="summary">math.randm_sign</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.table.clear">luax.table.clear()</a></td>
+	<td class="summary">table.clear</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#luax.table.get_item_from_array">luax.table.get_item_from_array()</a></td>
@@ -170,6 +175,10 @@
 	<td class="summary">table.tostring</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#luax.string.is_empty">luax.string.is_empty()</a></td>
+	<td class="summary">string.is_empty</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#luax.string.split">luax.string.split()</a></td>
 	<td class="summary">string.split</td>
 	</tr>
@@ -206,12 +215,24 @@
 	<td class="summary">gui.set_x</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#luax.gui.add_x">luax.gui.add_x()</a></td>
+	<td class="summary">gui.add_x</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#luax.gui.set_y">luax.gui.set_y()</a></td>
 	<td class="summary">gui.set_y</td>
 	</tr>
 	<tr>
+	<td class="name" nowrap><a href="#luax.gui.add_y">luax.gui.add_y()</a></td>
+	<td class="summary">gui.add_y</td>
+	</tr>
+	<tr>
 	<td class="name" nowrap><a href="#luax.gui.set_z">luax.gui.set_z()</a></td>
 	<td class="summary">gui.set_z</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.gui.add_z">luax.gui.add_z()</a></td>
+	<td class="summary">gui.add_z</td>
 	</tr>
 	<tr>
 	<td class="name" nowrap><a href="#luax.gui.get_alpha">luax.gui.get_alpha()</a></td>
@@ -269,6 +290,10 @@
 	<td class="name" nowrap><a href="#luax.operators.neq">luax.operators.neq()</a></td>
 	<td class="summary">operators.neq</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#luax.timer.trigger_and_delay">luax.timer.trigger_and_delay(delay, calback)</a></td>
+	<td class="summary">Trigger callback and schedule timer on it</td>
+	</tr>
 </table>
 
 <br/>
@@ -280,27 +305,36 @@
     <dl class="function">
     <dt>
     <a name = "luax.math.step"></a>
-    <strong>luax.math.step()</strong>
+    <strong>luax.math.step(current, target, step)</strong>
     </dt>
     <dd>
-    math.step
+    This function returns the next step that is currently
+ at `current` and should eventually end at `target`.  The `step` value
+ is the maximum amount that the animation can move in a single step.
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">current</span>
+            <span class="types"><span class="type">number</span></span>
+         Current value
+        </li>
+        <li><span class="parameter">target</span>
+            <span class="types"><span class="type">number</span></span>
+         Target value
+        </li>
+        <li><span class="parameter">step</span>
+            <span class="types"><span class="type">number</span></span>
+         Maximum amount that can move in a single step
+        </li>
+    </ul>
 
+    <h3>Returns:</h3>
+    <ol>
 
-
-
-
-</dd>
-    <dt>
-    <a name = "luax.math.sign"></a>
-    <strong>luax.math.sign()</strong>
-    </dt>
-    <dd>
-    math.sign
-
-
-
+           <span class="types"><span class="type">number</span></span>
+        The next step
+    </ol>
 
 
 
@@ -308,13 +342,35 @@
 </dd>
     <dt>
     <a name = "luax.math.lerp"></a>
-    <strong>luax.math.lerp()</strong>
+    <strong>luax.math.lerp(a, b, t)</strong>
     </dt>
     <dd>
-    math.lerp
+    This code samples a point on the line between a and b
+ where t is the "interpolation factor" (0 = a, 1 = b)
 
 
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">a</span>
+            <span class="types"><span class="type">number</span></span>
 
+        </li>
+        <li><span class="parameter">b</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+        <li><span class="parameter">t</span>
+            <span class="types"><span class="type">number</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">number</span></span>
+
+    </ol>
 
 
 
@@ -440,6 +496,20 @@
 
 </dd>
     <dt>
+    <a name = "luax.math.distance"></a>
+    <strong>luax.math.distance()</strong>
+    </dt>
+    <dd>
+    math.distance_check
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "luax.math.manhattan"></a>
     <strong>luax.math.manhattan()</strong>
     </dt>
@@ -473,6 +543,20 @@
     </dt>
     <dd>
     math.randm_sign
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.table.clear"></a>
+    <strong>luax.table.clear()</strong>
+    </dt>
+    <dd>
+    table.clear
 
 
 
@@ -692,6 +776,20 @@
 
 </dd>
     <dt>
+    <a name = "luax.string.is_empty"></a>
+    <strong>luax.string.is_empty()</strong>
+    </dt>
+    <dd>
+    string.is_empty
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "luax.string.split"></a>
     <strong>luax.string.split()</strong>
     </dt>
@@ -818,6 +916,20 @@
 
 </dd>
     <dt>
+    <a name = "luax.gui.add_x"></a>
+    <strong>luax.gui.add_x()</strong>
+    </dt>
+    <dd>
+    gui.add_x
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "luax.gui.set_y"></a>
     <strong>luax.gui.set_y()</strong>
     </dt>
@@ -832,11 +944,39 @@
 
 </dd>
     <dt>
+    <a name = "luax.gui.add_y"></a>
+    <strong>luax.gui.add_y()</strong>
+    </dt>
+    <dd>
+    gui.add_y
+
+
+
+
+
+
+
+</dd>
+    <dt>
     <a name = "luax.gui.set_z"></a>
     <strong>luax.gui.set_z()</strong>
     </dt>
     <dd>
     gui.set_z
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luax.gui.add_z"></a>
+    <strong>luax.gui.add_z()</strong>
+    </dt>
+    <dd>
+    gui.add_z
 
 
 
@@ -1041,6 +1181,37 @@
 
 
 </dd>
+    <dt>
+    <a name = "luax.timer.trigger_and_delay"></a>
+    <strong>luax.timer.trigger_and_delay(delay, calback)</strong>
+    </dt>
+    <dd>
+    Trigger callback and schedule timer on it
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">delay</span>
+            <span class="types"><span class="type">number</span></span>
+        §
+        </li>
+        <li><span class="parameter">calback</span>
+            <span class="types"><span class="type">function</span></span>
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">hash</span></span>
+        The timer id
+    </ol>
+
+
+
+
+</dd>
 </dl>
 
 
@@ -1048,7 +1219,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
-<i style="float:right;">Last updated 2022-02-12 15:33:48 </i>
+<i style="float:right;">Last updated 2023-05-09 21:59:57 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
